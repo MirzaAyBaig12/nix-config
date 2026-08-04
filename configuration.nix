@@ -18,6 +18,19 @@
   }];
   
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nixpkgs.config.allowUnfree = true;
+
+  # Allow generic dynamically-linked Linux binaries (AppImages, installers, etc.) to run
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    stdenv.cc.cc
+    zlib
+    openssl
+    curl
+    glib
+    libGL
+    fuse3
+  ];
 
   environment.shellAliases = {
     nix-rebuild = "sudo nixos-rebuild switch --flake ~/nix-config#Axiom";
@@ -108,6 +121,7 @@
     fastfetch
     inputs.nix-software-center.packages.${pkgs.system}.nix-software-center
     baobab
+    curl
   ];
   
   services.flatpak.enable = true;
