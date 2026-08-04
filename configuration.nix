@@ -49,6 +49,8 @@
     '';
   };
 
+  boot.loader.timeout = 0; # Skip the systemd-boot menu, boot straight into NixOS
+
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Use latest kernel.
