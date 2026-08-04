@@ -14,11 +14,14 @@
     nix-software-center.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, nix-snapd, ... }@inputs: {
+  outputs = { self, nixpkgs, nix-snapd, nix-software-center, ... }@inputs: {
     nixosConfigurations = {
       # ⚠️ Replace "nixos" with your actual system hostname if it's different!
       Axiom = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
+        
+        specialArgs = { inherit inputs; };
+        
         modules = [
           # Links your local configuration.nix file
           ./configuration.nix 
