@@ -5,6 +5,8 @@
 { config, pkgs, inputs, ... }:
 
 {
+  nixpkgs.overlays = [ inputs.claude-desktop.overlays.default ];
+
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
@@ -133,10 +135,14 @@
     fastfetch
     inputs.nix-software-center.packages.${pkgs.stdenv.hostPlatform.system}.nix-software-center
     baobab
+    gnome-disk-utility
+    kdePackages.partitionmanager
     curl
     #(pkgs.callPackage ./packages/cosmic-ext-control-center.nix {})
     efibootmgr
     sbctl
+    inputs.codex-desktop.packages.${pkgs.stdenv.hostPlatform.system}.default
+    claude-desktop-fhs
   ];
   
   services.flatpak.enable = true;

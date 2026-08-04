@@ -15,9 +15,17 @@
 
     # 4. Declarative Flatpak support
     nix-flatpak.url = "github:gmodena/nix-flatpak";
+
+    # 5. Codex Desktop (Linux)
+    codex-desktop.url = "github:ilysenko/codex-desktop-linux";
+    codex-desktop.inputs.nixpkgs.follows = "nixpkgs";
+
+    # 6. Claude Desktop (unofficial Linux build)
+    claude-desktop.url = "github:aaddrick/claude-desktop-debian";
+    claude-desktop.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, nix-snapd, nix-software-center, nix-flatpak, ... }@inputs: {
+  outputs = { self, nixpkgs, nix-snapd, nix-software-center, nix-flatpak, codex-desktop, claude-desktop, ... }@inputs: {
     nixosConfigurations = {
       Axiom = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
