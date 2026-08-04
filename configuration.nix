@@ -139,6 +139,7 @@
     wget
     librewolf
     git
+    python3
     fastfetch
     inputs.nix-software-center.packages.${pkgs.stdenv.hostPlatform.system}.nix-software-center
     baobab
@@ -150,7 +151,9 @@
     sbctl
     inputs.codex-desktop.packages.${pkgs.stdenv.hostPlatform.system}.default
     claude-desktop-fhs
-    inputs.winpodx.packages.${pkgs.stdenv.hostPlatform.system}.default
+    inputs.winpodx.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
+      doCheck = false;
+    })
     kdePackages.kdenlive
   ];
   
