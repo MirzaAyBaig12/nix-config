@@ -122,7 +122,7 @@
     inputs.nix-software-center.packages.${pkgs.stdenv.hostPlatform.system}.nix-software-center
     baobab
     curl
-    (pkgs.callPackage ./packages/cosmic-ext-control-center.nix {})
+    #(pkgs.callPackage ./packages/cosmic-ext-control-center.nix {})
   ];
   
   services.flatpak.enable = true;
