@@ -129,17 +129,22 @@
     ];
   };
 
-  # Install firefox.
-  programs.firefox.enable = true;
+  # Install librewolf (via the firefox module, package overridden)
+  programs.firefox = {
+    enable = true;
+    package = pkgs.librewolf;
+    nativeMessagingHosts.packages = [ pkgs.firefoxpwa ];
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
-    librewolf
     git
     python3
+    firefoxpwa
+    google-chrome
     fastfetch
     inputs.nix-software-center.packages.${pkgs.stdenv.hostPlatform.system}.nix-software-center
     baobab
@@ -151,9 +156,9 @@
     sbctl
     inputs.codex-desktop.packages.${pkgs.stdenv.hostPlatform.system}.default
     claude-desktop-fhs
-    inputs.winpodx.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
+    (inputs.winpodx.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
       doCheck = false;
-    })
+    }))
     kdePackages.kdenlive
   ];
   
