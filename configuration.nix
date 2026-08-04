@@ -55,6 +55,13 @@
 
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Mac-style Plymouth boot theme
+  boot.plymouth = {
+    enable = true;
+    theme = "mac-style";
+    themePackages = [ pkgs.mac-style-plymouth ];
+  };
+
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
@@ -143,6 +150,8 @@
     sbctl
     inputs.codex-desktop.packages.${pkgs.stdenv.hostPlatform.system}.default
     claude-desktop-fhs
+    inputs.winpodx.packages.${pkgs.stdenv.hostPlatform.system}.default
+    kdePackages.kdenlive
   ];
   
   services.flatpak.enable = true;

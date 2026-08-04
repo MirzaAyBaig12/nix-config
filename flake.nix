@@ -23,9 +23,19 @@
     # 6. Claude Desktop (unofficial Linux build)
     claude-desktop.url = "github:aaddrick/claude-desktop-debian";
     claude-desktop.inputs.nixpkgs.follows = "nixpkgs";
+
+    # 7. Mac-style Plymouth boot theme
+    mac-style-plymouth = {
+      url = "github:SergioRibera/s4rchiso-plymouth-theme";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # 8. WinPodX
+    winpodx.url = "github:kernalix7/winpodx";
+    winpodx.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, nix-snapd, nix-software-center, nix-flatpak, codex-desktop, claude-desktop, ... }@inputs: {
+  outputs = { self, nixpkgs, nix-snapd, nix-software-center, nix-flatpak, codex-desktop, claude-desktop, mac-style-plymouth, winpodx, ... }@inputs: {
     nixosConfigurations = {
       Axiom = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -42,6 +52,11 @@
           # Enables the snap service inline
           {
             services.snap.enable = true;
+          }
+
+          # Applies the mac-style plymouth theme overlay
+          {
+            nixpkgs.overlays = [ mac-style-plymouth.overlays.default ];
           }
         ];
       };
