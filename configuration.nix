@@ -38,7 +38,12 @@
   };
 
   # Bootloader.
-  boot.loader.grub.enable = true;
+    boot.loader.grub = {
+    enable = true;
+    efiSupport = true;
+    device = "nodev"; # Required for EFI systems
+    configurationLimit = 1;
+  };
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Use latest kernel.
