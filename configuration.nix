@@ -38,12 +38,17 @@
   };
 
   # Bootloader.
-    boot.loader.grub = {
+  boot.loader.grub.enable = false;
+
+  boot.loader.systemd-boot = {
     enable = true;
-    efiSupport = true;
-    device = "nodev"; # Required for EFI systems
-    configurationLimit = 1;
+    configurationLimit = 1; # Keeps only the latest NixOS generation
+    extraInstallCommands = ''
+      echo "auto-entries no" >> /boot/loader/loader.conf
+      echo "auto-firmware no" >> /boot/loader/loader.conf
+    '';
   };
+
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Use latest kernel.
@@ -128,6 +133,8 @@
     baobab
     curl
     #(pkgs.callPackage ./packages/cosmic-ext-control-center.nix {})
+    efibootmgr
+    sbctl
   ];
   
   services.flatpak.enable = true;
