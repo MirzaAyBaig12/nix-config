@@ -9,14 +9,16 @@
     nix-snapd.url = "github:nix-community/nix-snapd";
     nix-snapd.inputs.nixpkgs.follows = "nixpkgs";
     
-    #nix software center
+    # 3. Nix Software Center
     nix-software-center.url = "github:snowfallorg/nix-software-center";
     nix-software-center.inputs.nixpkgs.follows = "nixpkgs";
+
+    # 4. Declarative Flatpak support
+    nix-flatpak.url = "github:gmodena/nix-flatpak";
   };
 
-  outputs = { self, nixpkgs, nix-snapd, nix-software-center, ... }@inputs: {
+  outputs = { self, nixpkgs, nix-snapd, nix-software-center, nix-flatpak, ... }@inputs: {
     nixosConfigurations = {
-      # ⚠️ Replace "nixos" with your actual system hostname if it's different!
       Axiom = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         
@@ -28,7 +30,7 @@
 
           # Pulls in the Snap module from the nix-snapd repository
           nix-snapd.nixosModules.default 
-          
+
           # Enables the snap service inline
           {
             services.snap.enable = true;
@@ -38,4 +40,3 @@
     };
   };
 }
-

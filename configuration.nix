@@ -10,7 +10,7 @@
       ./hardware-configuration.nix
     ];
   
-    security.doas.enable = true;
+  security.doas.enable = true;
   security.doas.extraRules = [{
     users = [ "ayaan_mirza" ];  # Your exact username
     keepEnv = true;             # Preserves your shell path and environment
@@ -18,7 +18,6 @@
   }];
   
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -103,11 +102,9 @@
     git
     fastfetch
     inputs.nix-software-center.packages.${pkgs.system}.nix-software-center
-    
   ];
   
-
-
+  services.flatpak.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -135,8 +132,4 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "26.05"; # Did you read the comment?
-  
-  services.flatpak.enable = true;
-
-  
 }
