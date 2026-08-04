@@ -19,6 +19,11 @@
   
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  environment.shellAliases = {
+    nix-rebuild = "sudo nixos-rebuild switch --flake ~/nix-config#Axiom";
+    nix-push = ''bash -c "cd ~/nix-config && git add . && git commit -m \"update $(date +%Y-%m-%d_%H:%M)\" && git push"'';
+  };
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -102,6 +107,7 @@
     git
     fastfetch
     inputs.nix-software-center.packages.${pkgs.system}.nix-software-center
+    baobab
   ];
   
   services.flatpak.enable = true;
@@ -120,8 +126,9 @@
   # services.openssh.enable = true;
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
+  # chiaki-ng / PS Remote Play
+  networking.firewall.allowedTCPPorts = [ 9295 ];
+  networking.firewall.allowedUDPPorts = [ 987 9295 9296 9297 9302 ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
