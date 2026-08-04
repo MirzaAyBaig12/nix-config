@@ -119,9 +119,10 @@
     librewolf
     git
     fastfetch
-    inputs.nix-software-center.packages.${pkgs.system}.nix-software-center
+    inputs.nix-software-center.packages.${pkgs.stdenv.hostPlatform.system}.nix-software-center
     baobab
     curl
+    (pkgs.callPackage ./packages/cosmic-ext-control-center.nix {})
   ];
   
   services.flatpak.enable = true;
