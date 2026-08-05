@@ -99,7 +99,8 @@
   # You can disable this if you're only using the Wayland session.
   services.xserver.enable = true;
 
-  # Enable the KDE Plasma Desktop Environment.
+  # Enable the COSMIC Desktop Environment.
+  services.displayManager.defaultSession = pkgs.lib.mkForce "cosmic";
   services.displayManager.cosmic-greeter.enable = true;
   services.desktopManager.cosmic.enable = true;
   services.desktopManager.plasma6.enable = true;
