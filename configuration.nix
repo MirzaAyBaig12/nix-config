@@ -104,7 +104,6 @@
   services.displayManager.cosmic-greeter.enable = true;
   services.desktopManager.cosmic.enable = true;
   services.desktopManager.plasma6.enable = true;
-  services.desktopManager.lomiri.enable = true;
   services.pantheon.apps.enable = false;
 
   # Polkit authentication agent — cosmic-osd isn't reliably registering
