@@ -122,6 +122,7 @@
       TimeoutStopSec = 10;
     };
   };
+};
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -236,20 +237,6 @@ programs.steam = {
   remotePlay.openFirewall = true;  # Open ports in the firewall for Steam Remote Play
   dedicatedServer.openFirewall = true; # Open ports for Source Dedicated Server hosting
   # Other general flags if available can be set here.
-};
-
-systemd.user.services.polkit-gnome-authentication-agent-1 = {
-  description = "polkit-gnome-authentication-agent-1";
-  wantedBy = [ "graphical-session.target" ];
-  wants = [ "graphical-session.target" ];
-  after = [ "graphical-session.target" ];
-  serviceConfig = {
-    Type = "simple";
-    ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-    Restart = "on-failure";
-    RestartSec = 1;
-    TimeoutStopSec = 10;
-  };
 };
 
 programs = {
