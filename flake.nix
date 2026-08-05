@@ -3,7 +3,7 @@
 
   inputs = {
     # 1. Core NixOS package repository
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     
     # 2. Third-party Snap support for NixOS
     nix-snapd.url = "github:nix-community/nix-snapd";
