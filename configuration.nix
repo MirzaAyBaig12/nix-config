@@ -228,6 +228,7 @@
     gtk4
     ghostty
     ferdium
+    parted
   ];
   
 programs.steam = {
