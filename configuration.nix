@@ -150,7 +150,10 @@
   };
 
   # Nerd Fonts (needed for fastfetch/cosmic-term icon glyphs)
+  fonts.enableDefaultPackages = true;
   fonts.packages = with pkgs; [
+    noto-fonts
+    noto-fonts-emoji
     nerd-fonts.jetbrains-mono
   ];
 
