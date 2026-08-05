@@ -223,7 +223,6 @@
     kdePackages.kdenlive
     firefox
     libsForQt5.qtstyleplugin-kvantum
-    jetbrains-toolbox
     inputs.nixos-conf-editor.packages.${system}.nixos-conf-editor
     kdePackages.kate
     gtk4
