@@ -177,6 +177,14 @@
   # System-wide fastfetch default config (portable across machines via the flake)
   environment.etc."xdg/fastfetch/config.jsonc".source = ./dotfiles/fastfetch/config.jsonc;
 
+  # AppImage support — registers .AppImage files with binfmt_misc so they run
+  # via appimage-run automatically (NixOS lacks the FHS paths AppImages expect).
+  # Also required for Gear Lever to launch AppImages on NixOS.
+  programs.appimage = {
+    enable = true;
+    binfmt = true;
+  };
+
   # Symlink ~/.config/fastfetch/config.jsonc -> the live dotfiles copy, so plain `fastfetch`
   # (no -c flag) picks up edits instantly without needing a rebuild
   system.activationScripts.fastfetchSymlink = ''
