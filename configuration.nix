@@ -176,7 +176,7 @@
     firefoxpwa
     google-chrome
     fastfetch
-    inputs.nix-software-center.packages.${system}.default
+    inputs.nix-software-center.packages.${stdenv.hostPlatform.system}.default
     baobab
     gnome-disk-utility
     kdePackages.partitionmanager
