@@ -49,6 +49,21 @@
     extraInstallCommands = ''
       echo "auto-entries no" >> /boot/loader/loader.conf
       echo "auto-firmware no" >> /boot/loader/loader.conf
+
+      # Secure Boot: only sign if our keys are actually enrolled in
+      # firmware (Setup Mode disabled = keys enrolled). Sign
+      # systemd-boot + fallback, then the current generation's
+      # kernel/initrd wherever NixOS put them, then re-sign everything
+      # sbctl already knows about (covers the two older kept
+      # generations from nix-clean).
+      if ${pkgs.sbctl}/bin/sbctl status 2>/dev/null | grep -qi "Setup Mode:.*Disabled"; then
+        ${pkgs.sbctl}/bin/sbctl sign -s /boot/EFI/systemd/systemd-bootx64.efi || true
+        ${pkgs.sbctl}/bin/sbctl sign -s /boot/EFI/BOOT/BOOTX64.EFI || true
+        find /boot/kernels /boot/EFI/nixos /boot/EFI/Linux -type f \
+          \( -iname "*.efi" -o -iname "*bzImage*" -o -iname "*linux*" \) \
+          2>/dev/null -exec ${pkgs.sbctl}/bin/sbctl sign -s {} \; || true
+        ${pkgs.sbctl}/bin/sbctl sign-all || true
+      fi
     '';
   };
 
