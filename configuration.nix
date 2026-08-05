@@ -36,7 +36,7 @@
 
   environment.shellAliases = {
     nix-rebuild = "doas nixos-rebuild switch --flake ~/nix-config#Axiom";
-    nix-push = ''bash -c "cd ~/nix-config && git add . && git commit -m \"update $(date +%Y-%m-%d_%H:%M)\" && git push"'';
+    nix-push = "cd ~/nix-config && git add . && git commit -m \"update $(date +%Y-%m-%d_%H:%M)\" && git push";
     nix-clean = "doas nix-env --delete-generations +3 -p /nix/var/nix/profiles/system && doas nix-collect-garbage -d";
   };
 
