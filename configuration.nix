@@ -197,7 +197,7 @@
     jetbrains-toolbox
     inputs.nixos-conf-editor.packages.${system}.nixos-conf-editor
     kdePackages.kate
-    gtk4-update-icon-cache
+    gtk4
     ghostty
   ];
   
