@@ -155,6 +155,9 @@
     nerd-fonts.jetbrains-mono
   ];
 
+  # System-wide fastfetch default config (portable across machines via the flake)
+  environment.etc."xdg/fastfetch/config.jsonc".source = ./dotfiles/fastfetch/config.jsonc;
+
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -198,7 +201,7 @@ programs = {
       interactiveShellInit = ''
         export PATH="$HOME/.local/bin:$PATH"
         export PATH="$HOME/.npm-global/bin:$PATH"
-        fastfetch -c ~/.config/fastfetch/compact-config.jsonc
+        fastfetch -c ~/nix-config/dotfiles/fastfetch/compact-config.jsonc
       '';
       ohMyZsh = {
          enable = true;
