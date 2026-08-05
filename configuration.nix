@@ -229,6 +229,7 @@
     ghostty
     ferdium
     parted
+    polkit_gnome
   ];
   
 programs.steam = {
