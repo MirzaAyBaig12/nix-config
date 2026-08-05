@@ -150,6 +150,12 @@
     nativeMessagingHosts.packages = [ pkgs.firefoxpwa ];
   };
 
+  # Nerd Fonts (needed for fastfetch/cosmic-term icon glyphs)
+  fonts.packages = with pkgs; [
+    nerd-fonts.jetbrains-mono
+  ];
+
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -185,6 +191,15 @@ programs = {
       autosuggestions.enable = true;
       zsh-autoenv.enable = true;
       syntaxHighlighting.enable = true;
+      shellAliases = {
+        sudo-temp = "/usr/bin/sudo";
+        waydroid = "/usr/bin/python3 /usr/bin/waydroid";
+      };
+      interactiveShellInit = ''
+        export PATH="$HOME/.local/bin:$PATH"
+        export PATH="$HOME/.npm-global/bin:$PATH"
+        fastfetch -c ~/.config/fastfetch/compact-config.jsonc
+      '';
       ohMyZsh = {
          enable = true;
          theme = "xiong-chiamiov-plus";
