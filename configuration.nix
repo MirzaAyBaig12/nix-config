@@ -97,12 +97,16 @@
 
   # Enable the X11 windowing system.
   # You can disable this if you're only using the Wayland session.
-  services.xserver.enable = false;
+  services.xserver.enable = true;
 
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.cosmic-greeter.enable = true;
   services.desktopManager.cosmic.enable = true;
   services.desktopManager.plasma6.enable = true;
+  services.desktopManager.pantheon.enable = true
+  services.xserver.displayManager.lightdm.greeters.pantheon.enable = false;
+  services.xserver.displayManager.lightdm.enable = false;
+  services.pantheon.apps.enable = false;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -178,7 +182,7 @@
     firefoxpwa
     google-chrome
     fastfetch
-    inputs.nix-software-center.packages.${pkgs.stdenv.hostPlatform.system}.nix-software-center
+    inputs.nix-software-center.packages.            ${pkgs.stdenv.hostPlatform.system}.nix-software-center
     baobab
     gnome-disk-utility
     kdePackages.partitionmanager
@@ -195,6 +199,9 @@
     }))
     kdePackages.kdenlive
     firefox
+    libsForQt5.qtstyleplugin-kvantum
+    jetbrains-toolbox
+    inputs.nixos-conf-editor.packages.${system}.nixos-conf-editor
   ];
   
 programs = {

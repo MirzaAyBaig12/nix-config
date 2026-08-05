@@ -33,6 +33,9 @@
     # 8. WinPodX
     winpodx.url = "github:kernalix7/winpodx";
     winpodx.inputs.nixpkgs.follows = "nixpkgs";
+    
+    # 9. NixOS Conf Editor
+    nixos-conf-editor.url = "github:snowfallorg/nixos-conf-editor";
   };
 
   outputs = { self, nixpkgs, nix-snapd, nix-software-center, nix-flatpak, codex-desktop, claude-desktop, mac-style-plymouth, winpodx, ... }@inputs: {
