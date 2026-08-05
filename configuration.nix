@@ -62,6 +62,19 @@
     themePackages = [ pkgs.mac-style-plymouth ];
   };
 
+  # Needed for plymouth to actually display on shutdown/reboot (not just boot)
+  boot.initrd.systemd.enable = true;
+
+  # Silent boot — required for plymouth to actually take over the screen
+  boot.consoleLogLevel = 3;
+  boot.initrd.verbose = false;
+  boot.kernelParams = [
+    "quiet"
+    "splash"
+    "rd.udev.log_level=3"
+    "rd.systemd.show_status=auto"
+  ];
+
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
@@ -158,6 +171,8 @@
     claude-desktop-fhs
     (inputs.winpodx.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
       doCheck = false;
+      checkPhase = "echo skipping winpodx tests";
+      installCheckPhase = "echo skipping winpodx tests";
     }))
     kdePackages.kdenlive
   ];

@@ -362,11 +362,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1785295861,
-        "narHash": "sha256-BaJI5v8tSw/5pcF8qPqzlwy7VUSsnY5OybmZJmv40/A=",
+        "lastModified": 1785885620,
+        "narHash": "sha256-mG+PGTCk/jWFXKoTndSTKlTWYz1uN5RA+PoutVAJCOk=",
         "owner": "kernalix7",
         "repo": "winpodx",
-        "rev": "d033eb0716dae920f55f67f816d51a523174972a",
+        "rev": "bfcd69c54a8dd9abf523840ddfda02c7dc9c1e5a",
         "type": "github"
       },
       "original": {
