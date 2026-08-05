@@ -143,9 +143,6 @@
     description = "Ayaan Mirza";
     extraGroups = [ "networkmanager" "wheel" ];
     shell = pkgs.zsh;
-    packages = with pkgs; [
-      kdePackages.kate
-    #  thunderbird
     ];
   };
 
@@ -203,6 +200,8 @@
     libsForQt5.qtstyleplugin-kvantum
     jetbrains-toolbox
     inputs.nixos-conf-editor.packages.${system}.nixos-conf-editor
+    kdePackages.kate
+    ghostty
   ];
   
 programs = {
