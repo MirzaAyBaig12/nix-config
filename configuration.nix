@@ -103,7 +103,7 @@
   services.displayManager.cosmic-greeter.enable = true;
   services.desktopManager.cosmic.enable = true;
   services.desktopManager.plasma6.enable = true;
-  services.desktopManager.pantheon.enable = true
+  services.desktopManager.pantheon.enable = true;
   services.xserver.displayManager.lightdm.greeters.pantheon.enable = false;
   services.xserver.displayManager.lightdm.enable = false;
   services.pantheon.apps.enable = false;
