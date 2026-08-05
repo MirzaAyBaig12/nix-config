@@ -122,7 +122,7 @@
       TimeoutStopSec = 10;
   };
 };
-
+/*
   systemd.user.services.fcc-server = {
     description = "FCC Server Background Daemon";
     wantedBy = [ "graphical-session.target" ];
@@ -132,6 +132,26 @@
       ExecStart = "%h/.local/bin/fcc-server"; # Or the absolute path to the binary if installed elsewhere
       Restart = "always";
       RestartSec = 5;
+  };
+};
+*/
+
+systemd.user.services.cosmic-osd-watcher = {
+  description = "Watchdog for cosmic-osd";
+  wantedBy = [ "graphical-session.target" ];
+  partOf = [ "graphical-session.target" ];
+  serviceConfig = {
+    ExecStart = pkgs.writeShellScript "watch-cosmic-osd" ''
+      while true; do
+          if ! pgrep -x "cosmic-osd" > /dev/null; then
+              systemctl --user restart cosmic-osd || true
+              pkill cosmic-osd || true
+          fi
+          sleep 5
+      done
+    '';
+    Restart = "always";
+    RestartSec = "5s";
   };
 };
 
