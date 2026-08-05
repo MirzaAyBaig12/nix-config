@@ -59,8 +59,9 @@
       if ${pkgs.sbctl}/bin/sbctl status 2>/dev/null | grep -qi "Setup Mode:.*Disabled"; then
         ${pkgs.sbctl}/bin/sbctl sign -s /boot/EFI/systemd/systemd-bootx64.efi || true
         ${pkgs.sbctl}/bin/sbctl sign -s /boot/EFI/BOOT/BOOTX64.EFI || true
-        find /boot/kernels /boot/EFI/nixos /boot/EFI/Linux -type f \
-          \( -iname "*.efi" -o -iname "*bzImage*" -o -iname "*linux*" \) \
+        find /boot/EFI/nixos -maxdepth 1 -type f -iname "*.efi" \
+          2>/dev/null -exec ${pkgs.sbctl}/bin/sbctl sign -s {} \; || true
+        find /boot/kernels /boot/nixos -maxdepth 1 -type f \
           2>/dev/null -exec ${pkgs.sbctl}/bin/sbctl sign -s {} \; || true
         ${pkgs.sbctl}/bin/sbctl sign-all || true
       fi
