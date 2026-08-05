@@ -10,8 +10,7 @@
     nix-snapd.inputs.nixpkgs.follows = "nixpkgs";
     
     # 3. Nix Software Center
-    nix-software-center.url = "github:snowfallorg/nix-software-center";
-    nix-software-center.inputs.nixpkgs.follows = "nixpkgs";
+    nix-software-center.url = "github:xinux-org/software-center";
 
     # 4. Declarative Flatpak support
     nix-flatpak.url = "github:gmodena/nix-flatpak";
