@@ -121,6 +121,17 @@
       RestartSec = 1;
       TimeoutStopSec = 10;
   };
+
+  systemd.user.services.fcc-server = {
+    description = "FCC Server Background Daemon";
+    wantedBy = [ "graphical-session.target" ];
+    partOf = [ "graphical-session.target" ];
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = "%h/.local/bin/fcc-server"; # Or the absolute path to the binary if installed elsewhere
+      Restart = "always";
+      RestartSec = 5;
+  };
 };
 
   # Configure keymap in X11
