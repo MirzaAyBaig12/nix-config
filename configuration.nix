@@ -35,9 +35,9 @@
   ];
 
   environment.shellAliases = {
-    nix-rebuild = "sudo nixos-rebuild switch --flake ~/nix-config#Axiom";
+    nix-rebuild = "doas nixos-rebuild switch --flake ~/nix-config#Axiom";
     nix-push = ''bash -c "cd ~/nix-config && git add . && git commit -m \"update $(date +%Y-%m-%d_%H:%M)\" && git push"'';
-    nix-clean = "sudo nix-env --delete-generations +3 -p /nix/var/nix/profiles/system && sudo nix-collect-garbage -d";
+    nix-clean = "doas nix-env --delete-generations +3 -p /nix/var/nix/profiles/system && doas nix-collect-garbage -d";
   };
 
   # Bootloader.
@@ -176,7 +176,29 @@
       installCheckPhase = "echo skipping winpodx tests";
     }))
     kdePackages.kdenlive
+    firefox
   ];
+  
+programs = {
+   zsh = {
+      enable = true;
+      autosuggestions.enable = true;
+      zsh-autoenv.enable = true;
+      syntaxHighlighting.enable = true;
+      ohMyZsh = {
+         enable = true;
+         theme = "xiong-chiamiov-plus";
+         plugins = [
+           "git"
+           "npm"
+           "history"
+           "node"
+           "rust"
+           "deno"
+         ];
+      };
+   };
+};
   
   services.flatpak.enable = true;
 
