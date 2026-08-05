@@ -158,6 +158,14 @@
   # System-wide fastfetch default config (portable across machines via the flake)
   environment.etc."xdg/fastfetch/config.jsonc".source = ./dotfiles/fastfetch/config.jsonc;
 
+  # Symlink ~/.config/fastfetch/config.jsonc -> the live dotfiles copy, so plain `fastfetch`
+  # (no -c flag) picks up edits instantly without needing a rebuild
+  system.activationScripts.fastfetchSymlink = ''
+    mkdir -p /home/ayaan_mirza/.config/fastfetch
+    ln -sf /home/ayaan_mirza/nix-config/dotfiles/fastfetch/config.jsonc /home/ayaan_mirza/.config/fastfetch/config.jsonc
+    chown -h ayaan_mirza:users /home/ayaan_mirza/.config/fastfetch/config.jsonc
+  '';
+
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
