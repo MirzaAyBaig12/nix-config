@@ -120,7 +120,6 @@
       Restart = "on-failure";
       RestartSec = 1;
       TimeoutStopSec = 10;
-  };
 
   systemd.user.services.fcc-server = {
     description = "FCC Server Background Daemon";
