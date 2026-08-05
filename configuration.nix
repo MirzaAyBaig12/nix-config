@@ -228,6 +228,7 @@
     kdePackages.kate
     gtk4
     ghostty
+    ferdium
   ];
   
 programs = {
