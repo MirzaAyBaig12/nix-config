@@ -261,7 +261,6 @@ systemd.user.services.cosmic-osd-watcher = {
     #(pkgs.callPackage ./packages/cosmic-ext-control-center.nix {})
     efibootmgr
     sbctl
-    inputs.codex-desktop.packages.${pkgs.stdenv.hostPlatform.system}.default
     claude-desktop-fhs
     (inputs.winpodx.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
       doCheck = false;
@@ -279,6 +278,16 @@ systemd.user.services.cosmic-osd-watcher = {
     parted
     polkit_gnome
   ];
+
+  # ChatGPT Desktop (Codex Desktop for Linux) — installed via its
+  # NixOS module (see flake.nix) instead of a raw package reference.
+  # cliPackage wraps the launcher with CODEX_CLI_PATH baked in, so it
+  # finds `codex` even from graphical autostart/warm-start launches
+  # that don't inherit your shell's PATH.
+  programs.codexDesktopLinux = {
+    enable = true;
+    cliPackage = inputs.codex-cli-nix.packages.${pkgs.stdenv.hostPlatform.system}.default;
+  };
   
 programs.steam = {
   enable = true; # Master switch, already covered in installation
