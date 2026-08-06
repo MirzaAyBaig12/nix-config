@@ -154,24 +154,28 @@
 };
 
 
-systemd.user.services.cosmic-osd-watcher = {
-  description = "Watchdog for cosmic-osd";
-  wantedBy = [ "graphical-session.target" ];
-  partOf = [ "graphical-session.target" ];
-  serviceConfig = {
-    ExecStart = pkgs.writeShellScript "watch-cosmic-osd" ''
-      while true; do
-          if ! pgrep -x "cosmic-osd" > /dev/null; then
-              systemctl --user restart cosmic-osd || true
-              pkill cosmic-osd || true
-          fi
-          sleep 5
-      done
-    '';
-    Restart = "always";
-    RestartSec = "5s";
+  systemd.user.services.cosmic-osd-watcher = {
+    description = "Watchdog for cosmic-osd";
+    wantedBy = [ "graphical-session.target" ];
+    partOf = [ "graphical-session.target" ];
+    serviceConfig = {
+      ExecStart = pkgs.writeShellScript "watch-cosmic-osd" ''
+        while true; do
+            if ! pgrep -x "cosmic-osd" > /dev/null; then
+                systemctl --user restart cosmic-osd || true
+                pkill cosmic-osd || true
+            fi
+            sleep 5
+        done
+      '';
+      Restart = "always";
+      RestartSec = "5s";
+    };
   };
-};
+
+  environment.sessionVariables = {
+    PATH = [ "/var/lib/snapd/snap/bin" ];
+  };
 
   # Configure keymap in X11
   services.xserver.xkb = {
