@@ -260,7 +260,7 @@ systemd.user.services.cosmic-osd-watcher = {
     gnome-disk-utility
     kdePackages.partitionmanager
     curl
-    #(pkgs.callPackage ./packages/cosmic-ext-control-center.nix {})
+    (pkgs.callPackage ./packages/cosmic-ext-control-center.nix {})
     efibootmgr
     sbctl
     claude-desktop-fhs
@@ -280,6 +280,7 @@ systemd.user.services.cosmic-osd-watcher = {
     parted
     polkit_gnome
     nodejs
+    grep
   ];
 
   # ChatGPT Desktop (Codex Desktop for Linux) — installed via its
