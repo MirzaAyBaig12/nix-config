@@ -283,7 +283,6 @@
     parted
     polkit_gnome
     nodejs
-    gtk-engine-murrine
     sassc
   ];
 
