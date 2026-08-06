@@ -12,6 +12,8 @@
       ./hardware-configuration.nix
     ];
   
+  services.snap.enable = true;
+
   security.doas.enable = true;
   security.doas.extraRules = [{
     users = [ "ayaan_mirza" ];  # Your exact username
