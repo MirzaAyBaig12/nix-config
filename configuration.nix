@@ -312,6 +312,7 @@ programs = {
       interactiveShellInit = ''
         export PATH="$HOME/.local/bin:$PATH"
         export PATH="$HOME/.npm-global/bin:$PATH"
+        export PATH="/var/lib/snapd/snap/bin:$PATH"
         fastfetch -c ~/nix-config/dotfiles/fastfetch/compact-config.jsonc
       '';
       ohMyZsh = {
