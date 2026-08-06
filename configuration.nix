@@ -162,14 +162,13 @@
       ExecStart = pkgs.writeShellScript "watch-cosmic-osd" ''
         while true; do
             if ! pgrep -x "cosmic-osd" > /dev/null; then
-                systemctl --user restart cosmic-osd || true
                 pkill cosmic-osd || true
             fi
-            sleep 5
+            sleep 1
         done
       '';
       Restart = "always";
-      RestartSec = "5s";
+      RestartSec = "1s";
     };
   };
 
@@ -284,6 +283,8 @@
     parted
     polkit_gnome
     nodejs
+    gtk-engine-murrine
+    sassc
   ];
 
   # ChatGPT Desktop (Codex Desktop for Linux) — installed via its
