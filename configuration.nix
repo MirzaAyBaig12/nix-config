@@ -329,6 +329,7 @@ programs = {
            "node"
            "rust"
            "deno"
+           "snap"
          ];
       };
    };
