@@ -277,6 +277,7 @@ systemd.user.services.cosmic-osd-watcher = {
     ferdium
     parted
     polkit_gnome
+    nodejs
   ];
 
   # ChatGPT Desktop (Codex Desktop for Linux) — installed via its
