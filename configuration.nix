@@ -140,7 +140,7 @@
       TimeoutStopSec = 10;
   };
 };
-/*
+
   systemd.user.services.fcc-server = {
     description = "FCC Server Background Daemon";
     wantedBy = [ "graphical-session.target" ];
@@ -152,7 +152,7 @@
       RestartSec = 5;
   };
 };
-*/
+
 
 systemd.user.services.cosmic-osd-watcher = {
   description = "Watchdog for cosmic-osd";
