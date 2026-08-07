@@ -293,6 +293,7 @@
     sassc
     seahorse
     gnome-keyring
+    just
   ];
 
   # ChatGPT Desktop (Codex Desktop for Linux) — installed via its
