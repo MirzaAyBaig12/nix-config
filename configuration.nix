@@ -253,6 +253,18 @@
     chown -h ayaan_mirza:users /home/ayaan_mirza/.config/fastfetch/config.jsonc
   '';
 
+  # Make `sudo` route to `doas` (our primary priv tool) in the shell.
+  # ~/.local/bin is prepended to PATH in interactiveShellInit below, so
+  # this symlink shadows the real wrapped sudo at /run/wrappers/bin/sudo
+  # for anything typed interactively. The real binary is still reachable
+  # via the `sudo-temp` alias further down (already points at
+  # /usr/bin/sudo) if you ever need actual sudo instead of doas.
+  system.activationScripts.sudoDoasSymlink = ''
+    mkdir -p /home/ayaan_mirza/.local/bin
+    ln -sf /run/wrappers/bin/doas /home/ayaan_mirza/.local/bin/sudo
+    chown -h ayaan_mirza:users /home/ayaan_mirza/.local/bin/sudo
+  '';
+
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -271,6 +283,7 @@
     kdePackages.partitionmanager
     curl
     (pkgs.callPackage ./packages/cosmic-ext-control-center.nix {})
+    (pkgs.callPackage ./packages/cosmic-ext-applet-mounter.nix {})
     efibootmgr
     sbctl
     claude-desktop-fhs
