@@ -124,6 +124,13 @@
   services.desktopManager.plasma6.enable = true;
   services.pantheon.apps.enable = false;
 
+  services.gnome.gnome-keyring.enable = true;
+
+  security.pam.services = {
+    login.enableGnomeKeyring = true;
+    greetd.enableGnomeKeyring = true; # since you're using greetd/cosmic-greeter
+  };
+
   # Polkit authentication agent — cosmic-osd isn't reliably registering
   # itself as the session's polkit agent, so run polkit_gnome as a
   # fallback graphical agent.
@@ -284,6 +291,8 @@
     polkit_gnome
     nodejs
     sassc
+    seahorse
+    gnome-keyring
   ];
 
   # ChatGPT Desktop (Codex Desktop for Linux) — installed via its
