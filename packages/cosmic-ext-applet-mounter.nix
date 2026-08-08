@@ -1,12 +1,11 @@
-# Builds cosmic-ext-applet-mounter from the *latest* GitHub release's amd64
-# .deb (https://github.com/uutzinger/cosmic-ext-applet-mounter). No hash
-# pinning — this hits the GitHub API at eval time, so every
-# `nixos-rebuild switch` grabs whatever the newest release is. That means
-# this derivation is NOT fully reproducible (rebuilds can pull a different
-# build over time), which is the tradeoff for true auto-update. Needs impure
-# eval, which is the default for a non-flake-pure `nixos-rebuild switch`.
+# Builds cosmic-ext-applet-mounter from a pinned amd64 .deb release
+# (https://github.com/uutzinger/cosmic-ext-applet-mounter). To bump to a
+# new release: update `version` and `debName` below, run `nix-rebuild`,
+# let it fail with the real hash ("got: sha256-..."), then paste that
+# into `hash`. Same workflow as cosmic-ext-control-center.nix.
 { lib
 , stdenv
+, fetchurl
 , dpkg
 , autoPatchelfHook
 , wayland
@@ -19,15 +18,8 @@
 }:
 
 let
-  latestRelease = builtins.fromJSON (builtins.readFile (builtins.fetchurl {
-    url = "https://api.github.com/repos/uutzinger/cosmic-ext-applet-mounter/releases/latest";
-  }));
-
-  debAsset = builtins.head (builtins.filter
-    (a: lib.hasSuffix "_amd64.deb" a.name)
-    latestRelease.assets);
-
-  debSrc = builtins.fetchurl { url = debAsset.browser_download_url; };
+  version = "0.4.3";
+  debName = "cosmic-ext-applet-mounter_${version}_amd64.deb";
 
   runtimeLibs = [
     stdenv.cc.cc.lib
@@ -42,8 +34,12 @@ let
 in
 stdenv.mkDerivation {
   pname = "cosmic-ext-applet-mounter";
-  version = lib.removePrefix "v" latestRelease.tag_name;
-  src = debSrc;
+  inherit version;
+
+  src = fetchurl {
+    url = "https://github.com/uutzinger/cosmic-ext-applet-mounter/releases/download/v${version}/${debName}";
+    hash = "sha256-acibGw2RtfnhCk9usYFv8pTPDoeMfDndGvSMzDgpzis=";
+  };
 
   nativeBuildInputs = [ dpkg autoPatchelfHook ];
   buildInputs = runtimeLibs;

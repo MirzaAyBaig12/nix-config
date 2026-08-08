@@ -37,17 +37,32 @@
   ];
 
   environment.shellAliases = {
-    nix-rebuild = "doas nixos-rebuild switch --flake ~/nix-config#Axiom";
+    # Deletes any existing "rEFInd" NVRAM entry FIRST, as its own step
+    # with time to actually commit, before nixos-rebuild runs. The
+    # native refind module's own install script tries to delete+
+    # recreate the entry back-to-back in one go every rebuild, which
+    # this HP firmware seems to choke on (exit status 8) — pre-clearing
+    # it here means the script finds nothing and just creates fresh
+    # instead of racing a delete+recreate.
+    nix-rebuild = "for bn in $(doas efibootmgr | grep -oP '(?<=Boot)[0-9A-Fa-f]{4}(?=\\*? rEFInd)'); do doas efibootmgr -b $bn -B; done; doas nixos-rebuild switch --flake ~/nix-config#Axiom";
     nix-push = "cd ~/nix-config && git add . && git commit -m \"update $(date +%Y-%m-%d_%H:%M)\" && git push";
     nix-clean = "doas nix-env --delete-generations +3 -p /nix/var/nix/profiles/system && doas nix-collect-garbage -d";
+    # Lists every generation still in the store (not just what's in
+    # the boot menu). Pick an N, then run:
+    #   sudo /nix/var/nix/profiles/system-N-link/bin/switch-to-configuration boot
+    # to add it back to the boot menu for next reboot.
+    nix-generations = "nix-env -p /nix/var/nix/profiles/system --list-generations";
   };
 
   # Bootloader.
   boot.loader.grub.enable = false;
 
   boot.loader.systemd-boot = {
-    enable = true;
-    configurationLimit = 1; # Keeps only the latest NixOS generation
+    enable = true; # rEFInd is primary — see boot.loader.refind below.
+    # Only one bootloader can own system.build.installBootLoader, and
+    # the native rEFInd module claims that role, so this can't be true
+    # at the same time as boot.loader.refind.enable.
+    configurationLimit = 5;
     extraInstallCommands = ''
       echo "auto-entries no" >> /boot/loader/loader.conf
       echo "auto-firmware no" >> /boot/loader/loader.conf
@@ -73,6 +88,78 @@
   boot.loader.timeout = 0; # Skip the systemd-boot menu, boot straight into NixOS
 
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.efi.efiSysMountPoint = "/boot";
+
+  boot.loader.refind =
+    let
+      catppuccinSrc = pkgs.fetchFromGitHub {
+        owner = "catppuccin";
+        repo = "refind";
+        rev = "main";
+        sha256 = "sha256-34+MkvWEp3xq6Di1uWKR4ieaG4t2rufnRRN1/V0WRfw=";
+      };
+      # Only the macchiato flavor: the .conf + its background/selection
+      # images + every icon PNG (auto-listed so we don't hand-type ~36
+      # icon filenames).
+      macchiatoFiles =
+        [
+          "macchiato.conf"
+          "assets/macchiato/background.png"
+          "assets/macchiato/selection_big.png"
+          "assets/macchiato/selection_small.png"
+        ]
+        ++ (map (n: "assets/macchiato/icons/${n}") (
+          builtins.attrNames (builtins.readDir "${catppuccinSrc}/assets/macchiato/icons")
+        ));
+    in
+    {
+      enable = false;
+      maxGenerations = 3; # Current + 2 older
+      # additionalFiles destinations are relative to rEFInd's OWN
+      # install dir (/boot/EFI/refind), not /boot — confirmed by
+      # reading refind-install.py's dest_path = os.path.join(refind_dir, dest_path).
+      additionalFiles = builtins.listToAttrs (
+        map (f: {
+          name = "themes/catppuccin/${f}";
+          value = "${catppuccinSrc}/${f}";
+        }) macchiatoFiles
+      );
+      extraConfig = ''
+        use_nvram false
+        use_graphics_for osx,linux
+        scanfor internal,manual
+        scan_delay 0
+        dont_scan_volumes "9cc244c7-0ef4-463a-8876-9afc06b4f215","6ff20efd-cbe1-4459-8a0a-8e38c6d48a8e","35a298ab-dbdf-438e-a712-dfec34374038","29bc3b9e-3bcd-4a2d-9e66-0fad4a35a722","1839e475-1562-4a2d-9d50-53af13704d6f","16351340-528f-4f78-9bd3-165233108d2d","58cc772e-2015-42f9-b47b-e9c331654f93"
+        include themes/catppuccin/macchiato.conf
+        showtools shell, reboot, shutdown, firmware, about
+      '';
+    };
+
+  # Auto re-sign every .efi binary in rEFInd's and NixOS's own boot
+  # folders for Secure Boot whenever rEFInd's binary changes (proxy for
+  # "a rebuild just touched /boot"). Scoped to /boot/EFI/refind and
+  # /boot/EFI/nixos only — not the whole ESP.
+  systemd.services.sign-all-efi = {
+    description = "Sign rEFInd/NixOS .efi binaries on the ESP for Secure Boot";
+    serviceConfig.Type = "oneshot";
+    script = ''
+      if ${pkgs.sbctl}/bin/sbctl status 2>/dev/null | grep -qi "Setup Mode:.*Disabled"; then
+        find /boot/EFI/refind /boot/EFI/nixos -type f -iname "*.efi" \
+          2>/dev/null -exec ${pkgs.sbctl}/bin/sbctl sign -s {} \; || true
+        find /boot/EFI/refind/kernels -maxdepth 1 -type f \
+          2>/dev/null -exec ${pkgs.sbctl}/bin/sbctl sign -s {} \; || true
+        ${pkgs.sbctl}/bin/sbctl sign-all || true
+      fi
+    '';
+  };
+
+  systemd.paths.sign-all-efi = {
+    wantedBy = [ "multi-user.target" ];
+    pathConfig = {
+      PathModified = "/boot/EFI/refind/BOOTX64.EFI";
+      Unit = "sign-all-efi.service";
+    };
+  };
 
   # Mac-style Plymouth boot theme
   boot.plymouth = {
@@ -253,18 +340,6 @@
     chown -h ayaan_mirza:users /home/ayaan_mirza/.config/fastfetch/config.jsonc
   '';
 
-  # Make `sudo` route to `doas` (our primary priv tool) in the shell.
-  # ~/.local/bin is prepended to PATH in interactiveShellInit below, so
-  # this symlink shadows the real wrapped sudo at /run/wrappers/bin/sudo
-  # for anything typed interactively. The real binary is still reachable
-  # via the `sudo-temp` alias further down (already points at
-  # /usr/bin/sudo) if you ever need actual sudo instead of doas.
-  system.activationScripts.sudoDoasSymlink = ''
-    mkdir -p /home/ayaan_mirza/.local/bin
-    ln -sf /run/wrappers/bin/doas /home/ayaan_mirza/.local/bin/sudo
-    chown -h ayaan_mirza:users /home/ayaan_mirza/.local/bin/sudo
-  '';
-
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -283,7 +358,6 @@
     kdePackages.partitionmanager
     curl
     (pkgs.callPackage ./packages/cosmic-ext-control-center.nix {})
-    (pkgs.callPackage ./packages/cosmic-ext-applet-mounter.nix {})
     efibootmgr
     sbctl
     claude-desktop-fhs
@@ -307,6 +381,7 @@
     seahorse
     gnome-keyring
     just
+    refind
   ];
 
   # ChatGPT Desktop (Codex Desktop for Linux) — installed via its
@@ -321,7 +396,7 @@
   
 programs.steam = {
   enable = true; # Master switch, already covered in installation
-  remotePlay.openFirewall = true;  # Open ports in the firewall for Steam Remote Play
+  remotePlay.openFirewall = true;  # Open ports in the firewall for Steam Remote Playmodern
   dedicatedServer.openFirewall = true; # Open ports for Source Dedicated Server hosting
   # Other general flags if available can be set here.
 };
