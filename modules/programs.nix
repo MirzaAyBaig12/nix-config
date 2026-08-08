@@ -15,7 +15,7 @@
     enable = true;
     autosuggestions.enable = true;
     zsh-autoenv.enable = true;
-    syntaxHighlighting.enable = true;
+    syntaxHighlighting.enable = true;s
     interactiveShellInit = ''
       export PATH="$HOME/.local/bin:$PATH"
       export PATH="$HOME/.npm-global/bin:$PATH"
@@ -66,7 +66,14 @@
 
   # System Packages
   environment.systemPackages = with pkgs; [
-    vim wget git gdb python3 firefoxpwa google-chrome fastfetch
+    vim
+    wget
+    git 
+    gdb 
+    python3 
+    firefoxpwa 
+    google-chrome 
+    fastfetch
     inputs.nix-software-center.packages.${stdenv.hostPlatform.system}.default
     baobab gnome-disk-utility kdePackages.partitionmanager curl
     (pkgs.callPackage ../packages/cosmic-ext-control-center.nix {})
@@ -76,8 +83,23 @@
       checkPhase = "echo skipping winpodx tests";
       installCheckPhase = "echo skipping winpodx tests";
     }))
-    kdePackages.kdenlive firefox libsForQt5.qtstyleplugin-kvantum
+    kdePackages.kdenlive 
+    firefox 
+    libsForQt5.qtstyleplugin-kvantum
     inputs.nixos-conf-editor.packages.${pkgs.stdenv.hostPlatform.system}.nixos-conf-editor
-    kdePackages.kate gtk4 ghostty ferdium parted polkit_gnome nodejs sassc seahorse gnome-keyring just refind wl-clipboard
+    kdePackages.kate 
+    gtk4 
+    ghostty 
+    ferdium 
+    parted 
+    polkit_gnome 
+    nodejs 
+    sassc 
+    seahorse 
+    gnome-keyring 
+    just 
+    refind 
+    wl-clipboard
+    inputs.efiboots.packages.${pkgs.system}.default
   ];
 }

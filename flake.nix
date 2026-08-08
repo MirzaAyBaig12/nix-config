@@ -42,6 +42,9 @@
     
     # 9. NixOS Conf Editor
     nixos-conf-editor.url = "github:snowfallorg/nixos-conf-editor";
+
+    #GUI for efibootmgr
+    efiboots.url = "github:elinvention/efiboots"
   };
 
   outputs = { self, nixpkgs, nix-snapd, nix-software-center, nix-flatpak, codex-desktop-linux, claude-desktop, mac-style-plymouth, winpodx, ... }@inputs: {
