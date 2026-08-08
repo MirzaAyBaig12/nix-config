@@ -393,31 +393,40 @@
     enable = true;
     cliPackage = inputs.codex-cli-nix.packages.${pkgs.stdenv.hostPlatform.system}.default;
   };
-  
-programs.steam = {
-  enable = true; # Master switch, already covered in installation
-  remotePlay.openFirewall = true;  # Open ports in the firewall for Steam Remote Playmodern
-  dedicatedServer.openFirewall = true; # Open ports for Source Dedicated Server hosting
-  # Other general flags if available can be set here.
-};
 
-programs = {
-   zsh = {
-      enable = true;
-      autosuggestions.enable = true;
-      zsh-autoenv.enable = true;
-      syntaxHighlighting.enable = true;
-      shellAliases = {
-        sudo-temp = "/usr/bin/sudo";
-        waydroid = "/usr/bin/python3 /usr/bin/waydroid";
-      };
-      interactiveShellInit = ''
-        export PATH="$HOME/.local/bin:$PATH"
-        export PATH="$HOME/.npm-global/bin:$PATH"
-        export PATH="/var/lib/snapd/snap/bin:$PATH"
-        fastfetch -c ~/nix-config/dotfiles/fastfetch/compact-config.jsonc
-      '';
-      ohMyZsh = {
+  {
+    virtualisation.waydroid.enable = true;
+    # Newer kernel versions may need
+    virtualisation.waydroid.package = pkgs.waydroid-nftables;
+
+    # Enable clipboard sharing
+    environment.systemPackages = [ pkgs.wl-clipboard ];
+  }
+  
+  programs.steam = {
+    enable = true; # Master switch, already covered in installation
+    remotePlay.openFirewall = true;  # Open ports in the firewall for Steam Remote Playmodern
+    dedicatedServer.openFirewall = true; # Open ports for Source Dedicated Server hosting
+    # Other general flags if available can be set here.
+ };
+
+  programs = {
+     zsh = {
+        enable = true;
+        autosuggestions.enable = true;
+        zsh-autoenv.enable = true;
+        syntaxHighlighting.enable = true;
+        shellAliases = {
+          sudo-temp = "/usr/bin/sudo";
+          waydroid = "/usr/bin/python3 /usr/bin/waydroid";
+        };
+        interactiveShellInit = ''
+          export PATH="$HOME/.local/bin:$PATH"
+          export PATH="$HOME/.npm-global/bin:$PATH"
+          export PATH="/var/lib/snapd/snap/bin:$PATH"
+          fastfetch -c ~/nix-config/dotfiles/fastfetch/compact-config.jsonc
+        '';
+        ohMyZsh = {
          enable = true;
          theme = "xiong-chiamiov-plus";
          plugins = [
