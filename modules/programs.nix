@@ -3,7 +3,7 @@
 {
   # Shell aliases & zsh
   environment.shellAliases = {
-    nix-rebuild = "for bn in $(doas efibootmgr | grep -oP '(?<=Boot)[0-9A-Fa-f]{4}(?=\\*? rEFInd)'); do doas efibootmgr -b $bn -B; done; doas nixos-rebuild switch --flake ~/nix-config#Axiom";
+    nix-rebuild = "doas nixos-rebuild switch --flake ~/nix-config#Axiom";
     nix-push = "cd ~/nix-config && git add . && git commit -m \"update $(date +%Y-%m-%d_%H:%M)\" && git push";
     nix-clean = "doas nix-env --delete-generations +3 -p /nix/var/nix/profiles/system && doas nix-collect-garbage -d";
     nix-generations = "nix-env -p /nix/var/nix/profiles/system --list-generations";
@@ -15,7 +15,7 @@
     enable = true;
     autosuggestions.enable = true;
     zsh-autoenv.enable = true;
-    syntaxHighlighting.enable = true;s
+    syntaxHighlighting.enable = true;
     interactiveShellInit = ''
       export PATH="$HOME/.local/bin:$PATH"
       export PATH="$HOME/.npm-global/bin:$PATH"
