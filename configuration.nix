@@ -394,7 +394,6 @@
     cliPackage = inputs.codex-cli-nix.packages.${pkgs.stdenv.hostPlatform.system}.default;
   };
 
-  {
     virtualisation.waydroid.enable = true;
     # Newer kernel versions may need
     virtualisation.waydroid.package = pkgs.waydroid-nftables;
