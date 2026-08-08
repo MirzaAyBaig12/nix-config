@@ -9,10 +9,10 @@
 
   imports = [
     ./hardware-configuration.nix
-    ./modules/hardware.nix
-    ./modules/desktop.nix
-    ./modules/programs.nix
-    ./modules/services.nix
+    ./modules/system.nix #import system configuration module
+    ./modules/desktop.nix #import desktop configuration module
+    ./modules/programs.nix #import programs configuration module
+    ./modules/services.nix #import services configuration module
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
