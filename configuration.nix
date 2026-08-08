@@ -1,4 +1,4 @@
-    # Edit this configuration file to define what should be installed on
+# Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
@@ -232,8 +232,8 @@
       Restart = "on-failure";
       RestartSec = 1;
       TimeoutStopSec = 10;
+    };
   };
-};
 
   systemd.user.services.fcc-server = {
     description = "FCC Server Background Daemon";
@@ -244,8 +244,8 @@
       ExecStart = "%h/.local/bin/fcc-server"; # Or the absolute path to the binary if installed elsewhere
       Restart = "always";
       RestartSec = 5;
+    };
   };
-};
 
 
   systemd.user.services.cosmic-osd-watcher = {
@@ -395,78 +395,53 @@
     cliPackage = inputs.codex-cli-nix.packages.${pkgs.stdenv.hostPlatform.system}.default;
   };
 
-    virtualisation.waydroid.enable = true;
-    # Newer kernel versions may need
-    virtualisation.waydroid.package = pkgs.waydroid-nftables;
+  virtualisation.waydroid.enable = true;
+  # Newer kernel versions may need
+  virtualisation.waydroid.package = pkgs.waydroid-nftables;
 
-  }
-  
-programs.steam = {
+  programs.steam = {
     enable = true; # Master switch, already covered in installation
-    remotePlay.openFirewall = true;  # Open ports in the firewall for Steam Remote Playmodern
+    remotePlay.openFirewall = true;  # Open ports in the firewall for Steam Remote Play
     dedicatedServer.openFirewall = true; # Open ports for Source Dedicated Server hosting
     # Other general flags if available can be set here.
   };
 
-  programs = {
-     zsh = {
-        enable = true;
-        autosuggestions.enable = true;
-        zsh-autoenv.enable = true;
-        syntaxHighlighting.enable = true;
-        shellAliases = {
-          sudo-temp = "/usr/bin/sudo";
-          waydroid = "/usr/bin/python3 /usr/bin/waydroid";
-        };
-        interactiveShellInit = ''
-          export PATH="$HOME/.local/bin:$PATH"
-          export PATH="$HOME/.npm-global/bin:$PATH"
-          export PATH="/var/lib/snapd/snap/bin:$PATH"
-          fastfetch -c ~/nix-config/dotfiles/fastfetch/compact-config.jsonc
-        '';
-        ohMyZsh = {
-         enable = true;
-         theme = "xiong-chiamiov-plus";
-         plugins = [
-           "git"
-           "npm"
-           "history"
-           "node"
-           "rust"
-           "deno"
-           "snap"
-         ];
-      };
-   };
-};
-  
+  programs.zsh = {
+    enable = true;
+    autosuggestions.enable = true;
+    zsh-autoenv.enable = true;
+    syntaxHighlighting.enable = true;
+    shellAliases = {
+      sudo-temp = "/usr/bin/sudo";
+      waydroid = "/usr/bin/python3 /usr/bin/waydroid";
+    };
+    interactiveShellInit = ''
+      export PATH="$HOME/.local/bin:$PATH"
+      export PATH="$HOME/.npm-global/bin:$PATH"
+      export PATH="/var/lib/snapd/snap/bin:$PATH"
+      fastfetch -c ~/nix-config/dotfiles/fastfetch/compact-config.jsonc
+    '';
+    ohMyZsh = {
+      enable = true;
+      theme = "xiong-chiamiov-plus";
+      plugins = [
+        "git"
+        "npm"
+        "history"
+        "node"
+        "rust"
+        "deno"
+        "snap"
+      ];
+    };
+  };
+
   services.flatpak.enable = true;
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
 
   # Open ports in the firewall.
   # chiaki-ng / PS Remote Play
   networking.firewall.allowedTCPPorts = [ 9295 ];
   networking.firewall.allowedUDPPorts = [ 987 9295 9296 9297 9302 ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "26.05"; # Did you read the comment?
+  system.stateVersion = "26.05";
 }
