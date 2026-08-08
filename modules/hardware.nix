@@ -11,12 +11,22 @@
       echo "auto-firmware no" >> /boot/loader/loader.conf
 
       if ${pkgs.sbctl}/bin/sbctl status 2>/dev/null | grep -qi "Setup Mode:.*Disabled"; then
-        ${pkgs.sbctl}/bin/sbctl sign -s /boot/EFI/systemd/systemd-bootx64.efi || true
-        ${pkgs.sbctl}/bin/sbctl sign -s /boot/EFI/BOOT/BOOTX64.EFI || true
-        find /boot/EFI/nixos -maxdepth 1 -type f -iname "*.efi" \
-          2>/dev/null -exec ${pkgs.sbctl}/bin/sbctl sign -s {} \; || true
-        find /boot/kernels /boot/nixos -maxdepth 1 -type f \
-          2>/dev/null -exec ${pkgs.sbctl}/bin/sbctl sign -s {} \; || true
+        for dir in \
+          /boot/EFI/BOOT \
+          /boot/EFI/fydeos \
+          /boot/EFI/grub \
+          /boot/EFI/Linux \
+          /boot/EFI/nixos \
+          /boot/EFI/refind \
+          /boot/EFI/systemd \
+          /boot/EFI/tools
+        do
+          if [ -d "$dir" ]; then
+            while IFS= read -r file; do
+              ${pkgs.sbctl}/bin/sbctl sign -s "$file" || true
+            done < <(find "$dir" -type f \( -iname "*.efi" -o -iname "bzimage" -o -iname "initrd*" -o -iname "initramfs*" \) 2>/dev/null)
+          fi
+        done
         ${pkgs.sbctl}/bin/sbctl sign-all || true
       fi
     '';
@@ -65,16 +75,28 @@
       '';
     };
 
-  # Auto re-sign EFI binaries on change
+  # Auto re-sign specified binaries/kernels safely on change with explicit paths
   systemd.services.sign-all-efi = {
-    description = "Sign rEFInd/NixOS .efi binaries on the ESP for Secure Boot";
+    description = "Sign specified ESP binaries and kernels explicitly for Secure Boot";
     serviceConfig.Type = "oneshot";
     script = ''
       if ${pkgs.sbctl}/bin/sbctl status 2>/dev/null | grep -qi "Setup Mode:.*Disabled"; then
-        find /boot/EFI/refind /boot/EFI/nixos -type f -iname "*.efi" \
-          2>/dev/null -exec ${pkgs.sbctl}/bin/sbctl sign -s {} \; || true
-        find /boot/EFI/refind/kernels -maxdepth 1 -type f \
-          2>/dev/null -exec ${pkgs.sbctl}/bin/sbctl sign -s {} \; || true
+        for dir in \
+          /boot/EFI/BOOT \
+          /boot/EFI/fydeos \
+          /boot/EFI/grub \
+          /boot/EFI/Linux \
+          /boot/EFI/nixos \
+          /boot/EFI/refind \
+          /boot/EFI/systemd \
+          /boot/EFI/tools
+        do
+          if [ -d "$dir" ]; then
+            while IFS= read -r file; do
+              ${pkgs.sbctl}/bin/sbctl sign -s "$file" || true
+            done < <(find "$dir" -type f \( -iname "*.efi" -o -iname "bzimage" -o -iname "initrd*" -o -iname "initramfs*" \) 2>/dev/null)
+          fi
+        done
         ${pkgs.sbctl}/bin/sbctl sign-all || true
       fi
     '';
