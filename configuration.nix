@@ -382,6 +382,7 @@
     gnome-keyring
     just
     refind
+    wl-clipboard
   ];
 
   # ChatGPT Desktop (Codex Desktop for Linux) — installed via its
@@ -398,8 +399,6 @@
     # Newer kernel versions may need
     virtualisation.waydroid.package = pkgs.waydroid-nftables;
 
-    # Enable clipboard sharing
-    environment.systemPackages = [ pkgs.wl-clipboard ];
   }
   
   programs.steam = {
