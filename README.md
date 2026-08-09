@@ -72,9 +72,9 @@ Wallpapers: https://github.com/MirzaAyBaig12/nix-config/tree/main/wallpapers
 
 ## Screenshots
 
-![Desktop](/_img/desktop.webp)
+![Desktop](/_img/desktop.png)
 
-![Fastfetch](/_img/fastfetch.webp)
+![Fastfetch](/_img/fastfetch.png)
 
 
 ## System Modules
