@@ -3,6 +3,7 @@
 {
   # Shell aliases & zsh
   environment.shellAliases = {
+    nix-hwgen='doas nixos-generate-config --dir ~/nix-config';
     nix-rebuild = "doas nixos-rebuild switch --flake ~/nix-config#Axiom";
     nix-push = "cd ~/nix-config && git add . && git commit -m \"update $(date +%Y-%m-%d_%H:%M)\" && git push";
     nix-clean = "doas nix-env --delete-generations +3 -p /nix/var/nix/profiles/system && doas nix-collect-garbage -d";
@@ -97,7 +98,7 @@
     gimp #GIMP Image Editor
     libsForQt5.qtstyleplugin-kvantum #KDE Kvantum Theme Engine
     inputs.nixos-conf-editor.packages.${pkgs.stdenv.hostPlatform.system}.nixos-conf-editor #NixOS Configuration Editor
-    inputs.iloader.packages.${pkgs.stdenv.hostPlatform.system}.default #iLoader for iOS Sideloading
+    #inputs.iloader.packages.${pkgs.stdenv.hostPlatform.system}.default #iLoader for iOS Sideloading
     kdePackages.kate #KDE Text Editor
     gtk4 #GTK4 Library
     gtk3 #GTK3 Library
