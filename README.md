@@ -60,9 +60,9 @@ The NixOS documentation and the Nix Pills are excellent resources.**
 | **Editors / IDE**                                              | Neovim, VS Code, Vim                                                                                               |
 | **Fonts**                                                      | Noto fonts, Noto Color Emoji, JetBrains Mono Nerd Font                                                             |
 | **Image Viewer**                                               | Gwenview, gThumb                                                                                                   |
-| **Screenshot Software**                                        | Grim/Slurp (Wayland), Spectacle (KDE)                                                                              |
-| **Screen Recording**                                           | wfrecorder (Wayland), SimpleScreenRecorder (X11), OBS                                                              |
-| **Filesystem & Encryption**                                    | Ext4 (No encryption, this is a Dual Boot System)                                                                  |
+| **Screenshot Software**                                        | COSMIC Screenshot (Wayland), Spectacle (KDE)                                                                       |
+| **Screen Recording**                                           | OBS                                                              |
+| **Filesystem & Encryption**                                    | Ext4 (No encryption, this is a Dual Boot System)                                                                   |
 | **Secure Boot**                                                | Enabled with sbctl for automatic signing                                                                           |
 | **Android Subsystem**                                          | Waydroid                                                                                                           |
 | **Package Formats**                                            | Snap, Flatpak, AppImage, Nix                                                                                       |
