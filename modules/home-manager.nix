@@ -9,6 +9,7 @@
       imports = [
         #imports from home-manager modules
         ./home-manager/fastfetch.nix
+        ./home-manager/zsh.nix
       ];
 
       home.stateVersion = "26.05";

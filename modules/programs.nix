@@ -12,23 +12,7 @@
     waydroid = "/usr/bin/python3 /usr/bin/waydroid";
   };
 
-  programs.zsh = {
-    enable = true;
-    autosuggestions.enable = true;
-    zsh-autoenv.enable = true;
-    syntaxHighlighting.enable = true;
-    interactiveShellInit = ''
-      export PATH="$HOME/.local/bin:$PATH"
-      export PATH="$HOME/.npm-global/bin:$PATH"
-      export PATH="/var/lib/snapd/snap/bin:$PATH"
-      fastfetch -c ~/nix-config/modules/home-manager/fastfetch/compact-config.jsonc
-    '';
-    ohMyZsh = {
-      enable = true;
-      theme = "xiong-chiamiov-plus";
-      plugins = [ "git" "npm" "history" "node" "rust" "deno" "snap" ];
-    };
-  };
+  programs.zsh.enable = true; # config lives in modules/home-manager/zsh.nix
 
   # Steam
   programs.steam = {
@@ -98,7 +82,7 @@
     gimp #GIMP Image Editor
     libsForQt5.qtstyleplugin-kvantum #KDE Kvantum Theme Engine
     inputs.nixos-conf-editor.packages.${pkgs.stdenv.hostPlatform.system}.nixos-conf-editor #NixOS Configuration Editor
-    #inputs.iloader.packages.${pkgs.stdenv.hostPlatform.system}.default #iLoader for iOS Sideloading
+    #inputs.iloader.packages.${pkgs.stdenv.hostPlatform.system}.default #iLoader for iOS Sideloading (not working, bug submitted to dev)
     kdePackages.kate #KDE Text Editor
     gtk4 #GTK4 Library
     gtk3 #GTK3 Library
