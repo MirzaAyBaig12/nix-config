@@ -11,9 +11,7 @@
         <img src="https://img.shields.io/badge/Nix%20Flakes-enabled-informational.svg?style=for-the-badge&logo=nixos&color=F2CDCD&logoColor=D9E0EE&labelColor=302D41"></a>
 </p>
 
-> My configuration is becoming more and more complex, and it will be difficult for beginners to
-> read. If you are new to NixOS and want to see how I use it, I'd recommend looking at older
-> commits or branches first — they'll be much easier to understand.
+> My configuration is becoming more and more complex, but it should be readable for beginners as it is clearly organized into modules and contains has comments for guidance.
 
 This repository is home to the nix code that builds my system:
 

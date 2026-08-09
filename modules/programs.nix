@@ -66,40 +66,53 @@
 
   # System Packages
   environment.systemPackages = with pkgs; [
-    vim
-    wget
-    git 
-    gdb 
-    python3 
-    firefoxpwa 
-    google-chrome 
-    fastfetch
-    inputs.nix-software-center.packages.${stdenv.hostPlatform.system}.default
-    baobab gnome-disk-utility kdePackages.partitionmanager curl
-    (pkgs.callPackage ../packages/cosmic-ext-control-center.nix {})
-    efibootmgr sbctl claude-desktop-fhs
-    (inputs.winpodx.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
+    vim #Text Editor
+    wget #Network Downloader
+    git #Version Control
+    htop #Process Viewer
+    gdb #Debugger
+    python3 #Python Interpreter
+    firefoxpwa #Firefox PWA Connector
+    google-chrome #Google Chrome
+    fastfetch #System Information Tool
+    inputs.nix-software-center.packages.${stdenv.hostPlatform.system}.default #Install Nix Software Center
+    baobab #Disk Usage Analyzer
+    gnome-disk-utility #Disk Management Tool
+    gnome-system-monitor #System Monitor
+    kdePackages.partitionmanager #Partition Management Tool
+    curl #Command Line Downloader
+    (pkgs.callPackage ../packages/cosmic-ext-control-center.nix {}) #Control Center Applet for COSMIC DE
+    efibootmgr #CLI EFI Entry Management
+    sbctl #Secure Boot Management
+    claude-desktop-fhs #Claude Desktop app for NixOS
+    (inputs.winpodx.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: { #WinPodX for Windows apps (e.x. Office 365)
       doCheck = false;
       checkPhase = "echo skipping winpodx tests";
       installCheckPhase = "echo skipping winpodx tests";
     }))
-    kdePackages.kdenlive 
-    firefox 
-    libsForQt5.qtstyleplugin-kvantum
-    inputs.nixos-conf-editor.packages.${pkgs.stdenv.hostPlatform.system}.nixos-conf-editor
-    kdePackages.kate 
-    gtk4 
-    ghostty 
-    ferdium 
-    parted 
-    polkit_gnome 
-    nodejs 
-    sassc 
-    seahorse 
-    gnome-keyring 
-    just 
-    refind 
-    wl-clipboard
-    inputs.efiboots.packages.${pkgs.stdenv.hostPlatform.system}.default
+    kdePackages.kdenlive #Video Editing Software
+    firefox #Firefox Web Browser
+    libreoffice #LibreOffice Suite
+    vlc #VLC Media Player
+    gimp #GIMP Image Editor
+    libsForQt5.qtstyleplugin-kvantum #KDE Kvantum Theme Engine
+    inputs.nixos-conf-editor.packages.${pkgs.stdenv.hostPlatform.system}.nixos-conf-editor #NixOS Configuration Editor
+    kdePackages.kate #KDE Text Editor
+    gtk4 #GTK4 Library
+    gtk3 #GTK3 Library
+    ghostty #Terminal Multiplexer
+    ferdium #Ferdium Messaging App
+    parted #Partition Management Tool
+    polkit_gnome #Polkit Authentication Agent
+    nodejs #Node.js JavaScript Runtime
+    npm #Node.js Package Manager
+    sassc #Sass Compiler
+    seahorse #Seahorse Password Manager
+    gnome-keyring #GNOME Keyring
+    just #Just Task Runner
+    refind #rEFInd Boot Manager CLI
+    wl-clipboard #Wayland Clipboard Manager
+    inputs.efiboots.packages.${pkgs.stdenv.hostPlatform.system}.default #GUI EFI Entry Management
+    libimobiledevice #iOS Device Development Library
   ];
 }

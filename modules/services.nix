@@ -23,6 +23,9 @@
     shell = pkgs.zsh;
   };
 
+  #Enable USBMUXD for iOS device management
+  services.usbmuxd.enable = true;
+ 
   # Fastfetch dotfile sync
   environment.etc."xdg/fastfetch/config.jsonc".source = ../dotfiles/fastfetch/config.jsonc;
 
