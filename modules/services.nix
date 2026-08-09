@@ -5,6 +5,7 @@
   services.snap.enable = true;
   services.flatpak.enable = true;
 
+
   # Security & Privileges (Doas & Sudo)
   security.doas.enable = true;
   security.doas.extraRules = [{
@@ -14,6 +15,8 @@
   }];
 
   security.sudo.enable = true;
+
+  security.apparmor.enable = true; #Enable AppArmor for Snap confinement
 
   # User Account
   users.users."ayaan_mirza" = {

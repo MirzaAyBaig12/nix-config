@@ -127,6 +127,8 @@
   ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  boot.supportedFilesystems = [ "squashfs" ]; #Enable squashfs for Snap
+
   # Networking & Firewall
   networking.hostName = "Axiom";
   networking.networkmanager.enable = true;
