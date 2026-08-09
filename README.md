@@ -11,7 +11,7 @@
         <img src="https://img.shields.io/badge/Nix%20Flakes-enabled-informational.svg?style=for-the-badge&logo=nixos&color=F2CDCD&logoColor=D9E0EE&labelColor=302D41"></a>
 </p>
 
-> My configuration is becoming more and more complex, but it should be readable for beginners as it is clearly organized into modules and contains has comments for guidance.
+> My configuration is becoming more and more complex, but it should be readable for beginners as it is clearly organized into modules and contains comments for guidance.
 
 This repository is home to the nix code that builds my system:
 
