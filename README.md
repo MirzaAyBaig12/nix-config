@@ -61,7 +61,8 @@ The NixOS documentation and the Nix Pills are excellent resources.**
 | **Fonts**                                                      | Noto fonts, Noto Color Emoji, JetBrains Mono Nerd Font                                                             |
 | **Image Viewer**                                               | Gwenview, gThumb                                                                                                   |
 | **Screenshot Software**                                        | COSMIC Screenshot (Wayland), Spectacle (KDE)                                                                       |
-| **Screen Recording**                                           | OBS                                                              |
+| **Screen Recording**                                           | OBS 
+|
 | **Filesystem & Encryption**                                    | Ext4 (No encryption, this is a Dual Boot System)                                                                   |
 | **Secure Boot**                                                | Enabled with sbctl for automatic signing                                                                           |
 | **Android Subsystem**                                          | Waydroid                                                                                                           |
@@ -72,9 +73,9 @@ Wallpapers: https://github.com/MirzaAyBaig12/nix-config/tree/main/wallpapers
 
 ## Screenshots
 
-![desktop](./_img/axiom-desktop.webp)
+![Desktop](./_img/desktop.webp)
 
-![fastfetch](./_img/axiom-fastfetch.webp)
+![Fastfetch](./_img/fastfetch.webp)
 
 
 ## System Modules
