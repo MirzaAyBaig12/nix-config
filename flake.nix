@@ -58,9 +58,16 @@
     # 12. Look Launcher (Cachix)
     look.url = "github:kunkka19xx/look?dir=apps/linows";
 
+    # 13. Home-Manager 
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+
   };
 
-  outputs = { self, nixpkgs, nix-snapd, nix-software-center, nix-flatpak, codex-desktop-linux, claude-desktop, mac-style-plymouth, winpodx, ... }@inputs: {
+  outputs = { self, nixpkgs, nix-snapd, nix-software-center, nix-flatpak, codex-desktop-linux, claude-desktop, mac-style-plymouth, winpodx, home-manager, ... }@inputs: {
     nixosConfigurations = {
       Axiom = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
