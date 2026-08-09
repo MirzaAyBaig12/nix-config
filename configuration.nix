@@ -15,7 +15,8 @@
       ./modules/programs.nix #import programs configuration module
       ./modules/services.nix #import services configuration module
     #import home-manager module
-      #inputs.home-manager.nixosModules.default
+      inputs.home-manager.nixosModules.default
+      ./modules/home-manager.nix #import home-manager configuration module
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
