@@ -56,7 +56,7 @@
     iloader.url = "github:nab138/iloader";
 
     # 12. Look Launcher (Cachix)
-    inputs.look.url = "github:kunkka19xx/look?dir=apps/linows";
+    look.url = "github:kunkka19xx/look?dir=apps/linows";
 
   };
 
