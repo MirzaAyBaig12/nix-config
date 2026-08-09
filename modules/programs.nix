@@ -97,6 +97,7 @@
     gimp #GIMP Image Editor
     libsForQt5.qtstyleplugin-kvantum #KDE Kvantum Theme Engine
     inputs.nixos-conf-editor.packages.${pkgs.stdenv.hostPlatform.system}.nixos-conf-editor #NixOS Configuration Editor
+    inputs.iloader.packages.${pkgs.stdenv.hostPlatform.system}.default #iLoader for iOS Sideloading
     kdePackages.kate #KDE Text Editor
     gtk4 #GTK4 Library
     gtk3 #GTK3 Library
