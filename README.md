@@ -90,15 +90,12 @@ User environment: Zsh + Oh-My-Zsh with plugins, shell aliases, desktop apps (Ste
 ### services.nix
 System services: Snap/Flatpak daemons, security config (doas + sudo for `ayaan_mirza`), user account setup, activation scripts for dotfile sync (Fastfetch config, bidirectional rEFInd sync).
 
-### home-manager.nix
-*(add a description if this exists in your modules — referenced by the flakes badge but not previously documented)*
-
 ## Why This Setup?
 
 - **It should just work** — zero time spent debugging basic functionality
 - **Keep it recreational** — if configuring something takes more effort than it's worth, I use defaults
 - **Version control everything** — if it's not in git, it might as well not exist
-- **Hardware separation** — all machine-specific stuff lives in `hardware-configuration.nix`
+- **Organization** — rather than directly declaring everything, they are loaded as modules (See [`./modules/`](./modules/))
 - **Prefer flakes** — trivial dependency management and reproducibility
 
 ## What You Won't Find Here
