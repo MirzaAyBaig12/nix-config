@@ -100,6 +100,6 @@
     just 
     refind 
     wl-clipboard
-    inputs.efiboots.packages.${pkgs.system}.default
+    inputs.efiboots.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 }
