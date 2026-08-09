@@ -8,11 +8,12 @@
   nixpkgs.overlays = [ inputs.claude-desktop.overlays.default ];
 
   imports = [
-    ./hardware-configuration.nix
-    ./modules/system.nix #import system configuration module
-    ./modules/desktop.nix #import desktop configuration module
-    ./modules/programs.nix #import programs configuration module
-    ./modules/services.nix #import services configuration module
+    ./hardware-configuration.nix #import hardware configuration 
+    #modules 
+      ./modules/system.nix #import system configuration module
+      ./modules/desktop.nix #import desktop configuration module
+      ./modules/programs.nix #import programs configuration module
+      ./modules/services.nix #import services configuration module
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

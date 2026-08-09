@@ -2,6 +2,12 @@
   description = "My NixOS Configuration Flake";
 
   inputs = {
+
+    nixConfig = {
+      extra-substituters = [ "https://look.cachix.org" ];
+      extra-trusted-public-keys = [ "look.cachix.org-1:8elPCeSVBzlDZXqIRKBK9GyLIK/Hoe1xiWZF0ir7uX4=" ];
+    };
+
     # 1. Core NixOS package repository
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     
@@ -48,6 +54,9 @@
 
     # 11. iLoader for iOS Sideloading
     iloader.url = "github:nab138/iloader";
+
+    # 12. Look Launcher (Cachix)
+    inputs.look.url = "github:kunkka19xx/look?dir=apps/linows";
 
   };
 

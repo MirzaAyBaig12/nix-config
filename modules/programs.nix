@@ -116,5 +116,6 @@
     inputs.efiboots.packages.${pkgs.stdenv.hostPlatform.system}.default #GUI EFI Entry Management
     libimobiledevice #iOS Device Development Library
     proton-pass #Proton Pass Password Manager
+    inputs.look.packages.${pkgs.system}.default #Look Launcher (Cachix)
   ];
 }
