@@ -54,7 +54,7 @@ The NixOS documentation and the Nix Pills are excellent resources.**
 | **Network Management Tool**                                    | NetworkManager                                                                                                     |
 | **Input Method Framework**                                     | None (using default XKB/Wayland input)                                                                             |
 | **System Resource Monitor**                                    | Fastfetch (terminal), Built-in DE monitors                                                                         |
-| **File Manager**                                               | Dolphin (Plasma6), Native file picker dialogs                                                                      |
+| **File Manager**                                               | Files (COSMIC), Dolphin (KDE)                                                                      |
 | **Shell**                                                      | Zsh                                                                                                                |
 | **Media Player**                                               | mpv, VLC                                                                                                           |
 | **Editors / IDE**                                              | Neovim, VS Code, Vim                                                                                               |
@@ -62,21 +62,20 @@ The NixOS documentation and the Nix Pills are excellent resources.**
 | **Image Viewer**                                               | Gwenview, gThumb                                                                                                   |
 | **Screenshot Software**                                        | Grim/Slurp (Wayland), Spectacle (KDE)                                                                              |
 | **Screen Recording**                                           | wfrecorder (Wayland), SimpleScreenRecorder (X11), OBS                                                              |
-| **Filesystem & Encryption**                                    | Ext4 (LUKS encryption handled at installer level)                                                                  |
+| **Filesystem & Encryption**                                    | Ext4 (No encryption, this is a Dual Boot System)                                                                  |
 | **Secure Boot**                                                | Enabled with sbctl for automatic signing                                                                           |
 | **Android Subsystem**                                          | Waydroid                                                                                                           |
-| **Package Formats**                                            | Snap, Flatpak, AppImage, Nix-LD                                                                                    |
+| **Package Formats**                                            | Snap, Flatpak, AppImage, Nix                                                                                       |
 | **Development Tools**                                          | Git, Python3, Node.js, Rust, Java, Go, etc.                                                                        |
 
-Wallpapers: https://github.com/ayaan_mirza/wallpapers (if applicable) or local wallpapers directory
+Wallpapers: https://github.com/MirzaAyBaig12/nix-config/tree/main/wallpapers
 
 ## Screenshots
 
 ![desktop](./_img/axiom-desktop.webp)
 
-![overview](./_img/axiom-overview.webp)
+![fastfetch](./_img/axiom-fastfetch.webp)
 
-![terminal](./_img/axiom-terminal.webp)
 
 ## System Modules
 
@@ -110,10 +109,3 @@ Manages system services including Snap and Flatpak daemons, security configurati
 
 This configuration evolves as my needs and interests change. What you see here is a snapshot of what works for me on August 8, 2026.
 
-## Inspiration & References
-
-While this configuration is largely original, I've drawn inspiration from various NixOS community configurations over time. The modular approach separating system, desktop, programs, and services concerns is a common pattern in the NixOS ecosystem.
-
-The use of activation scripts for dotfile synchronization follows patterns seen in many advanced NixOS setups. The Secure Boot implementation with sbctl is adapted from community best practices.
-
-My desktop environment choices (Cosmic primary with Plasma6 available) reflect my experimentation with different Linux desktop paradigms. The PipeWire audio setup resolves historical Linux audio fragmentation issues.
