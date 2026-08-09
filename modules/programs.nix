@@ -75,7 +75,7 @@
     python3 #Python Interpreter
     firefoxpwa #Firefox PWA Connector
     google-chrome #Google Chrome
-    fastfetch #System Information Tool
+    #fastfetch #System Information Tool
     inputs.nix-software-center.packages.${stdenv.hostPlatform.system}.default #Install Nix Software Center
     baobab #Disk Usage Analyzer
     gnome-disk-utility #Disk Management Tool
