@@ -97,7 +97,7 @@ System services: Snap/Flatpak daemons, security config (doas + sudo for `ayaan_m
 - **It should just work** — zero time spent debugging basic functionality
 - **Keep it recreational** — if configuring something takes more effort than it's worth, I use defaults
 - **Version control everything** — if it's not in git, it might as well not exist
-- **Hardware separation** — all machine-specific stuff lives in `hardware-configuration.nix`
+- **Organization** — rather than directly declaring everything, they are loaded as modules `/modules`
 - **Prefer flakes** — trivial dependency management and reproducibility
 
 ## What You Won't Find Here
