@@ -105,7 +105,6 @@
     parted #Partition Management Tool
     polkit_gnome #Polkit Authentication Agent
     nodejs #Node.js JavaScript Runtime
-    npm #Node.js Package Manager
     sassc #Sass Compiler
     seahorse #Seahorse Password Manager
     gnome-keyring #GNOME Keyring
