@@ -70,7 +70,7 @@
 
           # Enables the snap service inline
           {
-            services.snap.enable = true;
+            services.snap.enable = false;
           }
 
           # Applies the mac-style plymouth theme overlay

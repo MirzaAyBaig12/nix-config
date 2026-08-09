@@ -115,5 +115,6 @@
     wl-clipboard #Wayland Clipboard Manager
     inputs.efiboots.packages.${pkgs.stdenv.hostPlatform.system}.default #GUI EFI Entry Management
     libimobiledevice #iOS Device Development Library
+    proton-pass #Proton Pass Password Manager
   ];
 }
