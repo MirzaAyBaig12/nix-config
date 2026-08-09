@@ -2,7 +2,7 @@
 
 {
   # Snap & Flatpak
-  services.snap.enable = true;
+  services.snap.enable = false;
   services.flatpak.enable = true;
 
 
