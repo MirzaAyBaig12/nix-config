@@ -47,7 +47,7 @@
     efiboots.url = "github:elinvention/efiboots";
 
     # 11. iLoader for iOS Sideloading
-    inputs.iloader.url = "github:nab138/iloader";
+    iloader.url = "github:nab138/iloader";
 
   };
 
