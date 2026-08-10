@@ -10,6 +10,7 @@
     nix-generations = "nix-env -p /nix/var/nix/profiles/system --list-generations";
     sudo-temp = "/run/wrappers/bin/sudo";
     waydroid = "/usr/bin/python3 /usr/bin/waydroid";
+    zsh-reload = "omz reload";
   };
 
   # Bootloader setup (systemd-boot + rEFInd + Secure Boot signing)
