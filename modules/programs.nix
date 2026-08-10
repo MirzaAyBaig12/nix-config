@@ -1,7 +1,7 @@
 { config, pkgs, inputs, ... }:
 
 {
-  
+  # Enable Zsh
   programs.zsh.enable = true; # config lives in modules/home-manager/zsh.nix
 
   # Steam
