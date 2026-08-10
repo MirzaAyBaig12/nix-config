@@ -4,7 +4,7 @@
     enable = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
-    initExtra = ''
+    initContent = ''
       export PATH="$HOME/.local/bin:$PATH"
       export PATH="$HOME/.npm-global/bin:$PATH"
       export PATH="/var/lib/snapd/snap/bin:$PATH"
