@@ -13,14 +13,23 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
+  #NixOS root partition
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/a40f8a35-a1a9-4e1d-acd0-c4e214ea8e6e";
       fsType = "ext4";
     };
 
+  #NixOS EFI Partition
   fileSystems."/boot" =
     { device = "/dev/disk/by-uuid/31B4-7383";
       fsType = "vfat";
+      options = [ "fmask=0022" "dmask=0022" ];
+    };
+
+  # Shared partition for Windows and Linux
+  fileSystems."/home/ayaan_mirza/Shared" = 
+    { device = "/dev/disk/by-uuid/EDBB-3A7F";
+      fsType = "exfat";
       options = [ "fmask=0022" "dmask=0022" ];
     };
 
