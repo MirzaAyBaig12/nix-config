@@ -17,7 +17,7 @@ This repository is home to the nix code that builds my system:
 
 - **NixOS Desktop (Axiom)** — my main daily driver, running Cosmic and Plasma6 desktop environments, PipeWire audio, Waydroid, and extensive customization.
 
-See [`./modules/`](./modules/) for each configuration module, and [`./dotfiles/`](./dotfiles/) for user-specific config files synced via activation scripts.
+See [`/modules/`](./modules/) for each configuration module, and [`/modules/home-manager/`](./modules/home-manager/) for user-specific config files configured as modules within home-manager.
 
 ## Why NixOS & Flakes?
 
