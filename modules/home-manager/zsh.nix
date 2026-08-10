@@ -1,22 +1,31 @@
-{ ... }:
 {
-  programs.zsh = {
-    enable = true;
-    autosuggestion.enable = true;
-    syntaxHighlighting.enable = true;
-    initContent = ''
-      export PATH="$HOME/.local/bin:$PATH"
-      export PATH="$HOME/.npm-global/bin:$PATH"
-      export PATH="/var/lib/snapd/snap/bin:$PATH"
-      export PATH="/home/ayaan_mirza/.local/share/pi-node/node-v22.23.2-linux-x64/bin:$PATH"
-      mkdir -p "$HOME/.cache/zsh"
-      export ZSH_COMPDUMP="$HOME/.cache/zsh/zcompdump-$ZSH_VERSION"
-      fastfetch -c ~/nix-config/modules/home-manager/fastfetch/compact-config.jsonc
-    '';
-    oh-my-zsh = {
-      enable = true;
-      theme = "xiong-chiamiov-plus";
-      plugins = [ "git" "npm" "history" "node" "rust" "deno" "snap" ];
-    };
+  config,
+  lib,
+  pkgs,
+  options,
+  ...
+}:
+let
+  inherit (lib)
+    concatStringsSep
+    literalExpression
+    mkEnableOption
+    mkIf
+    mkOption
+    mkOrder
+    optionalString
+    types
+    ;
+
+  cfg = config.programs.zsh;
+  bindkeyCommands = {
+    emacs = "bindkey -e";
+    viins = "bindkey -v";
+    vicmd = "bindkey -a";
   };
+in
+{
+  # Placeholder — see chat for why this can't hold the full upstream
+  # module source (duplicate option declarations vs. the imported HM
+  # flake module). Restore from git history if this breaks the build.
 }
