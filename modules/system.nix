@@ -1,6 +1,17 @@
 { config, pkgs, ... }:
 
 {
+    # Shell aliases
+  environment.shellAliases = {
+    nix-hwgen = "doas nixos-generate-config --dir ~/nix-config";
+    nix-rebuild = "doas nixos-rebuild switch --flake ~/nix-config#Axiom";
+    nix-push = "cd ~/nix-config && git add . && git commit -m \"update $(date +%Y-%m-%d_%H:%M)\" && git push";
+    nix-clean = "doas nix-env --delete-generations +3 -p /nix/var/nix/profiles/system && doas nix-collect-garbage -d";
+    nix-generations = "nix-env -p /nix/var/nix/profiles/system --list-generations";
+    sudo-temp = "/run/wrappers/bin/sudo";
+    waydroid = "/usr/bin/python3 /usr/bin/waydroid";
+  };
+
   # Bootloader setup (systemd-boot + rEFInd + Secure Boot signing)
   boot.loader.grub.enable = false;
   boot.loader.systemd-boot = {
