@@ -9,11 +9,13 @@
 
   imports = [
     ./hardware-configuration.nix #import hardware configuration 
+
     #modules 
       ./modules/system.nix #import system configuration module
       ./modules/desktop.nix #import desktop configuration module
       ./modules/programs.nix #import programs configuration module
       ./modules/services.nix #import services configuration module
+      
     #import home-manager module
       inputs.home-manager.nixosModules.default
       ./modules/home-manager.nix #import home-manager configuration module
