@@ -5,7 +5,7 @@
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
     initContent = ''
-      fastfetch -c ~/nix-config/modules/home-manager/fastfetch/compact-config.jsonc
+      fastfetch -c ~/.config/fastfetch/compact-config.jsonc
       export PATH="$HOME/.local/bin:$PATH"
       export PATH="$HOME/.npm-global/bin:$PATH"
       export PATH="/var/lib/snapd/snap/bin:$PATH"
