@@ -5,13 +5,13 @@
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
     initContent = ''
+      fastfetch -c ~/nix-config/modules/home-manager/fastfetch/compact-config.jsonc
       export PATH="$HOME/.local/bin:$PATH"
       export PATH="$HOME/.npm-global/bin:$PATH"
       export PATH="/var/lib/snapd/snap/bin:$PATH"
       export PATH="/home/ayaan_mirza/.local/share/pi-node/node-v22.23.2-linux-x64/bin:$PATH"
       mkdir -p "$HOME/.cache/zsh"
       export ZSH_COMPDUMP="$HOME/.cache/zsh/zcompdump-$ZSH_VERSION"
-      fastfetch -c ~/nix-config/modules/home-manager/fastfetch/compact-config.jsonc
     '';
     oh-my-zsh = {
       enable = true;
