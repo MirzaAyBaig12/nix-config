@@ -90,8 +90,7 @@ User environment: Zsh + Oh-My-Zsh with plugins, shell aliases, desktop apps (Ste
 ### services.nix
 System services: Snap/Flatpak daemons, security config (doas + sudo for `ayaan_mirza`), user account setup, activation scripts for dotfile sync (Fastfetch config, bidirectional rEFInd sync).
 
-### home-manager.nix
-User-level configuration managed through Home Manager. Handles dotfiles and application configuration declaratively, including Zsh and Fastfetch. The configuration is further organized into dedicated modules (See [`./modules/home-manager`](/modules//home-manager/)), keeping individual program configurations isolated and easy to maintain.
+User-level configuration managed through Home Manager. Mirrors the modular structure of the main configuration, keeping dotfiles and program configs organized into separate modules. (See [`./modules/home-manager`](/modules//home-manager/))
 
 ## Why This Setup?
 
