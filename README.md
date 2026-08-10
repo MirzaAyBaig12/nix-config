@@ -17,6 +17,8 @@ This repository is home to the nix code that builds my system:
 
 - **NixOS Desktop (Axiom)** — my main daily driver, running Cosmic and Plasma6 desktop environments, PipeWire audio, Waydroid, and extensive customization.
 
+See ['/.config/refind'](./.config/refind/) for my rEFInd configuration and theme.
+
 See [`/modules/`](./modules/) for each configuration module, and [`/modules/home-manager/`](./modules/home-manager/) for user-specific config files configured as modules within home-manager.
  
 ## Components
@@ -57,7 +59,7 @@ See [`/modules/`](./modules/) for each configuration module, and [`/modules/home
 | **Android Subsystem** | Waydroid |
 | **Package Formats** | Snap, Flatpak, AppImage, Nix |
 
-Wallpapers: https://github.com/MirzaAyBaig12/nix-config/tree/main/wallpapers
+Wallpapers: [`/wallpapers`](./.config/wallpapers)
 
 ## Screenshots
 
