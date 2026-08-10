@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-    # Shell aliases
+  # Shell aliases
   environment.shellAliases = {
     nix-hwgen = "doas nixos-generate-config --dir ~/nix-config";
     nix-rebuild = "doas nixos-rebuild switch --flake ~/nix-config#Axiom";
