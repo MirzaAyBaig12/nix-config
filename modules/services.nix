@@ -42,7 +42,7 @@
     wantedBy = [ "multi-user.target" ];
     script = ''
       REFIND_ESP="/boot/EFI/refind"
-      REFIND_REPO="/home/ayaan_mirza/nix-config/refind"
+      REFIND_REPO="/home/ayaan_mirza/nix-config/.config/refind"
 
       if [ -d "$REFIND_ESP" ] && [ -d "$REFIND_REPO" ]; then
         # Copy newer files from ESP back to the repo
