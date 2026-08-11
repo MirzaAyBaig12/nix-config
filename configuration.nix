@@ -5,8 +5,6 @@
 { config, pkgs, inputs, ... }:
 
 {
-  nixpkgs.overlays = [ inputs.claude-desktop.overlays.default ];
-
   imports = [
     ./hardware-configuration.nix #import hardware configuration 
 

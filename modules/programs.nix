@@ -1,6 +1,8 @@
 { config, pkgs, inputs, ... }:
 
 {
+  nixpkgs.overlays = [ inputs.claude-desktop.overlays.default ]; # provides claude-desktop-fhs below
+
   # Enable Zsh
   programs.zsh.enable = true; # config lives in modules/home-manager/zsh.nix
 
