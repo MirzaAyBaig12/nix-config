@@ -79,11 +79,15 @@
       extraConfig = ''
         use_nvram false
         use_graphics_for osx,linux
-        scanfor internal,manual
+        scanfor manual
         scan_delay 0
         dont_scan_volumes "9cc244c7-0ef4-463a-8876-9afc06b4f215","6ff20efd-cbe1-4459-8a0a-8e38c6d48a8e","35a298ab-dbdf-438e-a712-dfec34374038","29bc3b9e-3bcd-4a2d-9e66-0fad4a35a722","1839e475-1562-4a2d-9d50-53af13704d6f","16351340-528f-4f78-9bd3-165233108d2d","58cc772e-2015-42f9-b47b-e9c331654f93"
         include themes/catppuccin/macchiato.conf
         showtools shell, reboot, shutdown, firmware, about
+
+        menuentry "NixOS (systemd-boot)" {
+          loader /EFI/systemd/systemd-bootx64.efi
+        }
       '';
     };
 
