@@ -14,9 +14,9 @@
   };
 
   # Bootloader setup (systemd-boot + rEFInd + Secure Boot signing)
-  boot.loader.grub.enable = false;
+  boot.loader.grub.enable = true;
   boot.loader.systemd-boot = {
-    enable = true; 
+    enable = false; 
     configurationLimit = 5;
     extraInstallCommands = ''
       echo "auto-entries no" >> /boot/loader/loader.conf
