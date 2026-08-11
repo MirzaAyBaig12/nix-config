@@ -6,6 +6,9 @@
   # Enable Zsh
   programs.zsh.enable = true; # config lives in modules/home-manager/zsh.nix
 
+  #Enable DirectENV
+  programs.directenv.enable = true;
+
   # Steam
   programs.steam = {
     enable = true;
