@@ -14,7 +14,11 @@
   };
 
   # Bootloader setup (systemd-boot + rEFInd + Secure Boot signing)
-  boot.loader.grub.enable = true;
+  grub = {
+    enable = true;
+    device = "nodev";
+    useOSProber = true;
+  };
   boot.loader.systemd-boot = {
     enable = false; 
     configurationLimit = 5;
