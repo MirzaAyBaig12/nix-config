@@ -19,6 +19,8 @@
     device = "nodev";
     useOSProber = true;
     theme = ../.config/themes/nixos;
+    gfxmodeEfi = "auto";
+    gfxpayloadEfi = "keep";
   };
   boot.loader.systemd-boot = {
     enable = false; 
