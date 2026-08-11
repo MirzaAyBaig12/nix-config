@@ -15,7 +15,7 @@
 
   # Bootloader setup (systemd-boot + rEFInd + Secure Boot signing)
   boot.loader.grub = {
-    enable = true;
+    enable = false;
     device = "nodev";
     useOSProber = true;
     theme = ../.config/themes/nixos;
@@ -23,7 +23,7 @@
     gfxpayloadEfi = "keep";
   };
   boot.loader.systemd-boot = {
-    enable = false; 
+    enable = true; 
     configurationLimit = 5;
     extraInstallCommands = ''
       echo "auto-entries no" >> /boot/loader/loader.conf
