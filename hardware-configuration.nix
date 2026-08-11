@@ -26,13 +26,6 @@
       options = [ "fmask=0022" "dmask=0022" ];
     };
 
-  # Shared partition for Windows and Linux
-  fileSystems."/run/media/ayaan_mirza/Shared" = 
-    { device = "/dev/disk/by-uuid/EDBB-3A7F";
-      fsType = "exfat";
-      options = [ "fmask=0022" "dmask=0022" ];
-    };
-
   swapDevices = [ ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
