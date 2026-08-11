@@ -10,7 +10,7 @@
       "x-systemd.device-timeout=5" # stop waiting after 5s instead of hanging
       "uid=1000"                  # mount owned by your user, not root
       "gid=100"
-      "umask=0022"
+      "umask=0022" 
     ];
   };
 }
