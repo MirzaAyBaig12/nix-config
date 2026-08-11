@@ -93,6 +93,5 @@
     inputs.look.packages.${pkgs.stdenv.hostPlatform.system}.default #Look Launcher (Cachix)
     python3Packages.pip #Python Package Installer
     python3Packages.virtualenv #Python Virtual Environment
-    vscode #Visual Studio Code
   ];
 }
