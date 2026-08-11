@@ -6,6 +6,8 @@
 	],
 	"settings": {
 		"a-file-icon-vscode.arrowTheme": "material",
-		"a-file-icon-vscode.folderColor": "#607d8b"
+		"a-file-icon-vscode.folderColor": "#607d8b",
+		"nixEnvSelector.nixFile": "${workspaceFolder}/configuration.nix",
+		"nixEnvSelector.useFlakes": false
 	}
 }
