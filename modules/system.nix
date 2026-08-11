@@ -18,6 +18,7 @@
     enable = true;
     device = "nodev";
     useOSProber = true;
+    theme = ../.config/themes/nixos;
   };
   boot.loader.systemd-boot = {
     enable = false; 
