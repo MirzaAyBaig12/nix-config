@@ -1,7 +1,8 @@
 { config, pkgs, ... }:
 
 {
-  # Snap & Flatpak
+
+  # Snap & Flatpak (declarative — see flatpak.nix)
   services.snap.enable = false;
   services.flatpak.enable = true;
 
@@ -97,6 +98,29 @@
       '';
       Restart = "always";
       RestartSec = "1s";
+    };
+  };
+
+  # Watches for Flatpaks installed outside of Nix (e.g. via Bazaar) and
+  # appends them into flatpak.nix, correctly formatted for flathub vs cosmic.
+  # Script itself is defined in flatpak.nix (options.custom.flatpakSyncScript).
+  # Systemd user service to execute the sync script
+  systemd.user.services.flatpak-app-sync = {
+    description = "Periodic sync for unmanaged Flatpaks into flatpak.nix";
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${config.custom.flatpakSyncScript}/bin/sync-flatpak-apps";
+    };
+  };
+
+  systemd.user.timers.flatpak-app-sync = {
+    description = "Timer to run Flatpak sync every 5 seconds";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnBootSec = "5s";
+      OnUnitActiveSec = "5s";
+      # You can safely delete the 'Unit =' line since it matches the timer name, 
+      # or change it to: Unit = "flatpak-app-sync.service";
     };
   };
 

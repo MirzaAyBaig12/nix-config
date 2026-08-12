@@ -11,6 +11,7 @@
     sudo-temp = "/run/wrappers/bin/sudo";
     waydroid = "/usr/bin/python3 /usr/bin/waydroid";
     zsh-reload = "omz reload";
+    flatpak = "flatpak && sync-flatpak-apps";
   };
 
   # Bootloader setup (systemd-boot + rEFInd + Secure Boot signing)

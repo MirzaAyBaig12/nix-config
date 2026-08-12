@@ -84,6 +84,9 @@
           # Codex Desktop (ChatGPT Desktop) NixOS module
           codex-desktop-linux.nixosModules.default
 
+          # Declarative Flatpak module
+          nix-flatpak.nixosModules.nix-flatpak
+
           # Enables the snap service inline
           {
             services.snap.enable = false;
