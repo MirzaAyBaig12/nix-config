@@ -32,7 +32,7 @@ let
   };
 
   syncFlatpakAppsScript = pkgs.writers.writePython3Bin "sync-flatpak-apps" {
-    flakeIgnore = [ "E501" "W503" "W504" "E302" "E305" "W293" ];
+    flakeIgnore = [ "E501" "W503" "W504" "E302" "E305" "W293", "F841", "F541" ];
   } ''
     import subprocess
     import re
@@ -67,7 +67,6 @@ let
 
     def git_commit_and_push(added_apps, removed_apps):
         try:
-            # Stage ONLY the flatpak.packages.nix file using absolute git path
             subprocess.run([GIT_BIN, "-C", CONFIG_DIR, "add", "modules/flatpak.packages.nix"], check=True)
             
             if len(added_apps) == 1 and len(removed_apps) == 0:
@@ -79,11 +78,17 @@ let
 
             subprocess.run([GIT_BIN, "-C", CONFIG_DIR, "commit", "-m", msg], check=True)
             
-            # Push ONLY the specific file tracking the flatpak packages
-            subprocess.run([GIT_BIN, "-C", CONFIG_DIR, "push", "origin", "HEAD:main"], check=True)
+            subprocess.run(
+                [GIT_BIN, "-C", CONFIG_DIR, "push", "origin", "HEAD:main"],
+                check=True,
+                capture_output=True,
+                text=True
+            )
             print(f"sync-flatpak-apps: Successfully committed and pushed: {msg}")
         except subprocess.CalledProcessError as e:
-            print(f"sync-flatpak-apps: Git operation failed: {e}")
+            print("sync-flatpak-apps: Git operation failed!")
+            print(f"Stdout: {e.stdout}")
+            print(f"Stderr: {e.stderr}")
 
     def main():
         with open(PACKAGES_NIX, "r") as f:
