@@ -40,6 +40,7 @@ let
 
     CONFIG_DIR = "/home/ayaan_mirza/nix-config"
     PACKAGES_NIX = os.path.join(CONFIG_DIR, "modules/flatpak.packages.nix")
+    GIT_BIN = "${pkgs.git}/bin/git"
 
     def get_installed():
         out = subprocess.check_output(
@@ -66,7 +67,8 @@ let
 
     def git_commit_and_push(added_apps, removed_apps):
         try:
-            subprocess.run(["git", "-C", CONFIG_DIR, "add", "modules/flatpak.packages.nix"], check=True)
+            # Stage ONLY the flatpak.packages.nix file using absolute git path
+            subprocess.run([GIT_BIN, "-C", CONFIG_DIR, "add", "modules/flatpak.packages.nix"], check=True)
             
             if len(added_apps) == 1 and len(removed_apps) == 0:
                 msg = f"Add {list(added_apps)[0]}"
@@ -75,8 +77,10 @@ let
             else:
                 msg = "Update Flatpak packages sync"
 
-            subprocess.run(["git", "-C", CONFIG_DIR, "commit", "-m", msg], check=True)
-            subprocess.run(["git", "-C", CONFIG_DIR, "push", "origin", "HEAD:main"], check=True)
+            subprocess.run([GIT_BIN, "-C", CONFIG_DIR, "commit", "-m", msg], check=True)
+            
+            # Push ONLY the specific file tracking the flatpak packages
+            subprocess.run([GIT_BIN, "-C", CONFIG_DIR, "push", "origin", "HEAD:main"], check=True)
             print(f"sync-flatpak-apps: Successfully committed and pushed: {msg}")
         except subprocess.CalledProcessError as e:
             print(f"sync-flatpak-apps: Git operation failed: {e}")
