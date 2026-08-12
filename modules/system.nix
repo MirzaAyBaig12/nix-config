@@ -153,6 +153,13 @@
 
   boot.supportedFilesystems = [ "squashfs" ]; #Enable squashfs for Snap
 
+  # FHS compat symlinks — some non-Nix apps/scripts hardcode /bin/bash, /bin/sh
+  # instead of resolving via PATH. /usr/bin/env is already provided by NixOS.
+  systemd.tmpfiles.rules = [
+    "L+ /bin/bash - - - - ${pkgs.bash}/bin/bash"
+    "L+ /bin/sh - - - - ${pkgs.bash}/bin/sh"
+  ];
+
   # Networking & Firewall
   networking.hostName = "Axiom";
   networking.networkmanager.enable = true;
