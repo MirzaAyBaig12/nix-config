@@ -32,7 +32,7 @@ let
   };
 
   syncFlatpakAppsScript = pkgs.writers.writePython3Bin "sync-flatpak-apps" {
-    flakeIgnore = [ "E501" "W503" "W504" "E302" "E305" "W293", "F841", "F541" ];
+    flakeIgnore = [ "E501" "W503" "W504" "E302" "E305" "W293" "F841" "F541" ];
   } ''
     import subprocess
     import re
