@@ -13,7 +13,6 @@
     "dev.edfloreshz.CosmicTweaks"
     "fr.arnaudmichel.launcherstudio"
     "io.appflowy.AppFlowy"
-    "io.github.C_Yassin.FlameGet"
     "io.github.Foldex.AdwSteamGtk"
     "io.github.ForWard_Technologies_LLC.Pylux"
     "io.github.cosmic_utils.camera"
@@ -33,8 +32,8 @@
     "org.bleachbit.BleachBit"
     "org.desktop_plus.desktop-plus"
     "org.equicord.equibop"
+    "org.gnome.Chess"
     "org.kde.isoimagewriter"
-    "org.vinegarhq.Sober"
     "uk.co.cappsy.Tesseract"
   ];
 
