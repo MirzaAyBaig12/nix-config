@@ -35,11 +35,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1785816828,
-        "narHash": "sha256-o4Z5CAKCG1ELMB0Z1N98seA+SB5OrLuPactPdWeqPtY=",
+        "lastModified": 1786504940,
+        "narHash": "sha256-hSGqSk4F93o+u0fwaEsR53fFpFVcaumjf4vK9YYvUjE=",
         "owner": "aaddrick",
         "repo": "claude-desktop-debian",
-        "rev": "2d6af53b7dfd0c40b1df004f76dbb36a456c7c83",
+        "rev": "590b5955d5f8545071c6bd18b5bda03da31988f1",
         "type": "github"
       },
       "original": {
@@ -56,11 +56,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1785947843,
-        "narHash": "sha256-1XqKozqcRt2r20n0Ce81+qvo3mGsL1RPCPWuWSyj7tI=",
+        "lastModified": 1786067426,
+        "narHash": "sha256-Qvi7ZJ9MpkUXdeu+zjxYkR92BIvwqp7LpqxbnZzVTOg=",
         "owner": "sadjow",
         "repo": "codex-cli-nix",
-        "rev": "6d7078f8e0c410007311b1ce09f0355c93ff8fb5",
+        "rev": "edc92332229d4e8c658f5f2fda3a8e29280e8a1a",
         "type": "github"
       },
       "original": {
@@ -78,11 +78,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1785998960,
-        "narHash": "sha256-5TfmIK18fXUdD1GWz4wecNSR7j7B6TC22wuqcaWdt/0=",
+        "lastModified": 1786564171,
+        "narHash": "sha256-GTdziG7fru0SXhZXZt3tTGQL0Fzm+EpfEnJzthN+XQ4=",
         "owner": "ilysenko",
         "repo": "codex-desktop-linux",
-        "rev": "f20d8252240f0ee9189faf118b0886c0a3d788a4",
+        "rev": "3252def135b35eb52b86988df15f621dd9ae9e10",
         "type": "github"
       },
       "original": {
@@ -394,11 +394,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1786031233,
-        "narHash": "sha256-TIDlLTLI1/pB7IqgjzcKQjpODQsZE2oII4XGG9B6KjI=",
+        "lastModified": 1786538400,
+        "narHash": "sha256-PH8B1YKxedcWKNw2xsk6cKPVk/rJoLgdlWd5d+Icies=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "7834e82588860aaf780cec1366524456a70898d7",
+        "rev": "e13ba5e5abbd9b912fa8c6979bd119e87ca7fdd9",
         "type": "github"
       },
       "original": {
@@ -436,11 +436,11 @@
       },
       "locked": {
         "dir": "apps/linows",
-        "lastModified": 1786082932,
-        "narHash": "sha256-tcSZAFhDnyB1KL+i1jRnl7nr+43RSiZbnB/POK37vgs=",
+        "lastModified": 1786523178,
+        "narHash": "sha256-coEHXLoAsiF31McP6J6ACtkT3iaIz+gNd5s4uq0XanI=",
         "owner": "kunkka19xx",
         "repo": "look",
-        "rev": "d3fa68a855dc5b2fe7ff344e4ef6bbab43ff53da",
+        "rev": "dbb04b24956477803ef8cebc1d0b66ce71fbe476",
         "type": "github"
       },
       "original": {
@@ -687,11 +687,11 @@
     },
     "nixpkgs_6": {
       "locked": {
-        "lastModified": 1785828668,
-        "narHash": "sha256-8fsyqeO+mJqvIzeO4xIpgJe/f7MTbbVTEC6RT6WSXNs=",
+        "lastModified": 1786514691,
+        "narHash": "sha256-9dkt1i5JNbEfPb+EjLcSDNs8zqEHQ/1JlSaKgj0SBAg=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "e72e4f299401a3689d4b3d5fc6496b11db7064eb",
+        "rev": "867dcbc30bafe3c862ef88620f2e7a109d7d3be5",
         "type": "github"
       },
       "original": {
