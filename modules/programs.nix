@@ -103,5 +103,6 @@
     python3Packages.virtualenv #Python Virtual Environment
     vscode #Visual Studio Code
     zed-editor #Zed Editor
+    distrobox #Distrobox for running containers
   ];
 }
