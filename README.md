@@ -26,7 +26,7 @@ See [`/modules/`](./modules/) for each configuration module, and [`/modules/home
 ### Desktop Environment & Shell
 | | |
 |---|---|
-| **Bootloader** | systemd-boot with Secure Boot signing via sbctl |
+| **Bootloader** | rEFInd chainloading systemd-boot with Secure Boot signing via sbctl |
 | **Boot Theme** | Plymouth (mac-style) |
 | **Optional Boot Menu** | rEFInd with Catppuccin macchiato theme |
 | **Display Manager** | cosmic-greeter |
@@ -58,7 +58,7 @@ See [`/modules/`](./modules/) for each configuration module, and [`/modules/home
 | **Secure Boot** | Enabled via sbctl, auto-signing |
 | **Android Subsystem** | Waydroid |
 | **Package Formats** | Snap, Flatpak, AppImage, Nix |
-
+ 
 Wallpapers: [`/wallpapers`](./.config/wallpapers)
 
 ## Screenshots
