@@ -6,8 +6,12 @@
   # Enable Zsh
   programs.zsh.enable = true; # config lives in modules/home-manager/zsh.nix
 
-  #Enable Direnv
+  # Enable Direnv
   programs.direnv.enable = true;
+
+  # Enable KDE Connect
+  programs.kdeconnect.enable = true;
+
 
   # Steam
   programs.steam = {
