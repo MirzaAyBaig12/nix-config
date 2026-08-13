@@ -12,6 +12,12 @@
   # Enable KDE Connect
   programs.kdeconnect.enable = true;
 
+  # Enable Podman
+  virtualisation.podman = {
+    enable = true;
+    dockerCompat = true;
+    defaultNetwork.settings.dns_enabled = true;
+  };
 
   # Steam
   programs.steam = {
