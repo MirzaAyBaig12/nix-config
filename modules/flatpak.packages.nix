@@ -32,7 +32,6 @@
     "org.bleachbit.BleachBit"
     "org.desktop_plus.desktop-plus"
     "org.equicord.equibop"
-    "org.gnome.Chess"
     "org.kde.isoimagewriter"
     "uk.co.cappsy.Tesseract"
   ];
