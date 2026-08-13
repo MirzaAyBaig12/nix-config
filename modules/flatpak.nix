@@ -41,6 +41,7 @@ let
     CONFIG_DIR = "/home/ayaan_mirza/nix-config"
     PACKAGES_NIX = os.path.join(CONFIG_DIR, "modules/flatpak.packages.nix")
     GIT_BIN = "${pkgs.git}/bin/git"
+    SSH_BIN = "${pkgs.openssh}/bin/ssh"
 
     def get_installed():
         out = subprocess.check_output(
@@ -67,7 +68,10 @@ let
 
     def git_commit_and_push(added_apps, removed_apps):
         try:
-            subprocess.run([GIT_BIN, "-C", CONFIG_DIR, "add", "modules/flatpak.packages.nix"], check=True)
+            env = os.environ.copy()
+            env["GIT_SSH"] = SSH_BIN
+
+            subprocess.run([GIT_BIN, "-C", CONFIG_DIR, "add", "modules/flatpak.packages.nix"], check=True, env=env)
             
             if len(added_apps) == 1 and len(removed_apps) == 0:
                 msg = f"Add {list(added_apps)[0]}"
@@ -76,13 +80,14 @@ let
             else:
                 msg = "Update Flatpak packages sync"
 
-            subprocess.run([GIT_BIN, "-C", CONFIG_DIR, "commit", "-m", msg], check=True)
+            subprocess.run([GIT_BIN, "-C", CONFIG_DIR, "commit", "-m", msg], check=True, env=env)
             
             subprocess.run(
                 [GIT_BIN, "-C", CONFIG_DIR, "push", "origin", "HEAD:main"],
                 check=True,
                 capture_output=True,
-                text=True
+                text=True,
+                env=env
             )
             print(f"sync-flatpak-apps: Successfully committed and pushed: {msg}")
         except subprocess.CalledProcessError as e:
