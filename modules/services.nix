@@ -118,7 +118,7 @@
     wantedBy = [ "timers.target" ];
     timerConfig = {
       OnBootSec = "5s";
-      OnUnitActiveSec = "5s";
+      OnUnitActiveSec = "5min";
       # You can safely delete the 'Unit =' line since it matches the timer name, 
       # or change it to: Unit = "flatpak-app-sync.service";
     };
