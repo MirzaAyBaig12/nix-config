@@ -74,7 +74,7 @@
           nix-snapd.nixosModules.default 
 
           # Codex Desktop (ChatGPT Desktop) NixOS module
-          codex-desktop-linux.nixosModules.default
+          codex-desktop-linux.nixosModules.default 
 
           # Declarative Flatpak module
           nix-flatpak.nixosModules.nix-flatpak
