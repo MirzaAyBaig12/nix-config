@@ -22,15 +22,7 @@
     nix-flatpak.url = "github:gmodena/nix-flatpak";
 
     # 5. Codex Desktop (Linux) — ChatGPT Desktop, installed via its
-    # NixOS module so the launcher gets wrapped with CODEX_CLI_PATH.
     codex-desktop-linux.url = "github:ilysenko/codex-desktop-linux";
-    codex-desktop-linux.inputs.nixpkgs.follows = "nixpkgs";
-
-    # 5b. Community Codex CLI (unofficial, not maintained by the
-    # codex-desktop-linux project) — provides the actual `codex`
-    # binary that ChatGPT Desktop needs at runtime.
-    codex-cli-nix.url = "github:sadjow/codex-cli-nix/main";
-    codex-cli-nix.inputs.nixpkgs.follows = "nixpkgs";
 
     # 6. Claude Desktop (unofficial Linux build)
     claude-desktop.url = "github:aaddrick/claude-desktop-debian";
