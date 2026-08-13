@@ -40,7 +40,7 @@
   # Codex Desktop
   programs.codexDesktopLinux = {
     enable = true;
-    cliPackage = inputs.codex-cli-nix.packages.${pkgs.stdenv.hostPlatform.system}.default;
+    package = inputs.codex-cli-nix.packages.${pkgs.stdenv.hostPlatform.system}.default;
   };
 
   # Session Variables
