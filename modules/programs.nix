@@ -102,5 +102,6 @@
     python3Packages.pip #Python Package Installer
     python3Packages.virtualenv #Python Virtual Environment
     vscode #Visual Studio Code
+    zed-editor #Zed Editor
   ];
 }
