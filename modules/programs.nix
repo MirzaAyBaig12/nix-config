@@ -110,6 +110,6 @@
     vscode #Visual Studio Code
     zed-editor #Zed Editor
     distrobox #Distrobox for running containers
-    ksshaskpass #KDE SSH Password Prompt
+    kdePackages.ksshaskpass #KDE SSH Password Prompt
   ];
 }
