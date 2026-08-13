@@ -41,7 +41,7 @@
   programs.codexDesktopLinux = {
     enable = true;
     linuxFeatures = [ "read-aloud" ];
-  };
+  }; 
 
   # Session Variables
   environment.sessionVariables = {
