@@ -11,7 +11,7 @@
         "treefmt-nix": [
           "iloader",
           "treefmt-nix"
-        ]
+        ] 
       },
       "locked": {
         "lastModified": 1778446047,
