@@ -106,6 +106,15 @@
   # (Manual sbctl signing service removed — lanzaboote handles signing
   # automatically on every generation now, no separate service needed.)
 
+  # Re-install rEFInd and re-sign it for secure boot after every rebuild
+  system.activationScripts.refind-sign = {
+    text = ''
+      ${pkgs.doas}/bin/doas ${pkgs.refind}/bin/refind-install
+      ${pkgs.doas}/bin/doas ${pkgs.sbctl}/bin/sbctl sign /boot/EFI/refind/wtvvr
+    '';
+    deps = [ ];
+  };
+
   # Plymouth boot theme & silent boot
   boot.plymouth = {
     enable = true;
