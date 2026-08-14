@@ -56,6 +56,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # 14. Lanzaboote — Secure Boot for NixOS (floats on default branch,
+    # updates with `nix flake update` instead of a pinned tag)
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
   };
 
@@ -78,6 +84,10 @@
 
           # Declarative Flatpak module
           nix-flatpak.nixosModules.nix-flatpak
+
+          # Lanzaboote — Secure Boot module (replaces systemd-boot;
+          # actual boot.lanzaboote settings live in configuration.nix / modules)
+          inputs.lanzaboote.nixosModules.lanzaboote
 
           # Enables the snap service inline
           {
