@@ -14,7 +14,6 @@
     flake = "/home/ayaan_mirza/nix-config"; # sets NH_OS_FLAKE variable for you
   };
 
-
   # Enable Direnv
   programs.direnv.enable = true;
 
@@ -120,5 +119,6 @@
     zed-editor #Zed Editor
     distrobox #Distrobox for running containers
     kdePackages.ksshaskpass #KDE SSH Password Prompt
+    sourcegit #SourceGit for GitHub Repositories
   ];
 }
