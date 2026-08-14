@@ -24,7 +24,7 @@
       "original": {
         "owner": "nix-community",
         "repo": "bun2nix",
-        "type": "github"
+        "type": "github" 
       }
     },
     "claude-desktop": {
