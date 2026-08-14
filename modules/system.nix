@@ -1,6 +1,28 @@
 { config, lib, pkgs, ... }:
 
 {
+  # Explicit env vars for nh (belt-and-suspenders alongside programs.nh.flake,
+  # since NH_FLAKE via the module option has been flaky to propagate to
+  # already-open shells after a rebuild)
+  environment.variables = {
+    NH_FLAKE = "/home/ayaan_mirza/nix-config";
+    NH_OS_FLAKE = "/home/ayaan_mirza/nix-config";
+  };
+
+  environment.systemPackages = [ pkgs.exfatprogs ];
+
+    fileSystems."/mnt/Shared" = {
+      device = "/dev/disk/by-uuid/7AFE-F4AA";
+      fsType = "exfat";
+      options = [
+        "nofail"                    # don't block boot if this fails to mount
+        "x-systemd.device-timeout=5" # stop waiting after 5s instead of hanging
+        "uid=1000"                  # mount owned by your user, not root
+        "gid=100"
+        "umask=0022" 
+      ];
+    };
+
   # Shell aliases
   environment.shellAliases = {
     nix-hwgen = "doas nixos-generate-config --dir ~/nix-config";
