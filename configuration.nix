@@ -13,7 +13,6 @@
       ./modules/desktop.nix #import desktop configuration module
       ./modules/programs.nix #import programs configuration module
       ./modules/services.nix #import services configuration module
-      ./modules/mounts.nix #import mounts configuration module 
       ./modules/flatpak.nix #import flatpak configuration module
       
     #import home-manager module
