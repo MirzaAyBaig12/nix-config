@@ -109,8 +109,8 @@
   # Re-install rEFInd and re-sign it for secure boot after every rebuild
   system.activationScripts.refind-sign = {
     text = ''
-      ${pkgs.doas}/bin/doas ${pkgs.refind}/bin/refind-install
-      ${pkgs.doas}/bin/doas ${pkgs.sbctl}/bin/sbctl sign /boot/EFI/refind/wtvvr
+      ${pkgs.doas}/bin/doas ${pkgs.refind}/bin/refind-install --yes
+      ${pkgs.doas}/bin/doas ${pkgs.sbctl}/bin/sbctl sign /boot/EFI/refind/refind_x64.efi
     '';
     deps = [ ];
   };
