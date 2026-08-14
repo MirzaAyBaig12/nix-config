@@ -21,7 +21,7 @@
         "rev": "f2bc12af1a6369648aac41041ceeaa0b866599c6",
         "type": "github"
       },
-      "original": { 
+      "original": {  
         "owner": "nix-community",
         "repo": "bun2nix",
         "type": "github" 
