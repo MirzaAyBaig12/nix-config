@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   # Shell aliases
@@ -23,35 +23,17 @@
     gfxmodeEfi = "auto";
     gfxpayloadEfi = "keep";
   };
-  boot.loader.systemd-boot = {
-    enable = true; 
-    configurationLimit = 5;
-    extraInstallCommands = ''
-      echo "auto-entries no" >> /boot/loader/loader.conf
-      echo "auto-firmware no" >> /boot/loader/loader.conf
+  # Lanzaboote replaces systemd-boot's own bootloader install step, but the
+  # systemd-boot options below (configurationLimit, timeout) still apply —
+  # lanzaboote uses them, it just signs everything automatically on top.
+  boot.loader.systemd-boot.enable = lib.mkForce false;
 
-      if ${pkgs.sbctl}/bin/sbctl status 2>/dev/null | grep -qi "Setup Mode:.*Disabled"; then
-        for dir in \
-          /boot/EFI/BOOT \
-          /boot/EFI/fydeos \
-          /boot/EFI/grub \
-          /boot/EFI/Linux \
-          /boot/EFI/nixos \
-          /boot/EFI/refind \
-          /boot/EFI/systemd \
-          /boot/EFI/tools
-        do
-          if [ -d "$dir" ]; then
-            while IFS= read -r file; do
-              ${pkgs.sbctl}/bin/sbctl sign -s "$file" || true
-            done < <(find "$dir" -type f \( -iname "*.efi" -o -iname "bzimage" -o -iname "initrd*" -o -iname "initramfs*" \) 2>/dev/null)
-          fi
-        done
-        ${pkgs.sbctl}/bin/sbctl sign-all || true
-      fi
-    '';
+  boot.lanzaboote = {
+    enable = true;
+    pkiBundle = "/var/lib/sbctl"; # reuses your existing enrolled sbctl keys
   };
 
+  boot.loader.systemd-boot.configurationLimit = 3;
   boot.loader.timeout = 0;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot";
@@ -99,40 +81,8 @@
       '';
     };
 
-  # Auto re-sign specified binaries/kernels safely on change with explicit paths
-  systemd.services.sign-all-efi = {
-    description = "Sign specified ESP binaries and kernels explicitly for Secure Boot";
-    serviceConfig.Type = "oneshot";
-    script = ''
-      if ${pkgs.sbctl}/bin/sbctl status 2>/dev/null | grep -qi "Setup Mode:.*Disabled"; then
-        for dir in \
-          /boot/EFI/BOOT \
-          /boot/EFI/fydeos \
-          /boot/EFI/grub \
-          /boot/EFI/Linux \
-          /boot/EFI/nixos \
-          /boot/EFI/refind \
-          /boot/EFI/systemd \
-          /boot/EFI/tools
-        do
-          if [ -d "$dir" ]; then
-            while IFS= read -r file; do
-              ${pkgs.sbctl}/bin/sbctl sign -s "$file" || true
-            done < <(find "$dir" -type f \( -iname "*.efi" -o -iname "bzimage" -o -iname "initrd*" -o -iname "initramfs*" \) 2>/dev/null)
-          fi
-        done
-        ${pkgs.sbctl}/bin/sbctl sign-all || true
-      fi
-    '';
-  };
-
-  systemd.paths.sign-all-efi = {
-    wantedBy = [ "multi-user.target" ];
-    pathConfig = {
-      PathModified = "/boot/EFI/refind/BOOTX64.EFI";
-      Unit = "sign-all-efi.service";
-    };
-  };
+  # (Manual sbctl signing service removed — lanzaboote handles signing
+  # automatically on every generation now, no separate service needed.)
 
   # Plymouth boot theme & silent boot
   boot.plymouth = {
