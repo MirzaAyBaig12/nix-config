@@ -35,6 +35,7 @@
     "org.gnome.Chess"
     "org.kde.isoimagewriter"
     "uk.co.cappsy.Tesseract"
+    "com.tomjwatson.Emote"
   ];
 
   cosmic = [
