@@ -35,7 +35,6 @@
     "org.gnome.Chess"
     "org.kde.isoimagewriter"
     "uk.co.cappsy.Tesseract"
-    "xyz.riothedev.emojify"
   ];
 
   cosmic = [
