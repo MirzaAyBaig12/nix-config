@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 
 {
-
   # Explicit env vars for nh (belt-and-suspenders alongside programs.nh.flake,
   # since NH_FLAKE via the module option has been flaky to propagate to
   # already-open shells after a rebuild)
