@@ -98,6 +98,11 @@
           {
             nixpkgs.overlays = [ mac-style-plymouth.overlays.default ];
           }
+
+          # Tags each generation with the git revision it was built from
+          {
+            system.configurationRevision = self.rev or self.dirtyRev or "dirty";
+          }
         ];
       };
     };
