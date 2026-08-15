@@ -107,6 +107,7 @@
   };
 
   systemd.user.timers.flatpak-app-sync = {
+    enable = false; # disabled — adding flatpaks manually now instead
     description = "Timer to run Flatpak sync every 5 seconds";
     wantedBy = [ "timers.target" ];
     timerConfig = {
