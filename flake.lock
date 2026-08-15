@@ -405,11 +405,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1785621548,
-        "narHash": "sha256-OgSDkFaOwhsEhFLceV0FxcZ8jEG9vy5fKQf9gSyUpNA=",
+        "lastModified": 1786751125,
+        "narHash": "sha256-P1jp1klBkjQziK8cRcCq34KEMTi/f/yxOuDSGIjZK7s=",
         "owner": "nab138",
         "repo": "iloader",
-        "rev": "8547013c50b86087fb542bc14aafa4c6c60e6638",
+        "rev": "9d4abd327975afc4450f22d769c4537bab1e0000",
         "type": "github"
       },
       "original": {
@@ -448,11 +448,11 @@
       },
       "locked": {
         "dir": "apps/linows",
-        "lastModified": 1786724924,
-        "narHash": "sha256-ETp8E8D4sY44g51TPH3tBYpgJXoDK2gRACYKZEKRoZg=",
+        "lastModified": 1786759545,
+        "narHash": "sha256-ZY0fAwUeVavp33eJAZcqpWu92ba+BHkqcVzqGLB8M0g=",
         "owner": "kunkka19xx",
         "repo": "look",
-        "rev": "398801c9cdbfaa7ca8093fd5e9004f4e08530ab6",
+        "rev": "e0a0e95c44a86ed8d165ef872c650ef00dbdeaa1",
         "type": "github"
       },
       "original": {
