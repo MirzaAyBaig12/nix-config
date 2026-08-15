@@ -14,6 +14,10 @@
     flake = "/home/ayaan_mirza/nix-config"; # sets NH_OS_FLAKE variable for you
   };
 
+  # dconf backend — needed for GTK3/4 apps and anything reading/writing
+  # via gsettings (theme, color-scheme, etc.)
+  programs.dconf.enable = true;
+
   # Enable Direnv
   programs.direnv.enable = true;
 
