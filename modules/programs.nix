@@ -120,5 +120,6 @@
     distrobox #Distrobox for running containers
     kdePackages.ksshaskpass #KDE SSH Password Prompt
     sourcegit #SourceGit for GitHub Repositories
+    idescriptor #iDescriptor for iOS Device Management
   ];
 }
