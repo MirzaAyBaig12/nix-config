@@ -12,6 +12,12 @@
       export PATH="/home/ayaan_mirza/.local/share/pi-node/node-v22.23.2-linux-x64/bin:$PATH"
       mkdir -p "$HOME/.cache/zsh"
       export ZSH_COMPDUMP="$HOME/.cache/zsh/zcompdump-$ZSH_VERSION"
+
+      # Runs the real flatpak command with your args first, then syncs
+      # flatpak.packages.nix only if that command succeeded
+      flatpak() {
+        command flatpak "$@" && sync-flatpak-apps
+      }
     '';
     oh-my-zsh = {
       enable = true;
