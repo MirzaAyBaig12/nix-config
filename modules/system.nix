@@ -1,9 +1,6 @@
 { config, lib, pkgs, ... }:
 
 {
-  # dconf backend — needed for GTK3/4 apps and anything reading/writing
-  # via gsettings (theme, color-scheme, etc.)
-  programs.dconf.enable = true;
 
   # Explicit env vars for nh (belt-and-suspenders alongside programs.nh.flake,
   # since NH_FLAKE via the module option has been flaky to propagate to
