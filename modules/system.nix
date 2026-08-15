@@ -36,81 +36,27 @@
     flatpak = "flatpak && sync-flatpak-apps";
   };
 
-  # Bootloader setup (systemd-boot + rEFInd + Secure Boot signing)
-  boot.loader.grub = {
-    enable = false;
-    device = "nodev";
-    useOSProber = true;
-    theme = ../.config/themes/nixos;
-    gfxmodeEfi = "auto";
-    gfxpayloadEfi = "keep";
-  };
-  # Lanzaboote replaces systemd-boot's own bootloader install step, but the
-  # systemd-boot options below (configurationLimit, timeout) still apply —
-  # lanzaboote uses them, it just signs everything automatically on top.
-  boot.loader.systemd-boot.enable = lib.mkForce false;
-
+  # Bootloader setup (Lanzaboote — signed UKIs for Secure Boot)
   boot.lanzaboote = {
     enable = true;
     pkiBundle = "/var/lib/sbctl"; # reuses your existing enrolled sbctl keys
   };
 
-  boot.loader.systemd-boot.configurationLimit = 3;
   boot.loader.timeout = 0;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot";
 
-  boot.loader.refind =
-    let
-      catppuccinSrc = pkgs.fetchFromGitHub {
-        owner = "catppuccin";
-        repo = "refind";
-        rev = "main";
-        sha256 = "sha256-34+MkvWEp3xq6Di1uWKR4ieaG4t2rufnRRN1/V0WRfw=";
-      };
-      macchiatoFiles =
-        [
-          "macchiato.conf"
-          "assets/macchiato/background.png"
-          "assets/macchiato/selection_big.png"
-          "assets/macchiato/selection_small.png"
-        ]
-        ++ (map (n: "assets/macchiato/icons/${n}") (
-          builtins.attrNames (builtins.readDir "${catppuccinSrc}/assets/macchiato/icons")
-        ));
-    in
-    {
-      enable = false;
-      maxGenerations = 3;
-      additionalFiles = builtins.listToAttrs (
-        map (f: {
-          name = "themes/catppuccin/${f}";
-          value = "${catppuccinSrc}/${f}";
-        }) macchiatoFiles
-      );
-      extraConfig = ''
-        use_nvram false
-        use_graphics_for osx,linux
-        scanfor manual
-        scan_delay 0
-        dont_scan_volumes "9cc244c7-0ef4-463a-8876-9afc06b4f215","6ff20efd-cbe1-4459-8a0a-8e38c6d48a8e","35a298ab-dbdf-438e-a712-dfec34374038","29bc3b9e-3bcd-4a2d-9e66-0fad4a35a722","1839e475-1562-4a2d-9d50-53af13704d6f","16351340-528f-4f78-9bd3-165233108d2d","58cc772e-2015-42f9-b47b-e9c331654f93"
-        include themes/catppuccin/macchiato.conf
-        showtools shell, reboot, shutdown, firmware, about
-
-        menuentry "NixOS (systemd-boot)" {
-          loader /EFI/systemd/systemd-bootx64.efi
-        }
-      '';
-    };
-
-  # (Manual sbctl signing service removed — lanzaboote handles signing
-  # automatically on every generation now, no separate service needed.)
-
-  # Re-install rEFInd and re-sign it for secure boot after every rebuild
+  # Re-install rEFInd and re-sign it after every rebuild (chainloads
+  # Lanzaboote's signed UKIs + Windows). Activation scripts already run
+  # as root, so no doas here — doas caused emergency-mode boot failures
+  # on gens 133/134 (PAM helper wasn't reachable this early in boot).
+  # PATH is extended because activation scripts run with a stripped PATH
+  # that doesn't include sed/coreutils, which refind-install needs internally.
   system.activationScripts.refind-sign = {
     text = ''
-      ${pkgs.doas}/bin/doas ${pkgs.refind}/bin/refind-install --yes
-      ${pkgs.doas}/bin/doas ${pkgs.sbctl}/bin/sbctl sign /boot/EFI/refind/refind_x64.efi
+      export PATH="${lib.makeBinPath [ pkgs.gnused pkgs.gawk pkgs.coreutils pkgs.gnugrep pkgs.util-linux ]}:$PATH"
+      ${pkgs.refind}/bin/refind-install --yes
+      ${pkgs.sbctl}/bin/sbctl sign /boot/EFI/refind/refind_x64.efi
     '';
     deps = [ ];
   };
