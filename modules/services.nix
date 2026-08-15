@@ -37,25 +37,6 @@
     fi
   '';
 
-  # 2. Boot -> Repo (Pushes live changes made in EFI to your git repo on startup)
-  systemd.services.syncRefindToRepo = {
-    description = "Sync manual rEFInd changes back to dotfiles repo";
-    wantedBy = [ "multi-user.target" ];
-    script = ''
-      REFIND_ESP="/boot/EFI/refind"
-      REFIND_REPO="/home/ayaan_mirza/nix-config/.config/refind/"
-
-      if [ -d "$REFIND_ESP" ] && [ -d "$REFIND_REPO" ]; then
-        # Copy newer files from ESP back to the repo
-        cp -ru "$REFIND_ESP"/* "$REFIND_REPO"/
-        chown -R ayaan_mirza:users "$REFIND_REPO"
-      fi
-    '';
-    serviceConfig = {
-      Type = "oneshot";
-    };
-  };
-
   # Graphical background daemons & watchdogs
   systemd.user.services.polkit-gnome-authentication-agent-1 = {
     description = "polkit-gnome-authentication-agent-1";
