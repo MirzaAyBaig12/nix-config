@@ -29,13 +29,6 @@
 
   #Enable USBMUXD for iOS device management
   services.usbmuxd.enable = true;
- 
-  # 1. Repo -> Boot (Pushes your git changes to the EFI partition on every nixos-rebuild)
-  system.activationScripts.syncRefindToBoot = ''
-    if [ -d /boot/EFI/refind ] && [ -d /home/ayaan_mirza/nix-config/dotfiles/refind ]; then
-      cp -rf /home/ayaan_mirza/nix-config/dotfiles/refind/* /boot/EFI/refind/
-    fi
-  '';
 
   # Graphical background daemons & watchdogs
   systemd.user.services.polkit-gnome-authentication-agent-1 = {
