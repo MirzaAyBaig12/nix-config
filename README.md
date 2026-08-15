@@ -21,6 +21,48 @@ See [`/.config/refind`](./.config/refind/) for my rEFInd configuration and theme
 
 See [`/modules/`](./modules/) for each configuration module, and [`/modules/home-manager/`](./modules/home-manager/) for user-specific config files configured as modules within home-manager.
  
+## Hardware
+
+**Axiom** — HP Pavilion x360
+- **CPU:** Intel Core i7-1255U
+- **GPU:** Intel Iris Xe (integrated)
+- **RAM:** 16GB
+
+> Getting a new machine at some point down the line — when that happens this section (and probably a lot of hardware-specific config) gets an update.
+
+## Structure
+
+```
+.
+├── .config/
+│   ├── fastfetch/                 # fastfetch configs (synced to Home Manager)
+│   ├── refind/                    # rEFInd configuration files
+│   ├── themes/
+│   └── wallpapers/
+├── modules/
+│   ├── desktop.nix                 # cosmic-greeter, Cosmic + Plasma6, PipeWire, CUPS, fonts, 
+│   ├── flatpak.nix                 # declarative Flatpak remotes/packages + sync-flatpak-apps (auto-commits installs/removals)
+│   ├── flatpak.packages.nix        # generated — do not hand-edit, sync-flatpak-apps owns this file
+│   ├── home-manager.nix            # wires up Home Manager, imports the home-manager/ modules below
+│   ├── home-manager/
+│   │   ├── fastfetch.nix           # links .config/fastfetch into the HM profile
+│   │   ├── nixd.nix                # VS Code nixd LSP settings, points at this flake's own option tree
+│   │   ├── programs.hm.nix         # user-level home.packages
+│   │   └── zsh.nix                 # Oh-My-Zsh, PATH exports, flatpak() wrapper that triggers the sync script
+│   ├── programs.nix                # shell aliases, system packages, Steam/Librewolf/Codex Desktop, nix-ld, appimage support
+│   ├── services.nix                # doas/sudo, user account
+│   └── system.nix                  # bootloader, Secure Boot signing via sbctl, Plymouth, networking, Waydroid
+├── packages/
+│   ├── cosmic-ext-applet-mounter.nix
+│   ├── cosmic-ext-control-center.nix
+│   └── winpodx.nix                 # containerized Windows via Podman, built from its own flake
+├── _img/                           # README screenshots
+├── CLAUDE.md                       
+├── configuration.nix               # entry point — imports every module
+├── flake.nix / flake.lock
+└── hardware-configuration.nix
+```
+
 ## Components
 
 ### Desktop Environment & Shell
