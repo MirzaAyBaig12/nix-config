@@ -121,5 +121,7 @@
     kdePackages.ksshaskpass #KDE SSH Password Prompt
     sourcegit #SourceGit for GitHub Repositories
     idescriptor #iDescriptor for iOS Device Management
+    hplip #HP Linux Imaging and Printing
+    system-config-printer #Printer Configuration GUI
   ];
 }
