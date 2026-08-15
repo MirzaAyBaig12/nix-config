@@ -7,6 +7,7 @@
   environment.variables = {
     NH_FLAKE = "/home/ayaan_mirza/nix-config";
     NH_OS_FLAKE = "/home/ayaan_mirza/nix-config";
+    NH_ELEVATION_STRATEGY = "doas";
   };
 
   environment.systemPackages = [ pkgs.exfatprogs ];
