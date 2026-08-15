@@ -29,8 +29,6 @@
     "io.missioncenter.MissionCenter"
     "io.podman_desktop.PodmanDesktop"
     "it.mijorus.gearlever"
-    "net.codelogistics.webapps"
-    "net.cozic.joplin_desktop"
     "org.bleachbit.BleachBit"
     "org.desktop_plus.desktop-plus"
     "org.equicord.equibop"
