@@ -21,8 +21,7 @@
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  nix.settings.extra-substituters = [ "https://look.cachix.org" ];
-  nix.settings.extra-trusted-public-keys = [ "look.cachix.org-1:8elPCeSVBzlDZXqIRKBK9GyLIK/Hoe1xiWZF0ir7uX4=" ];
+  nix.settings.trusted-users = [ "root" "ayaan_mirza" ];
   nixpkgs.config.allowUnfree = true;
 
   time.timeZone = "America/Vancouver";
