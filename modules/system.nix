@@ -10,6 +10,7 @@
     NH_ELEVATION_STRATEGY = "doas";
     XCURSOR_THEME = "Bibata-Material-Slate";
     XCURSOR_SIZE = "20";
+    GTK_THEME = "Orchis-Purple-Dark:dark";
   };
 
 
