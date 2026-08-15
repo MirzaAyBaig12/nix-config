@@ -30,6 +30,25 @@
   #Enable USBMUXD for iOS device management
   services.usbmuxd.enable = true;
 
+  # CUPS printing — using hplip drivers only (hp-* GUI utilities are
+  # broken on python3.14, see hplip URLopener issue; CUPS web UI at
+  # localhost:631 doesn't depend on those scripts, drivers still work)
+  services.printing = {
+    enable = true;
+    drivers = [ pkgs.hplip ];
+  };
+
+  # Enables scanning support (also uses hplip's sane backend)
+  hardware.sane.enable = true;
+  hardware.sane.extraBackends = [ pkgs.hplipWithPlugin ];
+
+  # Printer/scanner discovery on the local network
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+  };
+
   # Graphical background daemons & watchdogs
   systemd.user.services.polkit-gnome-authentication-agent-1 = {
     description = "polkit-gnome-authentication-agent-1";
