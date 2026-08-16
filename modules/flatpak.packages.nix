@@ -37,7 +37,6 @@
     "org.kde.isoimagewriter"
     "uk.co.cappsy.Tesseract"
     "xyz.riothedev.emojify"
-    "com.jetbrains.IntelliJ-IDEA-Ultimate"
   ];
 
   cosmic = [
