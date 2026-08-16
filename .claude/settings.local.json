@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(nixos-rebuild test *)",
+      "Bash(sudo nixos-rebuild test --flake ~/nix-config#Axiom)",
+      "Bash(journalctl *)",
+      "Bash(systemctl *)"
+    ]
+  }
+}
