@@ -129,5 +129,6 @@
     hplip #HP Linux Imaging and Printing
     system-config-printer #Printer Configuration GUI
     gnome-boxes #GNOME Boxes Virtualization 
+    gsettings-desktop-schemas #GSettings Desktop Schemas
   ];
 }
