@@ -128,5 +128,6 @@
     idescriptor #iDescriptor for iOS Device Management
     hplip #HP Linux Imaging and Printing
     system-config-printer #Printer Configuration GUI
+    gnome-boxes #GNOME Boxes Virtualization 
   ];
 }
