@@ -7,6 +7,7 @@
     "com.github.tchx84.Flatseal"
     "com.github.unrud.VideoDownloader"
     "com.indomitusgroup.indipdf"
+    "com.jetbrains.IntelliJ-IDEA-Ultimate"
     "com.jetbrains.WebStorm"
     "com.spotify.Client"
     "com.vscodium.codium"
