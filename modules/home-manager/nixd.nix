@@ -2,7 +2,7 @@
 
 {
   programs.vscode = {
-    userSettings = {
+    profiles.default.userSettings = {
       "nix.serverSettings" = {
         "nixd" = {
           "options" = {
