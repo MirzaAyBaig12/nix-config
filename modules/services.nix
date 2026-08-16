@@ -49,51 +49,6 @@
     openFirewall = true;
   };
 
-  # Graphical background daemons & watchdogs
-  systemd.user.services.polkit-gnome-authentication-agent-1 = {
-    description = "polkit-gnome-authentication-agent-1";
-    wantedBy = [ "graphical-session.target" ];
-    wants = [ "graphical-session.target" ];
-    after = [ "graphical-session.target" ];
-    serviceConfig = {
-      Type = "simple";
-      ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-      Restart = "on-failure";
-      RestartSec = 1;
-      TimeoutStopSec = 10;
-    };
-  };
-
-  systemd.user.services.fcc-server = {
-    description = "FCC Server Background Daemon";
-    wantedBy = [ "graphical-session.target" ];
-    partOf = [ "graphical-session.target" ];
-    serviceConfig = {
-      Type = "simple";
-      ExecStart = "%h/.local/bin/fcc-server";
-      Restart = "always";
-      RestartSec = 5;
-    };
-  };
-
-  systemd.user.services.cosmic-osd-watcher = {
-    description = "Watchdog for cosmic-osd";
-    wantedBy = [ "graphical-session.target" ];
-    partOf = [ "graphical-session.target" ];
-    serviceConfig = {
-      ExecStart = pkgs.writeShellScript "watch-cosmic-osd" ''
-        while true; do
-            if ! pgrep -x "cosmic-osd" > /dev/null; then
-                pkill cosmic-osd || true
-            fi
-            sleep 1
-        done
-      '';
-      Restart = "always";
-      RestartSec = "1s";
-    };
-  };
-
   # Watches for Flatpaks installed outside of Nix (e.g. via Bazaar) and
   # appends them into flatpak.nix, correctly formatted for flathub vs cosmic.
   # Script itself is defined in flatpak.nix (options.custom.flatpakSyncScript).
