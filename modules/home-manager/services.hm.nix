@@ -34,27 +34,5 @@
         RestartSec = 5;
       };
     };
-
-    cosmic-osd-watcher = {
-      Unit = {
-        Description = "Watchdog for cosmic-osd";
-        PartOf = [ "graphical-session.target" ];
-      };
-      Install = {
-        WantedBy = [ "graphical-session.target" ];
-      };
-      Service = {
-        ExecStart = toString (pkgs.writeShellScript "watch-cosmic-osd" ''
-          while true; do
-              if ! pgrep -x "cosmic-osd" > /dev/null; then
-                  pkill cosmic-osd || true
-              fi
-              sleep 1
-          done
-        '');
-        Restart = "always";
-        RestartSec = "1s";
-      };
-    };
   };
 }
