@@ -83,6 +83,7 @@
     kdePackages.partitionmanager #Partition Management Tool
     curl #Command Line Downloader
     (pkgs.callPackage ../packages/cosmic-ext-control-center.nix {}) #Control Center Applet for COSMIC DE
+    (pkgs.callPackage ../packages/cosmic-ext-applet-mounter.nix {}) #Cloud Storage Mounting Applet for COSMIC DE
     efibootmgr #CLI EFI Entry Management
     sbctl #Secure Boot Management
     claude-desktop-fhs #Claude Desktop app for NixOS
