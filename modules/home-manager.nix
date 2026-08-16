@@ -12,6 +12,8 @@
         ./home-manager/fastfetch.nix
         ./home-manager/zsh.nix
         ./home-manager/gtk.nix
+        ./home-manager/nixd.nix
+        ./home-manager/services.hm.nix
       ];
 
       home.stateVersion = "26.05";
