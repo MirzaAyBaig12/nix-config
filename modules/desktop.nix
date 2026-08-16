@@ -9,6 +9,11 @@
   services.desktopManager.plasma6.enable = true;
   services.pantheon.apps.enable = false;
 
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-cosmic ];
+  };
+
   services.gnome.gnome-keyring.enable = true;
   security.pam.services = {
     login.enableGnomeKeyring = true;
