@@ -61,6 +61,15 @@ stdenv.mkDerivation {
     cp -r extracted/usr/* $out/
   '';
 
+  # Upstream only ships one plain (non-symbolic) icon, but COSMIC's applet
+  # list looks up "<Icon>-symbolic" for panel-applet entries and shows a
+  # blank slot if that name doesn't resolve. Symlink the existing SVG under
+  # the -symbolic name too so it satisfies that lookup.
+  postInstall = ''
+    ln -s io.github.uutzinger.cosmic-ext-applet-mounter.svg \
+      $out/share/icons/hicolor/scalable/apps/io.github.uutzinger.cosmic-ext-applet-mounter-symbolic.svg
+  '';
+
   meta = {
     description = "COSMIC Desktop Cloud Storage Mounting Applet";
     homepage = "https://github.com/uutzinger/cosmic-ext-applet-mounter";
