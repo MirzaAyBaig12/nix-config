@@ -12,14 +12,12 @@
     "fr.arnaudmichel.launcherstudio"
     "io.github.Foldex.AdwSteamGtk"
     "io.github.cosmic_utils.camera"
-    "io.github.dvlv.boxbuddyrs"
     "io.github.flattool.Warehouse"
     "io.github.giantpinkrobots.bootqt"
     "io.github.justinrdonnelly.bouncer"
     "io.github.kolunmi.Bazaar"
     "io.github.nacho.mecalin"
     "io.github.shiftey.Desktop"
-    "io.github.shonubot.Spruce"
     "io.github.streetpea.Chiaki4deck"
     "io.gitlab.adhami3310.Impression"
     "io.missioncenter.MissionCenter"
@@ -43,7 +41,6 @@
     { appId = "dev.cappsy.CosmicExtAppletLogoMenu"; origin = "cosmic"; }
     { appId = "io.github.cosmic_utils.cosmic-ext-applet-external-monitor-brightness"; origin = "cosmic"; }
     { appId = "io.github.cosmic_utils.weather-applet"; origin = "cosmic"; }
-    { appId = "io.github.crocodile.cosmic-ext-applet-workspace-icons"; origin = "cosmic"; }
     { appId = "io.github.k33wee.clippy-land"; origin = "cosmic"; }
     { appId = "io.github.petar030.cosmic-pomodoro"; origin = "cosmic"; }
   ];
