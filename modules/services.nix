@@ -53,13 +53,6 @@
   #Enable USBMUXD for iOS device management
   services.usbmuxd.enable = true;
 
-  # Backlight (brightness write perms for `video` group) + ddcutil (i2c-dev
-  # access for external monitor brightness control via DDC/CI)
-  services.udev.extraRules = ''
-    ACTION=="add", SUBSYSTEM=="backlight", RUN+="/bin/chgrp video $sys$devpath/brightness", RUN+="/bin/chmod g+w $sys$devpath/brightness"
-    SUBSYSTEM=="i2c-dev", KERNEL=="i2c-[0-9]*", ATTRS{class}=="0x030000", TAG+="uaccess"
-  '';
-
   # CUPS printing — using hplip drivers only (hp-* GUI utilities are
   # broken on python3.14, see hplip URLopener issue; CUPS web UI at
   # localhost:631 doesn't depend on those scripts, drivers still work)
