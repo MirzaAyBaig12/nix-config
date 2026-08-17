@@ -66,6 +66,8 @@
   };
 
   outputs = { self, nixpkgs, nix-snapd, nix-software-center, nix-flatpak, codex-desktop-linux, claude-desktop, mac-style-plymouth, winpodx, home-manager, ... }@inputs: {
+    formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt;
+
     nixosConfigurations = {
       Axiom = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
