@@ -63,6 +63,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # 15. Custom Packages Flake (thorium, fladder, seanime, etc.)
+    custom-packages.url = "github:Rishabh5321/custom-packages-flake";
+
   };
 
   outputs = { self, nixpkgs, nix-snapd, nix-software-center, nix-flatpak, codex-desktop-linux, claude-desktop, mac-style-plymouth, winpodx, home-manager, ... }@inputs: {
