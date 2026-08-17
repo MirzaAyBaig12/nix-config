@@ -136,6 +136,6 @@
     jetbrains.pycharm
     opencode
     opencode-desktop
-    (pkgs.callPackage ../packages/freedownloadmanager.nix { autoStart = true; })
+    inputs.custom-packages.packages.${pkgs.stdenv.hostPlatform.system}.ab-download-manager
   ];
 }
