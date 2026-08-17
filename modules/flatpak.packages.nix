@@ -6,6 +6,7 @@
     "com.github.robertsanseries.ciano"
     "com.github.tchx84.Flatseal"
     "com.github.unrud.VideoDownloader"
+    "com.sidevesh.Luminance"
     "com.spotify.Client"
     "com.vscodium.codium"
     "dev.edfloreshz.CosmicTweaks"
@@ -14,7 +15,6 @@
     "io.github.cosmic_utils.camera"
     "io.github.flattool.Warehouse"
     "io.github.giantpinkrobots.bootqt"
-    "io.github.justinrdonnelly.bouncer"
     "io.github.kolunmi.Bazaar"
     "io.github.nacho.mecalin"
     "io.github.shiftey.Desktop"
@@ -39,7 +39,6 @@
     { appId = "com.github.bgub.CosmicExtAppletVigil"; origin = "cosmic"; }
     { appId = "com.vintagetechie.CosmicExtAppletTempest"; origin = "cosmic"; }
     { appId = "dev.cappsy.CosmicExtAppletLogoMenu"; origin = "cosmic"; }
-    { appId = "io.github.cosmic_utils.cosmic-ext-applet-external-monitor-brightness"; origin = "cosmic"; }
     { appId = "io.github.cosmic_utils.weather-applet"; origin = "cosmic"; }
     { appId = "io.github.k33wee.clippy-land"; origin = "cosmic"; }
     { appId = "io.github.petar030.cosmic-pomodoro"; origin = "cosmic"; }
