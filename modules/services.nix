@@ -45,7 +45,7 @@
   system.activationScripts.systemd-boot-sign = {
     text = ''
       export PATH="${lib.makeBinPath [ pkgs.gnused pkgs.gawk pkgs.coreutils pkgs.gnugrep pkgs.util-linux ]}:$PATH"
-      ${pkgs.sbctl}/bin/sbctl sign /boot/EFI/systemd-bootx64.efi
+      ${pkgs.sbctl}/bin/sbctl sign /boot/EFI/systemd/systemd-bootx64.efi
     '';
     deps = [ ];
   };
