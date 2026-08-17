@@ -1,6 +1,28 @@
 { pkgs, ... }:
 
+let
+  bibata-material-cursor = pkgs.callPackage ../../packages/bibata-material-cursor.nix { };
+in
 {
+  # Bibata-Material-Slate here is Ayaan's own fork, packaged from the pinned
+  # GitHub release tarball at ../../packages/bibata-material-cursor.nix —
+  # NOT the nixpkgs `bibata-cursors` package (that's upstream ful1e5's repo
+  # and has no Material/Slate variant).
+  #
+  # home.pointerCursor now owns and symlinks the theme itself (replaces the
+  # old manual ~/.icons/Bibata-Material-Slate + ~/.icons/default install),
+  # AND sets Xcursor.theme/size via Xresources — the mechanism X11/XWayland
+  # Xlib-based toolkits (Java AWT/Swing included) read via XGetDefault,
+  # independent of GTK/dconf.
+  home.pointerCursor = {
+    enable = true;
+    name = "Bibata-Material-Slate";
+    package = bibata-material-cursor;
+    size = 20;
+    gtk.enable = true;
+    x11.enable = true;
+  };
+
   gtk = {
     enable = true;
 
@@ -19,7 +41,7 @@
 
     cursorTheme = {
       name = "Bibata-Material-Slate";
-      package = pkgs.bibata-cursors;
+      package = bibata-material-cursor;
       size = 20;
     };
 
