@@ -1,5 +1,6 @@
 {
   flathub = [
+    "ai.opencode.opencode"
     "app.devsuite.Ptyxis"
     "com.freerdp.FreeRDP"
     "com.github.IsmaelMartinez.teams_for_linux"
