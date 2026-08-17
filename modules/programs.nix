@@ -136,5 +136,6 @@
     jetbrains.pycharm
     opencode
     opencode-desktop
+    (pkgs.callPackage ../packages/freedownloadmanager.nix { autoStart = true; })
   ];
 }
