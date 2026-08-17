@@ -2,6 +2,14 @@
 
 {
 
+  # User Account
+  users.users."ayaan_mirza" = {
+    isNormalUser = true;
+    description = "Ayaan Mirza";
+    extraGroups = [ "networkmanager" "wheel" ];
+    shell = pkgs.zsh;
+  };
+
   # Snap & Flatpak (declarative — see flatpak.nix)
   services.snap.enable = false;
   services.flatpak.enable = true;
@@ -19,12 +27,27 @@
 
   security.apparmor.enable = true; #Enable AppArmor for Snap confinement
 
-  # User Account
-  users.users."ayaan_mirza" = {
-    isNormalUser = true;
-    description = "Ayaan Mirza";
-    extraGroups = [ "networkmanager" "wheel" ];
-    shell = pkgs.zsh;
+  # Re-install rEFInd and re-sign it after every rebuild (chainloads
+  # Lanzaboote's signed UKIs + Windows). Activation scripts already run
+  # as root, so no doas here — doas caused emergency-mode boot failures
+  # on gens 133/134 (PAM helper wasn't reachable this early in boot).
+  # PATH is extended because activation scripts run with a stripped PATH
+  # that doesn't include sed/coreutils, which refind-install needs internally.
+  system.activationScripts.refind-sign = {
+    text = ''
+      export PATH="${lib.makeBinPath [ pkgs.gnused pkgs.gawk pkgs.coreutils pkgs.gnugrep pkgs.util-linux ]}:$PATH"
+      ${pkgs.refind}/bin/refind-install --yes
+      ${pkgs.sbctl}/bin/sbctl sign /boot/EFI/refind/refind_x64.efi
+    '';
+    deps = [ ];
+  }:
+
+  system.activationScripts.systemd-boot-sign = {
+    text = ''
+      export PATH="${lib.makeBinPath [ pkgs.gnused pkgs.gawk pkgs.coreutils pkgs.gnugrep pkgs.util-linux ]}:$PATH"
+      ${pkgs.sbctl}/bin/sbctl sign /boot/EFI/systemd-bootx64.efi
+    '';
+    deps = [ ];
   };
 
   #Enable USBMUXD for iOS device management
