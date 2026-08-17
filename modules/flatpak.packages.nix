@@ -29,6 +29,7 @@
     "org.gnome.Boxes"
     "org.gnome.Chess"
     "org.kde.isoimagewriter"
+    "org.pvermeer.WebAppHub"
     "uk.co.cappsy.Tesseract"
     "xyz.riothedev.emojify"
   ];
