@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
 
@@ -40,7 +40,7 @@
       ${pkgs.sbctl}/bin/sbctl sign /boot/EFI/refind/refind_x64.efi
     '';
     deps = [ ];
-  }:
+  };
 
   system.activationScripts.systemd-boot-sign = {
     text = ''
