@@ -130,5 +130,11 @@
     system-config-printer #Printer Configuration GUI
     gnome-boxes #GNOME Boxes Virtualization 
     gsettings-desktop-schemas #GSettings Desktop Schemas
+    neovim #Enable neovim
+    jetbrains.idea
+    jetbrains.webstorm
+    jetbrains.pycharm
+    opencode
+    opencode-desktop
   ];
 }
