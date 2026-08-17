@@ -81,17 +81,17 @@ See [`/modules/`](./modules/) for each configuration module, and [`/modules/home
 | **Input Method** | None (default XKB/Wayland input) |
 
 ### Apps & Tools
-| | |
-|---|---|
-| **System Monitor** | Fastfetch (terminal), built-in DE monitors |
-| **File Manager** | Files (COSMIC), Dolphin (KDE) |
-| **Media Player** | mpv, VLC |
-| **Editors / IDE** | Neovim, VS Code, Vim |
+| |                                                        |
+|---|--------------------------------------------------------|
+| **System Monitor** | Fastfetch (terminal), built-in DE monitors             |
+| **File Manager** | Files (COSMIC), Dolphin (KDE)                          |
+| **Media Player** | mpv, VLC                                               |
+| **Editors / IDE** | IntelliJ IDEA, PyCharm, VSCode, VSCodium, Neovim       |
 | **Fonts** | Noto fonts, Noto Color Emoji, JetBrains Mono Nerd Font |
-| **Image Viewer** | Gwenview, gThumb |
-| **Screenshots** | COSMIC Screenshot (Wayland), Spectacle (KDE) |
-| **Screen Recording** | OBS |
-| **Development Tools** | Git, Python3, Node.js, Rust, Java, Go, etc. |
+| **Image Viewer** | Gwenview, gThumb                                       |
+| **Screenshots** | COSMIC Screenshot (COSMIC), Spectacle (KDE)            |
+| **Screen Recording** | OBS                                                    |
+| **Development Tools** | Git, Python3, Node.js, Rust, Java, Go, etc.            |
 
 ### System-Level
 | | |
