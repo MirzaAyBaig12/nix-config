@@ -104,7 +104,6 @@
     kdePackages.kate #KDE Text Editor
     gtk4 #GTK4 Library
     gtk3 #GTK3 Library
-    ghostty #Terminal Multiplexer
     ferdium #Ferdium Messaging App
     parted #Partition Management Tool
     polkit_gnome #Polkit Authentication Agent
@@ -131,6 +130,7 @@
     system-config-printer #Printer Configuration GUI
     gnome-boxes #GNOME Boxes Virtualization 
     gsettings-desktop-schemas #GSettings Desktop Schemas
+    glib #Provides the `gsettings` CLI itself — needed alongside gsettings-desktop-schemas above so the resolved `gsettings` binary is the one from the aggregated system profile (which gets its schemas properly compiled/merged), not an isolated closure lacking them
     neovim #Enable neovim
     jetbrains.idea
     jetbrains.webstorm
@@ -138,6 +138,7 @@
     opencode
     opencode-desktop
     inputs.custom-packages.packages.${pkgs.stdenv.hostPlatform.system}.ab-download-manager
-    winboat
+    ptyxis
+    adwaita-icon-theme
   ];
 }
