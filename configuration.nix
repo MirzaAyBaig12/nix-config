@@ -6,6 +6,9 @@
 
 {
   imports = [
+    #import lix module (swaps in the prebuilt Lix from nixpkgs, replaces CppNix everywhere)
+      inputs.lix-module.nixosModules.lixFromNixpkgs
+      
     ./hardware-configuration.nix #import hardware configuration 
 
     #modules 
@@ -18,6 +21,7 @@
     #import home-manager module
       inputs.home-manager.nixosModules.default
       ./modules/home-manager.nix #import home-manager configuration module
+
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
