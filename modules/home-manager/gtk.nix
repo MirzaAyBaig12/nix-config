@@ -34,10 +34,9 @@ in
       package = pkgs.gnome-themes-extra;
     };
 
-    iconTheme = {
-      name = "Adwaita";
-      package = pkgs.adwaita-icon-theme;
-    };
+    # iconTheme intentionally NOT set here — now managed by Stylix
+    # (modules/stylix.nix, stylix.icons.*) to avoid double-declaring
+    # gtk.iconTheme from two places.
 
     cursorTheme = {
       name = "Bibata-Material-Slate";
@@ -65,21 +64,4 @@ in
     gtk-application-prefer-dark-theme = true;
   };
 
-  # GTK4 / libadwaita configuration — dark mode only. Accent color for
-  # libadwaita apps is NOT a dconf/gtk setting; it's fed through the
-  # portal from COSMIC's own accent-color setting (Settings ->
-  # Appearance in COSMIC), so set purple there once
-  # xdg-desktop-portal-cosmic is confirmed running.
-  gtk.gtk4.extraConfig = {
-    gtk-application-prefer-dark-theme = true;
-  };
-
-  dconf.settings."org/gnome/desktop/interface" = {
-    gtk-theme = "Adwaita-dark";
-    icon-theme = "Adwaita";
-    cursor-theme = "Bibata-Material-Slate";
-    cursor-size = 24;
-    color-scheme = "prefer-dark";
-    accent-color = "purple";
-  };
 }
