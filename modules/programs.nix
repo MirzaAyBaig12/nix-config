@@ -140,6 +140,6 @@
     inputs.custom-packages.packages.${pkgs.stdenv.hostPlatform.system}.ab-download-manager
     ptyxis
     adwaita-icon-theme
-    ventoy-full-gtk
+    ventoy-full-qt
   ];
 }
