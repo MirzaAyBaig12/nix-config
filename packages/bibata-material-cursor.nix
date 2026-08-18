@@ -15,12 +15,12 @@
 # then convert to SRI with:
 #   nix hash convert --hash-algo sha256 <hash>
 
-stdenv.mkDerivation rec {
+stdenv.mkDerivation (finalAttrs: {
   pname = "bibata-material-cursor";
   version = "1.2.1";
 
   src = fetchurl {
-    url = "https://github.com/SakibShahariar/material-bibata-cursor/releases/download/v${version}/bibata-material-v${version}.tar.gz";
+    url = "https://github.com/SakibShahariar/material-bibata-cursor/releases/download/v${finalAttrs.version}/bibata-material-v${finalAttrs.version}.tar.gz";
     hash = "sha256-/B/l+F3CVmJkwPJv/meabvkVpZbXa8Tt7O2MyANheXk=";
   };
 
@@ -36,7 +36,8 @@ stdenv.mkDerivation rec {
   meta = with lib; {
     description = "28 Bibata cursor themes using Material Design 3's tonal system (Ayaan's fork)";
     homepage = "https://github.com/SakibShahariar/material-bibata-cursor";
+    changelog = "https://github.com/SakibShahariar/material-bibata-cursor/releases/tag/v${finalAttrs.version}";
     license = licenses.gpl3Only;
     platforms = platforms.all;
   };
-}
+})
