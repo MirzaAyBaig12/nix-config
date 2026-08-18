@@ -8,14 +8,6 @@
 
   inputs = {
 
-    # Lix NixOS module — swaps CppNix for Lix everywhere (nixos-rebuild,
-    # nix-direnv, pkgs.nix, etc.) using the prebuilt Lix from nixpkgs —
-    # no source builds
-    lix-module = {
-      url = "git+https://git.lix.systems/lix-project/nixos-module?ref=stable";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # 1. Core NixOS package repository
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     

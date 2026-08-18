@@ -6,9 +6,6 @@
 
 {
   imports = [
-    #import lix module (swaps in the prebuilt Lix from nixpkgs, replaces CppNix everywhere)
-      inputs.lix-module.nixosModules.lixFromNixpkgs
-      
     ./hardware-configuration.nix #import hardware configuration 
 
     #modules 
@@ -23,6 +20,16 @@
       ./modules/home-manager.nix #import home-manager configuration module
 
   ];
+
+  # Lix — swaps in Lix from nixpkgs' own lixPackageSets, which always
+  # tracks the exact Lix version matching this pinned nixpkgs, so there's
+  # never a version-mismatch warning like with the external lix-module flake
+  nixpkgs.overlays = [
+    (final: prev: {
+      inherit (prev.lixPackageSets.stable) nixpkgs-review nix-eval-jobs nix-fast-build colmena;
+    })
+  ];
+  nix.package = pkgs.lixPackageSets.stable.lix;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.settings.trusted-users = [ "root" "ayaan_mirza" ];
