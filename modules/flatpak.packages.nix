@@ -28,6 +28,7 @@
     "org.bleachbit.BleachBit"
     "org.equicord.equibop"
     "org.gnome.Boxes"
+    "org.gnome.Calculator"
     "org.gnome.Chess"
     "org.kde.isoimagewriter"
     "org.pvermeer.WebAppHub"
