@@ -18,7 +18,7 @@ in
     enable = true;
     name = "Bibata-Material-Slate";
     package = bibata-material-cursor;
-    size = 20;
+    size = 24;
     gtk.enable = true;
     x11.enable = true;
   };
@@ -42,7 +42,7 @@ in
     cursorTheme = {
       name = "Bibata-Material-Slate";
       package = bibata-material-cursor;
-      size = 20;
+      size = 24;
     };
 
     font = {
@@ -56,7 +56,7 @@ in
     gtk-theme-name="Adwaita-dark"
     gtk-icon-theme-name="Adwaita"
     gtk-cursor-theme-name="Bibata-Material-Slate"
-    gtk-cursor-theme-size=20
+    gtk-cursor-theme-size=24
     gtk-font-name="Noto Sans 10"
   '';
 
@@ -78,7 +78,7 @@ in
     gtk-theme = "Adwaita-dark";
     icon-theme = "Adwaita";
     cursor-theme = "Bibata-Material-Slate";
-    cursor-size = 20;
+    cursor-size = 24;
     color-scheme = "prefer-dark";
     accent-color = "purple";
   };
