@@ -84,6 +84,7 @@
     curl #Command Line Downloader
     (pkgs.callPackage ../packages/cosmic-ext-control-center.nix {}) #Control Center Applet for COSMIC DE
     (pkgs.callPackage ../packages/cosmic-ext-applet-mounter.nix {}) #Cloud Storage Mounting Applet for COSMIC DE
+    (pkgs.callPackage ../packages/bibata-material-cursor.nix {}) #System-wide install so cosmic-greeter (runs as its own user) can see the cursor theme too
     efibootmgr #CLI EFI Entry Management
     sbctl #Secure Boot Management
     claude-desktop-fhs #Claude Desktop app for NixOS
