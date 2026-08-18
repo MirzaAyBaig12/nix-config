@@ -14,6 +14,7 @@
       ./modules/programs.nix #import programs configuration module
       ./modules/services.nix #import services configuration module
       ./modules/flatpak.nix #import flatpak configuration module
+      ./modules/stylix.nix #import stylix theming module (icon theming only)
       
     #import home-manager module
       inputs.home-manager.nixosModules.default
