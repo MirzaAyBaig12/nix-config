@@ -138,5 +138,6 @@
     opencode
     opencode-desktop
     inputs.custom-packages.packages.${pkgs.stdenv.hostPlatform.system}.ab-download-manager
+    winboat
   ];
 }
