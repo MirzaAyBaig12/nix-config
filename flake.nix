@@ -66,6 +66,13 @@
     # 15. Custom Packages Flake (thorium, fladder, seanime, etc.)
     custom-packages.url = "github:Rishabh5321/custom-packages-flake";
 
+    # 16. Stylix — theming framework. autoEnable is set to false in
+    # modules/stylix.nix so it only handles icon theming (via
+    # stylix.icons.*); everything else (GTK colors, cursor, dconf) stays
+    # manually configured in modules/home-manager/gtk.nix and system.nix.
+    stylix.url = "github:nix-community/stylix";
+    stylix.inputs.nixpkgs.follows = "nixpkgs";
+
   };
 
   outputs = { self, nixpkgs, nix-snapd, nix-software-center, nix-flatpak, codex-desktop-linux, claude-desktop, mac-style-plymouth, winpodx, home-manager, ... }@inputs: {
@@ -93,6 +100,9 @@
           # Lanzaboote — Secure Boot module (replaces systemd-boot;
           # actual boot.lanzaboote settings live in configuration.nix / modules)
           inputs.lanzaboote.nixosModules.lanzaboote
+
+          # Stylix — theming framework (icon theming only, see modules/stylix.nix)
+          inputs.stylix.nixosModules.stylix
 
           # Enables the snap service inline
           {
