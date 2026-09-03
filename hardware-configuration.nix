@@ -13,17 +13,20 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
-  #NixOS root partition 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/a40f8a35-a1a9-4e1d-acd0-c4e214ea8e6e";
+    { device = "/dev/mapper/luks-943f35e2-2292-4414-be4f-eee7037713d6";
       fsType = "ext4";
     };
 
-  #NixOS EFI Partition
+  boot.initrd.luks.devices."luks-943f35e2-2292-4414-be4f-eee7037713d6" =
+    { device = "/dev/disk/by-uuid/943f35e2-2292-4414-be4f-eee7037713d6";
+      crypttabExtraOpts = [ "tpm2-device=auto" ];
+    };
+
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/31B4-7383";
+    { device = "/dev/disk/by-uuid/2451-5D67";
       fsType = "vfat";
-      options = [ "fmask=0022" "dmask=0022" ];
+      options = [ "fmask=0077" "dmask=0077" ];
     };
 
   swapDevices = [ ];
@@ -31,4 +34,3 @@
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }
- 
