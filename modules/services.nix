@@ -84,6 +84,7 @@
     };
   };
 
+
   systemd.user.timers.flatpak-app-sync = {
     description = "Timer to run Flatpak sync every 5 seconds";
     wantedBy = [ "timers.target" ];
@@ -92,7 +93,7 @@
       OnUnitActiveSec = "15s";
       # You can safely delete the 'Unit =' line since it matches the timer name, 
       # or change it to: Unit = "flatpak-app-sync.service";
-    };
+     };
   };
 
 }

@@ -19,7 +19,7 @@ let
         remotes = lib.mkOptionDefault [
           {
             name = "cosmic";
-            location = "https://apt.pop-os.org/cosmic/";
+            location = "https://apt.pop-os.org/cosmic/cosmic.flatpakrepo";
           }
         ];
 

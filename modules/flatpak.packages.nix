@@ -13,7 +13,6 @@
     "fr.arnaudmichel.launcherstudio"
     "io.github.Foldex.AdwSteamGtk"
     "io.github.cosmic_utils.camera"
-    "io.github.duh_dashboard.Dashboard"
     "io.github.flattool.Warehouse"
     "io.github.giantpinkrobots.bootqt"
     "io.github.kolunmi.Bazaar"
