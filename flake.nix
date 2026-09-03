@@ -80,7 +80,7 @@
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt;
 
     nixosConfigurations = {
-      Axiom = nixpkgs.lib.nixosSystem {
+      Void = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
 
         specialArgs = { inherit inputs; };
@@ -123,7 +123,7 @@
           # Explicitly permits the insecure ventoy-full package
           {
             nixpkgs.config.permittedInsecurePackages = [
-              "ventoy-qt-1.1.17"
+              "ventoy-gtk3-1.1.17"
             ];
           }
         ];

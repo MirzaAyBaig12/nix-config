@@ -31,7 +31,7 @@
   # Shell aliases
   environment.shellAliases = {
     nix-hwgen = "doas nixos-generate-config --dir ~/nix-config";
-    nix-rebuild = "doas nixos-rebuild switch --flake ~/nix-config#Axiom";
+    nix-rebuild = "doas nixos-rebuild switch --flake ~/nix-config#Void";
     nix-push = "cd ~/nix-config && git add . && git commit -m \"update $(date +%Y-%m-%d_%H:%M)\" && git push";
     nix-clean = "doas nix-env --delete-generations +3 -p /nix/var/nix/profiles/system && doas nix-collect-garbage -d";
     nix-generations = "nix-env -p /nix/var/nix/profiles/system --list-generations";
@@ -51,10 +51,10 @@
 
     # Auto-enroll the generated keys into firmware. Keeps Microsoft keys
     # included (default/safe) so Option ROMs signed by MS still load.
-    autoEnrollKeys = {
-      enable = true;
-      includeMicrosoftKeys = true;
-      autoReboot = true; # reboots once automatically so enrollment finishes same session
+    #autoEnrollKeys = {
+    #  enable = true;
+    #  includeMicrosoftKeys = true;
+    #  autoReboot = true; # reboots once automatically so enrollment finishes same session
     };
   };
 
@@ -90,7 +90,7 @@
   ];
 
   # Networking & Firewall
-  networking.hostName = "Axiom";
+  networking.hostName = "Void";
   networking.networkmanager.enable = true;
   networking.firewall.allowedTCPPorts = [ 9295 ];
   networking.firewall.allowedUDPPorts = [ 987 9295 9296 9297 9302 ];
