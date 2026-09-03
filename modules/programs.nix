@@ -45,6 +45,9 @@
     nativeMessagingHosts.packages = [ pkgs.firefoxpwa ];
   };
 
+
+  environment.etc."firefox/policies/policies.json".target = "librewolf/policies/policies.json";
+
   # AppImage & Nix-LD
   programs.appimage = {
     enable = true;
@@ -66,7 +69,6 @@
     PATH = [ "/var/lib/snapd/snap/bin" ];
   };
 
-  # System Packages
   environment.systemPackages = with pkgs; [
     vim #Text Editor
     wget #Network Downloader
@@ -76,7 +78,10 @@
     python3 #Python Interpreter
     firefoxpwa #Firefox PWA Connector
     google-chrome #Google Chrome
-    inputs.nix-software-center.packages.${stdenv.hostPlatform.system}.default #Install Nix Software Center
+    (inputs.nix-software-center.packages.${stdenv.hostPlatform.system}.default.overrideAttrs (old: {
+      nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ pkgs.cacert ];
+      env = (old.env or {}) // { SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"; };
+    }))
     baobab #Disk Usage Analyzer
     gnome-disk-utility #Disk Management Tool
     gnome-system-monitor #System Monitor
@@ -89,6 +94,8 @@
     sbctl #Secure Boot Management
     claude-desktop-fhs #Claude Desktop app for NixOS
     (inputs.winpodx.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: { #WinPodX for Windows apps (e.x. Office 365)
+      nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ pkgs.cacert ];
+      env = (old.env or {}) // { SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"; };
       doCheck = false;
       checkPhase = "echo skipping winpodx tests";
       installCheckPhase = "echo skipping winpodx tests";
@@ -99,7 +106,6 @@
     vlc #VLC Media Player
     gimp #GIMP Image Editor
     libsForQt5.qtstyleplugin-kvantum #KDE Kvantum Theme Engine
-    inputs.nixos-conf-editor.packages.${pkgs.stdenv.hostPlatform.system}.nixos-conf-editor #NixOS Configuration Editor
     #inputs.iloader.packages.${pkgs.stdenv.hostPlatform.system}.default #iLoader for iOS Sideloading (not working, bug submitted to dev)
     kdePackages.kate #KDE Text Editor
     gtk4 #GTK4 Library
@@ -114,10 +120,16 @@
     just #Just Task Runner
     refind #rEFInd Boot Manager CLI
     wl-clipboard #Wayland Clipboard Manager
-    inputs.efiboots.packages.${pkgs.stdenv.hostPlatform.system}.default #GUI EFI Entry Management
+    (inputs.efiboots.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
+      nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ pkgs.cacert ];
+      env = (old.env or {}) // { SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"; };
+    }))
     libimobiledevice #iOS Device Development Library
     proton-pass #Proton Pass Password Manager
-    inputs.look.packages.${pkgs.stdenv.hostPlatform.system}.default #Look Launcher (Cachix)
+    (inputs.look.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
+      nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ pkgs.cacert ];
+      env = (old.env or {}) // { SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"; };
+    }))
     python3Packages.pip #Python Package Installer
     python3Packages.virtualenv #Python Virtual Environment
     vscode #Visual Studio Code
@@ -128,7 +140,7 @@
     idescriptor #iDescriptor for iOS Device Management
     hplip #HP Linux Imaging and Printing
     system-config-printer #Printer Configuration GUI
-    gnome-boxes #GNOME Boxes Virtualization 
+    gnome-boxes #GNOME Boxes Virtualization
     gsettings-desktop-schemas #GSettings Desktop Schemas
     glib #Provides the `gsettings` CLI itself — needed alongside gsettings-desktop-schemas above so the resolved `gsettings` binary is the one from the aggregated system profile (which gets its schemas properly compiled/merged), not an isolated closure lacking them
     neovim #Enable neovim
@@ -137,9 +149,13 @@
     jetbrains.pycharm
     opencode
     opencode-desktop
-    inputs.custom-packages.packages.${pkgs.stdenv.hostPlatform.system}.ab-download-manager
+    (inputs.custom-packages.packages.${pkgs.stdenv.hostPlatform.system}.ab-download-manager.overrideAttrs (old: {
+      nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ pkgs.cacert ];
+      env = (old.env or {}) // { SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"; };
+    }))
     ptyxis
     adwaita-icon-theme
-    ventoy-full-qt
+    ventoy-full-gtk
+    floorp-bin
   ];
 }
