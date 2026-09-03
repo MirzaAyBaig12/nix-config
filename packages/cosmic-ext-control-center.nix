@@ -40,7 +40,7 @@ rustPlatform.buildRustPackage rec {
     # Placeholder — `nixos-rebuild` will fail on the first build with the
     # real hash ("got: sha256-...") once you save this file. Paste it here
     # and rebuild again. Do this again any time you bump `rev`.
-    hash = "sha256-Wc1av079Y4ZNcGp6uf7KAGPeBd/joDeS0ppwe+zR3bo=";
+    hash = "sha256-mwimFnEv6QHl7Ury+7fv1EMrWejjEewXTOlFauO4RN0=";
   };
 
   cargoLock = {
