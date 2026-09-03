@@ -28,6 +28,7 @@
     "it.mijorus.gearlever"
     "org.bleachbit.BleachBit"
     "org.equicord.equibop"
+    "org.freedownloadmanager.Manager"
     "org.gnome.Boxes"
     "org.gnome.Chess"
     "org.kde.isoimagewriter"
