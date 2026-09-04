@@ -51,12 +51,11 @@
 
     # Auto-enroll the generated keys into firmware. Keeps Microsoft keys
     # included (default/safe) so Option ROMs signed by MS still load.
-    #autoEnrollKeys = {
-    #  enable = true;
-    #  includeMicrosoftKeys = true;
-    #  autoReboot = true; # reboots once automatically so enrollment finishes same session
+    autoEnrollKeys = {
+      enable = true;
+      includeMicrosoftKeys = true;
+      autoReboot = true; # reboots once automatically so enrollment finishes same session
     };
-  };
 
   boot.loader.timeout = 0;
   boot.loader.systemd-boot.configurationLimit = 3;
@@ -81,6 +80,13 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   boot.supportedFilesystems = [ "squashfs" ]; #Enable squashfs for Snap
+
+  swapDevices = [
+    { 
+      device = "/swapfile"; 
+      size = 8192; # 8192 MB = 8 GB
+    }
+  ];
 
   # FHS compat symlinks — some non-Nix apps/scripts hardcode /bin/bash, /bin/sh
   # instead of resolving via PATH. /usr/bin/env is already provided by NixOS.
