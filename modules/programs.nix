@@ -45,7 +45,6 @@
     nativeMessagingHosts.packages = [ pkgs.firefoxpwa ];
   };
 
-
   environment.etc."firefox/policies/policies.json".target = "librewolf/policies/policies.json";
 
   # AppImage & Nix-LD
@@ -69,93 +68,116 @@
     PATH = [ "/var/lib/snapd/snap/bin" ];
   };
 
+  programs.gamemode.enable = true;
+
   environment.systemPackages = with pkgs; [
-    vim #Text Editor
-    wget #Network Downloader
-    git #Version Control
-    htop #Process Viewer
-    gdb #Debugger
-    python3 #Python Interpreter
-    firefoxpwa #Firefox PWA Connector
-    google-chrome #Google Chrome
+    # ==========================================
+    # 1. BROWSERS & WEB
+    # ==========================================
+    google-chrome
+    firefox
+    floorp-bin
+    firefoxpwa
+
+    # ==========================================
+    # 2. DEVELOPMENT & PROGRAMMING TOOLS
+    # ==========================================
+    vim
+    neovim
+    git
+    gdb
+    just
+    nodejs
+    sassc
+    python3
+    python3Packages.pip
+    python3Packages.virtualenv
+    vscode
+    zed-editor
+    jetbrains.idea
+    jetbrains.webstorm
+    jetbrains.pycharm
+    sourcegit
+    distrobox
+
+    # ==========================================
+    # 3. MEDIA, GRAPHICS & ENTERTAINMENT
+    # ==========================================
+    vlc
+    gimp
+    kdePackages.kdenlive
+    kdePackages.kate
+    adwaita-icon-theme
+    gamemode
+    winetricks
+
+    # ==========================================
+    # 4. SYSTEM & UTILITIES (CLI / GUI)
+    # ==========================================
+    wget
+    curl
+    htop
+    baobab
+    gnome-disk-utility
+    gnome-system-monitor
+    kdePackages.partitionmanager
+    parted
+    efibootmgr
+    sbctl
+    refind
+    wl-clipboard
+    seahorse
+    gnome-keyring
+    kdePackages.ksshaskpass
+    libimobiledevice
+    idescriptor
+    hplip
+    system-config-printer
+    gnome-boxes
+    gsettings-desktop-schemas
+    glib
+    ptyxis
+    ventoy-full-gtk
+    proton-pass
+    ferdium
+    libsForQt5.qtstyleplugin-kvantum
+    unzip
+
+    # External Inputs / Custom Desktop GUI Packages
+    claude-desktop-fhs
+    opencode-desktop # OpenCode GUI[cite: 2]
     (inputs.nix-software-center.packages.${stdenv.hostPlatform.system}.default.overrideAttrs (old: {
       nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ pkgs.cacert ];
       env = (old.env or {}) // { SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"; };
     }))
-    baobab #Disk Usage Analyzer
-    gnome-disk-utility #Disk Management Tool
-    gnome-system-monitor #System Monitor
-    kdePackages.partitionmanager #Partition Management Tool
-    curl #Command Line Downloader
-    (pkgs.callPackage ../packages/cosmic-ext-control-center.nix {}) #Control Center Applet for COSMIC DE
-    (pkgs.callPackage ../packages/cosmic-ext-applet-mounter.nix {}) #Cloud Storage Mounting Applet for COSMIC DE
-    (pkgs.callPackage ../packages/bibata-material-cursor.nix {}) #System-wide install so cosmic-greeter (runs as its own user) can see the cursor theme too
-    efibootmgr #CLI EFI Entry Management
-    sbctl #Secure Boot Management
-    claude-desktop-fhs #Claude Desktop app for NixOS
-    (inputs.winpodx.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: { #WinPodX for Windows apps (e.x. Office 365)
+    (pkgs.callPackage ../packages/cosmic-ext-control-center.nix {})
+    (pkgs.callPackage ../packages/cosmic-ext-applet-mounter.nix {})
+    (pkgs.callPackage ../packages/bibata-material-cursor.nix {})
+    (inputs.winpodx.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: { 
       nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ pkgs.cacert ];
       env = (old.env or {}) // { SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"; };
       doCheck = false;
       checkPhase = "echo skipping winpodx tests";
       installCheckPhase = "echo skipping winpodx tests";
     }))
-    kdePackages.kdenlive #Video Editing Software
-    firefox #Firefox Web Browser
-    libreoffice #LibreOffice Suite
-    vlc #VLC Media Player
-    gimp #GIMP Image Editor
-    libsForQt5.qtstyleplugin-kvantum #KDE Kvantum Theme Engine
-    #inputs.iloader.packages.${pkgs.stdenv.hostPlatform.system}.default #iLoader for iOS Sideloading (not working, bug submitted to dev)
-    kdePackages.kate #KDE Text Editor
-    gtk4 #GTK4 Library
-    gtk3 #GTK3 Library
-    ferdium #Ferdium Messaging App
-    parted #Partition Management Tool
-    polkit_gnome #Polkit Authentication Agent
-    nodejs #Node.js JavaScript Runtime
-    sassc #Sass Compiler
-    seahorse #Seahorse Password Manager
-    gnome-keyring #GNOME Keyring
-    just #Just Task Runner
-    refind #rEFInd Boot Manager CLI
-    wl-clipboard #Wayland Clipboard Manager
     (inputs.efiboots.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
       nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ pkgs.cacert ];
       env = (old.env or {}) // { SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"; };
     }))
-    libimobiledevice #iOS Device Development Library
-    proton-pass #Proton Pass Password Manager
     (inputs.look.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
       nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ pkgs.cacert ];
       env = (old.env or {}) // { SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"; };
     }))
-    python3Packages.pip #Python Package Installer
-    python3Packages.virtualenv #Python Virtual Environment
-    vscode #Visual Studio Code
-    zed-editor #Zed Editor
-    distrobox #Distrobox for running containers
-    kdePackages.ksshaskpass #KDE SSH Password Prompt
-    sourcegit #SourceGit for GitHub Repositories
-    idescriptor #iDescriptor for iOS Device Management
-    hplip #HP Linux Imaging and Printing
-    system-config-printer #Printer Configuration GUI
-    gnome-boxes #GNOME Boxes Virtualization
-    gsettings-desktop-schemas #GSettings Desktop Schemas
-    glib #Provides the `gsettings` CLI itself — needed alongside gsettings-desktop-schemas above so the resolved `gsettings` binary is the one from the aggregated system profile (which gets its schemas properly compiled/merged), not an isolated closure lacking them
-    neovim #Enable neovim
-    jetbrains.idea
-    jetbrains.webstorm
-    jetbrains.pycharm
-    opencode
-    opencode-desktop
     (inputs.custom-packages.packages.${pkgs.stdenv.hostPlatform.system}.ab-download-manager.overrideAttrs (old: {
       nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ pkgs.cacert ];
       env = (old.env or {}) // { SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"; };
     }))
-    ptyxis
-    adwaita-icon-theme
-    ventoy-full-gtk
-    floorp-bin
+
+    # ==========================================
+    # 5. DEDICATED AI CODING AGENTS (LLM Agents Flake)
+    # ==========================================
+    inputs.llm-agents.packages.${pkgs.system}.claude-code
+    inputs.llm-agents.packages.${pkgs.system}.pi
+    inputs.llm-agents.packages.${pkgs.system}.opencode
   ];
 }
