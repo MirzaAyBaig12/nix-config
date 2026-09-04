@@ -5,6 +5,7 @@
     enable = true;
     
     cursor = {
+      package = pkgs.callPackage ../../packages/bibata-material-cursor.nix {};
       name = "Bibata-Material-Slate";
       size = 24;
     };
@@ -23,7 +24,7 @@
         name = "DejaVu Sans Mono";
       };
       emoji = {
-        package = pkgs.noto-fonts-emoji;
+        package = pkgs.noto-fonts-color-emoji;
         name = "Noto Color Emoji";
       };
     };
@@ -47,7 +48,26 @@
       base0F = "be5046";
     };
 
-    targets.gtk.enable = true;
+    targets.gtk = {
+      enable = true;
+      extraCss = ''
+        @define-color theme_selected_bg_color #E79CFE;
+        @define-color theme_selected_fg_color #000000;
+        @define-color accent_color #E79CFE;
+        @define-color accent_bg_color #E79CFE;
+        @define-color accent_fg_color #000000;
+        @define-color window_bg_color #2B2E34;
+        @define-color window_fg_color #FFFFFF;
+
+        * {
+          border-radius: 8px;
+        }
+        button, entry, combobox, menu, window, .csd window {
+          border-radius: 8px;
+        }
+      '';
+    };
+
     targets.qt = {
       enable = true;
       platform = "qtct";
@@ -56,11 +76,8 @@
 
   gtk = {
     enable = true;
-    theme = {
-      name = "Adwaita-dark";
-    };
     iconTheme = {
-      name = "Adwaita";
+      name = lib.mkForce "Adwaita";
     };
     cursorTheme = {
       name = "Bibata-Material-Slate";
@@ -83,36 +100,6 @@
         GtkWidget::corner-radius = 6
       }
       widget_class "*" style "modern-rounded"
-    '';
-    gtk3.extraCss = ''
-      @define-color theme_selected_bg_color #E79CFE;
-      @define-color theme_selected_fg_color #000000;
-      @define-color accent_color #E79CFE;
-      @define-color accent_bg_color #E79CFE;
-      @define-color accent_fg_color #000000;
-      @define-color window_bg_color #2B2E34;
-      @define-color window_fg_color #FFFFFF;
-
-      * {
-        border-radius: 8px;
-      }
-      button, entry, combobox, menu, .csd window {
-        border-radius: 8px;
-      }
-    '';
-    gtk4.extraCss = ''
-      @define-color accent_color #E79CFE;
-      @define-color accent_bg_color #E79CFE;
-      @define-color accent_fg_color #000000;
-      @define-color window_bg_color #2B2E34;
-      @define-color window_fg_color #FFFFFF;
-
-      * {
-        border-radius: 8px;
-      }
-      button, entry, combobox, menu, window {
-        border-radius: 8px;
-      }
     '';
   };
 }
