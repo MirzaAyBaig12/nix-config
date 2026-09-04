@@ -57,8 +57,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # 14. Lanzaboote — Secure Boot for NixOS (floats on default branch,
-    # updates with `nix flake update` instead of a pinned tag)
+    # 14. Lanzaboote — Secure Boot for NixOS
     lanzaboote = {
       url = "github:nix-community/lanzaboote";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -67,16 +66,23 @@
     # 15. Custom Packages Flake (thorium, fladder, seanime, etc.)
     custom-packages.url = "github:Rishabh5321/custom-packages-flake";
 
-    # 16. Stylix — theming framework. autoEnable is set to false in
-    # modules/stylix.nix so it only handles icon theming (via
-    # stylix.icons.*); everything else (GTK colors, cursor, dconf) stays
-    # manually configured in modules/home-manager/gtk.nix and system.nix.
+    # 16. Stylix — theming framework
     stylix.url = "github:nix-community/stylix";
     stylix.inputs.nixpkgs.follows = "nixpkgs";
 
+    cosmic-manager = {
+      url = "github:HeitorAugustoLN/cosmic-manager";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
+      };
+    };
+
+    # 17. LLM Agents Flake (Claude Code, Codex, Pi, OpenCode CLI)
+    llm-agents.url = "github:numtide/llm-agents.nix";
   };
 
-  outputs = { self, nixpkgs, nix-snapd, nix-software-center, nix-flatpak, codex-desktop-linux, claude-desktop, mac-style-plymouth, winpodx, home-manager, ... }@inputs: {
+  outputs = { self, nixpkgs, nix-snapd, nix-software-center, nix-flatpak, cosmic-manager, codex-desktop-linux, claude-desktop, mac-style-plymouth, winpodx, home-manager, llm-agents, ... }@inputs: {
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt;
 
     nixosConfigurations = {
@@ -98,11 +104,10 @@
           # Declarative Flatpak module
           nix-flatpak.nixosModules.nix-flatpak
 
-          # Lanzaboote — Secure Boot module (replaces systemd-boot;
-          # actual boot.lanzaboote settings live in configuration.nix / modules)
+          # Lanzaboote — Secure Boot module
           inputs.lanzaboote.nixosModules.lanzaboote
 
-          # Stylix — theming framework (icon theming only, see modules/stylix.nix)
+          # Stylix — theming framework
           inputs.stylix.nixosModules.stylix
 
           # Enables the snap service inline
@@ -120,7 +125,7 @@
             system.configurationRevision = self.rev or self.dirtyRev or "dirty";
           }
 
-          # Explicitly permits the insecure ventoy-full package
+          # Explicitly permits the insecure ventoy-gtk package
           {
             nixpkgs.config.permittedInsecurePackages = [
               "ventoy-gtk3-1.1.17"
