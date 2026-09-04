@@ -5,6 +5,7 @@
   services.xserver.enable = true;
   services.displayManager.defaultSession = pkgs.lib.mkForce "cosmic";
   services.displayManager.cosmic-greeter.enable = true;
+  services.desktopManager.cosmic.enable = true;
 
   # greetd runs as a bare systemd service (user "cosmic-greeter"), not a
   # login-shell session — it never sees environment.variables in system.nix
@@ -18,10 +19,6 @@
     XCURSOR_THEME = "Bibata-Material-Slate";
     XCURSOR_SIZE = "24";
   };
-
-  services.desktopManager.cosmic.enable = true;
-  services.desktopManager.plasma6.enable = true;
-  services.pantheon.apps.enable = false;
 
   xdg.portal = {
     enable = true;
