@@ -13,6 +13,25 @@
   # Snap & Flatpak (declarative — see flatpak.nix)
   services.snap.enable = false;
   services.flatpak.enable = true;
+  services.flatpak.overrides = {
+    global = {
+      Context.filesystems = [
+        "xdg-data/themes:ro"
+        "xdg-data/icons:ro"
+        "xdg-config/gtk-3.0:ro"
+        "xdg-config/gtk-4.0:ro"
+      ];
+    };
+    "com.kolumni.bazaar" = {
+      Context.filesystems = [
+        "xdg-config/gtk-3.0:ro"
+        "xdg-config/gtk-4.0:ro"
+      ];
+      Environment = {
+        ADW_DEBUG_COLOR_SCHEME = "prefer-dark";
+      };
+    };
+  };
 
 
   # Security & Privileges (Doas & Sudo)
@@ -46,6 +65,13 @@
     text = ''
       export PATH="${lib.makeBinPath [ pkgs.gnused pkgs.gawk pkgs.coreutils pkgs.gnugrep pkgs.util-linux ]}:$PATH"
       ${pkgs.sbctl}/bin/sbctl sign /boot/EFI/systemd/systemd-bootx64.efi
+    '';
+    deps = [ ];
+  };
+
+  system.activationScripts.removeOldBaks = {
+    text = ''
+      find /home/ayaan_mirza/.config -name "*.bak" -delete 2>/dev/null || true
     '';
     deps = [ ];
   };
