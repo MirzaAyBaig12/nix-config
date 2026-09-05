@@ -76,6 +76,17 @@
     deps = [ ];
   };
 
+  # Forces COSMIC's own dark-mode flag on every rebuild (stylix has no
+  # target for COSMIC's native theme daemon, so this is a manual pin).
+  system.activationScripts.forceCosmicDark = {
+    text = ''
+      mkdir -p /home/ayaan_mirza/.config/cosmic/com.system76.CosmicTheme.Mode/v1
+      echo -n "true" > /home/ayaan_mirza/.config/cosmic/com.system76.CosmicTheme.Mode/v1/is_dark
+      chown ayaan_mirza:users /home/ayaan_mirza/.config/cosmic/com.system76.CosmicTheme.Mode/v1/is_dark
+    '';
+    deps = [ ];
+  };
+
   #Enable USBMUXD for iOS device management
   services.usbmuxd.enable = true;
 
