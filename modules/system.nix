@@ -16,9 +16,23 @@
 
   environment.systemPackages = [ pkgs.exfatprogs ];
 
-    fileSystems."/mnt/Shared" = {
-      device = "/dev/disk/by-uuid/7AFE-F4AA";
+    fileSystems."/mnt/nvme0n1p7" = {
+      device = "/dev/disk/by-uuid/EBBE-BBC8";
       fsType = "exfat";
+      options = [
+        "nofail"                    # don't block boot if this fails to mount
+        "x-systemd.device-timeout=5" # stop waiting after 5s instead of hanging
+        "uid=1000"                  # mount owned by your user, not root
+        "gid=100"
+        "umask=0022" 
+      ];
+    };
+
+    fileSystems."/mnt/nvme0n1p3" = {
+      device = "/dev/disk/by-uuid/E234F38734F35CCB";
+      fsType = "ntfs";
+      fsckPass = 0; # no real fsck.ntfs implementation on Linux — the check
+                    # unit just fails every boot regardless, so skip it
       options = [
         "nofail"                    # don't block boot if this fails to mount
         "x-systemd.device-timeout=5" # stop waiting after 5s instead of hanging
@@ -56,6 +70,7 @@
       includeMicrosoftKeys = true;
       autoReboot = true; # reboots once automatically so enrollment finishes same session
     };
+  };
 
   boot.loader.timeout = 0;
   boot.loader.systemd-boot.configurationLimit = 3;
@@ -105,3 +120,4 @@
   virtualisation.waydroid.enable = true;
   virtualisation.waydroid.package = pkgs.waydroid-nftables;
 }
+
