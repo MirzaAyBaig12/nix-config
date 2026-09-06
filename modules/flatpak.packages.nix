@@ -1,6 +1,5 @@
 {
   flathub = [
-    "app.devsuite.Ptyxis"
     "com.freerdp.FreeRDP"
     "com.github.IsmaelMartinez.teams_for_linux"
     "com.github.robertsanseries.ciano"
@@ -35,8 +34,6 @@
   ];
 
   cosmic = [
-    { appId = "com.github.MiracleForge.cosmic-ext-marketwatch"; origin = "cosmic"; }
-    { appId = "com.github.bgub.CosmicExtAppletPomodoro"; origin = "cosmic"; }
     { appId = "com.github.bgub.CosmicExtAppletVigil"; origin = "cosmic"; }
     { appId = "com.vintagetechie.CosmicExtAppletTempest"; origin = "cosmic"; }
     { appId = "dev.cappsy.CosmicExtAppletLogoMenu"; origin = "cosmic"; }
