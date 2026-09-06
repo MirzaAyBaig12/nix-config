@@ -40,5 +40,7 @@
     "tab.activeBorderTop": "#c8bfff",
     "list.activeSelectionBackground": "#473f77",
     "list.activeSelectionForeground": "#e5deff"
-  }
+  },
+  "editor.minimap.enabled": false,
+  "workbench.experimental.modernUI": true
 }
