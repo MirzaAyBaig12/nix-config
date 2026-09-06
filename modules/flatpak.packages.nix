@@ -8,7 +8,6 @@
     "com.github.unrud.VideoDownloader"
     "com.sidevesh.Luminance"
     "com.spotify.Client"
-    "com.vscodium.codium"
     "com.vysp3r.ProtonPlus"
     "dev.edfloreshz.CosmicTweaks"
     "fr.arnaudmichel.launcherstudio"
