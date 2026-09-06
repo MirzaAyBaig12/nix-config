@@ -74,6 +74,14 @@
     };
   };
 
+  # DMS has "syncModeWithPortal": true, meaning it doesn't remember a
+  # dark/light choice at all — it just mirrors this dconf key on every
+  # sync, which is why colors.kdl kept reverting no matter what got
+  # patched after the fact. Pin the actual source to dark.
+  dconf.settings."org/gnome/desktop/interface" = {
+    color-scheme = lib.mkForce "prefer-dark";
+  };
+
   gtk = {
     enable = true;
     iconTheme = {
@@ -102,4 +110,9 @@
       widget_class "*" style "modern-rounded"
     '';
   };
+
+  # Stylix's gtk target writes these declaratively — force overwrite
+  # instead of erroring/needing .bak cleanup on every rebuild
+  xdg.configFile."gtk-3.0/gtk.css".force = true;
+  xdg.configFile."gtk-4.0/gtk.css".force = true;
 }
