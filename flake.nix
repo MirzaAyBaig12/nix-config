@@ -105,13 +105,15 @@
 
     nixosConfigurations = {
       Void = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-
         specialArgs = { inherit inputs; };
 
         modules = [
           # Links your local configuration.nix file
           ./configuration.nix
+
+          # Replaces the old top-level `system = "x86_64-linux"` arg to
+          # nixosSystem (deprecated in favor of stdenv.hostPlatform.system)
+          { nixpkgs.hostPlatform = "x86_64-linux"; }
 
           # Pulls in the Snap module from the nix-snapd repository
           nix-snapd.nixosModules.default
