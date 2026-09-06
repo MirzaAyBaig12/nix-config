@@ -1,0 +1,9 @@
+{
+  "claudeCode.preferredLocation": "panel",
+  "workbench.iconTheme": "material-icon-theme",
+  "git.autofetch": true,
+  "syncSettings.hostname": "Void",
+  "syncSettings.hooks.postDownload": "",
+  "claudeCode.claudeProcessWrapper": "fcc-claude",
+  "claudeCode.disableLoginPrompt": true
+}
