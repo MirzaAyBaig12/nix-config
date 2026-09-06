@@ -31,8 +31,8 @@
     fileSystems."/mnt/nvme0n1p3" = {
       device = "/dev/disk/by-uuid/E234F38734F35CCB";
       fsType = "ntfs";
-      fsckPass = 0; # no real fsck.ntfs implementation on Linux — the check
-                    # unit just fails every boot regardless, so skip it
+      # fsck for ntfs skipped — no real fsck.ntfs implementation on Linux,
+      # the check unit just fails every boot regardless
       options = [
         "nofail"                    # don't block boot if this fails to mount
         "x-systemd.device-timeout=5" # stop waiting after 5s instead of hanging
