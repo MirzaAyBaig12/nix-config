@@ -5,7 +5,7 @@
     enable = true;
     
     cursor = {
-      name = "Bibata-Material-Slate";
+      name = "Bibata-Material-Lilac";
       size = 24;
     };
 
@@ -29,34 +29,34 @@
     };
 
     base16Scheme = {
-      base00 = "2B2E34";
-      base01 = "333842";
-      base02 = "3F4451";
-      base03 = "5c6370";
-      base04 = "abb2bf";
-      base05 = "FFFFFF";
-      base06 = "e5c07b";
-      base07 = "ffffff";
-      base08 = "e06c75";
+      base00 = "141318";
+      base01 = "201f25";
+      base02 = "2b292f";
+      base03 = "9b99a5";
+      base04 = "c9c5d0";
+      base05 = "e5e1e9";
+      base06 = "e6e2ff";
+      base07 = "f9f8ff";
+      base08 = "ff7292";
       base09 = "d19a66";
-      base0A = "e5c07b";
-      base0B = "98c379";
+      base0A = "ffd972";
+      base0B = "7fff98";
       base0C = "56b6c2";
-      base0D = "61afef";
-      base0E = "E79CFE";
+      base0D = "b3a9f2";
+      base0E = "c8bfff";
       base0F = "be5046";
     };
 
     targets.gtk = {
       enable = true;
       extraCss = ''
-        @define-color theme_selected_bg_color #E79CFE;
-        @define-color theme_selected_fg_color #000000;
-        @define-color accent_color #E79CFE;
-        @define-color accent_bg_color #E79CFE;
-        @define-color accent_fg_color #000000;
-        @define-color window_bg_color #2B2E34;
-        @define-color window_fg_color #FFFFFF;
+        @define-color theme_selected_bg_color #c8bfff;
+        @define-color theme_selected_fg_color #30285f;
+        @define-color accent_color #c8bfff;
+        @define-color accent_bg_color #c8bfff;
+        @define-color accent_fg_color #30285f;
+        @define-color window_bg_color #141318;
+        @define-color window_fg_color #e5e1e9;
 
         * {
           border-radius: 8px;
@@ -71,5 +71,13 @@
       enable = true;
       platform = "qtct";
     };
+
+    # These two targets set nixpkgs.overlays internally, which throws the
+    # "nixpkgs.config/overlays set while useGlobalPkgs" warning. nixos-icons
+    # is redundant anyway since gtk.iconTheme is force-set to Adwaita in
+    # home-manager/stylix.nix; gtksourceview isn't something we're relying
+    # on stylix for.
+    targets.nixos-icons.enable = false;
+    targets.gtksourceview.enable = false;
   };
 }
