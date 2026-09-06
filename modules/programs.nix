@@ -93,12 +93,14 @@
     python3Packages.pip
     python3Packages.virtualenv
     vscode
+    vscodium
     zed-editor
     jetbrains.idea
     jetbrains.webstorm
     jetbrains.pycharm
     sourcegit
     distrobox
+    kdePackages.dolphin
 
     # ==========================================
     # 3. MEDIA, GRAPHICS & ENTERTAINMENT
@@ -110,6 +112,8 @@
     adwaita-icon-theme
     gamemode
     winetricks
+    ghostty
+    grim
 
     # ==========================================
     # 4. SYSTEM & UTILITIES (CLI / GUI)
@@ -142,6 +146,7 @@
     ferdium
     libsForQt5.qtstyleplugin-kvantum
     unzip
+    flutter
 
     # External Inputs / Custom Desktop GUI Packages
     claude-desktop-fhs
