@@ -14,6 +14,7 @@
       ./modules/programs.nix #import programs configuration module
       ./modules/services.nix #import services configuration module
       ./modules/flatpak.nix #import flatpak configuration module
+      ./modules/niri.nix #import niri + DMS shell module
       
     #import home-manager module
       inputs.home-manager.nixosModules.default
