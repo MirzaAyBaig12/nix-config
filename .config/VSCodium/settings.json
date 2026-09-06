@@ -7,5 +7,25 @@
   "claudeCode.claudeProcessWrapper": "fcc-claude",
   "claudeCode.disableLoginPrompt": true,
   "git.confirmSync": false,
-  "git.enableSmartCommit": true
+  "git.enableSmartCommit": true,
+  "workbench.colorCustomizations": {
+    "activityBar.activeBorder": "#c8bfff",
+    "activityBarBadge.background": "#c8bfff",
+    "activityBarBadge.foreground": "#30285f",
+    "statusBar.background": "#c8bfff",
+    "statusBar.foreground": "#30285f",
+    "statusBarItem.remoteBackground": "#c8bfff",
+    "statusBarItem.remoteForeground": "#30285f",
+    "statusBarItem.prominentBackground": "#c8bfff",
+    "statusBarItem.prominentForeground": "#30285f",
+    "statusBarItem.prominentHoverBackground": "#473f77",
+    "focusBorder": "#c8bfff",
+    "button.background": "#c8bfff",
+    "button.foreground": "#30285f",
+    "progressBar.background": "#c8bfff",
+    "scrollbarSlider.activeBackground": "#c8bfff88",
+    "tab.activeBorderTop": "#c8bfff",
+    "list.activeSelectionBackground": "#473f77",
+    "list.activeSelectionForeground": "#e5deff"
+  }
 }
