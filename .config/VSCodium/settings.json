@@ -6,5 +6,6 @@
   "syncSettings.hooks.postDownload": "",
   "claudeCode.claudeProcessWrapper": "fcc-claude",
   "claudeCode.disableLoginPrompt": true,
-  "git.confirmSync": false
+  "git.confirmSync": false,
+  "git.enableSmartCommit": true
 }
