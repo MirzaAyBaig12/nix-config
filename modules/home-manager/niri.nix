@@ -1,23 +1,39 @@
 { config, pkgs, lib, ... }:
 
 {
-  # Empty placeholder fragments DMS writes its generated colors/layout/
-  # binds into (via `dms setup`, run once after first login to niri).
-  # niri's config.kdl fails to build if an `include` target doesn't
-  # exist yet, so these need to be real files from the start.
-  home.file = {
-    ".config/niri/dms/colors.kdl".text = lib.mkDefault "";
-    ".config/niri/dms/layout.kdl".text = lib.mkDefault "";
-    ".config/niri/dms/alttab.kdl".text = lib.mkDefault "";
-    ".config/niri/dms/binds.kdl".text = lib.mkDefault "";
-  };
+  # ~/.config/niri is a symlink into this repo (nix-config/.config/niri),
+  # so `dms setup` can freely read/write config.kdl and dms/*.kdl as
+  # normal files (not nix-store symlinks — HM's usual xdg.configFile is
+  # read-only and breaks dms's in-place rewrites), while the content still
+  # lives in git for backup/version history. Content itself is untracked
+  # by Nix on purpose; edit ~/nix-config/.config/niri/ directly or re-run
+  # `dms setup` and commit the result.
+  home.file.".config/niri".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-config/.config/niri";
 
-  # Raw KDL rather than programs.niri.settings, since DMS's `include`
-  # directives aren't expressible through the Nix-native settings schema.
-  programs.niri.config = ''
+  # dms/colors.kdl keeps getting regenerated back to light mode (DMS
+  # re-derives it from the system light/dark preference on its own,
+  # independent of Nix). Force it back to dark on every activation.
+  home.activation.dmsColorsDark = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    $DRY_RUN_CMD sed -i \
+      -e 's/5f5791/c8bfff/g' \
+      -e 's/79767f/938f99/g' \
+      -e 's/ba1a1a/ffb4ab/g' \
+      "${config.home.homeDirectory}/nix-config/.config/niri/dms/colors.kdl"
+  '';
+
+  # Old raw-KDL block kept below for reference — the goodies here
+  # (keyring spawn, custom binds, window rules) still need to get
+  # hand-copied into the real ~/nix-config/.config/niri/config.kdl:
+  /*
+  xdg.configFile."niri/config.kdl".text = ''
     spawn-at-startup "dms" "run"
     // Clipboard history
     spawn-at-startup "bash" "-c" "wl-paste --watch cliphist store &"
+    // GNOME Keyring — niri doesn't spawn this or wire up its env vars
+    // like a full DE session does, so both are needed explicitly.
+    spawn-at-startup "gnome-keyring-daemon" "--start" "--components=pkcs11,secrets,ssh"
+    spawn-at-startup "dbus-update-activation-environment" "--systemd" "--all"
 
     environment {
       XDG_CURRENT_DESKTOP "niri"
@@ -122,4 +138,5 @@
     include "dms/alttab.kdl"
     include "dms/binds.kdl"
   '';
+  */
 }
