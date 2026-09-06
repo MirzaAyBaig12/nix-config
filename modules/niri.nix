@@ -9,7 +9,10 @@
   # XWayland support — niri has no built-in Xwayland, it relies on the
   # separate xwayland-satellite process. Native module doesn't spawn it
   # automatically; needs the package installed + started at niri login.
-  environment.systemPackages = [ pkgs.xwayland-satellite ];
+  environment.systemPackages = [ 
+    pkgs.xwayland-satellite 
+    pkgs.xdg-desktop-portal-wlr # Added for wlroots screencopy/screenshots
+  ];
 
   # DankMaterialShell — the actual shell (panel, dock, launcher, lock
   # screen, notifications) for niri, since niri ships bare with none of
@@ -30,13 +33,19 @@
   };
 
   # Scope portals by session. niri gets COSMIC's portal first (native
-  # file picker, settings, notifications) with GNOME's as fallback —
-  # needed because xdg-desktop-portal-cosmic's screencast backend relies
-  # on cosmic-comp-specific protocols niri doesn't implement, while
-  # GNOME's screencast backend works with any wlr-screencopy compositor.
-  # COSMIC itself stays untouched on its own portal only.
-  xdg.portal.config = {
-    cosmic.default = [ "cosmic" ];
-    niri.default = lib.mkForce [ "cosmic" "gnome" ];
+  # file picker, settings, notifications) with xdg-desktop-portal-wlr 
+  # as the fallback for screenshots/screencast.
+  xdg.portal = { 
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
+    config = {
+      cosmic.default = [ "cosmic" ];
+      niri.default = lib.mkForce [ "cosmic" "wlr" ];
+      common = {
+        default = [ "wlr" ];
+        "org.freedesktop.impl.portal.Screenshot" = [ "wlr" ];
+        "org.freedesktop.impl.portal.Screencast" = [ "wlr" ];
+      };
+    };
   };
 }
