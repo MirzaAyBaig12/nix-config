@@ -21,7 +21,7 @@
     "statusBarItem.prominentHoverBackground": "#473f77",
     "focusBorder": "#c8bfff",
     "badge.background": "#c8bfff",
-    "badge.foreground": "#30285f",
+    "badge.foreground": "#30285f", 
     "extensionButton.background": "#c8bfff",
     "extensionButton.foreground": "#30285f",
     "extensionButton.hoverBackground": "#473f77",
