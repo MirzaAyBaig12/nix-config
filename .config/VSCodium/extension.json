@@ -1,6 +1,9 @@
 [
   "anthropic.claude-code",
   "anweber.local-sync",
+  "atomicspirit.nix-embedded-highlighter",
+  "jeff-hykin.better-nix-syntax",
+  "jnoortheen.nix-ide",
   "kd3n1z.vscode-material-theme-icons",
   "pkief.material-icon-theme",
   "yusifaliyevpro.vscicons",
