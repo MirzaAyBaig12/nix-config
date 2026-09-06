@@ -17,14 +17,24 @@
       name = "niri";
       # Explicit cursor for the greeter's own niri instance — doesn't
       # depend on theme-sync/ACLs working, always applies.
-      customConfig = ''
-        env {
-          XCURSOR_THEME,Bibata-Material-Slate
-          XCURSOR_SIZE,24
-        }
-      '';
+      
     };
     configHome = "/home/ayaan_mirza";
+  };
+
+  #Create a Niri Override for greetd
+  environment.etc."greetd/niri_overrides.kdl" = {
+    text = ''
+      hotkey-overlay {
+          skip-at-startup
+      }
+
+      cursor {
+          xcursor-theme "Bibata-Material-Lilac"
+          xcursor-size 24
+      }
+    '';
+    mode = "0644";
   };
 
   # greetd runs as a bare systemd service (user "cosmic-greeter"), not a
@@ -36,8 +46,9 @@
   # passed through since `env` only overrides the one var it's given and
   # inherits the rest of the service's environment as-is.
   systemd.services.greetd.environment = {
-    XCURSOR_THEME = "Bibata-Material-Slate";
+    XCURSOR_THEME = "Bibata-Material-Lilac";
     XCURSOR_SIZE = "24";
+    XDG_DATA_DIRS = "/run/current-system/sw/share";
   };
 
   xdg.portal = {
