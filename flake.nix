@@ -80,6 +80,24 @@
 
     # 17. LLM Agents Flake (Claude Code, Codex, Pi, OpenCode CLI)
     llm-agents.url = "github:numtide/llm-agents.nix";
+
+    # 18. niri — scrollable-tiling Wayland compositor
+    niri = {
+      url = "github:sodiboo/niri-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # 19. DankGreeter — greetd login screen for DankMaterialShell
+    dank-greeter = {
+      url = "github:AvengeMedia/dank-greeter";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # 20. DankSearch — file search backing DMS's launcher
+    danksearch = {
+      url = "github:AvengeMedia/danksearch";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, nix-snapd, nix-software-center, nix-flatpak, cosmic-manager, codex-desktop-linux, claude-desktop, mac-style-plymouth, winpodx, home-manager, llm-agents, ... }@inputs: {
@@ -109,6 +127,13 @@
 
           # Stylix — theming framework
           inputs.stylix.nixosModules.stylix
+
+          # niri is provided by nixpkgs' native NixOS module. Do not import
+          # niri-flake here: its legacy default package requires the removed
+          # libdisplay-info_0_2 compatibility alias.
+
+          # DankGreeter — greetd login screen (replaces cosmic-greeter)
+          inputs.dank-greeter.nixosModules.default
 
           # Enables the snap service inline
           {
