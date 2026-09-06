@@ -8,7 +8,7 @@
     NH_FLAKE = "/home/ayaan_mirza/nix-config";
     NH_OS_FLAKE = "/home/ayaan_mirza/nix-config";
     NH_ELEVATION_STRATEGY = "doas";
-    XCURSOR_THEME = "Bibata-Material-Slate";
+    XCURSOR_THEME = "Bibata-Material-Lilac";
     XCURSOR_SIZE = "24";
     NIXOS_INSTALL_BOOTLOADER = "true";
   };

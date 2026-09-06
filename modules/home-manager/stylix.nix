@@ -6,7 +6,7 @@
     
     cursor = {
       package = pkgs.callPackage ../../packages/bibata-material-cursor.nix {};
-      name = "Bibata-Material-Slate";
+      name = "Bibata-Material-Lilac";
       size = 24;
     };
 
@@ -88,11 +88,11 @@
       name = lib.mkForce "Adwaita";
     };
     cursorTheme = {
-      name = "Bibata-Material-Slate";
+      name = "Bibata-Material-Lilac";
       size = 24;
     };
     gtk2.extraConfig = ''
-      gtk-cursor-theme-name="Bibata-Material-Slate"
+      gtk-cursor-theme-name="Bibata-Material-Lilac"
       gtk-cursor-theme-size=24
       gtk-font-name="Sans 11"
       gtk-application-prefer-dark-theme=1
