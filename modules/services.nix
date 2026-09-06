@@ -80,11 +80,27 @@
   # target for COSMIC's native theme daemon, so this is a manual pin).
   system.activationScripts.forceCosmicDark = {
     text = ''
-      mkdir -p /home/ayaan_mirza/.config/cosmic/com.system76.CosmicTheme.Mode/v1
-      echo -n "true" > /home/ayaan_mirza/.config/cosmic/com.system76.CosmicTheme.Mode/v1/is_dark
-      chown ayaan_mirza:users /home/ayaan_mirza/.config/cosmic/com.system76.CosmicTheme.Mode/v1/is_dark
+      target=/home/ayaan_mirza/.config/cosmic/com.system76.CosmicTheme.Mode/v1/is_dark
+      mkdir -p "$(dirname "$target")"
+      tmp="$target.tmp.$$"
+      echo -n "true" > "$tmp"
+      chown ayaan_mirza:users "$tmp"
+      mv -f "$tmp" "$target"   # atomic rename -> fires MOVED_TO so cosmic-config's
+                                # inotify watcher actually picks up the change live
     '';
     deps = [ ];
+  };
+
+  # keyd: tapping bare Super/Mod alone sends Alt+Space (DMS's own
+  # spotlight-bar bind, see dms/binds.kdl) since niri can't natively bind
+  # a modifier-alone tap. Holding leftmeta still behaves as a normal
+  # modifier for every other Mod+ bind in niri — overload() handles that.
+  services.keyd = {
+    enable = true;
+    keyboards.default = {
+      ids = [ "*" ];
+      settings.main.leftmeta = "overload(meta, A-space)";
+    };
   };
 
   #Enable USBMUXD for iOS device management
