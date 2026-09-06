@@ -15,9 +15,11 @@
         ./home-manager/stylix.nix
         ./home-manager/nixd.nix
         ./home-manager/services.hm.nix
+        ./home-manager/niri.nix
 
         inputs.cosmic-manager.homeManagerModules.cosmic-manager
         inputs.stylix.homeModules.stylix
+        inputs.danksearch.homeModules.dsearch
       ];
 
       home.stateVersion = "26.05";
