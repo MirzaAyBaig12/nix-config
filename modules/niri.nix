@@ -6,6 +6,11 @@
   # niri flake input, imported in flake.nix.
   programs.niri.enable = true;
 
+  # XWayland support — niri has no built-in Xwayland, it relies on the
+  # separate xwayland-satellite process. Native module doesn't spawn it
+  # automatically; needs the package installed + started at niri login.
+  environment.systemPackages = [ pkgs.xwayland-satellite ];
+
   # DankMaterialShell — the actual shell (panel, dock, launcher, lock
   # screen, notifications) for niri, since niri ships bare with none of
   # that. Native nixpkgs module — needs nixos-unstable, which this flake
@@ -32,6 +37,6 @@
   # COSMIC itself stays untouched on its own portal only.
   xdg.portal.config = {
     cosmic.default = [ "cosmic" ];
-    niri.default = [ "cosmic" "gnome" ];
+    niri.default = lib.mkForce [ "cosmic" "gnome" ];
   };
 }
