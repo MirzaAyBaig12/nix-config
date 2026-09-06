@@ -114,6 +114,8 @@
     winetricks
     ghostty
     grim
+    slurp
+    satty
 
     # ==========================================
     # 4. SYSTEM & UTILITIES (CLI / GUI)
