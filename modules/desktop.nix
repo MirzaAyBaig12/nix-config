@@ -2,10 +2,30 @@
 
 {
   # Display Managers & Desktop Environments
-  services.xserver.enable = true;
-  services.displayManager.defaultSession = pkgs.lib.mkForce "cosmic";
-  services.displayManager.cosmic-greeter.enable = true;
+  services.displayManager.defaultSession = pkgs.lib.mkForce "niri";
+  services.displayManager.cosmic-greeter.enable = false;
   services.desktopManager.cosmic.enable = true;
+
+  # DankGreeter — greetd login screen matching DMS's theme. Compositor
+  # must be "niri" here since niri is what's actually installed via
+  # NixOS config (see note above the module option), not home-manager.
+  # configHome points at your user's DMS settings.json so the greeter
+  # picks up the same theme/accent instead of its own default.
+  programs.dms-greeter = {
+    enable = true;
+    compositor = {
+      name = "niri";
+      # Explicit cursor for the greeter's own niri instance — doesn't
+      # depend on theme-sync/ACLs working, always applies.
+      customConfig = ''
+        env {
+          XCURSOR_THEME,Bibata-Material-Slate
+          XCURSOR_SIZE,24
+        }
+      '';
+    };
+    configHome = "/home/ayaan_mirza";
+  };
 
   # greetd runs as a bare systemd service (user "cosmic-greeter"), not a
   # login-shell session — it never sees environment.variables in system.nix
