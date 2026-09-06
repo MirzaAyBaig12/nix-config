@@ -6,7 +6,6 @@
     "com.github.robertsanseries.ciano"
     "com.github.tchx84.Flatseal"
     "com.github.unrud.VideoDownloader"
-    "com.sidevesh.Luminance"
     "com.spotify.Client"
     "com.vysp3r.ProtonPlus"
     "dev.edfloreshz.CosmicTweaks"
@@ -33,11 +32,9 @@
     "org.kde.isoimagewriter"
     "org.pvermeer.WebAppHub"
     "uk.co.cappsy.Tesseract"
-    "xyz.riothedev.emojify"
   ];
 
   cosmic = [
-    { appId = "com.championpeak87.cosmic-ext-classic-menu"; origin = "cosmic"; }
     { appId = "com.github.MiracleForge.cosmic-ext-marketwatch"; origin = "cosmic"; }
     { appId = "com.github.bgub.CosmicExtAppletPomodoro"; origin = "cosmic"; }
     { appId = "com.github.bgub.CosmicExtAppletVigil"; origin = "cosmic"; }
