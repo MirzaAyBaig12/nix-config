@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
 {
   # niri — scrollable-tiling Wayland compositor, run as an alt session
@@ -16,9 +16,9 @@
 
   # DankMaterialShell — the actual shell (panel, dock, launcher, lock
   # screen, notifications) for niri, since niri ships bare with none of
-  # that. Native nixpkgs module — needs nixos-unstable, which this flake
-  # already tracks.
-  programs.dms-shell = {
+  # that. Tracked from DMS's own flake (stable branch) instead of
+  # nixpkgs' native module — see flake.nix.
+  programs.dank-material-shell = {
     enable = true;
     systemd = {
       enable = true;
