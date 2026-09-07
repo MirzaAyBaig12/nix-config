@@ -28,7 +28,6 @@
     "org.gnome.Boxes"
     "org.gnome.Chess"
     "org.kde.isoimagewriter"
-    "org.mozilla.thunderbird_esr"
     "org.pvermeer.WebAppHub"
     "uk.co.cappsy.Tesseract"
   ];
