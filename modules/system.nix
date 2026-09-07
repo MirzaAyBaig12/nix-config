@@ -86,20 +86,26 @@
   boot.initrd.systemd.enable = true;
   boot.consoleLogLevel = 3;
   boot.initrd.verbose = false;
+  boot.resumeDevice = "/dev/disk/by-uuid/8f7d05ae-c0d8-49e0-8799-46e2ad9a514d";
   boot.kernelParams = [
     "quiet"
     "splash"
     "rd.udev.log_level=3"
     "rd.systemd.show_status=auto"
+    "resume_offset=192512"
   ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  powerManagement.enable = true;
+  systemd.sleep.settings.Sleep = {
+    HibernateMode = "shutdown";
+  };
 
   boot.supportedFilesystems = [ "squashfs" ]; #Enable squashfs for Snap
 
   swapDevices = [
     { 
       device = "/swapfile"; 
-      size = 8192; # 8192 MB = 8 GB
+      size = 16384; # 16 GB to safely cover ~15.3GB RAM
     }
   ];
 
@@ -120,4 +126,3 @@
   virtualisation.waydroid.enable = true;
   virtualisation.waydroid.package = pkgs.waydroid-nftables;
 }
-
