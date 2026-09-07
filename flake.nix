@@ -114,6 +114,10 @@
       url = "github:AvengeMedia/dgop";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # 23. nix-monitor — tracks rebuild status/history. No nixpkgs input
+    # of its own to follow (standalone flake), unlike the others above.
+    nix-monitor.url = "github:antonjah/nix-monitor";
   };
 
   outputs = { self, nixpkgs, nix-snapd, nix-software-center, nix-flatpak, cosmic-manager, codex-desktop-linux, claude-desktop, mac-style-plymouth, winpodx, home-manager, llm-agents, ... }@inputs: {
