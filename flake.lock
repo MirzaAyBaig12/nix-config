@@ -968,6 +968,21 @@
         "type": "github"
       }
     },
+    "nix-monitor": {
+      "locked": {
+        "lastModified": 1771568669,
+        "narHash": "sha256-lTbQ13lQ3ZPNkdnFmxAMGf1Gjx//80lDDlcJR8msREI=",
+        "owner": "antonjah",
+        "repo": "nix-monitor",
+        "rev": "ef3db9d5a525ddf41355e8c456b40d56480a6626",
+        "type": "github"
+      },
+      "original": {
+        "owner": "antonjah",
+        "repo": "nix-monitor",
+        "type": "github"
+      }
+    },
     "nix-snapd": {
       "inputs": {
         "flake-compat": "flake-compat_5",
@@ -1313,6 +1328,7 @@
         "mac-style-plymouth": "mac-style-plymouth",
         "niri": "niri",
         "nix-flatpak": "nix-flatpak",
+        "nix-monitor": "nix-monitor",
         "nix-snapd": "nix-snapd",
         "nix-software-center": "nix-software-center",
         "nixos-conf-editor": "nixos-conf-editor",
