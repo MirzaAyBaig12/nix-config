@@ -18,6 +18,13 @@
       flatpak() {
         command flatpak "$@" && sync-flatpak-apps
       }
+
+      # dms shell completion — generated live so it never goes stale
+      # against whatever dms version is actually installed (oh-my-zsh's
+      # compinit has already run by this point in initContent)
+      if command -v dms >/dev/null 2>&1; then
+        eval "$(dms completion zsh)"
+      fi
     '';
     oh-my-zsh = {
       enable = true;
