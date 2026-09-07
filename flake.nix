@@ -98,6 +98,22 @@
       url = "github:AvengeMedia/danksearch";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # 21. DankMaterialShell — the actual shell itself, tracked from its
+    # own flake instead of nixpkgs' native module, for quicker feature
+    # updates. Using the "stable" branch, not master — master has drifted
+    # from what the docs (and the dgop.package option below) describe.
+    dms = {
+      url = "github:AvengeMedia/DankMaterialShell/stable";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # 22. dgop — DMS's system-monitoring TUI/backend, tracked separately
+    # so it can be wired into programs.dank-material-shell.dgop.package.
+    dgop = {
+      url = "github:AvengeMedia/dgop";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, nix-snapd, nix-software-center, nix-flatpak, cosmic-manager, codex-desktop-linux, claude-desktop, mac-style-plymouth, winpodx, home-manager, llm-agents, ... }@inputs: {
@@ -136,6 +152,10 @@
 
           # DankGreeter — greetd login screen (replaces cosmic-greeter)
           inputs.dank-greeter.nixosModules.default
+
+          # DankMaterialShell — from its own flake instead of nixpkgs'
+          # native module, for quicker feature updates (see niri.nix)
+          inputs.dms.nixosModules.dank-material-shell
 
           # Enables the snap service inline
           {
