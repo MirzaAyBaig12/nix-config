@@ -1,10 +1,18 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   # Display Managers & Desktop Environments
   services.displayManager.defaultSession = pkgs.lib.mkForce "niri";
   services.displayManager.cosmic-greeter.enable = false;
   services.desktopManager.cosmic.enable = true;
+
+  # dank-greeter's module only wires its package into greetd's own
+  # ExecStart — it never puts `dms-greeter` on PATH for your own shell
+  # (e.g. to run `dms-greeter --command niri` manually, check --version,
+  # etc). Add it explicitly.
+  environment.systemPackages = [
+    inputs.dank-greeter.packages.${pkgs.system}.default
+  ];
 
   # DankGreeter — greetd login screen matching DMS's theme. Compositor
   # must be "niri" here since niri is what's actually installed via
