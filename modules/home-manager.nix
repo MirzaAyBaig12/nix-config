@@ -20,6 +20,7 @@
         inputs.cosmic-manager.homeManagerModules.cosmic-manager
         inputs.stylix.homeModules.stylix
         inputs.danksearch.homeModules.dsearch
+        inputs.nix-monitor.homeManagerModules.default
       ];
 
       home.stateVersion = "26.05";
