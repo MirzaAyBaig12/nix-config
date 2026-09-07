@@ -1,11 +1,14 @@
 [
+  "aliataf.task-done",
   "anthropic.claude-code",
   "anweber.local-sync",
   "atomicspirit.nix-embedded-highlighter",
+  "b9software.vsx-auto-close-tab",
   "jeff-hykin.better-nix-syntax",
   "jnoortheen.nix-ide",
   "kd3n1z.vscode-material-theme-icons",
   "pkief.material-icon-theme",
+  "statiolake.vscode-auto-tab-closer",
   "yusifaliyevpro.vscicons",
   "zokugun.cron-tasks",
   "zwyx.autoclosetabs"
