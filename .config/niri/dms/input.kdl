@@ -12,6 +12,8 @@ input {
         accel-speed 0.0
         natural-scroll
         dwt
+        middle-emulation
+        drag-lock
     }
 }
 
