@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, osConfig, ... }:
 
 {
   # ~/.config/niri is a symlink into this repo (nix-config/.config/niri),
@@ -20,6 +20,28 @@
       -e 's/79767f/938f99/g' \
       -e 's/ba1a1a/ffb4ab/g' \
       "${config.home.homeDirectory}/nix-config/.config/niri/dms/colors.kdl"
+  '';
+
+  # dms.service's own systemd unit file gets symlinked into
+  # ~/.config/systemd/user/dms.service ONCE, imperatively, and never
+  # re-linked on later switches — so a DMS version bump silently leaves
+  # the OLD build running until this gets manually re-pointed. Do that
+  # here on every activation instead: always re-link to whatever package
+  # `programs.dank-material-shell` currently resolves to, and only
+  # daemon-reload + restart the service if the target actually changed
+  # (skip the restart on every no-op switch).
+  home.activation.dmsServiceRelink = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    DMS_UNIT="${osConfig.programs.dank-material-shell.package}/share/systemd/user/dms.service"
+    LINK="${config.home.homeDirectory}/.config/systemd/user/dms.service"
+    OLD_TARGET="$(readlink -f "$LINK" 2>/dev/null || true)"
+
+    $DRY_RUN_CMD mkdir -p "${config.home.homeDirectory}/.config/systemd/user"
+    $DRY_RUN_CMD ln -sfn "$DMS_UNIT" "$LINK"
+
+    if [ "$OLD_TARGET" != "$(readlink -f "$LINK" 2>/dev/null || true)" ]; then
+      $DRY_RUN_CMD ${pkgs.systemd}/bin/systemctl --user daemon-reload || true
+      $DRY_RUN_CMD ${pkgs.systemd}/bin/systemctl --user try-restart dms.service || true
+    fi
   '';
 
   # Old raw-KDL block kept below for reference — the goodies here
