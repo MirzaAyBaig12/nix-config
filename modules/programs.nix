@@ -27,10 +27,16 @@
   # Enable Podman
   virtualisation.podman = {
     enable = true;
-    dockerCompat = true;
+    dockerCompat = false;
     defaultNetwork.settings.dns_enabled = true;
   };
 
+  virtualisation.docker = {
+    enable = true;
+    autoPrune.enable = true;
+  };
+  users.users.ayaan_mirza.extraGroups = [ "docker" ];
+  
   # Steam
   programs.steam = {
     enable = true;
@@ -66,6 +72,7 @@
   # Session Variables
   environment.sessionVariables = {
     PATH = [ "/var/lib/snapd/snap/bin" ];
+    XDG_DATA_DIRS = [ "/run/current-system/sw/share" ];
   };
 
   programs.gamemode.enable = true;

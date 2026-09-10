@@ -86,6 +86,7 @@
     enable = true;
     iconTheme = {
       name = lib.mkForce "Adwaita";
+      package = pkgs.adwaita-icon-theme;
     };
     cursorTheme = {
       name = "Bibata-Material-Lilac";
