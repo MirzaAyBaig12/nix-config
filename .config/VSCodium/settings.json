@@ -43,5 +43,14 @@
   },
   "editor.minimap.enabled": false,
   "workbench.experimental.modernUI": true,
-  "autoclosetabs.numberOfTabsInGroup": 0
+  "autoclosetabs.numberOfTabsInGroup": 0,
+  "autoclosetabs.tabAgeForAutomaticClosing": 1,
+  "B9AutoCloseTab.maxTabs": 9,
+  "auto-tab-closer.numMaxTabs": 0,
+  "auto-tab-closer.numLeftTabs": 0,
+  "workbench.settings.applyToAllProfiles": [
+    "autoclosetabs.tabAgeForAutomaticClosing",
+    "autoclosetabs.numberOfTabsInGroup"
+  ],
+  "security.workspace.trust.untrustedFiles": "open"
 }

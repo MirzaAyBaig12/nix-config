@@ -9,6 +9,8 @@
 		"a-file-icon-vscode.folderColor": "#607d8b",
 		"nixEnvSelector.nixFile": "${workspaceFolder}/configuration.nix",
 		"nixEnvSelector.useFlakes": false,
-		"workbench.experimental.modernUI": true
+		"workbench.experimental.modernUI": true,
+		"autoclosetabs.numberOfTabsInGroup": 0,
+		"autoclosetabs.tabAgeForAutomaticClosing": 1
 	}
 }
