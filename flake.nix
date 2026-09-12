@@ -118,6 +118,12 @@
     # 23. nix-monitor — tracks rebuild status/history. No nixpkgs input
     # of its own to follow (standalone flake), unlike the others above.
     nix-monitor.url = "github:antonjah/nix-monitor";
+
+    # 24. Pinned nixpkgs rev carrying xwayland-satellite 0.8.1 — the
+    # current nixos-unstable version has a bug that breaks Xwayland apps
+    # under niri; downgrading just this one package via an older pinned
+    # nixpkgs rev fixes it. See modules/niri.nix.
+    nixpkgs-xwayland-satellite-0-8-1.url = "github:nixos/nixpkgs/edfd59b795cd752c36d2dae60870cffcd23d3fb1";
   };
 
   outputs = { self, nixpkgs, nix-snapd, nix-software-center, nix-flatpak, cosmic-manager, codex-desktop-linux, claude-desktop, mac-style-plymouth, winpodx, home-manager, llm-agents, ... }@inputs: {
