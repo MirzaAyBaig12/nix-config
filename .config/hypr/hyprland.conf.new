@@ -1,0 +1,255 @@
+# Hyprland config — plain, hand-edited file (see
+# modules/home-manager/hyprland.nix for why this isn't home-manager-owned).
+# Keybinds below are a 1:1 translation of what lived in the old
+# ~/nix-config/.config/niri/config.kdl + dms/binds.kdl, so muscle memory
+# carries over. Run `hyprctl configerrors` after first launch to catch
+# any syntax drift from whatever Hyprland version the flake pulls in.
+
+$mainMod = SUPER
+
+monitor = , preferred, auto, auto
+
+# --- Autostart ---------------------------------------------------------
+exec-once = dms run
+exec-once = gnome-keyring-daemon --start --components=pkcs11,secrets,ssh
+exec-once = dbus-update-activation-environment --systemd --all
+exec-once = wl-paste --watch cliphist store
+
+env = XDG_CURRENT_DESKTOP,Hyprland
+env = XDG_SESSION_TYPE,wayland
+env = QT_QPA_PLATFORM,wayland
+env = QT_QPA_PLATFORMTHEME,gtk3
+env = XCURSOR_THEME,Bibata-Material-Lilac
+env = XCURSOR_SIZE,24
+
+# --- General / layout ----------------------------------------------------
+general {
+    gaps_in = 6
+    gaps_out = 6
+    border_size = 2
+    layout = scrolling
+}
+
+# Scrolling layout is built into Hyprland core now (the old
+# hyprland-plugins/hyprscrolling plugin got merged upstream) — this is
+# the niri-style "infinite tape of columns" behavior.
+scrolling {
+    fullscreen_on_one_column = true
+    column_width = 0.5
+    focus_fit_method = 1
+    follow_focus = true
+    direction = right
+}
+
+decoration {
+    rounding = 12
+}
+
+input {
+    kb_layout = us
+    numlock_by_default = true
+    sensitivity = 0.0
+
+    touchpad {
+        natural_scroll = true
+        tap-to-click = true
+        drag_lock = true
+        middle_button_emulation = true
+        disable_while_typing = true
+    }
+}
+
+# --- DMS surfaces: blur through, matching the old niri wpblur.kdl -------
+layerrule = blur, ^(quickshell)$
+layerrule = ignorezero, ^(quickshell)$
+
+# --- Gestures ------------------------------------------------------------
+# niri-style: 3-finger horizontal swipe scrolls through columns (like
+# panning the scrolling layout), 3-finger vertical swipe switches
+# workspace up/down. If left/right feels backwards for your touchpad's
+# natural-scroll setting, just swap the two `focus` lines below.
+gesture = 3, left, layoutmsg, focus r
+gesture = 3, right, layoutmsg, focus l
+gesture = 3, up, workspace, r-1
+gesture = 3, down, workspace, r+1
+
+# --- Super key / spotlight -----------------------------------------------
+# Bare Super tap opens the spotlight bar directly — replaces the old keyd
+# hack that remapped a bare Super press into Alt+Space (niri couldn't
+# bind a modifier-alone tap natively; Hyprland can, via bindr).
+bindr = SUPER, SUPER_L, exec, dms ipc call spotlight-bar toggle
+# Alt+Space kept too, in case you still want the explicit combo directly.
+bind = ALT, space, exec, dms ipc call spotlight-bar toggle
+
+bind = $mainMod, space, exec, dms ipc call spotlight toggle
+
+# --- DMS panels / IPC calls -----------------------------------------------
+bind = ALT CTRL, L, exec, dms ipc call powermenu toggle
+bind = $mainMod, X, exec, dms ipc call powermenu toggle
+bind = ALT, F, exec, dms ipc call defaultApp fileManager
+bind = CTRL ALT, Delete, exec, dms ipc call processlist focusOrToggle
+bind = CTRL SHIFT, R, exec, dms ipc call workspace-rename open
+bind = $mainMod ALT, L, exec, dms ipc call lock lock
+bind = $mainMod, B, exec, dms ipc call defaultApp browser
+bind = $mainMod, comma, exec, dms ipc call settings focusOrToggle
+bind = $mainMod, M, exec, dms ipc call processlist focusOrToggle
+bind = $mainMod, N, exec, dms ipc call notifications toggle
+bind = $mainMod, P, exec, dms ipc outputs cycleProfile
+bind = $mainMod SHIFT, N, exec, dms ipc call notepad toggle
+bind = $mainMod SHIFT, W, exec, dms ipc call window-rules toggle
+bind = $mainMod, V, exec, dms ipc call clipboard toggle
+bind = $mainMod, Y, exec, dms ipc call dash toggle wallpaper
+
+# --- Media / brightness (allowed while locked) ----------------------------
+bindl = CTRL, XF86AudioLowerVolume, exec, dms ipc call mpris decrement 3
+bindl = CTRL, XF86AudioRaiseVolume, exec, dms ipc call mpris increment 3
+bindl = , XF86AudioLowerVolume, exec, dms ipc call audio decrement 3
+bindl = , XF86AudioRaiseVolume, exec, dms ipc call audio increment 3
+bindl = , XF86AudioMicMute, exec, dms ipc call audio micmute
+bindl = , XF86AudioMute, exec, dms ipc call audio mute
+bindl = , XF86AudioNext, exec, dms ipc call mpris next
+bindl = , XF86AudioPrev, exec, dms ipc call mpris previous
+bindl = , XF86AudioPlay, exec, dms ipc call mpris playPause
+bindl = , XF86AudioPause, exec, dms ipc call mpris playPause
+bindl = , XF86MonBrightnessDown, exec, dms ipc call brightness decrement 5 ""
+bindl = , XF86MonBrightnessUp, exec, dms ipc call brightness increment 5 ""
+
+# --- Apps ------------------------------------------------------------------
+bind = $mainMod, T, exec, ghostty
+bind = ALT, C, exec, claude-desktop
+bind = ALT, V, exec, codium
+bind = $mainMod SHIFT, S, exec, grim -g "$(slurp)" - | satty --filename - --early-exit --copy-command wl-copy
+
+# --- Screenshots -------------------------------------------------------
+bind = , Print, exec, grim -g "$(slurp)" ~/Pictures/Screenshots/Screenshot-$(date +%Y-%m-%d-%H-%M-%S).png
+bind = , XF86Launch1, exec, grim -g "$(slurp)" ~/Pictures/Screenshots/Screenshot-$(date +%Y-%m-%d-%H-%M-%S).png
+bind = CTRL, Print, exec, grim - | satty --filename - --early-exit --copy-command wl-copy
+bind = CTRL, XF86Launch1, exec, grim - | satty --filename - --early-exit --copy-command wl-copy
+bind = ALT, Print, exec, grim -g "$(hyprctl activewindow -j | jq -r '"\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"')" - | satty --filename - --early-exit --copy-command wl-copy
+bind = ALT, XF86Launch1, exec, grim -g "$(hyprctl activewindow -j | jq -r '"\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"')" - | satty --filename - --early-exit --copy-command wl-copy
+
+# --- Window management -----------------------------------------------------
+bind = $mainMod, Q, killactive,
+bind = $mainMod, F, fullscreen, 1
+bind = $mainMod SHIFT, F, fullscreen, 0
+bind = $mainMod, G, togglefloating,
+bind = $mainMod SHIFT, T, togglefloating,
+bind = $mainMod, C, layoutmsg, fit active
+bind = $mainMod CTRL, C, layoutmsg, fit visible
+bind = $mainMod CTRL, F, layoutmsg, fit expand
+bind = $mainMod, R, layoutmsg, colresize +conf
+bind = $mainMod, equal, layoutmsg, colresize +0.1
+bind = $mainMod, minus, layoutmsg, colresize -0.1
+bind = $mainMod SHIFT, equal, resizeactive, 0 50
+bind = $mainMod SHIFT, minus, resizeactive, 0 -50
+bind = $mainMod, period, layoutmsg, promote
+bind = $mainMod, bracketleft, layoutmsg, movewindowto l
+bind = $mainMod, bracketright, layoutmsg, movewindowto r
+bind = $mainMod, Home, layoutmsg, fit tobeg
+bind = $mainMod, End, layoutmsg, fit toend
+bind = $mainMod SHIFT, P, dpms, off
+bind = $mainMod SHIFT, E, exit,
+
+# --- Focus movement (H/J/K/L + arrows, same as niri) ------------------
+bind = $mainMod, H, movefocus, l
+bind = $mainMod, left, movefocus, l
+bind = $mainMod, L, movefocus, r
+bind = $mainMod, right, movefocus, r
+bind = $mainMod, J, movefocus, d
+bind = $mainMod, down, movefocus, d
+bind = $mainMod, K, movefocus, u
+bind = $mainMod, up, movefocus, u
+
+# --- Move window (Shift + H/J/K/L + arrows) -----------------------------
+bind = $mainMod SHIFT, H, layoutmsg, swapcol l
+bind = $mainMod SHIFT, left, layoutmsg, swapcol l
+bind = $mainMod SHIFT, L, layoutmsg, swapcol r
+bind = $mainMod SHIFT, right, layoutmsg, swapcol r
+bind = $mainMod SHIFT, J, movewindow, d
+bind = $mainMod SHIFT, down, movewindow, d
+bind = $mainMod SHIFT, K, movewindow, u
+bind = $mainMod SHIFT, up, movewindow, u
+
+# --- Monitor focus / move-to-monitor (Ctrl+H/J/K/L + arrows) -----------
+bind = $mainMod CTRL, H, focusmonitor, l
+bind = $mainMod CTRL, left, focusmonitor, l
+bind = $mainMod CTRL, L, focusmonitor, r
+bind = $mainMod CTRL, right, focusmonitor, r
+bind = $mainMod CTRL, J, focusmonitor, d
+bind = $mainMod CTRL, K, focusmonitor, u
+bind = $mainMod SHIFT CTRL, H, movewindow, mon:l
+bind = $mainMod SHIFT CTRL, left, movewindow, mon:l
+bind = $mainMod SHIFT CTRL, L, movewindow, mon:r
+bind = $mainMod SHIFT CTRL, right, movewindow, mon:r
+bind = $mainMod SHIFT CTRL, J, movewindow, mon:d
+bind = $mainMod SHIFT CTRL, down, movewindow, mon:d
+bind = $mainMod SHIFT CTRL, K, movewindow, mon:u
+bind = $mainMod SHIFT CTRL, up, movewindow, mon:u
+
+# --- Workspaces --------------------------------------------------------
+bind = $mainMod, 1, workspace, 1
+bind = $mainMod, 2, workspace, 2
+bind = $mainMod, 3, workspace, 3
+bind = $mainMod, 4, workspace, 4
+bind = $mainMod, 5, workspace, 5
+bind = $mainMod, 6, workspace, 6
+bind = $mainMod, 7, workspace, 7
+bind = $mainMod, 8, workspace, 8
+bind = $mainMod, 9, workspace, 9
+
+bind = $mainMod SHIFT, 1, movetoworkspace, 1
+bind = $mainMod SHIFT, 2, movetoworkspace, 2
+bind = $mainMod SHIFT, 3, movetoworkspace, 3
+bind = $mainMod SHIFT, 4, movetoworkspace, 4
+bind = $mainMod SHIFT, 5, movetoworkspace, 5
+bind = $mainMod SHIFT, 6, movetoworkspace, 6
+bind = $mainMod SHIFT, 7, movetoworkspace, 7
+bind = $mainMod SHIFT, 8, movetoworkspace, 8
+bind = $mainMod SHIFT, 9, movetoworkspace, 9
+
+bind = $mainMod, U, workspace, r+1
+bind = $mainMod, I, workspace, r-1
+bind = $mainMod, Page_Down, workspace, r+1
+bind = $mainMod, Page_Up, workspace, r-1
+bind = $mainMod, mouse_down, workspace, r+1
+bind = $mainMod, mouse_up, workspace, r-1
+
+bind = $mainMod CTRL, U, movetoworkspace, r+1
+bind = $mainMod CTRL, I, movetoworkspace, r-1
+bind = $mainMod CTRL, down, movetoworkspace, r+1
+bind = $mainMod CTRL, up, movetoworkspace, r-1
+bind = $mainMod CTRL, mouse_down, movetoworkspace, r+1
+bind = $mainMod CTRL, mouse_up, movetoworkspace, r-1
+
+# --- Alt-tab ---------------------------------------------------------------
+# niri's built-in window switcher had no Hyprland equivalent, so this is
+# cyclenext-based; grave binds don't filter to same-app windows like
+# niri's did — Hyprland has no native equivalent for that filter.
+bind = ALT, Tab, cyclenext,
+bind = ALT, Tab, bringactivetotop,
+bind = ALT SHIFT, Tab, cyclenext, prev
+bind = ALT SHIFT, Tab, bringactivetotop,
+bind = ALT, grave, cyclenext,
+bind = ALT SHIFT, grave, cyclenext, prev
+
+# --- Window rules (translated from niri's window-rule matches) ---------
+windowrulev2 = float, class:^(gnome-control-center|pavucontrol|nm-connection-editor)$
+windowrulev2 = float, class:^(org.gnome.Calculator|gnome-calculator|galculator|blueman-manager|org.gnome.Nautilus|xdg-desktop-portal)$
+windowrulev2 = float, class:^(zoom)$, title:^(Picture-in-Picture)$
+
+# --- Dropped from niri with no clean Hyprland equivalent (see chat) -----
+# - move-workspace-up/down (Mod+Shift+I/U/Page_Up/Page_Down): niri
+#   reorders workspaces in its per-output vertical stack; Hyprland's
+#   flat numbered-workspace model has no equivalent "reorder" dispatcher.
+# - move-column-to-first/last (Mod+Ctrl+Home/End): no direct equivalent
+#   dispatcher in the scrolling layout beyond `fit tobeg/toend`, which
+#   only pans the view rather than reordering the column.
+# - toggle-column-tabbed-display (Mod+W): scrolling layout has no tabbed
+#   column concept.
+# - toggle-keyboard-shortcuts-inhibit (Mod+Escape): Wayland accessibility
+#   toggle niri had for VM/remote-desktop apps grabbing all keys; no
+#   Hyprland dispatcher for this.
+# - toggle-overview (Mod+O / Mod+Tab): Hyprland has no built-in overview.
+#   If you want this back, the community "ScrollOverview" plugin
+#   (github: yayuuu/hyprland-scroll-overview) targets exactly this for
+#   the scrolling layout — happy to wire it in if you want it.
