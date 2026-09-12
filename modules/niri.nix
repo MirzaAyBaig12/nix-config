@@ -9,8 +9,11 @@
   # XWayland support — niri has no built-in Xwayland, it relies on the
   # separate xwayland-satellite process. Native module doesn't spawn it
   # automatically; needs the package installed + started at niri login.
+  # Pinned to 0.8.1 via an older nixpkgs rev — current nixos-unstable's
+  # version has a bug breaking Xwayland apps (found via a Reddit thread,
+  # not upstream-fixed yet). See flake.nix input #24.
   environment.systemPackages = [ 
-    pkgs.xwayland-satellite 
+    (import inputs.nixpkgs-xwayland-satellite-0-8-1 { system = pkgs.stdenv.hostPlatform.system; }).xwayland-satellite
     pkgs.xdg-desktop-portal-wlr # Added for wlroots screencopy/screenshots
   ];
 

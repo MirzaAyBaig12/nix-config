@@ -85,8 +85,8 @@
   gtk = {
     enable = true;
     iconTheme = {
-      name = lib.mkForce "Adwaita";
-      package = pkgs.adwaita-icon-theme;
+      name = lib.mkForce "Papirus-Dark";
+      package = pkgs.papirus-icon-theme;
     };
     cursorTheme = {
       name = "Bibata-Material-Lilac";
