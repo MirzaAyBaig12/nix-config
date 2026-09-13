@@ -101,10 +101,11 @@
 
     # 21. DankMaterialShell — the actual shell itself, tracked from its
     # own flake instead of nixpkgs' native module, for quicker feature
-    # updates. Using the "stable" branch, not master — master has drifted
-    # from what the docs (and the dgop.package option below) describe.
+    # updates. Pinned to the v1.6.0 commit specifically (not "stable"
+    # HEAD) to test whether v1.6.0/1.6.1's icon-theme-probing change is
+    # what broke app icons — see chat, Sep 12 2026.
     dms = {
-      url = "github:AvengeMedia/DankMaterialShell/stable";
+      url = "github:AvengeMedia/DankMaterialShell/0bbe833";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
