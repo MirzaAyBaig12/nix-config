@@ -28,7 +28,6 @@
     "org.gnome.Boxes"
     "org.gnome.Chess"
     "org.kde.isoimagewriter"
-    "org.onlyoffice.desktopeditors"
     "org.pvermeer.WebAppHub"
     "page.codeberg.grinka.Transition"
     "uk.co.cappsy.Tesseract"
