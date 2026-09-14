@@ -28,7 +28,6 @@
     "org.gnome.Boxes"
     "org.gnome.Chess"
     "org.kde.isoimagewriter"
-    "org.pvermeer.WebAppHub"
     "page.codeberg.grinka.Transition"
     "uk.co.cappsy.Tesseract"
     "xyz.ketok.Speedtest"
