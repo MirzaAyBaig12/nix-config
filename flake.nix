@@ -86,19 +86,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # 19. DankGreeter
-    dank-greeter.url = "github:AvengeMedia/dank-greeter";
-    dank-greeter.inputs.nixpkgs.follows = "nixpkgs";
-
     # 20. DankSearch
     danksearch.url = "github:AvengeMedia/danksearch";
     danksearch.inputs.nixpkgs.follows = "nixpkgs";
-
-    # 21. DankMaterialShell
-    dms = {
-      url = "github:AvengeMedia/DankMaterialShell/stable";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
 
     # 22. dgop
     dgop = {
@@ -163,12 +153,6 @@
 
             # Stylix
             inputs.stylix.nixosModules.stylix
-
-            # DankGreeter
-            inputs.dank-greeter.nixosModules.default
-
-            # DankMaterialShell
-            inputs.dms.nixosModules.dank-material-shell
 
             # Snap service
             {

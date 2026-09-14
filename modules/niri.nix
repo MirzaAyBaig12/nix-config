@@ -26,8 +26,8 @@
 
   # DankMaterialShell — the actual shell (panel, dock, launcher, lock
   # screen, notifications) for niri, since niri ships bare with none of
-  # that. Tracked from DMS's own flake (stable branch) instead of
-  # nixpkgs' native module — see flake.nix.
+  # that. Comes from nixpkgs directly (vendored built-in module, same
+  # option schema as the standalone flake) — no separate flake input.
   programs.dms-shell = {
     enable = true;
     systemd = {
