@@ -14,6 +14,7 @@
     "io.github.flattool.Warehouse"
     "io.github.giantpinkrobots.bootqt"
     "io.github.kolunmi.Bazaar"
+    "io.github.nacho.mecalin"
     "io.github.shiftey.Desktop"
     "io.github.streetpea.Chiaki4deck"
     "io.github.ungoogled_software.ungoogled_chromium"
