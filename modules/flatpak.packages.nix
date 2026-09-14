@@ -15,6 +15,7 @@
     "io.github.kolunmi.Bazaar"
     "io.github.nacho.mecalin"
     "io.github.screwys.Rufin"
+    "io.github.seadve.Kooha"
     "io.github.shiftey.Desktop"
     "io.github.streetpea.Chiaki4deck"
     "io.github.ungoogled_software.ungoogled_chromium"
