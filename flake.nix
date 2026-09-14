@@ -2,15 +2,14 @@
   description = "My NixOS Configuration Flake";
 
   nixConfig = {
-      extra-substituters = [ "https://look.cachix.org" ];
-      extra-trusted-public-keys = [ "look.cachix.org-1:8elPCeSVBzlDZXqIRKBK9GyLIK/Hoe1xiWZF0ir7uX4=" ];
-      extra-deprecated-features = [ "or-as-identifier" ];
-    };
+    extra-substituters = [ "https://look.cachix.org" ];
+    extra-trusted-public-keys = [ "look.cachix.org-1:8elPCeSVBzlDZXqIRKBK9GyLIK/Hoe1xiWZF0ir7uX4=" ];
+    extra-deprecated-features = [ "or-as-identifier" ];
+  };
 
   inputs = {
-
     # 1. Core NixOS package repository
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     # 2. Third-party Snap support for NixOS
     nix-snapd.url = "github:nix-community/nix-snapd";
@@ -22,10 +21,10 @@
     # 4. Declarative Flatpak support
     nix-flatpak.url = "github:gmodena/nix-flatpak";
 
-    # 5. Codex Desktop (Linux) — ChatGPT Desktop, installed via its
+    # 5. Codex Desktop
     codex-desktop-linux.url = "github:ilysenko/codex-desktop-linux";
 
-    # 6. Claude Desktop (unofficial Linux build)
+    # 6. Claude Desktop
     claude-desktop.url = "github:aaddrick/claude-desktop-debian";
     claude-desktop.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -45,152 +44,192 @@
     # 10. GUI for efibootmgr
     efiboots.url = "github:elinvention/efiboots";
 
-    # 11. iLoader for iOS Sideloading
+    # 11. iLoader
     iloader.url = "github:nab138/iloader";
 
-    # 12. Look Launcher (Cachix)
+    # 12. Look Launcher
     look.url = "github:kunkka19xx/look?dir=apps/linows";
 
-    # 13. Home-Manager
+    # 13. Home Manager
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # 14. Lanzaboote — Secure Boot for NixOS
+    # 14. Lanzaboote
     lanzaboote = {
       url = "github:nix-community/lanzaboote";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # 15. Custom Packages Flake (thorium, fladder, seanime, etc.)
+    # 15. Custom Packages Flake
     custom-packages.url = "github:Rishabh5321/custom-packages-flake";
 
-    # 16. Stylix — theming framework
+    # 16. Stylix
     stylix.url = "github:nix-community/stylix";
     stylix.inputs.nixpkgs.follows = "nixpkgs";
 
     cosmic-manager = {
       url = "github:HeitorAugustoLN/cosmic-manager";
+
       inputs = {
         nixpkgs.follows = "nixpkgs";
         home-manager.follows = "home-manager";
       };
     };
 
-    # 17. LLM Agents Flake (Claude Code, Codex, Pi, OpenCode CLI)
+    # 17. LLM Agents
     llm-agents.url = "github:numtide/llm-agents.nix";
 
-    # 18. niri — scrollable-tiling Wayland compositor
+    # 18. niri
     niri = {
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # 19. DankGreeter — greetd login screen for DankMaterialShell
-    dank-greeter = {
-      url = "github:AvengeMedia/dank-greeter";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # 19. DankGreeter
+    dank-greeter.url = "github:AvengeMedia/dank-greeter";
+    dank-greeter.inputs.nixpkgs.follows = "nixpkgs";
 
-    # 20. DankSearch — file search backing DMS's launcher
-    danksearch = {
-      url = "github:AvengeMedia/danksearch";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # 20. DankSearch
+    danksearch.url = "github:AvengeMedia/danksearch";
+    danksearch.inputs.nixpkgs.follows = "nixpkgs";
 
-    # 21. DankMaterialShell — the actual shell itself, tracked from its
-    # own flake instead of nixpkgs' native module, for quicker feature
-    # updates. Pinned to the v1.6.0 commit specifically (not "stable"
-    # HEAD) to test whether v1.6.0/1.6.1's icon-theme-probing change is
-    # what broke app icons — see chat, Sep 12 2026.
+    # 21. DankMaterialShell
     dms = {
-      url = "github:AvengeMedia/DankMaterialShell/0bbe833";
+      url = "github:AvengeMedia/DankMaterialShell/stable";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # 22. dgop — DMS's system-monitoring TUI/backend, tracked separately
-    # so it can be wired into programs.dank-material-shell.dgop.package.
+    # 22. dgop
     dgop = {
       url = "github:AvengeMedia/dgop";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # 23. nix-monitor — tracks rebuild status/history. No nixpkgs input
-    # of its own to follow (standalone flake), unlike the others above.
+    # 23. nix-monitor
     nix-monitor.url = "github:antonjah/nix-monitor";
 
-    # 24. Pinned nixpkgs rev carrying xwayland-satellite 0.8.1 — the
-    # current nixos-unstable version has a bug that breaks Xwayland apps
-    # under niri; downgrading just this one package via an older pinned
-    # nixpkgs rev fixes it. See modules/niri.nix.
-    nixpkgs-xwayland-satellite-0-8-1.url = "github:nixos/nixpkgs/edfd59b795cd752c36d2dae60870cffcd23d3fb1";
-  };
+    # 24. Pinned nixpkgs for xwayland-satellite 0.8.1
+    nixpkgs-xwayland-satellite-0-8-1.url =
+      "github:nixos/nixpkgs/edfd59b795cd752c36d2dae60870cffcd23d3fb1";
 
-  outputs = { self, nixpkgs, nix-snapd, nix-software-center, nix-flatpak, cosmic-manager, codex-desktop-linux, claude-desktop, mac-style-plymouth, winpodx, home-manager, llm-agents, ... }@inputs: {
-    formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt;
-
-    nixosConfigurations = {
-      Void = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; };
-
-        modules = [
-          # Links your local configuration.nix file
-          ./configuration.nix
-
-          # Replaces the old top-level `system = "x86_64-linux"` arg to
-          # nixosSystem (deprecated in favor of stdenv.hostPlatform.system)
-          { nixpkgs.hostPlatform = "x86_64-linux"; }
-
-          # Pulls in the Snap module from the nix-snapd repository
-          nix-snapd.nixosModules.default
-
-          # Codex Desktop (ChatGPT Desktop) NixOS module
-          codex-desktop-linux.nixosModules.default
-
-          # Declarative Flatpak module
-          nix-flatpak.nixosModules.nix-flatpak
-
-          # Lanzaboote — Secure Boot module
-          inputs.lanzaboote.nixosModules.lanzaboote
-
-          # Stylix — theming framework
-          inputs.stylix.nixosModules.stylix
-
-          # niri is provided by nixpkgs' native NixOS module. Do not import
-          # niri-flake here: its legacy default package requires the removed
-          # libdisplay-info_0_2 compatibility alias.
-
-          # DankGreeter — greetd login screen (replaces cosmic-greeter)
-          inputs.dank-greeter.nixosModules.default
-
-          # DankMaterialShell — from its own flake instead of nixpkgs'
-          # native module, for quicker feature updates (see niri.nix)
-          inputs.dms.nixosModules.dank-material-shell
-
-          # Enables the snap service inline
-          {
-            services.snap.enable = false;
-          }
-
-          # Applies the mac-style plymouth theme overlay
-          {
-            nixpkgs.overlays = [ mac-style-plymouth.overlays.default ];
-          }
-
-          # Tags each generation with the git revision it was built from
-          {
-            system.configurationRevision = self.rev or self.dirtyRev or "dirty";
-          }
-
-          # Explicitly permits the insecure ventoy-gtk package
-          {
-            nixpkgs.config.permittedInsecurePackages = [
-              "ventoy-gtk3-1.1.17"
-            ];
-          }
-        ];
-      };
+    # 25. Keymasq
+    keymasq = {
+      url = "github:nyrda/keymasq";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
+
+  outputs =
+    {
+      self,
+      nixpkgs,
+      nix-snapd,
+      nix-software-center,
+      nix-flatpak,
+      cosmic-manager,
+      codex-desktop-linux,
+      claude-desktop,
+      mac-style-plymouth,
+      winpodx,
+      home-manager,
+      llm-agents,
+      keymasq,
+      ...
+    }@inputs:
+    {
+      formatter.x86_64-linux =
+        nixpkgs.legacyPackages.x86_64-linux.nixfmt;
+
+      nixosConfigurations = {
+        Void = nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            inherit inputs;
+          };
+
+          modules = [
+            # Main configuration
+            ./configuration.nix
+
+            {
+              nixpkgs.hostPlatform = "x86_64-linux";
+            }
+
+            # Snap support
+            nix-snapd.nixosModules.default
+
+            # Codex Desktop
+            codex-desktop-linux.nixosModules.default
+
+            # Declarative Flatpak
+            nix-flatpak.nixosModules.nix-flatpak
+
+            # Lanzaboote
+            inputs.lanzaboote.nixosModules.lanzaboote
+
+            # Stylix
+            inputs.stylix.nixosModules.stylix
+
+            # DankGreeter
+            inputs.dank-greeter.nixosModules.default
+
+            # DankMaterialShell
+            inputs.dms.nixosModules.dank-material-shell
+
+            # Keymasq
+            keymasq.nixosModules.default
+
+            # Snap service
+            {
+              services.snap.enable = false;
+            }
+
+            # Plymouth overlay
+            {
+              nixpkgs.overlays = [
+                mac-style-plymouth.overlays.default
+              ];
+            }
+
+            # Generation revision
+            {
+              system.configurationRevision =
+                self.rev or self.dirtyRev or "dirty";
+            }
+
+            # Insecure packages
+            {
+              nixpkgs.config.permittedInsecurePackages = [
+                "ventoy-gtk3-1.1.17"
+              ];
+            }
+
+            # Keymasq configuration
+            {
+              services.keymasq = {
+                enable = true;
+                installPackage = true;
+
+                securityConfig = {
+                  daemon_allowed_uids = [];
+                  session_allowed_uids = [];
+
+                  macro.exec_timeout_max_ms = 30000;
+
+                  gui = {
+                    emergency_cancel_combo_enabled = true;
+                  };
+
+                  recording_guard = {
+                    unlock_required = true;
+                    macro_edit_requires_unlock = false;
+                  };
+                };
+              };
+            }
+          ];
+        };
+      };
+    };
 }
