@@ -35,7 +35,6 @@
 
   cosmic = [
     { appId = "com.github.bgub.CosmicExtAppletVigil"; origin = "cosmic"; }
-    { appId = "com.vintagetechie.CosmicExtAppletTempest"; origin = "cosmic"; }
     { appId = "dev.cappsy.CosmicExtAppletLogoMenu"; origin = "cosmic"; }
     { appId = "io.github.cosmic_utils.weather-applet"; origin = "cosmic"; }
   ];
