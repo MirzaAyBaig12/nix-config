@@ -7,6 +7,7 @@
     "com.github.unrud.VideoDownloader"
     "com.spotify.Client"
     "com.vysp3r.ProtonPlus"
+    "de.wwwtech.gitte"
     "dev.edfloreshz.CosmicTweaks"
     "fr.arnaudmichel.launcherstudio"
     "io.github.Foldex.AdwSteamGtk"
