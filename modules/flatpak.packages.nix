@@ -25,6 +25,7 @@
     "org.gnome.Chess"
     "org.kde.isoimagewriter"
     "org.pvermeer.WebAppHub"
+    "page.codeberg.M23Snezhok.Vinyl"
     "page.codeberg.grinka.Transition"
     "uk.co.cappsy.Tesseract"
   ];
