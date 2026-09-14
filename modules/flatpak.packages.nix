@@ -1,5 +1,6 @@
 {
   flathub = [
+    "app.drey.EarTag"
     "com.freerdp.FreeRDP"
     "com.github.IsmaelMartinez.teams_for_linux"
     "com.github.robertsanseries.ciano"
