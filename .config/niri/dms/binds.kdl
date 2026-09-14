@@ -13,7 +13,9 @@ binds {
     Mod+N hotkey-overlay-title="Notification Center" { spawn "dms" "ipc" "call" "notifications" "toggle"; }
     Mod+P hotkey-overlay-title="Cycle Display Profile" { spawn "dms" "ipc" "outputs" "cycleProfile"; }
     Mod+Shift+N hotkey-overlay-title="Notepad" { spawn "dms" "ipc" "call" "notepad" "toggle"; }
+    Mod+Shift+S hotkey-overlay-title="DMS Screenshot" { spawn "dms" "screenshot"; }
     Mod+Shift+W hotkey-overlay-title="Create window rule" { spawn "dms" "ipc" "call" "window-rules" "toggle"; }
+    Mod+Shift+space hotkey-overlay-title="Spotlight Bar" { spawn "dms" "ipc" "call" "spotlight-bar" "toggle"; }
     Mod+V hotkey-overlay-title="Clipboard Manager" { spawn "dms" "ipc" "call" "clipboard" "toggle"; }
     Mod+Y hotkey-overlay-title="Browse Wallpapers" { spawn "dms" "ipc" "call" "dash" "toggle" "wallpaper"; }
     Mod+space hotkey-overlay-title="Default Launcher: Toggle" { spawn "dms" "ipc" "call" "spotlight" "toggle"; }
@@ -133,8 +135,8 @@ binds {
     XF86Launch1 { screenshot; }
     Mod+Shift+E { quit; }
     Alt+Ctrl+C hotkey-overlay-title="Open Claude Desktop" { spawn "claude-desktop"; }
+    Alt+Ctrl+Shift+S hotkey-overlay-title="Screenshot" { spawn "sh" "-c" "grim -g \"$(slurp)\" - | satty --filename - --early-exit --copy-command wl-copy"; }
     Alt+Ctrl+V hotkey-overlay-title="Launch VSCodium" { spawn "codium"; }
-    Mod+Shift+S hotkey-overlay-title="Screenshot" { spawn "sh" "-c" "grim -g \"$(slurp)\" - | satty --filename - --early-exit --copy-command wl-copy"; }
     Mod+T hotkey-overlay-title="Open Terminal" { spawn "ghostty"; }
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
     Mod+O repeat=false { toggle-overview; }
