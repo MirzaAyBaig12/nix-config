@@ -29,7 +29,15 @@
     oh-my-zsh = {
       enable = true;
       theme = "xiong-chiamiov-plus";
-      plugins = [ "git" "npm" "history" "node" "rust" "deno" "snap" ];
+      plugins = [
+        "git"
+        "npm"
+        "history"
+        "node"
+        "rust"
+        "deno"
+        "snap"
+      ];
     };
   };
 }
