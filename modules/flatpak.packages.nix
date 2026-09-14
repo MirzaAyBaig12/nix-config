@@ -25,7 +25,6 @@
     "it.mijorus.gearlever"
     "org.bleachbit.BleachBit"
     "org.equicord.equibop"
-    "org.freedownloadmanager.Manager"
     "org.gnome.Chess"
     "org.gnome.Loupe"
     "org.kde.isoimagewriter"
@@ -41,6 +40,5 @@
     { appId = "com.vintagetechie.CosmicExtAppletTempest"; origin = "cosmic"; }
     { appId = "dev.cappsy.CosmicExtAppletLogoMenu"; origin = "cosmic"; }
     { appId = "io.github.cosmic_utils.weather-applet"; origin = "cosmic"; }
-    { appId = "io.github.petar030.cosmic-pomodoro"; origin = "cosmic"; }
   ];
 }
