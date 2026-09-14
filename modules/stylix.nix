@@ -1,12 +1,17 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   stylix = {
     enable = true;
-    
+
     cursor = {
       name = "Bibata-Material-Lilac";
-      size = 24;
+      size = 30;
     };
 
     fonts = {
