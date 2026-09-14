@@ -2,7 +2,6 @@
   flathub = [
     "com.freerdp.FreeRDP"
     "com.github.IsmaelMartinez.teams_for_linux"
-    "com.github.robertsanseries.ciano"
     "com.github.tchx84.Flatseal"
     "com.github.unrud.VideoDownloader"
     "com.spotify.Client"
@@ -12,7 +11,6 @@
     "io.github.Foldex.AdwSteamGtk"
     "io.github.cosmic_utils.camera"
     "io.github.flattool.Warehouse"
-    "io.github.giantpinkrobots.bootqt"
     "io.github.kolunmi.Bazaar"
     "io.github.nacho.mecalin"
     "io.github.shiftey.Desktop"
