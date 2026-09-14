@@ -3,7 +3,9 @@
 
   nixConfig = {
     extra-substituters = [ "https://look.cachix.org" ];
-    extra-trusted-public-keys = [ "look.cachix.org-1:8elPCeSVBzlDZXqIRKBK9GyLIK/Hoe1xiWZF0ir7uX4=" ];
+    extra-trusted-public-keys = [
+      "look.cachix.org-1:8elPCeSVBzlDZXqIRKBK9GyLIK/Hoe1xiWZF0ir7uX4="
+    ];
     extra-deprecated-features = [ "or-as-identifier" ];
   };
 
@@ -62,9 +64,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # 15. Custom Packages Flake
-    custom-packages.url = "github:Rishabh5321/custom-packages-flake";
-
     # 16. Stylix
     stylix.url = "github:nix-community/stylix";
     stylix.inputs.nixpkgs.follows = "nixpkgs";
@@ -111,14 +110,10 @@
     nix-monitor.url = "github:antonjah/nix-monitor";
 
     # 24. Pinned nixpkgs for xwayland-satellite 0.8.1
-    nixpkgs-xwayland-satellite-0-8-1.url =
-      "github:nixos/nixpkgs/edfd59b795cd752c36d2dae60870cffcd23d3fb1";
+    nixpkgs-xwayland-satellite-0-8-1.url = "github:nixos/nixpkgs/edfd59b795cd752c36d2dae60870cffcd23d3fb1";
 
-    # 25. Keymasq
-    keymasq = {
-      url = "github:nyrda/keymasq";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # 25. Free Download Manager
+    nix-fdm.url = "github:j-a-sunny/nix-FDM";
   };
 
   outputs =
@@ -135,15 +130,13 @@
       winpodx,
       home-manager,
       llm-agents,
-      keymasq,
       ...
     }@inputs:
     {
-      formatter.x86_64-linux =
-        nixpkgs.legacyPackages.x86_64-linux.nixfmt;
+      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt;
 
       nixosConfigurations = {
-        Void = nixpkgs.lib.nixosSystem {
+        Axiom = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs;
           };
@@ -177,9 +170,6 @@
             # DankMaterialShell
             inputs.dms.nixosModules.dank-material-shell
 
-            # Keymasq
-            keymasq.nixosModules.default
-
             # Snap service
             {
               services.snap.enable = false;
@@ -194,8 +184,7 @@
 
             # Generation revision
             {
-              system.configurationRevision =
-                self.rev or self.dirtyRev or "dirty";
+              system.configurationRevision = self.rev or self.dirtyRev or "dirty";
             }
 
             # Insecure packages
@@ -203,30 +192,6 @@
               nixpkgs.config.permittedInsecurePackages = [
                 "ventoy-gtk3-1.1.17"
               ];
-            }
-
-            # Keymasq configuration
-            {
-              services.keymasq = {
-                enable = true;
-                installPackage = true;
-
-                securityConfig = {
-                  daemon_allowed_uids = [];
-                  session_allowed_uids = [];
-
-                  macro.exec_timeout_max_ms = 30000;
-
-                  gui = {
-                    emergency_cancel_combo_enabled = true;
-                  };
-
-                  recording_guard = {
-                    unlock_required = true;
-                    macro_edit_requires_unlock = false;
-                  };
-                };
-              };
             }
           ];
         };
