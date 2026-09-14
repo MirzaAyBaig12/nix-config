@@ -1,4 +1,10 @@
-{ config, pkgs, lib, osConfig, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  osConfig,
+  ...
+}:
 
 {
   # ~/.config/niri is a symlink into this repo (nix-config/.config/niri),
@@ -14,7 +20,7 @@
   # dms/colors.kdl keeps getting regenerated back to light mode (DMS
   # re-derives it from the system light/dark preference on its own,
   # independent of Nix). Force it back to dark on every activation.
-  home.activation.dmsColorsDark = lib.hm.dag.entryAfter ["writeBoundary"] ''
+  home.activation.dmsColorsDark = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     $DRY_RUN_CMD sed -i \
       -e 's/5f5791/c8bfff/g' \
       -e 's/79767f/938f99/g' \
@@ -30,135 +36,39 @@
   # `programs.dank-material-shell` currently resolves to, and only
   # daemon-reload + restart the service if the target actually changed
   # (skip the restart on every no-op switch).
-  home.activation.dmsServiceRelink = lib.hm.dag.entryAfter ["writeBoundary"] ''
-    DMS_UNIT="${osConfig.programs.dank-material-shell.package}/share/systemd/user/dms.service"
-    LINK="${config.home.homeDirectory}/.config/systemd/user/dms.service"
-    OLD_TARGET="$(readlink -f "$LINK" 2>/dev/null || true)"
+  #
+  # QS_ICON_THEME env var — v1.6.1 switched from writing desktop theme
+  # settings via gsettings to writing directly via dconf (changelog:
+  # "theme: write desktop settings through dconf instead of gsettings"),
+  # which broke DMS's own icon-theme resolution (confirmed real
+  # regression, v1.6.0 works / v1.6.1 doesn't, with git staging ruled out
+  # as a red herring). QS_ICON_THEME is DMS's own documented override
+  # (danklinux.com/docs/dankmaterialshell/icon-theming) that takes
+  # precedence over whatever the broken probe does, sidestepping it
+  # entirely — lets us track "stable" HEAD again instead of pinning an
+  # old commit. Confirmed working Sep 13 2026 (no ExecStartPre delay
+  # needed once this was in place — that was working around the dconf
+  # probe specifically, which QS_ICON_THEME bypasses altogether).
+  home.activation.dmsServiceRelink = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        DMS_UNIT="${osConfig.programs.dank-material-shell.package}/share/systemd/user/dms.service"
+        LINK="${config.home.homeDirectory}/.config/systemd/user/dms.service"
+        OLD_TARGET="$(readlink -f "$LINK" 2>/dev/null || true)"
 
-    $DRY_RUN_CMD mkdir -p "${config.home.homeDirectory}/.config/systemd/user"
-    $DRY_RUN_CMD ln -sfn "$DMS_UNIT" "$LINK"
+        $DRY_RUN_CMD mkdir -p "${config.home.homeDirectory}/.config/systemd/user"
+        $DRY_RUN_CMD ln -sfn "$DMS_UNIT" "$LINK"
 
-    if [ "$OLD_TARGET" != "$(readlink -f "$LINK" 2>/dev/null || true)" ]; then
-      $DRY_RUN_CMD ${pkgs.systemd}/bin/systemctl --user daemon-reload || true
-      $DRY_RUN_CMD ${pkgs.systemd}/bin/systemctl --user try-restart dms.service || true
-    fi
+        $DRY_RUN_CMD mkdir -p "${config.home.homeDirectory}/.config/systemd/user/dms.service.d"
+        $DRY_RUN_CMD cat > "${config.home.homeDirectory}/.config/systemd/user/dms.service.d/icon-theme-race-fix.conf" << EOF
+    [Service]
+    Environment=QT_QPA_PLATFORMTHEME=gtk3
+    Environment=QS_ICON_THEME=Papirus-Dark
+    Environment=XDG_DATA_DIRS=/nix/store/smn5bv5gqz8sfyg6c2rga82g8s6bd1m5-ghostty-1.3.1/share:/nix/store/jkmzkh3rjak10ccsrkgwybxngqqswgm4-gsettings-desktop-schemas-50.1/share/gsettings-schemas/gsettings-desktop-schemas-50.1:/nix/store/6d3v90p73c3qx6axdlqnm5xfd4w93w20-gtk4-4.22.4/share/gsettings-schemas/gtk4-4.22.4:/nix/store/gvgrz4bh8hryjzrvkqjiwyh4acpn27aj-quickshell-0.3.1/share:/run/current-system/sw/share:/nix/store/id7wgv26ga466m5n2cmn2hv3g5y45861-desktops/share:/home/ayaan_mirza/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/home/ayaan_mirza/.nix-profile/share:/nix/profile/share:/home/ayaan_mirza/.local/state/nix/profile/share:/etc/profiles/per-user/ayaan_mirza/share:/nix/var/nix/profiles/default/share:/run/current-system/sw/share
+    EOF
+
+        if [ "$OLD_TARGET" != "$(readlink -f "$LINK" 2>/dev/null || true)" ]; then
+          $DRY_RUN_CMD ${pkgs.systemd}/bin/systemctl --user daemon-reload || true
+          $DRY_RUN_CMD ${pkgs.systemd}/bin/systemctl --user try-restart dms.service || true
+        fi
   '';
 
-  # Old raw-KDL block kept below for reference — the goodies here
-  # (keyring spawn, custom binds, window rules) still need to get
-  # hand-copied into the real ~/nix-config/.config/niri/config.kdl:
-  /*
-  xdg.configFile."niri/config.kdl".text = ''
-    spawn-at-startup "dms" "run"
-    // Clipboard history
-    spawn-at-startup "bash" "-c" "wl-paste --watch cliphist store &"
-    // GNOME Keyring — niri doesn't spawn this or wire up its env vars
-    // like a full DE session does, so both are needed explicitly.
-    spawn-at-startup "gnome-keyring-daemon" "--start" "--components=pkcs11,secrets,ssh"
-    spawn-at-startup "dbus-update-activation-environment" "--systemd" "--all"
-
-    environment {
-      XDG_CURRENT_DESKTOP "niri"
-      QT_QPA_PLATFORM "wayland"
-      ELECTRON_OZONE_PLATFORM_HINT "auto"
-      QT_QPA_PLATFORMTHEME "gtk3"
-      QT_QPA_PLATFORMTHEME_QT6 "gtk3"
-    }
-
-    layout {
-      gaps 5
-      background-color "transparent"
-    }
-
-    layer-rule {
-      match namespace="^quickshell$"
-      place-within-backdrop true
-    }
-
-    window-rule {
-      match app-id=r#"^org\.gnome\."#
-      draw-border-with-background false
-      geometry-corner-radius 12
-      clip-to-geometry true
-    }
-
-    window-rule {
-      match app-id=r#"^org\.wezfurlong\.wezterm$"#
-      match app-id="Alacritty"
-      match app-id="com.mitchellh.ghostty"
-      match app-id="kitty"
-      draw-border-with-background false
-    }
-
-    window-rule {
-      match is-active=false
-      opacity 0.9
-    }
-
-    window-rule {
-      geometry-corner-radius 12
-      clip-to-geometry true
-    }
-
-    binds {
-      Mod+Space hotkey-overlay-title="Application Launcher" {
-        spawn "dms" "ipc" "call" "spotlight" "toggle";
-      }
-      Mod+V hotkey-overlay-title="Clipboard Manager" {
-        spawn "dms" "ipc" "call" "clipboard" "toggle";
-      }
-      Mod+M hotkey-overlay-title="Task Manager" {
-        spawn "dms" "ipc" "call" "processlist" "focusOrToggle";
-      }
-      Mod+Comma hotkey-overlay-title="Settings" {
-        spawn "dms" "ipc" "call" "settings" "focusOrToggle";
-      }
-      Mod+N hotkey-overlay-title="Notification Center" {
-        spawn "dms" "ipc" "call" "notifications" "toggle";
-      }
-      Mod+Y hotkey-overlay-title="Browse Wallpapers" {
-        spawn "dms" "ipc" "call" "dankdash" "wallpaper";
-      }
-      Mod+Alt+L hotkey-overlay-title="Lock Screen" {
-        spawn "dms" "ipc" "call" "lock" "lock";
-      }
-      XF86AudioRaiseVolume allow-when-locked=true {
-        spawn "dms" "ipc" "call" "audio" "increment" "3";
-      }
-      XF86AudioLowerVolume allow-when-locked=true {
-        spawn "dms" "ipc" "call" "audio" "decrement" "3";
-      }
-      XF86AudioMute allow-when-locked=true {
-        spawn "dms" "ipc" "call" "audio" "mute";
-      }
-      XF86MonBrightnessUp allow-when-locked=true {
-        spawn "dms" "ipc" "call" "brightness" "increment" "5" "";
-      }
-      XF86MonBrightnessDown allow-when-locked=true {
-        spawn "dms" "ipc" "call" "brightness" "decrement" "5" "";
-      }
-
-      // Core window/workspace management — niri ships with none of this
-      // bound by default when using raw programs.niri.config.
-      Mod+Q { close-window; }
-      Mod+F { maximize-column; }
-      Mod+Shift+F { fullscreen-window; }
-      Mod+Left  { focus-column-left; }
-      Mod+Right { focus-column-right; }
-      Mod+Down  { focus-workspace-down; }
-      Mod+Up    { focus-workspace-up; }
-      Mod+Shift+Left  { move-column-left; }
-      Mod+Shift+Right { move-column-right; }
-      Mod+Shift+Down  { move-window-to-workspace-down; }
-      Mod+Shift+Up    { move-window-to-workspace-up; }
-      Mod+Return { spawn "ghostty"; }
-      Mod+Shift+E { quit; }
-    }
-
-    include "dms/colors.kdl"
-    include "dms/layout.kdl"
-    include "dms/alttab.kdl"
-    include "dms/binds.kdl"
-  '';
-  */
 }
