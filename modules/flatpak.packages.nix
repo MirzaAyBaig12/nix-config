@@ -27,6 +27,7 @@
     "org.gnome.Loupe"
     "org.gnome.Maps"
     "org.kde.isoimagewriter"
+    "org.mozilla.thunderbird_esr"
     "org.pvermeer.WebAppHub"
     "page.codeberg.grinka.Transition"
     "uk.co.cappsy.Tesseract"
