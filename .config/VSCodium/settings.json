@@ -52,5 +52,7 @@
     "autoclosetabs.tabAgeForAutomaticClosing",
     "autoclosetabs.numberOfTabsInGroup"
   ],
-  "security.workspace.trust.untrustedFiles": "open"
+  "security.workspace.trust.untrustedFiles": "open",
+  "diffEditor.ignoreTrimWhitespace": false,
+  "explorer.confirmDelete": false
 }
