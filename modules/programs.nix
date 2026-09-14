@@ -1,4 +1,9 @@
-{ config, pkgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
   nixpkgs.overlays = [ inputs.claude-desktop.overlays.default ]; # provides claude-desktop-fhs below
@@ -6,7 +11,7 @@
   # Enable Zsh
   programs.zsh.enable = true; # config lives in modules/home-manager/zsh.nix
 
-  # Enable NH 
+  # Enable NH
   programs.nh = {
     enable = true;
     clean.enable = true;
@@ -36,7 +41,7 @@
     autoPrune.enable = true;
   };
   users.users.ayaan_mirza.extraGroups = [ "docker" ];
-  
+
   # Steam
   programs.steam = {
     enable = true;
@@ -60,14 +65,20 @@
   };
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
-    stdenv.cc.cc zlib openssl curl glib libGL fuse3
+    stdenv.cc.cc
+    zlib
+    openssl
+    curl
+    glib
+    libGL
+    fuse3
   ];
 
   # Codex Desktop
   programs.codexDesktopLinux = {
     enable = true;
     linuxFeatures = [ "read-aloud" ];
-  }; 
+  };
 
   # Session Variables
   environment.sessionVariables = {
@@ -81,9 +92,7 @@
     # ==========================================
     # 1. BROWSERS & WEB
     # ==========================================
-    google-chrome
     firefox
-    floorp-bin
     firefoxpwa
 
     # ==========================================
@@ -123,6 +132,7 @@
     grim
     slurp
     satty
+    hicolor-icon-theme
 
     # ==========================================
     # 4. SYSTEM & UTILITIES (CLI / GUI)
@@ -149,7 +159,6 @@
     gnome-boxes
     gsettings-desktop-schemas
     glib
-    ptyxis
     ventoy-full-gtk
     proton-pass
     ferdium
@@ -161,31 +170,36 @@
     claude-desktop-fhs
     opencode-desktop # OpenCode GUI[cite: 2]
     (inputs.nix-software-center.packages.${stdenv.hostPlatform.system}.default.overrideAttrs (old: {
-      nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ pkgs.cacert ];
-      env = (old.env or {}) // { SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"; };
+      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkgs.cacert ];
+      env = (old.env or { }) // {
+        SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
+      };
     }))
-    (pkgs.callPackage ../packages/cosmic-ext-control-center.nix {})
-    (pkgs.callPackage ../packages/cosmic-ext-applet-mounter.nix {})
-    (pkgs.callPackage ../packages/bibata-material-cursor.nix {})
-    (inputs.winpodx.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: { 
-      nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ pkgs.cacert ];
-      env = (old.env or {}) // { SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"; };
+    (pkgs.callPackage ../packages/cosmic-ext-control-center.nix { })
+    (pkgs.callPackage ../packages/cosmic-ext-applet-mounter.nix { })
+    (pkgs.callPackage ../packages/bibata-material-cursor.nix { })
+    (inputs.winpodx.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
+      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkgs.cacert ];
+      env = (old.env or { }) // {
+        SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
+      };
       doCheck = false;
       checkPhase = "echo skipping winpodx tests";
       installCheckPhase = "echo skipping winpodx tests";
     }))
     (inputs.efiboots.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
-      nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ pkgs.cacert ];
-      env = (old.env or {}) // { SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"; };
+      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkgs.cacert ];
+      env = (old.env or { }) // {
+        SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
+      };
     }))
     (inputs.look.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
-      nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ pkgs.cacert ];
-      env = (old.env or {}) // { SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"; };
+      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkgs.cacert ];
+      env = (old.env or { }) // {
+        SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
+      };
     }))
-    (inputs.custom-packages.packages.${pkgs.stdenv.hostPlatform.system}.ab-download-manager.overrideAttrs (old: {
-      nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ pkgs.cacert ];
-      env = (old.env or {}) // { SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"; };
-    }))
+    inputs.nix-fdm.packages.${pkgs.system}.default # Free Download Manager
 
     # ==========================================
     # 5. DEDICATED AI CODING AGENTS (LLM Agents Flake)
