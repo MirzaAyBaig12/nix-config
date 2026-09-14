@@ -1,5 +1,6 @@
 {
   flathub = [
+    "ch.imatt.ClipQR"
     "com.github.IsmaelMartinez.teams_for_linux"
     "com.github.tchx84.Flatseal"
     "com.github.unrud.VideoDownloader"
