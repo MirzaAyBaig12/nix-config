@@ -29,6 +29,7 @@
     "org.equicord.equibop"
     "org.gnome.Boxes"
     "org.gnome.Chess"
+    "org.gnome.Loupe"
     "org.kde.isoimagewriter"
     "org.pvermeer.WebAppHub"
     "page.codeberg.grinka.Transition"
