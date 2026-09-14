@@ -10,7 +10,6 @@
     "dev.edfloreshz.CosmicTweaks"
     "fr.arnaudmichel.launcherstudio"
     "io.github.Foldex.AdwSteamGtk"
-    "io.github.alper_han.crossmacro"
     "io.github.cosmic_utils.camera"
     "io.github.flattool.Warehouse"
     "io.github.kolunmi.Bazaar"
