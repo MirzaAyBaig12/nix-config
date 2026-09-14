@@ -15,6 +15,7 @@
     "io.github.giantpinkrobots.bootqt"
     "io.github.kolunmi.Bazaar"
     "io.github.nacho.mecalin"
+    "io.github.screwys.Rufin"
     "io.github.shiftey.Desktop"
     "io.github.streetpea.Chiaki4deck"
     "io.github.ungoogled_software.ungoogled_chromium"
@@ -31,6 +32,7 @@
     "org.pvermeer.WebAppHub"
     "page.codeberg.grinka.Transition"
     "uk.co.cappsy.Tesseract"
+    "xyz.ketok.Speedtest"
   ];
 
   cosmic = [
