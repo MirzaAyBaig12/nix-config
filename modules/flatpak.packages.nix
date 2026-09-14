@@ -25,6 +25,7 @@
     "org.gnome.Boxes"
     "org.gnome.Chess"
     "org.gnome.Loupe"
+    "org.gnome.Maps"
     "org.kde.isoimagewriter"
     "org.pvermeer.WebAppHub"
     "page.codeberg.M23Snezhok.Vinyl"
