@@ -1,13 +1,18 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   stylix = {
     enable = true;
-    
+
     cursor = {
-      package = pkgs.callPackage ../../packages/bibata-material-cursor.nix {};
+      package = pkgs.callPackage ../../packages/bibata-material-cursor.nix { };
       name = "Bibata-Material-Lilac";
-      size = 24;
+      size = 30;
     };
 
     fonts = {
@@ -80,6 +85,7 @@
   # patched after the fact. Pin the actual source to dark.
   dconf.settings."org/gnome/desktop/interface" = {
     color-scheme = lib.mkForce "prefer-dark";
+    icon-theme = lib.mkForce "Papirus-Dark";
   };
 
   gtk = {
@@ -90,11 +96,11 @@
     };
     cursorTheme = {
       name = "Bibata-Material-Lilac";
-      size = 24;
+      size = 30;
     };
     gtk2.extraConfig = ''
       gtk-cursor-theme-name="Bibata-Material-Lilac"
-      gtk-cursor-theme-size=24
+      gtk-cursor-theme-size=30
       gtk-font-name="Sans 11"
       gtk-application-prefer-dark-theme=1
       gtk-decoration-layout="menu:minimize,maximize,close"
