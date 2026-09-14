@@ -1,17 +1,18 @@
-{ lib
-, rustPlatform
-, fetchFromGitHub
-, pkg-config
-, makeWrapper
-, wayland
-, wayland-protocols
-, libxkbcommon
-, vulkan-loader
-, libGL
-, fontconfig
-, freetype
-, expat
-, dbus
+{
+  lib,
+  rustPlatform,
+  fetchFromGitHub,
+  pkg-config,
+  makeWrapper,
+  wayland,
+  wayland-protocols,
+  libxkbcommon,
+  vulkan-loader,
+  libGL,
+  fontconfig,
+  freetype,
+  expat,
+  dbus,
 }:
 
 let

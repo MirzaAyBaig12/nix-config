@@ -1,4 +1,8 @@
-{ lib, stdenv, fetchurl }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+}:
 
 # Ayaan's fork of Bibata cursors using Material Design 3's tonal system:
 # https://github.com/SakibShahariar/material-bibata-cursor
