@@ -1,6 +1,5 @@
 {
   flathub = [
-    "com.danklinux.dankcalendar"
     "com.github.IsmaelMartinez.teams_for_linux"
     "com.github.tchx84.Flatseal"
     "com.github.unrud.VideoDownloader"
@@ -9,11 +8,9 @@
     "dev.edfloreshz.CosmicTweaks"
     "fr.arnaudmichel.launcherstudio"
     "io.github.Foldex.AdwSteamGtk"
-    "io.github.celluloid_player.Celluloid"
     "io.github.cosmic_utils.camera"
     "io.github.flattool.Warehouse"
     "io.github.kolunmi.Bazaar"
-    "io.github.seadve.Kooha"
     "io.github.shiftey.Desktop"
     "io.github.streetpea.Chiaki4deck"
     "io.github.ungoogled_software.ungoogled_chromium"
@@ -25,13 +22,8 @@
     "org.equicord.equibop"
     "org.gnome.Boxes"
     "org.gnome.Chess"
-    "org.gnome.Loupe"
-    "org.gnome.Maps"
     "org.kde.isoimagewriter"
-    "org.mozilla.thunderbird_esr"
-    "org.onlyoffice.desktopeditors"
     "org.pvermeer.WebAppHub"
-    "page.codeberg.M23Snezhok.Vinyl"
     "page.codeberg.grinka.Transition"
     "uk.co.cappsy.Tesseract"
   ];
