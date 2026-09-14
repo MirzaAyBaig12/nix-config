@@ -1,7 +1,6 @@
 {
   flathub = [
     "app.drey.EarTag"
-    "com.freerdp.FreeRDP"
     "com.github.IsmaelMartinez.teams_for_linux"
     "com.github.tchx84.Flatseal"
     "com.github.unrud.VideoDownloader"
@@ -22,7 +21,6 @@
     "io.gitlab.adhami3310.Impression"
     "io.missioncenter.MissionCenter"
     "io.podman_desktop.PodmanDesktop"
-    "it.mijorus.gearlever"
     "org.bleachbit.BleachBit"
     "org.equicord.equibop"
     "org.gnome.Chess"
