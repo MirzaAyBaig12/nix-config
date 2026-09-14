@@ -1,12 +1,10 @@
 {
   flathub = [
-    "app.drey.EarTag"
     "com.github.IsmaelMartinez.teams_for_linux"
     "com.github.tchx84.Flatseal"
     "com.github.unrud.VideoDownloader"
     "com.spotify.Client"
     "com.vysp3r.ProtonPlus"
-    "de.wwwtech.gitte"
     "dev.edfloreshz.CosmicTweaks"
     "fr.arnaudmichel.launcherstudio"
     "io.github.Foldex.AdwSteamGtk"
@@ -24,9 +22,7 @@
     "org.bleachbit.BleachBit"
     "org.equicord.equibop"
     "org.gnome.Chess"
-    "org.gnome.Loupe"
     "org.kde.isoimagewriter"
-    "org.mozilla.thunderbird_esr"
     "org.pvermeer.WebAppHub"
     "page.codeberg.grinka.Transition"
     "uk.co.cappsy.Tesseract"
