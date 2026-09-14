@@ -31,7 +31,7 @@
     })
   ];
   nix.package = pkgs.lixPackageSets.stable.lix;
-
+  
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.settings.trusted-users = [ "root" "ayaan_mirza" ];
   nixpkgs.config.allowUnfree = true;
