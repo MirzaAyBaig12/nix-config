@@ -25,8 +25,9 @@
   programs.nix-monitor = {
     enable = true;
     rebuildCommand = [
-      "bash" "-c"
-      "doas nixos-rebuild switch --flake ~/nix-config#Void 2>&1"
+      "bash"
+      "-c"
+      "doas nixos-rebuild switch --flake ~/nix-config#Axiom 2>&1"
     ];
   };
 }
