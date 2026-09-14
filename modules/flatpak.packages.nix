@@ -1,6 +1,5 @@
 {
   flathub = [
-    "com.freerdp.FreeRDP"
     "com.github.IsmaelMartinez.teams_for_linux"
     "com.github.tchx84.Flatseal"
     "com.github.unrud.VideoDownloader"
@@ -12,7 +11,6 @@
     "io.github.cosmic_utils.camera"
     "io.github.flattool.Warehouse"
     "io.github.kolunmi.Bazaar"
-    "io.github.nacho.mecalin"
     "io.github.shiftey.Desktop"
     "io.github.streetpea.Chiaki4deck"
     "io.github.ungoogled_software.ungoogled_chromium"
@@ -22,7 +20,6 @@
     "it.mijorus.gearlever"
     "org.bleachbit.BleachBit"
     "org.equicord.equibop"
-    "org.freedownloadmanager.Manager"
     "org.gnome.Boxes"
     "org.gnome.Chess"
     "org.kde.isoimagewriter"
