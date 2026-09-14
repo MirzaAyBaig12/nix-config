@@ -3,18 +3,19 @@
 # new release: update `version` and `debName` below, run `nix-rebuild`,
 # let it fail with the real hash ("got: sha256-..."), then paste that
 # into `hash`. Same workflow as cosmic-ext-control-center.nix.
-{ lib
-, stdenv
-, fetchurl
-, dpkg
-, autoPatchelfHook
-, wayland
-, libxkbcommon
-, fontconfig
-, freetype
-, libGL
-, dbus
-, systemd
+{
+  lib,
+  stdenv,
+  fetchurl,
+  dpkg,
+  autoPatchelfHook,
+  wayland,
+  libxkbcommon,
+  fontconfig,
+  freetype,
+  libGL,
+  dbus,
+  systemd,
 }:
 
 let
@@ -41,7 +42,10 @@ stdenv.mkDerivation {
     hash = "sha256-acibGw2RtfnhCk9usYFv8pTPDoeMfDndGvSMzDgpzis=";
   };
 
-  nativeBuildInputs = [ dpkg autoPatchelfHook ];
+  nativeBuildInputs = [
+    dpkg
+    autoPatchelfHook
+  ];
   buildInputs = runtimeLibs;
 
   dontBuild = true;
