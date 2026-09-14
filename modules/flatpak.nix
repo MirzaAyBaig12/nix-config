@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   pkgList = import ./flatpak.packages.nix;
@@ -31,108 +36,120 @@ let
     };
   };
 
-  syncFlatpakAppsScript = pkgs.writers.writePython3Bin "sync-flatpak-apps" {
-    flakeIgnore = [ "E501" "W503" "W504" "E302" "E305" "W293" "F841" "F541" ];
-  } ''
-    import subprocess
-    import re
-    import os
+  syncFlatpakAppsScript =
+    pkgs.writers.writePython3Bin "sync-flatpak-apps"
+      {
+        flakeIgnore = [
+          "E501"
+          "W503"
+          "W504"
+          "E302"
+          "E305"
+          "W293"
+          "F841"
+          "F541"
+        ];
+      }
+      ''
+        import subprocess
+        import re
+        import os
 
-    CONFIG_DIR = "/home/ayaan_mirza/nix-config"
-    PACKAGES_NIX = os.path.join(CONFIG_DIR, "modules/flatpak.packages.nix")
-    GIT_BIN = "${pkgs.git}/bin/git"
-    SSH_BIN = "${pkgs.openssh}/bin/ssh"
+        CONFIG_DIR = "/home/ayaan_mirza/nix-config"
+        PACKAGES_NIX = os.path.join(CONFIG_DIR, "modules/flatpak.packages.nix")
+        GIT_BIN = "${pkgs.git}/bin/git"
+        SSH_BIN = "${pkgs.openssh}/bin/ssh"
 
-    def get_installed():
-        out = subprocess.check_output(
-            [
-                "/run/current-system/sw/bin/flatpak",
-                "list",
-                "--app",
-                "--columns=application,origin",
-            ],
-            text=True,
-        )
-        apps = {}
-        for line in out.strip().splitlines():
-            if not line.strip():
-                continue
-            app_id, origin = line.split("\t")
-            apps[app_id.strip()] = origin.strip()
-        return apps
-
-    def parse_existing_packages(content):
-        existing_flathub = set(re.findall(r'"([^"]+)"', content.split("flathub = [")[1].split("];")[0]))
-        existing_cosmic = set(re.findall(r'appId\s*=\s*"([^"]+)";', content.split("cosmic = [")[1]))
-        return existing_flathub, existing_cosmic
-
-    def git_commit_and_push(added_apps, removed_apps):
-        try:
-            env = os.environ.copy()
-            env["GIT_SSH"] = SSH_BIN
-
-            subprocess.run([GIT_BIN, "-C", CONFIG_DIR, "add", "modules/flatpak.packages.nix"], check=True, env=env)
-            
-            if len(added_apps) == 1 and len(removed_apps) == 0:
-                msg = f"Add {list(added_apps)[0]}"
-            elif len(removed_apps) == 1 and len(added_apps) == 0:
-                msg = f"Remove {list(removed_apps)[0]}"
-            else:
-                msg = "Update Flatpak packages sync"
-
-            subprocess.run([GIT_BIN, "-C", CONFIG_DIR, "commit", "-m", msg], check=True, env=env)
-            
-            subprocess.run(
-                [GIT_BIN, "-C", CONFIG_DIR, "push", "origin", "HEAD:main"],
-                check=True,
-                capture_output=True,
+        def get_installed():
+            out = subprocess.check_output(
+                [
+                    "/run/current-system/sw/bin/flatpak",
+                    "list",
+                    "--app",
+                    "--columns=application,origin",
+                ],
                 text=True,
-                env=env
             )
-            print(f"sync-flatpak-apps: Successfully committed and pushed: {msg}")
-        except subprocess.CalledProcessError as e:
-            print("sync-flatpak-apps: Git operation failed!")
-            print(f"Stdout: {e.stdout}")
-            print(f"Stderr: {e.stderr}")
+            apps = {}
+            for line in out.strip().splitlines():
+                if not line.strip():
+                    continue
+                app_id, origin = line.split("\t")
+                apps[app_id.strip()] = origin.strip()
+            return apps
 
-    def main():
-        with open(PACKAGES_NIX, "r") as f:
-            content = f.read()
+        def parse_existing_packages(content):
+            existing_flathub = set(re.findall(r'"([^"]+)"', content.split("flathub = [")[1].split("];")[0]))
+            existing_cosmic = set(re.findall(r'appId\s*=\s*"([^"]+)";', content.split("cosmic = [")[1]))
+            return existing_flathub, existing_cosmic
 
-        installed = get_installed()
-        actual_flathub = {app for app, origin in installed.items() if origin != "cosmic"}
-        actual_cosmic = {app for app, origin in installed.items() if origin == "cosmic"}
+        def git_commit_and_push(added_apps, removed_apps):
+            try:
+                env = os.environ.copy()
+                env["GIT_SSH"] = SSH_BIN
 
-        existing_flathub, existing_cosmic = parse_existing_packages(content)
+                subprocess.run([GIT_BIN, "-C", CONFIG_DIR, "add", "modules/flatpak.packages.nix"], check=True, env=env)
+                
+                if len(added_apps) == 1 and len(removed_apps) == 0:
+                    msg = f"Add {list(added_apps)[0]}"
+                elif len(removed_apps) == 1 and len(added_apps) == 0:
+                    msg = f"Remove {list(removed_apps)[0]}"
+                else:
+                    msg = "Update Flatpak packages sync"
 
-        if actual_flathub == existing_flathub and actual_cosmic == existing_cosmic:
-            return
+                subprocess.run([GIT_BIN, "-C", CONFIG_DIR, "commit", "-m", msg], check=True, env=env)
+                
+                subprocess.run(
+                    [GIT_BIN, "-C", CONFIG_DIR, "push", "origin", "HEAD:main"],
+                    check=True,
+                    capture_output=True,
+                    text=True,
+                    env=env
+                )
+                print(f"sync-flatpak-apps: Successfully committed and pushed: {msg}")
+            except subprocess.CalledProcessError as e:
+                print("sync-flatpak-apps: Git operation failed!")
+                print(f"Stdout: {e.stdout}")
+                print(f"Stderr: {e.stderr}")
 
-        all_actual = actual_flathub.union(actual_cosmic)
-        all_existing = existing_flathub.union(existing_cosmic)
-        
-        added_apps = all_actual - all_existing
-        removed_apps = all_existing - all_actual
+        def main():
+            with open(PACKAGES_NIX, "r") as f:
+                content = f.read()
 
-        flathub_lines = [f'    "{app}"' for app in sorted(actual_flathub)]
-        cosmic_lines = [f'    {{ appId = "{app}"; origin = "cosmic"; }}' for app in sorted(actual_cosmic)]
+            installed = get_installed()
+            actual_flathub = {app for app, origin in installed.items() if origin != "cosmic"}
+            actual_cosmic = {app for app, origin in installed.items() if origin == "cosmic"}
 
-        new_content = (
-            "{\n  flathub = [\n" +
-            "\n".join(flathub_lines) +
-            "\n  ];\n\n  cosmic = [\n" +
-            "\n".join(cosmic_lines) +
-            "\n  ];\n}\n"
-        )
+            existing_flathub, existing_cosmic = parse_existing_packages(content)
 
-        with open(PACKAGES_NIX, "w") as f:
-            f.write(new_content)
+            if actual_flathub == existing_flathub and actual_cosmic == existing_cosmic:
+                return
 
-        print(f"sync-flatpak-apps: successfully synced {len(installed)} total app(s).")
-        git_commit_and_push(added_apps, removed_apps)
+            all_actual = actual_flathub.union(actual_cosmic)
+            all_existing = existing_flathub.union(existing_cosmic)
+            
+            added_apps = all_actual - all_existing
+            removed_apps = all_existing - all_actual
 
-    if __name__ == "__main__":
-        main()
-  '';
+            flathub_lines = [f'    "{app}"' for app in sorted(actual_flathub)]
+            cosmic_lines = [f'    {{ appId = "{app}"; origin = "cosmic"; }}' for app in sorted(actual_cosmic)]
+
+            new_content = (
+                "{\n  flathub = [\n" +
+                "\n".join(flathub_lines) +
+                "\n  ];\n\n  cosmic = [\n" +
+                "\n".join(cosmic_lines) +
+                "\n  ];\n}\n"
+            )
+
+            with open(PACKAGES_NIX, "w") as f:
+                f.write(new_content)
+
+            print(f"sync-flatpak-apps: successfully synced {len(installed)} total app(s).")
+            git_commit_and_push(added_apps, removed_apps)
+
+        if __name__ == "__main__":
+            main()
+      '';
 in
 cfg
