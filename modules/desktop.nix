@@ -21,7 +21,10 @@
   # NixOS config (see note above the module option), not home-manager.
   # configHome points at your user's DMS settings.json so the greeter
   # picks up the same theme/accent instead of its own default.
-  programs.dms-greeter = {
+  # Both this and programs.dms-shell now come from nixpkgs directly
+  # (vendored built-in modules, no separate flake input needed) —
+  # confirmed the option schema is identical either way.
+  services.displayManager.dms-greeter = {
     enable = true;
     compositor = {
       name = "niri";
