@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   # Explicit env vars for nh (belt-and-suspenders alongside programs.nh.flake,
@@ -9,43 +14,43 @@
     NH_OS_FLAKE = "/home/ayaan_mirza/nix-config";
     NH_ELEVATION_STRATEGY = "doas";
     XCURSOR_THEME = "Bibata-Material-Lilac";
-    XCURSOR_SIZE = "24";
+    XCURSOR_SIZE = "30";
     NIXOS_INSTALL_BOOTLOADER = "true";
+    QT_QPA_PLATFORMTHEME = "gtk3";
   };
-
 
   environment.systemPackages = [ pkgs.exfatprogs ];
 
-    fileSystems."/mnt/nvme0n1p7" = {
-      device = "/dev/disk/by-uuid/EBBE-BBC8";
-      fsType = "exfat";
-      options = [
-        "nofail"                    # don't block boot if this fails to mount
-        "x-systemd.device-timeout=5" # stop waiting after 5s instead of hanging
-        "uid=1000"                  # mount owned by your user, not root
-        "gid=100"
-        "umask=0022" 
-      ];
-    };
+  fileSystems."/mnt/nvme0n1p7" = {
+    device = "/dev/disk/by-uuid/EBBE-BBC8";
+    fsType = "exfat";
+    options = [
+      "nofail" # don't block boot if this fails to mount
+      "x-systemd.device-timeout=5" # stop waiting after 5s instead of hanging
+      "uid=1000" # mount owned by your user, not root
+      "gid=100"
+      "umask=0022"
+    ];
+  };
 
-    fileSystems."/mnt/nvme0n1p3" = {
-      device = "/dev/disk/by-uuid/E234F38734F35CCB";
-      fsType = "ntfs";
-      # fsck for ntfs skipped — no real fsck.ntfs implementation on Linux,
-      # the check unit just fails every boot regardless
-      options = [
-        "nofail"                    # don't block boot if this fails to mount
-        "x-systemd.device-timeout=5" # stop waiting after 5s instead of hanging
-        "uid=1000"                  # mount owned by your user, not root
-        "gid=100"
-        "umask=0022" 
-      ];
-    };
+  fileSystems."/mnt/nvme0n1p3" = {
+    device = "/dev/disk/by-uuid/E234F38734F35CCB";
+    fsType = "ntfs";
+    # fsck for ntfs skipped — no real fsck.ntfs implementation on Linux,
+    # the check unit just fails every boot regardless
+    options = [
+      "nofail" # don't block boot if this fails to mount
+      "x-systemd.device-timeout=5" # stop waiting after 5s instead of hanging
+      "uid=1000" # mount owned by your user, not root
+      "gid=100"
+      "umask=0022"
+    ];
+  };
 
   # Shell aliases
   environment.shellAliases = {
     nix-hwgen = "doas nixos-generate-config --dir ~/nix-config";
-    nix-rebuild = "doas nixos-rebuild switch --flake ~/nix-config#Void";
+    nix-rebuild = "doas nixos-rebuild switch --flake ~/nix-config#Axiom";
     nix-push = "cd ~/nix-config && git add . && git commit -m \"update $(date +%Y-%m-%d_%H:%M)\" && git push";
     nix-clean = "doas nix-env --delete-generations +3 -p /nix/var/nix/profiles/system && doas nix-collect-garbage -d";
     nix-generations = "nix-env -p /nix/var/nix/profiles/system --list-generations";
@@ -100,11 +105,11 @@
     HibernateMode = "shutdown";
   };
 
-  boot.supportedFilesystems = [ "squashfs" ]; #Enable squashfs for Snap
+  boot.supportedFilesystems = [ "squashfs" ]; # Enable squashfs for Snap
 
   swapDevices = [
-    { 
-      device = "/swapfile"; 
+    {
+      device = "/swapfile";
       size = 16384; # 16 GB to safely cover ~15.3GB RAM
     }
   ];
@@ -117,10 +122,16 @@
   ];
 
   # Networking & Firewall
-  networking.hostName = "Void";
+  networking.hostName = "Axiom";
   networking.networkmanager.enable = true;
   networking.firewall.allowedTCPPorts = [ 9295 ];
-  networking.firewall.allowedUDPPorts = [ 987 9295 9296 9297 9302 ];
+  networking.firewall.allowedUDPPorts = [
+    987
+    9295
+    9296
+    9297
+    9302
+  ];
 
   # Waydroid
   virtualisation.waydroid.enable = true;
