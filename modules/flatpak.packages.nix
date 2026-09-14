@@ -32,6 +32,7 @@
     "org.gnome.Chess"
     "org.gnome.Loupe"
     "org.kde.isoimagewriter"
+    "org.mozilla.thunderbird_esr"
     "org.pvermeer.WebAppHub"
     "page.codeberg.grinka.Transition"
     "uk.co.cappsy.Tesseract"
