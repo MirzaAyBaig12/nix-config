@@ -1,4 +1,10 @@
-{ config, pkgs, lib, inputs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
 
 {
   # niri — scrollable-tiling Wayland compositor, run as an alt session
@@ -12,8 +18,9 @@
   # Pinned to 0.8.1 via an older nixpkgs rev — current nixos-unstable's
   # version has a bug breaking Xwayland apps (found via a Reddit thread,
   # not upstream-fixed yet). See flake.nix input #24.
-  environment.systemPackages = [ 
-    (import inputs.nixpkgs-xwayland-satellite-0-8-1 { system = pkgs.stdenv.hostPlatform.system; }).xwayland-satellite
+  environment.systemPackages = [
+    (import inputs.nixpkgs-xwayland-satellite-0-8-1 { system = pkgs.stdenv.hostPlatform.system; })
+    .xwayland-satellite
     pkgs.xdg-desktop-portal-wlr # Added for wlroots screencopy/screenshots
   ];
 
@@ -21,14 +28,13 @@
   # screen, notifications) for niri, since niri ships bare with none of
   # that. Tracked from DMS's own flake (stable branch) instead of
   # nixpkgs' native module — see flake.nix.
-  programs.dank-material-shell = {
+  programs.dms-shell = {
     enable = true;
     systemd = {
       enable = true;
       restartIfChanged = true;
     };
 
-    enableSystemMonitoring = true;
     enableVPN = true;
     enableDynamicTheming = true;
     enableAudioWavelength = true;
@@ -36,14 +42,17 @@
   };
 
   # Scope portals by session. niri gets COSMIC's portal first (native
-  # file picker, settings, notifications) with xdg-desktop-portal-wlr 
+  # file picker, settings, notifications) with xdg-desktop-portal-wlr
   # as the fallback for screenshots/screencast.
-  xdg.portal = { 
+  xdg.portal = {
     enable = true;
     extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
     config = {
       cosmic.default = [ "cosmic" ];
-      niri.default = lib.mkForce [ "cosmic" "wlr" ];
+      niri.default = lib.mkForce [
+        "cosmic"
+        "wlr"
+      ];
       common = {
         default = [ "wlr" ];
         "org.freedesktop.impl.portal.Screenshot" = [ "wlr" ];
