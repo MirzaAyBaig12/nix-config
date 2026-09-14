@@ -1,4 +1,9 @@
-{ config, pkgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
   # Display Managers & Desktop Environments
@@ -10,9 +15,6 @@
   # ExecStart — it never puts `dms-greeter` on PATH for your own shell
   # (e.g. to run `dms-greeter --command niri` manually, check --version,
   # etc). Add it explicitly.
-  environment.systemPackages = [
-    inputs.dank-greeter.packages.${pkgs.system}.default
-  ];
 
   # DankGreeter — greetd login screen matching DMS's theme. Compositor
   # must be "niri" here since niri is what's actually installed via
@@ -25,7 +27,7 @@
       name = "niri";
       # Explicit cursor for the greeter's own niri instance — doesn't
       # depend on theme-sync/ACLs working, always applies.
-      
+
     };
     configHome = "/home/ayaan_mirza";
   };
@@ -39,7 +41,7 @@
 
       cursor {
           xcursor-theme "Bibata-Material-Lilac"
-          xcursor-size 24
+          xcursor-size 30
       }
     '';
     mode = "0644";
@@ -55,7 +57,7 @@
   # inherits the rest of the service's environment as-is.
   systemd.services.greetd.environment = {
     XCURSOR_THEME = "Bibata-Material-Lilac";
-    XCURSOR_SIZE = "24";
+    XCURSOR_SIZE = "30";
     XDG_DATA_DIRS = "/run/current-system/sw/share";
   };
 
