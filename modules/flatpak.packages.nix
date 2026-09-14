@@ -4,6 +4,7 @@
     "com.github.tchx84.Flatseal"
     "com.github.unrud.VideoDownloader"
     "com.spotify.Client"
+    "com.vivaldi.Vivaldi"
     "com.vysp3r.ProtonPlus"
     "dev.edfloreshz.CosmicTweaks"
     "fr.arnaudmichel.launcherstudio"
