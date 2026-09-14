@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
 
@@ -6,10 +11,23 @@
   users.users."ayaan_mirza" = {
     isNormalUser = true;
     description = "Ayaan Mirza";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
     shell = pkgs.zsh;
-    subUidRanges = [{ startUid = 100000; count = 65536; }];
-    subGidRanges = [{ startGid = 100000; count = 65536; }];
+    subUidRanges = [
+      {
+        startUid = 100000;
+        count = 65536;
+      }
+    ];
+    subGidRanges = [
+      {
+        startGid = 100000;
+        count = 65536;
+      }
+    ];
   };
 
   # Snap & Flatpak (declarative — see flatpak.nix)
@@ -23,30 +41,38 @@
         "xdg-config/gtk-3.0:ro"
         "xdg-config/gtk-4.0:ro"
       ];
+      # Force dark mode + Papirus-Dark icons for every Flatpak app:
+      # ADW_DEBUG_COLOR_SCHEME covers libadwaita/GTK4 apps (bypasses the
+      # portal's color-scheme setting entirely), GTK_THEME covers older
+      # GTK2/3 apps that don't read the portal at all, and ICON_THEME
+      # covers apps that respect the env var directly instead of dconf.
+      Environment = {
+        ADW_DEBUG_COLOR_SCHEME = "prefer-dark";
+        GTK_THEME = "Adwaita:dark";
+        ICON_THEME = "Papirus-Dark";
+      };
     };
     "com.kolumni.bazaar" = {
       Context.filesystems = [
         "xdg-config/gtk-3.0:ro"
         "xdg-config/gtk-4.0:ro"
       ];
-      Environment = {
-        ADW_DEBUG_COLOR_SCHEME = "prefer-dark";
-      };
     };
   };
 
-
   # Security & Privileges (Doas & Sudo)
   security.doas.enable = true;
-  security.doas.extraRules = [{
-    users = [ "ayaan_mirza" ];
-    keepEnv = true;
-    persist = true;
-  }];
+  security.doas.extraRules = [
+    {
+      users = [ "ayaan_mirza" ];
+      keepEnv = true;
+      persist = true;
+    }
+  ];
 
   security.sudo.enable = true;
 
-  security.apparmor.enable = true; #Enable AppArmor for Snap confinement
+  security.apparmor.enable = true; # Enable AppArmor for Snap confinement
 
   # Re-install rEFInd and re-sign it after every rebuild (chainloads
   # Lanzaboote's signed UKIs + Windows). Activation scripts already run
@@ -56,7 +82,15 @@
   # that doesn't include sed/coreutils, which refind-install needs internally.
   system.activationScripts.refind-sign = {
     text = ''
-      export PATH="${lib.makeBinPath [ pkgs.gnused pkgs.gawk pkgs.coreutils pkgs.gnugrep pkgs.util-linux ]}:$PATH"
+      export PATH="${
+        lib.makeBinPath [
+          pkgs.gnused
+          pkgs.gawk
+          pkgs.coreutils
+          pkgs.gnugrep
+          pkgs.util-linux
+        ]
+      }:$PATH"
       ${pkgs.refind}/bin/refind-install --yes
       ${pkgs.sbctl}/bin/sbctl sign /boot/EFI/refind/refind_x64.efi
     '';
@@ -65,7 +99,15 @@
 
   system.activationScripts.systemd-boot-sign = {
     text = ''
-      export PATH="${lib.makeBinPath [ pkgs.gnused pkgs.gawk pkgs.coreutils pkgs.gnugrep pkgs.util-linux ]}:$PATH"
+      export PATH="${
+        lib.makeBinPath [
+          pkgs.gnused
+          pkgs.gawk
+          pkgs.coreutils
+          pkgs.gnugrep
+          pkgs.util-linux
+        ]
+      }:$PATH"
       ${pkgs.sbctl}/bin/sbctl sign /boot/EFI/systemd/systemd-bootx64.efi
     '';
     deps = [ ];
@@ -101,9 +143,11 @@
     enable = true;
     keyboards.default = {
       ids = [ "*" ];
-      settings.main.leftmeta = "overload(meta, A-space)";
+      settings.main.leftmeta = "overload(meta, macro(M-S-space))";
     };
   };
+
+  hardware.uinput.enable = true;
 
   #Enable USBMUXD for iOS device management
   services.usbmuxd.enable = true;
@@ -139,16 +183,15 @@
     };
   };
 
-
   systemd.user.timers.flatpak-app-sync = {
     description = "Timer to run Flatpak sync every 5 seconds";
     wantedBy = [ "timers.target" ];
     timerConfig = {
       OnBootSec = "5s";
       OnUnitActiveSec = "15s";
-      # You can safely delete the 'Unit =' line since it matches the timer name, 
+      # You can safely delete the 'Unit =' line since it matches the timer name,
       # or change it to: Unit = "flatpak-app-sync.service";
-     };
+    };
   };
 
 }
