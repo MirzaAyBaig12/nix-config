@@ -22,6 +22,7 @@
     "io.gitlab.adhami3310.Impression"
     "io.missioncenter.MissionCenter"
     "io.podman_desktop.PodmanDesktop"
+    "net.codelogistics.webapps"
     "org.bleachbit.BleachBit"
     "org.equicord.equibop"
     "org.gnome.Chess"
