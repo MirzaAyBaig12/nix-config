@@ -31,6 +31,7 @@
     "org.mozilla.thunderbird_esr"
     "org.pvermeer.WebAppHub"
     "page.codeberg.grinka.Transition"
+    "sa.sy.bluerecorder"
     "uk.co.cappsy.Tesseract"
     "xyz.ketok.Speedtest"
   ];
