@@ -58,11 +58,12 @@
 
         rebuild_theme() {
           name="$1"
+          $DRY_RUN_CMD chmod -R u+w "$LOCAL/$name" 2>/dev/null || true
           $DRY_RUN_CMD rm -rf "$LOCAL/$name"
           $DRY_RUN_CMD mkdir -p "$LOCAL/$name"
-          [ -d "$SYS/$name" ] && $DRY_RUN_CMD cp -rL "$SYS/$name/." "$LOCAL/$name/" 2>/dev/null
-          [ -d "$USR/$name" ] && $DRY_RUN_CMD cp -rL "$USR/$name/." "$LOCAL/$name/" 2>/dev/null
-          [ -d "$FLATPAK/$name" ] && $DRY_RUN_CMD cp -rL "$FLATPAK/$name/." "$LOCAL/$name/" 2>/dev/null
+          [ -d "$SYS/$name" ] && $DRY_RUN_CMD cp -rL --no-preserve=mode "$SYS/$name/." "$LOCAL/$name/" 2>/dev/null
+          [ -d "$USR/$name" ] && $DRY_RUN_CMD cp -rL --no-preserve=mode "$USR/$name/." "$LOCAL/$name/" 2>/dev/null
+          [ -d "$FLATPAK/$name" ] && $DRY_RUN_CMD cp -rL --no-preserve=mode "$FLATPAK/$name/." "$LOCAL/$name/" 2>/dev/null
           $DRY_RUN_CMD chmod -R u+w "$LOCAL/$name"
           $DRY_RUN_CMD ${pkgs.gtk3}/bin/gtk-update-icon-cache -f -t "$LOCAL/$name" || true
         }

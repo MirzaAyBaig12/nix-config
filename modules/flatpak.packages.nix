@@ -23,6 +23,7 @@
     "io.gitlab.adhami3310.Impression"
     "io.missioncenter.MissionCenter"
     "io.podman_desktop.PodmanDesktop"
+    "it.mijorus.gearlever"
     "net.codelogistics.webapps"
     "org.bleachbit.BleachBit"
     "org.equicord.equibop"
