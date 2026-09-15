@@ -196,6 +196,7 @@
     libsForQt5.qtstyleplugin-kvantum
     unzip
     flutter
+    onlyoffice-desktopeditors
 
     # External Inputs / Custom Desktop GUI Packages
     claude-desktop-fhs
