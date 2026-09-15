@@ -144,6 +144,7 @@
       FLATPAK="/var/lib/flatpak/exports/share/icons"
       LOCAL="/usr/share/icons"
       mkdir -p "$LOCAL"
+      SEEN=""
       for theme in Adwaita hicolor Papirus Papirus-Dark Papirus-Light; do
         rm -rf "$LOCAL/$theme"
         mkdir -p "$LOCAL/$theme"
@@ -155,7 +156,10 @@
           gtk-update-icon-cache -f -t "$LOCAL/$theme" >/dev/null 2>&1 || true
           display="''${theme%-Dark}"
           display="''${display%-Light}"
-          echo "Indexed $display Theme"
+          case " $SEEN " in
+            *" $display "*) ;;
+            *) echo "Indexed $display Theme"; SEEN="$SEEN $display" ;;
+          esac
         else
           rmdir "$LOCAL/$theme" 2>/dev/null || true
         fi

@@ -56,6 +56,7 @@
 
         $DRY_RUN_CMD mkdir -p "$LOCAL"
 
+        SEEN=""
         rebuild_theme() {
           name="$1"
           $DRY_RUN_CMD chmod -R u+w "$LOCAL/$name" 2>/dev/null || true
@@ -68,7 +69,10 @@
           $DRY_RUN_CMD ${pkgs.gtk3}/bin/gtk-update-icon-cache -f -t "$LOCAL/$name" >/dev/null 2>&1 || true
           display="''${name%-Dark}"
           display="''${display%-Light}"
-          echo "Indexed $display Theme"
+          case " $SEEN " in
+            *" $display "*) ;;
+            *) echo "Indexed $display Theme"; SEEN="$SEEN $display" ;;
+          esac
         }
 
         for theme in Adwaita hicolor Papirus Papirus-Dark Papirus-Light; do
