@@ -5,7 +5,6 @@
     "com.github.tchx84.Flatseal"
     "com.github.unrud.VideoDownloader"
     "com.spotify.Client"
-    "com.tutanota.Tutanota"
     "com.vivaldi.Vivaldi"
     "com.vysp3r.ProtonPlus"
     "dev.edfloreshz.CosmicTweaks"
