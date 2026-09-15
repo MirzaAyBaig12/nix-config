@@ -86,6 +86,7 @@
   dconf.settings."org/gnome/desktop/interface" = {
     color-scheme = lib.mkForce "prefer-dark";
     icon-theme = lib.mkForce "Papirus-Dark";
+    accent-color = lib.mkForce "purple";
   };
 
   gtk = {

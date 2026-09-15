@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   # Ensure the systemd user daemon is enabled in Home Manager
@@ -35,4 +35,40 @@
       };
     };
   };
+
+  # Icon lookups for anything only reachable via hicolor fallback (not a
+  # theme's own native icons) were taking ~5s to resolve on first use —
+  # traced to no theme having a compiled icon-theme.cache at all, forcing
+  # a full directory-tree scan per lookup. /nix/store paths are read-only
+  # so a cache can't be written into the theme's own directory; instead,
+  # merge each theme's system + per-user copies into ~/.local/share/icons
+  # (which icon lookups check first, ahead of XDG_DATA_DIRS) and compile
+  # a real cache there. Runs as a user activation script (not a systemd
+  # service) so it re-runs on every activation, keeping the merged copy
+  # fresh whenever theme packages update. Cosmic, Pop, and the
+  # Bibata-Material-* cursor themes deliberately left alone — cursors
+  # aren't icon themes, gtk-update-icon-cache doesn't apply to them.
+  home.activation.iconThemeCacheUser = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        SYS="/run/current-system/sw/share/icons"
+        USR="/etc/profiles/per-user/${config.home.username}/share/icons"
+        FLATPAK="${config.home.homeDirectory}/.local/share/flatpak/exports/share/icons"
+        LOCAL="${config.home.homeDirectory}/.local/share/icons"
+
+        $DRY_RUN_CMD mkdir -p "$LOCAL"
+
+        rebuild_theme() {
+          name="$1"
+          $DRY_RUN_CMD rm -rf "$LOCAL/$name"
+          $DRY_RUN_CMD mkdir -p "$LOCAL/$name"
+          [ -d "$SYS/$name" ] && $DRY_RUN_CMD cp -rL "$SYS/$name/." "$LOCAL/$name/" 2>/dev/null
+          [ -d "$USR/$name" ] && $DRY_RUN_CMD cp -rL "$USR/$name/." "$LOCAL/$name/" 2>/dev/null
+          [ -d "$FLATPAK/$name" ] && $DRY_RUN_CMD cp -rL "$FLATPAK/$name/." "$LOCAL/$name/" 2>/dev/null
+          $DRY_RUN_CMD chmod -R u+w "$LOCAL/$name"
+          $DRY_RUN_CMD ${pkgs.gtk3}/bin/gtk-update-icon-cache -f -t "$LOCAL/$name" || true
+        }
+
+        for theme in Adwaita hicolor Papirus Papirus-Dark Papirus-Light; do
+          rebuild_theme "$theme"
+        done
+  '';
 }
