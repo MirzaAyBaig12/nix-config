@@ -152,7 +152,10 @@
         [ -d "$FLATPAK/$theme" ] && { cp -rL "$FLATPAK/$theme/." "$LOCAL/$theme/" 2>/dev/null; found=1; }
         if [ "$found" = "1" ]; then
           chmod -R u+w "$LOCAL/$theme"
-          gtk-update-icon-cache -f -t "$LOCAL/$theme" || true
+          gtk-update-icon-cache -f -t "$LOCAL/$theme" >/dev/null 2>&1 || true
+          display="''${theme%-Dark}"
+          display="''${display%-Light}"
+          echo "Indexed $display Theme"
         else
           rmdir "$LOCAL/$theme" 2>/dev/null || true
         fi
@@ -224,15 +227,8 @@
     };
   };
 
-  systemd.user.timers.flatpak-app-sync = {
-    description = "Timer to run Flatpak sync every 5 seconds";
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnBootSec = "5s";
-      OnUnitActiveSec = "15s";
-      # You can safely delete the 'Unit =' line since it matches the timer name,
-      # or change it to: Unit = "flatpak-app-sync.service";
-    };
-  };
+  # Timer removed — was firing every 15s automatically. Service is still
+  # here and can be run manually whenever needed:
+  #   systemctl --user start flatpak-app-sync.service
 
 }
