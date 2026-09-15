@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  lib,
   inputs,
   ...
 }:
@@ -40,7 +41,36 @@
     enable = true;
     autoPrune.enable = true;
   };
-  users.users.ayaan_mirza.extraGroups = [ "docker" ];
+
+  # WinPodX runs a rootless Podman pod for its Windows container (dockur/windows).
+  # kvm    — /dev/kvm access for the KVM-backed container
+  # podman — rootless Podman socket access
+  users.users.ayaan_mirza.extraGroups = [
+    "docker"
+    "podman"
+    "kvm"
+  ];
+
+  # NixOS's containers module writes image_copy_tmp_dir = "/nix/containers/tmp"
+  # into /etc/containers/containers.conf, which is root-owned with no write
+  # access for regular users — rootless `podman pull` (used by winpodx) fails
+  # with "permission denied" creating a temp dir for the image copy.
+  # Override to a location every user can write to.
+  virtualisation.containers.containersConf.settings = {
+    engine.image_copy_tmp_dir = lib.mkForce "/tmp";
+  };
+
+  # Pin winpodx's Windows version to Tiny11. Written only if the file doesn't
+  # already exist — `winpodx setup` honours pod.version, no --win-version
+  # flag needed.
+  system.userActivationScripts.winpodxConfig = ''
+    cfg="$HOME/.config/winpodx/winpodx.toml"
+    if [[ ! -f "$cfg" ]]; then
+      mkdir -p "$HOME/.config/winpodx"
+      printf '[pod]\nversion = "tiny11"\n' > "$cfg"
+      chmod 600 "$cfg"
+    fi
+  '';
 
   # Steam
   programs.steam = {
@@ -126,13 +156,14 @@
     kdePackages.kdenlive
     kdePackages.kate
     adwaita-icon-theme
+    papirus-icon-theme
+    hicolor-icon-theme
     gamemode
     winetricks
     ghostty
     grim
     slurp
     satty
-    hicolor-icon-theme
 
     # ==========================================
     # 4. SYSTEM & UTILITIES (CLI / GUI)
@@ -179,13 +210,31 @@
     (pkgs.callPackage ../packages/cosmic-ext-applet-mounter.nix { })
     (pkgs.callPackage ../packages/bibata-material-cursor.nix { })
     (inputs.winpodx.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
-      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkgs.cacert ];
+      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [
+        pkgs.cacert
+        pkgs.makeWrapper
+      ];
       env = (old.env or { }) // {
         SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
       };
       doCheck = false;
       checkPhase = "echo skipping winpodx tests";
       installCheckPhase = "echo skipping winpodx tests";
+      # Nix-store source files are always 444 (read-only). winpodx's
+      # shutil.copy2() preserves that mode on the *destination* copy (the
+      # icon + .desktop launchers under ~/.local/share/...), so the first
+      # `winpodx setup` succeeds but any re-run trying to overwrite those
+      # same files crashes with PermissionError (kernalix7/winpodx#867).
+      # Force the write bit back on before each run so re-running setup
+      # never chokes on its own previous output.
+      postFixup = (old.postFixup or "") + ''
+        wrapProgram $out/bin/winpodx --run '
+          chmod -f u+w \
+            "$HOME/.local/share/icons/hicolor/scalable/apps/winpodx.svg" \
+            "$HOME/.local/share/applications/winpodx.desktop" \
+            "$HOME/.local/share/applications/winpodx-gui.desktop" 2>/dev/null || true
+        '
+      '';
     }))
     (inputs.efiboots.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
       nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkgs.cacert ];

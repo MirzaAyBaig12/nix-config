@@ -50,7 +50,7 @@
   # needed once this was in place — that was working around the dconf
   # probe specifically, which QS_ICON_THEME bypasses altogether).
   home.activation.dmsServiceRelink = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-        DMS_UNIT="${osConfig.programs.dank-material-shell.package}/share/systemd/user/dms.service"
+        DMS_UNIT="${osConfig.programs.dms-shell.package}/share/systemd/user/dms.service"
         LINK="${config.home.homeDirectory}/.config/systemd/user/dms.service"
         OLD_TARGET="$(readlink -f "$LINK" 2>/dev/null || true)"
 

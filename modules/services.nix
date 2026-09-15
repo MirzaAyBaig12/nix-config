@@ -120,6 +120,47 @@
     deps = [ ];
   };
 
+  # System-wide counterpart to the per-user icon cache in
+  # home-manager/services.hm.nix — same problem (no theme ships a
+  # compiled icon-theme.cache, forcing a full directory scan per lookup,
+  # ~5s on first use for anything only reachable via hicolor fallback),
+  # fixed the same way but for the system profile instead of the
+  # per-user one. /nix/store is read-only so the cache can't live inside
+  # each theme's own store path; /usr/share/icons is a real writable
+  # directory on NixOS (unlike most of /usr) and is a standard XDG icon
+  # search location apps check even without XDG_DATA_DIRS pointing at it
+  # explicitly. Cosmic, Pop, and the Bibata-Material-* cursor themes
+  # deliberately left alone — cursors aren't icon themes,
+  # gtk-update-icon-cache doesn't apply to them.
+  system.activationScripts.iconThemeCacheSystem = {
+    text = ''
+      export PATH="${
+        lib.makeBinPath [
+          pkgs.coreutils
+          pkgs.gtk3
+        ]
+      }:$PATH"
+      SYS="/run/current-system/sw/share/icons"
+      FLATPAK="/var/lib/flatpak/exports/share/icons"
+      LOCAL="/usr/share/icons"
+      mkdir -p "$LOCAL"
+      for theme in Adwaita hicolor Papirus Papirus-Dark Papirus-Light; do
+        rm -rf "$LOCAL/$theme"
+        mkdir -p "$LOCAL/$theme"
+        found=0
+        [ -d "$SYS/$theme" ] && { cp -rL "$SYS/$theme/." "$LOCAL/$theme/" 2>/dev/null; found=1; }
+        [ -d "$FLATPAK/$theme" ] && { cp -rL "$FLATPAK/$theme/." "$LOCAL/$theme/" 2>/dev/null; found=1; }
+        if [ "$found" = "1" ]; then
+          chmod -R u+w "$LOCAL/$theme"
+          gtk-update-icon-cache -f -t "$LOCAL/$theme" || true
+        else
+          rmdir "$LOCAL/$theme" 2>/dev/null || true
+        fi
+      done
+    '';
+    deps = [ ];
+  };
+
   # Forces COSMIC's own dark-mode flag on every rebuild (stylix has no
   # target for COSMIC's native theme daemon, so this is a manual pin).
   system.activationScripts.forceCosmicDark = {
