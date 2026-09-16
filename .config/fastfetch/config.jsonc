@@ -49,7 +49,7 @@
         },
         {
             "type": "packages",
-            "format": "{31} (pacman), {49} (flatpak), {48} (brew)",
+            "format": "{nix-all} (Nix), {flatpak-all} (flatpak), {appimage} (AppImage), {all} (Total)",
             "key": " ├ 󰏖 ",
             "keyColor": "#d8b4fe",  
         },
