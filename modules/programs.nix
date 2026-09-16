@@ -211,31 +211,13 @@
     (pkgs.callPackage ../packages/cosmic-ext-applet-mounter.nix { })
     (pkgs.callPackage ../packages/bibata-material-cursor.nix { })
     (inputs.winpodx.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
-      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [
-        pkgs.cacert
-        pkgs.makeWrapper
-      ];
+      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkgs.cacert ];
       env = (old.env or { }) // {
         SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
       };
       doCheck = false;
       checkPhase = "echo skipping winpodx tests";
       installCheckPhase = "echo skipping winpodx tests";
-      # Nix-store source files are always 444 (read-only). winpodx's
-      # shutil.copy2() preserves that mode on the *destination* copy (the
-      # icon + .desktop launchers under ~/.local/share/...), so the first
-      # `winpodx setup` succeeds but any re-run trying to overwrite those
-      # same files crashes with PermissionError (kernalix7/winpodx#867).
-      # Force the write bit back on before each run so re-running setup
-      # never chokes on its own previous output.
-      postFixup = (old.postFixup or "") + ''
-        wrapProgram $out/bin/winpodx --run '
-          chmod -f u+w \
-            "$HOME/.local/share/icons/hicolor/scalable/apps/winpodx.svg" \
-            "$HOME/.local/share/applications/winpodx.desktop" \
-            "$HOME/.local/share/applications/winpodx-gui.desktop" 2>/dev/null || true
-        '
-      '';
     }))
     (inputs.efiboots.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
       nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkgs.cacert ];
