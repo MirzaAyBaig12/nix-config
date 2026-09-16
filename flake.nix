@@ -90,6 +90,21 @@
     danksearch.url = "github:AvengeMedia/danksearch";
     danksearch.inputs.nixpkgs.follows = "nixpkgs";
 
+    # 21. DankGreeter — back on the flake's own module, not nixpkgs'
+    # vendored one: nixpkgs' version left /var/lib/dms-greeter owned by
+    # nobody:nogroup instead of the dms-greeter user, crash-looping the
+    # greeter on "permission denied" extracting embedded UI. The flake's
+    # module doesn't have that gap.
+    dank-greeter.url = "github:AvengeMedia/dank-greeter";
+    dank-greeter.inputs.nixpkgs.follows = "nixpkgs";
+
+    # 21b. DankMaterialShell — back on the flake's own module instead of
+    # nixpkgs' vendored one, same reasoning as dank-greeter above.
+    dms = {
+      url = "github:AvengeMedia/DankMaterialShell/stable";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # 22. dgop
     dgop = {
       url = "github:AvengeMedia/dgop";
@@ -153,6 +168,12 @@
 
             # Stylix
             inputs.stylix.nixosModules.stylix
+
+            # DankGreeter
+            inputs.dank-greeter.nixosModules.default
+
+            # DankMaterialShell
+            inputs.dms.nixosModules.dank-material-shell
 
             # Snap service
             {
