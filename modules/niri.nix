@@ -26,9 +26,9 @@
 
   # DankMaterialShell — the actual shell (panel, dock, launcher, lock
   # screen, notifications) for niri, since niri ships bare with none of
-  # that. Comes from nixpkgs directly (vendored built-in module, same
-  # option schema as the standalone flake) — no separate flake input.
-  programs.dms-shell = {
+  # that. Back on the flake's own module (not nixpkgs' vendored one) —
+  # see flake.nix input #21b.
+  programs.dank-material-shell = {
     enable = true;
     systemd = {
       enable = true;
