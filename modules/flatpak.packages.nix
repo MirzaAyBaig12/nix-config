@@ -20,6 +20,7 @@
     "io.github.shiftey.Desktop"
     "io.github.streetpea.Chiaki4deck"
     "io.github.ungoogled_software.ungoogled_chromium"
+    "io.github.vikdevelop.SaveDesktop"
     "io.gitlab.adhami3310.Impression"
     "io.missioncenter.MissionCenter"
     "io.podman_desktop.PodmanDesktop"
