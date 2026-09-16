@@ -146,6 +146,11 @@
       mkdir -p "$LOCAL"
       SEEN=""
       for theme in Adwaita hicolor Papirus Papirus-Dark Papirus-Light; do
+        fingerprint="$(readlink -f "$SYS/$theme" 2>/dev/null)|$(readlink -f "$FLATPAK/$theme" 2>/dev/null)"
+        stamp="$LOCAL/.stamp-$theme"
+        if [ -d "$LOCAL/$theme" ] && [ -f "$stamp" ] && [ "$(cat "$stamp" 2>/dev/null)" = "$fingerprint" ]; then
+          continue
+        fi
         rm -rf "$LOCAL/$theme"
         mkdir -p "$LOCAL/$theme"
         found=0
@@ -154,6 +159,7 @@
         if [ "$found" = "1" ]; then
           chmod -R u+w "$LOCAL/$theme"
           gtk-update-icon-cache -f -t "$LOCAL/$theme" >/dev/null 2>&1 || true
+          echo "$fingerprint" > "$stamp"
           display="''${theme%-Dark}"
           display="''${display%-Light}"
           case " $SEEN " in
@@ -164,6 +170,14 @@
           rmdir "$LOCAL/$theme" 2>/dev/null || true
         fi
       done
+    '';
+    deps = [ ];
+  };
+
+  # Auto-update Flatpaks on every rebuild.
+  system.activationScripts.flatpakAutoUpdate = {
+    text = ''
+      ${pkgs.flatpak}/bin/flatpak update -y --noninteractive || true
     '';
     deps = [ ];
   };

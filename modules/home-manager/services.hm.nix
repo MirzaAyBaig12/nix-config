@@ -36,18 +36,13 @@
     };
   };
 
-  # Icon lookups for anything only reachable via hicolor fallback (not a
-  # theme's own native icons) were taking ~5s to resolve on first use —
-  # traced to no theme having a compiled icon-theme.cache at all, forcing
-  # a full directory-tree scan per lookup. /nix/store paths are read-only
-  # so a cache can't be written into the theme's own directory; instead,
-  # merge each theme's system + per-user copies into ~/.local/share/icons
-  # (which icon lookups check first, ahead of XDG_DATA_DIRS) and compile
-  # a real cache there. Runs as a user activation script (not a systemd
-  # service) so it re-runs on every activation, keeping the merged copy
-  # fresh whenever theme packages update. Cosmic, Pop, and the
-  # Bibata-Material-* cursor themes deliberately left alone — cursors
-  # aren't icon themes, gtk-update-icon-cache doesn't apply to them.
+  # home-manager-ayaan_mirza.service is WantedBy=multi-user.target, so it
+  # re-runs every boot, not just after a rebuild — meaning this used to
+  # redo the full copy+cache for all 5 themes every single boot even when
+  # nothing changed, slowing boot down for no reason. Fingerprint each
+  # theme by its source /nix/store paths (which only change when a
+  # package actually updates) and skip the whole rebuild for that theme
+  # if the fingerprint matches what's already cached.
   home.activation.iconThemeCacheUser = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
         SYS="/run/current-system/sw/share/icons"
         USR="/etc/profiles/per-user/${config.home.username}/share/icons"
@@ -59,6 +54,13 @@
         SEEN=""
         rebuild_theme() {
           name="$1"
+          fingerprint="$(readlink -f "$SYS/$name" 2>/dev/null)|$(readlink -f "$USR/$name" 2>/dev/null)|$(readlink -f "$FLATPAK/$name" 2>/dev/null)"
+          stamp="$LOCAL/.stamp-$name"
+
+          if [ -d "$LOCAL/$name" ] && [ -f "$stamp" ] && [ "$(cat "$stamp" 2>/dev/null)" = "$fingerprint" ]; then
+            return
+          fi
+
           $DRY_RUN_CMD chmod -R u+w "$LOCAL/$name" 2>/dev/null || true
           $DRY_RUN_CMD rm -rf "$LOCAL/$name"
           $DRY_RUN_CMD mkdir -p "$LOCAL/$name"
@@ -67,6 +69,7 @@
           [ -d "$FLATPAK/$name" ] && $DRY_RUN_CMD cp -rL --no-preserve=mode "$FLATPAK/$name/." "$LOCAL/$name/" 2>/dev/null
           $DRY_RUN_CMD chmod -R u+w "$LOCAL/$name"
           $DRY_RUN_CMD ${pkgs.gtk3}/bin/gtk-update-icon-cache -f -t "$LOCAL/$name" >/dev/null 2>&1 || true
+          $DRY_RUN_CMD sh -c "echo '$fingerprint' > '$stamp'"
           display="''${name%-Dark}"
           display="''${display%-Light}"
           case " $SEEN " in
