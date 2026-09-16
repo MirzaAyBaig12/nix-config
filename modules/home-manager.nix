@@ -15,7 +15,7 @@
         ./home-manager/stylix.nix
         ./home-manager/nixd.nix
         ./home-manager/services.hm.nix
-        ./home-manager/niri.nix
+        ./home-manager/niri.config.nix
 
         inputs.cosmic-manager.homeManagerModules.cosmic-manager
         inputs.stylix.homeModules.stylix
