@@ -124,6 +124,7 @@
     # ==========================================
     firefox
     firefoxpwa
+    google-chrome
 
     # ==========================================
     # 2. DEVELOPMENT & PROGRAMMING TOOLS
@@ -164,6 +165,7 @@
     grim
     slurp
     satty
+    vesktop
 
     # ==========================================
     # 4. SYSTEM & UTILITIES (CLI / GUI)
@@ -207,9 +209,7 @@
         SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
       };
     }))
-    (pkgs.callPackage ../packages/cosmic-ext-control-center.nix { })
-    (pkgs.callPackage ../packages/cosmic-ext-applet-mounter.nix { })
-    (pkgs.callPackage ../packages/bibata-material-cursor.nix { })
+    config.custom.bibataMaterialCursor
     (inputs.winpodx.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
       nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkgs.cacert ];
       env = (old.env or { }) // {
@@ -220,12 +220,6 @@
       installCheckPhase = "echo skipping winpodx tests";
     }))
     (inputs.efiboots.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
-      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkgs.cacert ];
-      env = (old.env or { }) // {
-        SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
-      };
-    }))
-    (inputs.look.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
       nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkgs.cacert ];
       env = (old.env or { }) // {
         SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
