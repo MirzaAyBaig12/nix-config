@@ -13,11 +13,6 @@
     libsForQt5.qt5ct
   ];
 
-  services.flameshot = {
-    # Also installs/enables flameshot
-    enable = true;
-  };
-
   # DankSearch — file search plugin powering DMS's launcher results
   programs.dsearch.enable = true;
 
