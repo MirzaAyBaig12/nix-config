@@ -14,7 +14,7 @@
       package = osConfig.custom.bibataMaterialCursor;
       name = "Bibata-Material-Lilac";
       size = 30;
-    };
+    }; 
 
     fonts = {
       sansSerif = {
