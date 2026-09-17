@@ -28,15 +28,13 @@ See [`/modules/`](./modules/) for each configuration module, and [`/modules/home
 - **GPU:** Intel Iris Xe (integrated)
 - **RAM:** 16GB
 
-> Getting a new machine at some point down the line — when that happens this section (and probably a lot of hardware-specific config) gets an update.
-
 ## Structure
 
 ```
 .
 ├── .config/
 │   ├── fastfetch/                  # fastfetch configs (synced to Home Manager)
-│   ├── niri/                       # niri + DMS config (kdl) — symlinked in-place via home-manager/niri.nix
+│   ├── niri/                       # niri + DMS config (kdl) — symlinked in-place via home-manager/niri.config.nix
 │   ├── refind/                     # rEFInd configuration files
 │   └── wallpapers/
 ├── modules/
@@ -46,7 +44,7 @@ See [`/modules/`](./modules/) for each configuration module, and [`/modules/home
 │   ├── home-manager.nix            # wires up Home Manager, imports the home-manager/ modules below
 │   ├── home-manager/
 │   │   ├── fastfetch.nix           # links .config/fastfetch into the HM profile
-│   │   ├── niri.nix                # niri config symlink, DMS dark-mode pin + service-relink activation fixes
+│   │   ├── niri.config.nix         # niri config symlink, DMS dark-mode pin + service-relink activation fixes
 │   │   ├── nixd.nix                # VS Code nixd LSP settings, points at this flake's own option tree
 │   │   ├── programs.hm.nix         # user-level home.packages, Flameshot, DankSearch, nix-monitor
 │   │   ├── services.hm.nix         # user systemd services (polkit auth agent, fcc-server)
@@ -57,11 +55,6 @@ See [`/modules/`](./modules/) for each configuration module, and [`/modules/home
 │   ├── services.nix                # doas/sudo, user account, keyd, printing/scanning, rEFInd/systemd-boot signing
 │   ├── stylix.nix                  # system-wide Stylix theming (fonts, base16 scheme, GTK/QT targets)
 │   └── system.nix                  # Lanzaboote + rEFInd bootloader, Plymouth, networking, Waydroid, swap
-├── packages/
-│   ├── bibata-material-cursor.nix
-│   ├── cosmic-ext-applet-mounter.nix
-│   ├── cosmic-ext-control-center.nix
-│   └── winpodx.nix                 # containerized Windows via Podman, built from its own flake
 ├── _img/                           # README screenshots
 ├── CLAUDE.md                       
 ├── configuration.nix               # entry point — imports every module
