@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  osConfig,
   ...
 }:
 
@@ -10,7 +11,7 @@
     enable = true;
 
     cursor = {
-      package = pkgs.callPackage ../../packages/bibata-material-cursor.nix { };
+      package = osConfig.custom.bibataMaterialCursor;
       name = "Bibata-Material-Lilac";
       size = 30;
     };
