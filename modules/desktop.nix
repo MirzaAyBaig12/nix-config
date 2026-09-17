@@ -1,15 +1,65 @@
 {
   config,
   pkgs,
+  lib,
   inputs,
   ...
 }:
 
+  let
+    # Ayaan's Material Design 3 fork of Bibata cursors (not nixpkgs'
+    # bibata-cursors, which has no Material variants). Packaged from the
+    # prebuilt release tarball — on a new release: nix-prefetch-url --type
+    # sha256 <url>, then nix hash convert --hash-algo sha256 <hash>, bump
+    # version+hash below. Lives here (rather than its own packages/*.nix)
+    # since this is the only module that actually needs it, exposed below
+    # via custom.bibataMaterialCursor so programs.nix and home-manager can
+    # reference the same build instead of each re-declaring it.
+    bibataMaterialCursor = pkgs.stdenv.mkDerivation (finalAttrs: {
+      pname = "bibata-material-cursor";
+     version = "1.2.1";
+
+     src = pkgs.fetchurl {
+        url = "https://github.com/SakibShahariar/material-bibata-cursor/releases/download/v${finalAttrs.version}/bibata-material-v${finalAttrs.version}.tar.gz";
+        hash = "sha256-/B/l+F3CVmJkwPJv/meabvkVpZbXa8Tt7O2MyANheXk=";
+      };
+
+     dontBuild = true;
+      installPhase = ''
+       mkdir -p $out/share/icons
+        cp -r Bibata-Material-* $out/share/icons/
+     '';
+
+     meta = with lib; {
+       description = "28 Bibata cursor themes using Material Design 3's tonal system (Ayaan's fork)";
+       homepage = "https://github.com/SakibShahariar/material-bibata-cursor";
+       license = licenses.gpl3Only;
+       platforms = platforms.all;
+     };
+   });
+  in
+  
 {
+  options.custom.bibataMaterialCursor = lib.mkOption {
+    type = lib.types.package;
+    internal = true;
+    readOnly = true;
+    default = bibataMaterialCursor;
+    description = "Ayaan's Material Design 3 Bibata cursor fork, built inline in desktop.nix.";
+  };
+
+  config = {
   # Display Managers & Desktop Environments
   services.displayManager.defaultSession = pkgs.lib.mkForce "niri";
   services.displayManager.cosmic-greeter.enable = false;
   services.desktopManager.cosmic.enable = true;
+
+  # Bibata-Material-Lilac (see below: greetd niri_overrides.kdl +
+  # systemd.services.greetd.environment) has to actually resolve to a
+  # real cursor theme in the SYSTEM profile — greetd runs as its own
+  # systemd service with XDG_DATA_DIRS pointed at
+  # /run/current-system/sw/share, not the user's home-manager profile.
+  environment.systemPackages = [ bibataMaterialCursor ];
 
   # dank-greeter's module only wires its package into greetd's own
   # ExecStart — it never puts `dms-greeter` on PATH for your own shell
@@ -98,4 +148,5 @@
     noto-fonts-color-emoji
     nerd-fonts.jetbrains-mono
   ];
+  };
 }
