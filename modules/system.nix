@@ -58,7 +58,7 @@
     sudo-temp = "/run/wrappers/bin/sudo";
     waydroid = "/usr/bin/python3 /usr/bin/waydroid";
     zsh-reload = "omz reload";
-    enroll-tpm = "doas systemd-cryptenroll --wipe-slot=1 /dev/nvme0n1p6 && doas systemd-cryptenroll --tpm2-device=auto /dev/nvme0n1p6";f
+    enroll-tpm = "doas systemd-cryptenroll --wipe-slot=1 /dev/nvme0n1p6 && doas systemd-cryptenroll --tpm2-device=auto /dev/nvme0n1p6";
   };
 
   # Bootloader setup (Lanzaboote — signed UKIs for Secure Boot)
