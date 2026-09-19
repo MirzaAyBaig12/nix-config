@@ -1,0 +1,60 @@
+{
+    "light": {
+        "0": {
+            "background": {
+                "type": "linear",
+                "angle": 0,
+                "preset": null,
+                "colors": [
+                    {
+                        "code": "hsla(301, 85.18518518518518%, 54%, 1)",
+                        "angle": 301.39026810418784,
+                        "radius": 0.9215445971001319,
+                        "value": 1,
+                        "opacity": 1,
+                        "order": 0,
+                        "position": null
+                    }
+                ]
+            },
+            "image": {}
+        },
+        "1": {},
+        "grain": 0,
+        "managedPosition": true
+    },
+    "dark": {
+        "0": {
+            "background": {
+                "type": "linear",
+                "angle": 0,
+                "preset": null,
+                "colors": [
+                    {
+                        "code": "hsla(290, 81.81818181818184%, 26%, 0.9456896551724138)",
+                        "angle": 290.7523476500436,
+                        "radius": 0.9071912754141761,
+                        "value": 0.47327586206896555,
+                        "opacity": 0.9456896551724138,
+                        "order": 0,
+                        "position": 0
+                    },
+                    {
+                        "code": "hsla(243, 42.857142857142854%, 22%, 0.8870689655172413)",
+                        "angle": 243.91173850223208,
+                        "radius": 0.6031132365980882,
+                        "value": 0.31465517241379315,
+                        "opacity": 0.8870689655172413,
+                        "order": 1,
+                        "position": 1
+                    }
+                ]
+            },
+            "image": {}
+        },
+        "1": {},
+        "grain": 0,
+        "managedPosition": true
+    },
+    "version": 1
+}
