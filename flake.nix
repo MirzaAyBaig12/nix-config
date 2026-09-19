@@ -17,9 +17,6 @@
     nix-snapd.url = "github:nix-community/nix-snapd";
     nix-snapd.inputs.nixpkgs.follows = "nixpkgs";
 
-    # 3. Nix Software Center
-    nix-software-center.url = "github:xinux-org/software-center";
-
     # 4. Declarative Flatpak support
     nix-flatpak.url = "github:gmodena/nix-flatpak";
 
@@ -119,6 +116,16 @@
 
     # 25. Free Download Manager
     nix-fdm.url = "github:j-a-sunny/nix-FDM";
+
+    # 26. fx-autoconfig (config.js for LibreWolf userChrome.js/Natsumi) - update with: nix flake update fx-autoconfig
+    fx-autoconfig = {
+      url = "github:MrOtherGuy/fx-autoconfig";
+      flake = false;
+    };
+
+    dank-calendar = {
+      url = "github:AvengeMedia/dankcalendar";
+    };
   };
 
   outputs =
@@ -126,7 +133,6 @@
       self,
       nixpkgs,
       nix-snapd,
-      nix-software-center,
       nix-flatpak,
       cosmic-manager,
       codex-desktop-linux,
