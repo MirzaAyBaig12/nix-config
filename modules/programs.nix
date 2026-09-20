@@ -96,7 +96,7 @@
         defaultPref("privacy.fingerprintingProtection.overrides", "+AllTargets,-CSSPrefersColorScheme");
       '';
     });
-    nativeMessagingHosts.packages = [ pkgs.firefoxpwa ];
+    nativeMessagingHosts.packages = [ pkgs.firefoxpwa ]; 
   };
 
   environment.etc."firefox/policies/policies.json".target = "librewolf/policies/policies.json";
