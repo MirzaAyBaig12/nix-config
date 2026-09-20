@@ -1,5 +1,5 @@
 {
-  description = "My NixOS Configuration Flake";
+  description = "Комиссар Блятников's Nix Flake";
 
   nixConfig = {
     extra-substituters = [ "https://look.cachix.org" ];
