@@ -54,5 +54,6 @@
   ],
   "security.workspace.trust.untrustedFiles": "open",
   "diffEditor.ignoreTrimWhitespace": false,
-  "explorer.confirmDelete": false
+  "explorer.confirmDelete": false,
+  "explorer.confirmPasteNative": false
 }
