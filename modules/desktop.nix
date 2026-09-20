@@ -7,14 +7,14 @@
 }:
 
   let
-    # Ayaan's Material Design 3 fork of Bibata cursors (not nixpkgs'
-    # bibata-cursors, which has no Material variants). Packaged from the
-    # prebuilt release tarball — on a new release: nix-prefetch-url --type
-    # sha256 <url>, then nix hash convert --hash-algo sha256 <hash>, bump
-    # version+hash below. Lives here (rather than its own packages/*.nix)
-    # since this is the only module that actually needs it, exposed below
-    # via custom.bibataMaterialCursor so programs.nix and home-manager can
-    # reference the same build instead of each re-declaring it.
+    # my material design 3 fork of bibata cursors (nixpkgs' bibata-cursors doesnt have
+    # material variants)
+    # packaged from the prebuilt release tarball. on a new release: nix-prefetch-url
+    # --type sha256 <url>, then nix hash convert --hash-algo sha256 <hash>, and bump
+    # version + hash below
+    # lives here instead of its own packages/*.nix cuz this is the only module that
+    # needs it. exposed as custom.bibataMaterialCursor so programs.nix and
+    # home-manager use the same build instead of each declaring it again
     bibataMaterialCursor = pkgs.stdenv.mkDerivation (finalAttrs: {
       pname = "bibata-material-cursor";
      version = "1.2.1";
@@ -54,31 +54,28 @@
   services.displayManager.cosmic-greeter.enable = false;
   services.desktopManager.cosmic.enable = true;
 
-  # Bibata-Material-Lilac (see below: greetd niri_overrides.kdl +
-  # systemd.services.greetd.environment) has to actually resolve to a
-  # real cursor theme in the SYSTEM profile — greetd runs as its own
-  # systemd service with XDG_DATA_DIRS pointed at
-  # /run/current-system/sw/share, not the user's home-manager profile.
+  # Bibata-Material-Lilac (see greetd niri_overrides.kdl +
+  # systemd.services.greetd.environment below) needs to resolve to a real cursor theme
+  # in the SYSTEM profile. greetd runs as its own systemd service with XDG_DATA_DIRS
+  # pointing at /run/current-system/sw/share, not my home-manager profile
   environment.systemPackages = [ bibataMaterialCursor ];
 
-  # dank-greeter's module only wires its package into greetd's own
-  # ExecStart — it never puts `dms-greeter` on PATH for your own shell
-  # (e.g. to run `dms-greeter --command niri` manually, check --version,
-  # etc). Add it explicitly.
+  # dank-greeter's module only wires its package into greetd's own ExecStart, it never
+  # puts `dms-greeter` on PATH for my shell (like to run `dms-greeter --command niri`
+  # manually or check --version). so adding it explicitly
 
-  # DankGreeter — greetd login screen matching DMS's theme. Compositor
-  # must be "niri" here since niri is what's actually installed via
-  # NixOS config (see note above the module option), not home-manager.
-  # configHome points at your user's DMS settings.json so the greeter
-  # picks up the same theme/accent instead of its own default.
-  # Back on the flake's own module (not nixpkgs' vendored one) — see
-  # flake.nix input #21 for why.
+  # DankGreeter, greetd login screen that matches the DMS theme. compositor has to be
+  # "niri" here cuz niri is what's actually installed through the nixos config (see
+  # note above the module option), not home-manager. configHome points at my DMS
+  # settings.json so the greeter picks up the same theme/accent instead of its own
+  # default. back on the flake's own module instead of nixpkgs' vendored one, see
+  # flake.nix input #21 for why
   programs.dms-greeter = {
     enable = true;
     compositor = {
       name = "niri";
-      # Explicit cursor for the greeter's own niri instance — doesn't
-      # depend on theme-sync/ACLs working, always applies.
+      # explicit cursor for the greeter's own niri instance. doesnt depend on
+      # theme-sync/ACLs working so it always applies
 
     };
     configHome = "/home/ayaan_mirza";
@@ -99,14 +96,13 @@
     mode = "0644";
   };
 
-  # greetd runs as a bare systemd service (user "cosmic-greeter"), not a
-  # login-shell session — it never sees environment.variables in system.nix
-  # (that's PAM/session-only), and greetd.toml only substitutes
-  # ${XCURSOR_THEME:-Pop} explicitly, so without this it silently falls
-  # back to the stock Pop cursor regardless of what's set for ayaan_mirza.
-  # XCURSOR_SIZE isn't referenced in that fallback at all, but still gets
-  # passed through since `env` only overrides the one var it's given and
-  # inherits the rest of the service's environment as-is.
+  # greetd runs as a bare systemd service (user "cosmic-greeter"), not a login shell
+  # session, so it never sees environment.variables from system.nix (thats PAM/session
+  # only). greetd.toml only substitutes ${XCURSOR_THEME:-Pop} explicitly, so without
+  # this it quietly falls back to the stock Pop cursor no matter what i set for
+  # ayaan_mirza. XCURSOR_SIZE isnt used in that fallback at all but still gets passed
+  # through, cuz `env` only overrides the one var it gets and inherits the rest of the
+  # service environment as is
   systemd.services.greetd.environment = {
     XCURSOR_THEME = "Bibata-Material-Lilac";
     XCURSOR_SIZE = "30";

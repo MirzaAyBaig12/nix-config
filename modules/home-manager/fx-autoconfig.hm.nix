@@ -1,15 +1,15 @@
 { inputs, lib, ... }:
 
-# fx-autoconfig's profile half (utils/, CSS/, resources/) for one LibreWolf profile.
-# (the config.js half lives in modules/programs.nix via extraPrefsFiles)
-# Update: nix flake update fx-autoconfig -> rebuild
+# profile half of fx-autoconfig (utils/, CSS/, resources/) for one librewolf profile.
+# the config.js half lives in modules/programs.nix via extraPrefsFiles
+# to update: nix flake update fx-autoconfig, then rebuild
 let
-  # LibreWolf profile to install into (relative to $HOME)
+  # librewolf profile to install into (relative to $HOME)
   chrome = ".config/librewolf/librewolf/f4jwAmgv.Profile 1/chrome";
 
   fx = "${inputs.fx-autoconfig}/profile/chrome";
 
-  # fx-autoconfig's utils/, minus chrome.manifest (see below)
+  # utils/ from fx-autoconfig without chrome.manifest (see below)
   utilsFiles = [
     "boot.sys.mjs"
     "fs.sys.mjs"
@@ -23,8 +23,8 @@ in
     "${chrome}/CSS".source = "${fx}/CSS";
     "${chrome}/resources".source = "${fx}/resources";
 
-    # Natsumi Append's chrome.manifest (from the Natsumi README). The natsumi/ paths
-    # simply don't resolve until you put Natsumi's natsumi/ folder into chrome/.
+    # chrome.manifest for natsumi append (from the natsumi readme). the natsumi/ paths
+    # wont resolve until natsumi's natsumi/ folder is in chrome/
     "${chrome}/utils/chrome.manifest".text = ''
       content userchromejs ./
       content userscripts ../natsumi/scripts/

@@ -6,4 +6,5 @@
 cursor {
     xcursor-theme "Bibata-Material-Lilac"
     xcursor-size 30
+    hide-after-inactive-ms 2500
 }

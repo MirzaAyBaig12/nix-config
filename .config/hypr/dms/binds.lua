@@ -4,8 +4,8 @@
 hl.bind("SUPER + T", hl.dsp.exec_cmd("ghostty"))
 hl.bind("SUPER + space", hl.dsp.exec_cmd("dms ipc call spotlight toggle"))
 hl.bind("ALT + space", hl.dsp.exec_cmd("dms ipc call spotlight-bar toggle"))
--- ported from niri: bare Super tap opens spotlight-bar directly (this is
--- what replaced the old keyd "leftmeta -> Alt+Space" hack)
+-- ported from niri: bare Super tap opens spotlight-bar directly (replaced the old
+-- keyd "leftmeta -> Alt+Space" hack)
 hl.bind("SUPER + SUPER_L", hl.dsp.exec_cmd("dms ipc call spotlight-bar toggle"), { release = true })
 hl.bind("SUPER + V", hl.dsp.exec_cmd("dms ipc call clipboard toggle"))
 hl.bind("SUPER + M", hl.dsp.exec_cmd("dms ipc call processlist focusOrToggle"))
@@ -16,7 +16,7 @@ hl.bind("SUPER + Y", hl.dsp.exec_cmd("dms ipc call dash toggle wallpaper"))
 hl.bind("SUPER + TAB", hl.dsp.exec_cmd("dms ipc call hypr toggleOverview"))
 hl.bind("SUPER + O", hl.dsp.exec_cmd("dms ipc call hypr toggleOverview"))
 hl.bind("SUPER + X", hl.dsp.exec_cmd("dms ipc call powermenu toggle"))
--- ported from niri: same powermenu, extra combo you were used to
+-- ported from niri: same powermenu, extra combo i was used to
 hl.bind("ALT + CTRL + L", hl.dsp.exec_cmd("dms ipc call powermenu toggle"))
 -- ported from niri
 hl.bind("ALT + F", hl.dsp.exec_cmd("dms ipc call defaultApp fileManager"))
@@ -52,8 +52,8 @@ hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd([[dms ipc call brightness decre
 hl.bind("SUPER + Q", hl.dsp.window.close())
 hl.bind("SUPER + F", hl.dsp.window.fullscreen({ mode = "maximized", action = "toggle" }))
 hl.bind("SUPER + SHIFT + F", hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" }))
--- ported from niri: plain float toggle (SHIFT+T below already did this,
--- niri also had it on bare G)
+-- ported from niri: plain float toggle (SHIFT+T below already did this, niri also had
+-- it on bare G)
 hl.bind("SUPER + G", hl.dsp.window.float({ action = "toggle" }))
 hl.bind("SUPER + SHIFT + T", hl.dsp.window.float({ action = "toggle" }))
 hl.bind("SUPER + W", hl.dsp.group.toggle())
@@ -129,9 +129,9 @@ hl.bind("SUPER + CTRL + mouse_down", hl.dsp.window.move({ workspace = "e+1" }))
 hl.bind("SUPER + CTRL + mouse_up", hl.dsp.window.move({ workspace = "e-1" }))
 
 -- === Touchpad Gestures ===
--- OVERRIDE (was: 3-finger horizontal = workspace switch): niri-style —
--- 3-finger horizontal drag scrolls/pans columns, vertical drag switches
--- workspaces up/down instead.
+-- OVERRIDE (was: 3 finger horizontal = workspace switch): niri style, 3 finger
+-- horizontal drag scrolls/pans columns and vertical drag switches workspaces up/down
+-- instead
 hl.gesture({ fingers = 3, direction = "horizontal", action = "scroll_move" })
 hl.gesture({ fingers = 3, direction = "vertical", action = "workspace" })
 
@@ -162,8 +162,8 @@ hl.bind("SUPER + bracketleft", hl.dsp.layout("preselect l"))
 hl.bind("SUPER + bracketright", hl.dsp.layout("preselect r"))
 
 -- === Sizing & Layout ===
--- OVERRIDE (was: togglesplit, a dwindle-only op that's a no-op under
--- scrolling layout anyway): ported from niri — cycle preset column widths.
+-- OVERRIDE (was: togglesplit, a dwindle only op that does nothing under the scrolling
+-- layout anyway): ported from niri, cycles preset column widths
 hl.bind("SUPER + R", hl.dsp.layout("colresize +conf"))
 hl.bind("SUPER + CTRL + F", hl.dsp.window.fullscreen({ mode = "maximized", action = "set" }))
 
@@ -175,8 +175,8 @@ hl.bind("SUPER + code:20", hl.dsp.window.resize({ x = -100, y = 0, relative = tr
 hl.bind("SUPER + code:21", hl.dsp.window.resize({ x = 100, y = 0, relative = true }), { description = "Shrink window left" })
 
 -- === Manual Sizing ===
--- OVERRIDE (was: raw ±100px window resize): ported from niri — percentage
--- based column-width resize, more idiomatic for the scrolling layout.
+-- OVERRIDE (was: raw ±100px window resize): ported from niri, percentage based column
+-- width resize, feels more natural for the scrolling layout
 hl.bind("SUPER + minus", hl.dsp.layout("colresize -0.1"), { repeating = true })
 hl.bind("SUPER + equal", hl.dsp.layout("colresize +0.1"), { repeating = true })
 hl.bind("SUPER + SHIFT + minus", hl.dsp.window.resize({ x = 0, y = -100, relative = true }), { repeating = true })
@@ -186,7 +186,7 @@ hl.bind("SUPER + SHIFT + equal", hl.dsp.window.resize({ x = 0, y = 100, relative
 hl.bind("Print", hl.dsp.exec_cmd("dms screenshot"))
 hl.bind("CTRL + Print", hl.dsp.exec_cmd("dms screenshot full"))
 hl.bind("ALT + Print", hl.dsp.exec_cmd("dms screenshot window"))
--- ported from niri: region screenshot combo you used
+-- ported from niri: the region screenshot combo i used
 hl.bind("SUPER + SHIFT + S", hl.dsp.exec_cmd("dms screenshot"))
 -- ported from niri: some laptops send XF86Launch1 for the PrtScr key
 hl.bind("XF86Launch1", hl.dsp.exec_cmd("dms screenshot"))
@@ -201,9 +201,9 @@ hl.bind("SUPER + SHIFT + P", hl.dsp.dpms({ action = "toggle" }))
 
 -- === Alt-Tab (ported from niri — no DMS default for this; SUPER+Tab
 -- above is DMS's own overview, this is separate cycling on Alt+Tab) ===
--- NOTE: two hl.bind() calls on the identical trigger silently collapse to
--- just the second one (unlike classic hyprlang, which runs both) — that's
--- why this wasn't doing anything. Combined into single binds instead.
+-- NOTE: two hl.bind() calls on the same trigger silently collapse into just the
+-- second one (unlike classic hyprlang, which runs both). thats why this wasnt doing
+-- anything, combined into single binds instead
 hl.bind("ALT + Tab", function()
 	hl.exec_cmd("hyprctl dispatch cyclenext")
 	hl.exec_cmd("hyprctl dispatch bringactivetotop")

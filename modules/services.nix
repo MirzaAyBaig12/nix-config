@@ -30,7 +30,7 @@
     ];
   };
 
-  # Snap & Flatpak (declarative — see flatpak.nix)
+  # snap & flatpak (declarative, see flatpak.nix)
   services.snap.enable = false;
   services.flatpak.enable = true;
   services.flatpak.overrides = {
@@ -41,11 +41,11 @@
         "xdg-config/gtk-3.0:ro"
         "xdg-config/gtk-4.0:ro"
       ];
-      # Force dark mode + Papirus-Dark icons for every Flatpak app:
-      # ADW_DEBUG_COLOR_SCHEME covers libadwaita/GTK4 apps (bypasses the
-      # portal's color-scheme setting entirely), GTK_THEME covers older
-      # GTK2/3 apps that don't read the portal at all, and ICON_THEME
-      # covers apps that respect the env var directly instead of dconf.
+      # force dark mode + Papirus-Dark icons for every flatpak app.
+      # ADW_DEBUG_COLOR_SCHEME covers libadwaita/gtk4 apps (skips the portal's
+      # color-scheme setting entirely), GTK_THEME covers older gtk2/3 apps that dont
+      # read the portal at all, and ICON_THEME covers apps that use the env var
+      # directly instead of dconf
       Environment = {
         ADW_DEBUG_COLOR_SCHEME = "prefer-dark";
         GTK_THEME = "Adwaita:dark";
@@ -74,12 +74,12 @@
 
   security.apparmor.enable = true; # Enable AppArmor for Snap confinement
 
-  # Re-install rEFInd and re-sign it after every rebuild (chainloads
-  # Lanzaboote's signed UKIs + Windows). Activation scripts already run
-  # as root, so no doas here — doas caused emergency-mode boot failures
-  # on gens 133/134 (PAM helper wasn't reachable this early in boot).
-  # PATH is extended because activation scripts run with a stripped PATH
-  # that doesn't include sed/coreutils, which refind-install needs internally.
+  # reinstalls rEFInd and re-signs it after every rebuild (chainloads lanzaboote's
+  # signed UKIs + windows). activation scripts already run as root so no doas here,
+  # doas caused emergency mode boot failures on gens 133/134 (PAM helper wasnt
+  # reachable that early in boot). PATH is extended cuz activation scripts run with a
+  # stripped PATH that doesnt include sed/coreutils, which refind-install needs
+  # internally
   system.activationScripts.refind-sign = {
     text = ''
       export PATH="${
@@ -120,18 +120,17 @@
     deps = [ ];
   };
 
-  # System-wide counterpart to the per-user icon cache in
-  # home-manager/services.hm.nix — same problem (no theme ships a
-  # compiled icon-theme.cache, forcing a full directory scan per lookup,
-  # ~5s on first use for anything only reachable via hicolor fallback),
-  # fixed the same way but for the system profile instead of the
-  # per-user one. /nix/store is read-only so the cache can't live inside
-  # each theme's own store path; /usr/share/icons is a real writable
-  # directory on NixOS (unlike most of /usr) and is a standard XDG icon
-  # search location apps check even without XDG_DATA_DIRS pointing at it
-  # explicitly. Cosmic, Pop, and the Bibata-Material-* cursor themes
-  # deliberately left alone — cursors aren't icon themes,
-  # gtk-update-icon-cache doesn't apply to them.
+  # system wide version of the per user icon cache in home-manager/services.hm.nix.
+  # same problem (no theme ships a compiled icon-theme.cache so every lookup does a
+  # full directory scan, ~5s on first use for anything only reachable through the
+  # hicolor fallback) and same fix, just for the system profile instead of the per
+  # user one
+  # /nix/store is read only so the cache cant live in each theme's own store path.
+  # /usr/share/icons is a real writable dir on nixos (unlike most of /usr) and its a
+  # standard XDG icon search location that apps check even without XDG_DATA_DIRS
+  # pointing at it explicitly. Cosmic, Pop, and the Bibata-Material-* cursor themes
+  # are left alone on purpose, cursors arent icon themes and gtk-update-icon-cache
+  # doesnt apply to them
   system.activationScripts.iconThemeCacheSystem = {
     text = ''
       export PATH="${
@@ -145,8 +144,8 @@
       LOCAL="/usr/share/icons"
       mkdir -p "$LOCAL"
       SEEN=""
-      for theme in Adwaita hicolor Papirus Papirus-Dark Papirus-Light; do
-        fingerprint="$(readlink -f "$SYS/$theme" 2>/dev/null)|$(readlink -f "$FLATPAK/$theme" 2>/dev/null)"
+      for theme in hicolor Papirus Papirus-Dark; do
+        fingerprint="$(readlink -f "$SYS/$theme" 2>/dev/null || true)|$(readlink -f "$FLATPAK/$theme" 2>/dev/null || true)"
         stamp="$LOCAL/.stamp-$theme"
         if [ -d "$LOCAL/$theme" ] && [ -f "$stamp" ] && [ "$(cat "$stamp" 2>/dev/null)" = "$fingerprint" ]; then
           continue
@@ -174,7 +173,7 @@
     deps = [ ];
   };
 
-  # Auto-update Flatpaks on every rebuild.
+  # auto update flatpaks on every rebuild
   system.activationScripts.flatpakAutoUpdate = {
     text = ''
       ${pkgs.flatpak}/bin/flatpak update -y --noninteractive || true
@@ -182,8 +181,8 @@
     deps = [ ];
   };
 
-  # Forces COSMIC's own dark-mode flag on every rebuild (stylix has no
-  # target for COSMIC's native theme daemon, so this is a manual pin).
+  # forces COSMIC's own dark mode flag on every rebuild (stylix has no target for
+  # COSMIC's native theme daemon so this is a manual pin)
   system.activationScripts.forceCosmicDark = {
     text = ''
       target=/home/ayaan_mirza/.config/cosmic/com.system76.CosmicTheme.Mode/v1/is_dark
@@ -191,16 +190,16 @@
       tmp="$target.tmp.$$"
       echo -n "true" > "$tmp"
       chown ayaan_mirza:users "$tmp"
-      mv -f "$tmp" "$target"   # atomic rename -> fires MOVED_TO so cosmic-config's
-                                # inotify watcher actually picks up the change live
+      mv -f "$tmp" "$target"   # atomic rename, fires MOVED_TO so cosmic-config's
+                                # inotify watcher picks up the change live
     '';
     deps = [ ];
   };
 
-  # keyd: tapping bare Super/Mod alone sends Alt+Space (DMS's own
-  # spotlight-bar bind, see dms/binds.kdl) since niri can't natively bind
-  # a modifier-alone tap. Holding leftmeta still behaves as a normal
-  # modifier for every other Mod+ bind in niri — overload() handles that.
+  # keyd: tapping bare Super/Mod alone sends Alt+Space (DMS's own spotlight-bar bind,
+  # see dms/binds.kdl) cuz niri cant natively bind a modifier only tap. holding
+  # leftmeta still acts as a normal modifier for every other Mod+ bind in niri,
+  # overload() handles that
   services.keyd = {
     enable = true;
     keyboards.default = {
@@ -214,9 +213,9 @@
   #Enable USBMUXD for iOS device management
   services.usbmuxd.enable = true;
 
-  # CUPS printing — using hplip drivers only (hp-* GUI utilities are
-  # broken on python3.14, see hplip URLopener issue; CUPS web UI at
-  # localhost:631 doesn't depend on those scripts, drivers still work)
+  # cups printing, only using hplip drivers (the hp-* gui utilities are broken on
+  # python3.14, see the hplip URLopener issue). the cups web ui at localhost:631
+  # doesnt depend on those scripts and the drivers still work
   services.printing = {
     enable = true;
     drivers = [ pkgs.hplip ];
@@ -233,10 +232,10 @@
     openFirewall = true;
   };
 
-  # Watches for Flatpaks installed outside of Nix (e.g. via Bazaar) and
-  # appends them into flatpak.nix, correctly formatted for flathub vs cosmic.
-  # Script itself is defined in flatpak.nix (options.custom.flatpakSyncScript).
-  # Systemd user service to execute the sync script
+  # watches for flatpaks installed outside of nix (like through bazaar) and appends
+  # them to flatpak.nix, formatted correctly for flathub vs cosmic
+  # the script itself is defined in flatpak.nix (options.custom.flatpakSyncScript)
+  # systemd user service that runs the sync script
   systemd.user.services.flatpak-app-sync = {
     description = "Periodic sync for unmanaged Flatpaks into flatpak.nix";
     serviceConfig = {
@@ -245,8 +244,8 @@
     };
   };
 
-  # Timer removed — was firing every 15s automatically. Service is still
-  # here and can be run manually whenever needed:
+  # removed the timer, it was firing every 15s on its own. service is still here and
+  # can be run manually whenever:
   #   systemctl --user start flatpak-app-sync.service
 
 }

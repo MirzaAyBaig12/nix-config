@@ -17,11 +17,11 @@
     enable = true;
     clean.enable = true;
     clean.extraArgs = "--keep 3";
-    flake = "/home/ayaan_mirza/nix-config"; # sets NH_OS_FLAKE variable for you
+    flake = "/home/ayaan_mirza/nix-config"; # sets the NH_OS_FLAKE variable
   };
 
-  # dconf backend — needed for GTK3/4 apps and anything reading/writing
-  # via gsettings (theme, color-scheme, etc.)
+  # dconf backend, needed for gtk3/4 apps and anything that reads/writes through
+  # gsettings (theme, color-scheme, etc)
   programs.dconf.enable = true;
 
   # Enable Direnv
@@ -42,27 +42,26 @@
     autoPrune.enable = true;
   };
 
-  # WinPodX runs a rootless Podman pod for its Windows container (dockur/windows).
-  # kvm    — /dev/kvm access for the KVM-backed container
-  # podman — rootless Podman socket access
+  # winpodx runs a rootless podman pod for its windows container (dockur/windows)
+  # kvm: /dev/kvm access for the kvm backed container
+  # podman: rootless podman socket access
   users.users.ayaan_mirza.extraGroups = [
     "docker"
     "podman"
     "kvm"
   ];
 
-  # NixOS's containers module writes image_copy_tmp_dir = "/nix/containers/tmp"
-  # into /etc/containers/containers.conf, which is root-owned with no write
-  # access for regular users — rootless `podman pull` (used by winpodx) fails
-  # with "permission denied" creating a temp dir for the image copy.
-  # Override to a location every user can write to.
+  # nixos's containers module writes image_copy_tmp_dir = "/nix/containers/tmp" into
+  # /etc/containers/containers.conf, which is root owned and not writable for regular
+  # users. rootless `podman pull` (what winpodx uses) fails with "permission denied"
+  # making a temp dir for the image copy. overriding to a location any user can write
+  # to
   virtualisation.containers.containersConf.settings = {
     engine.image_copy_tmp_dir = lib.mkForce "/tmp";
   };
 
-  # Pin winpodx's Windows version to Tiny11. Written only if the file doesn't
-  # already exist — `winpodx setup` honours pod.version, no --win-version
-  # flag needed.
+  # pin winpodx's windows version to tiny11. only written if the file doesnt exist
+  # yet, `winpodx setup` honours pod.version so no --win-version flag needed
   system.userActivationScripts.winpodxConfig = ''
     cfg="$HOME/.config/winpodx/winpodx.toml"
     if [[ ! -f "$cfg" ]]; then
@@ -82,7 +81,21 @@
   # Firefox / Librewolf
   programs.firefox = {
     enable = true;
-    package = pkgs.librewolf;
+    # appends the fx-autoconfig config.js to librewolf's mozilla.cfg (keeps librewolf's own prefs)
+    package = pkgs.librewolf.override (old: {
+      extraPrefsFiles = (old.extraPrefsFiles or [ ]) ++ [
+        "${inputs.fx-autoconfig}/program/config.js"
+      ];
+      # dark mode on websites: RFP pins prefers-color-scheme to light so use FPP with
+      # only that target exempted. lives here (mozilla.cfg) on purpose, NOT in
+      # librewolf.overrides.cfg, and uses defaultPref so i can still change these in
+      # Settings / about:config
+      extraPrefs = (old.extraPrefs or "") + ''
+        defaultPref("privacy.resistFingerprinting", false);
+        defaultPref("privacy.fingerprintingProtection", true);
+        defaultPref("privacy.fingerprintingProtection.overrides", "+AllTargets,-CSSPrefersColorScheme");
+      '';
+    });
     nativeMessagingHosts.packages = [ pkgs.firefoxpwa ];
   };
 
@@ -199,16 +212,11 @@
     unzip
     flutter
     onlyoffice-desktopeditors
+    inputs.dank-calendar.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     # External Inputs / Custom Desktop GUI Packages
     claude-desktop-fhs
-    opencode-desktop # OpenCode GUI[cite: 2]
-    (inputs.nix-software-center.packages.${stdenv.hostPlatform.system}.default.overrideAttrs (old: {
-      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkgs.cacert ];
-      env = (old.env or { }) // {
-        SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
-      };
-    }))
+    opencode-desktop # OpenCode GUI
     config.custom.bibataMaterialCursor
     (inputs.winpodx.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
       nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkgs.cacert ];

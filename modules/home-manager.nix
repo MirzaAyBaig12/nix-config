@@ -20,6 +20,7 @@
         ./home-manager/nixd.nix
         ./home-manager/services.hm.nix
         ./home-manager/niri.config.nix
+        ./home-manager/fx-autoconfig.hm.nix
 
         inputs.cosmic-manager.homeManagerModules.cosmic-manager
         inputs.stylix.homeModules.stylix

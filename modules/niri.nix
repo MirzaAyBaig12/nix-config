@@ -7,27 +7,26 @@
 }:
 
 {
-  # niri — scrollable-tiling Wayland compositor, run as an alt session
-  # alongside COSMIC (pick either at the greeter). Module comes from the
-  # niri flake input, imported in flake.nix.
+  # niri, scrollable tiling wayland compositor. runs as an alt session next to COSMIC
+  # (pick either at the greeter). module comes from the niri flake input imported in
+  # flake.nix
   programs.niri.enable = true;
 
-  # XWayland support — niri has no built-in Xwayland, it relies on the
-  # separate xwayland-satellite process. Native module doesn't spawn it
-  # automatically; needs the package installed + started at niri login.
-  # Pinned to 0.8.1 via an older nixpkgs rev — current nixos-unstable's
-  # version has a bug breaking Xwayland apps (found via a Reddit thread,
-  # not upstream-fixed yet). See flake.nix input #24.
+  # xwayland support. niri has no built in xwayland, it relies on the separate
+  # xwayland-satellite process. the native module doesnt spawn it so the package needs
+  # to be installed and started at niri login. pinned to 0.8.1 through an older
+  # nixpkgs rev cuz current nixos-unstable's version has a bug that breaks xwayland
+  # apps (found it on a reddit thread, not fixed upstream yet). see flake.nix input
+  # #24
   environment.systemPackages = [
     (import inputs.nixpkgs-xwayland-satellite-0-8-1 { system = pkgs.stdenv.hostPlatform.system; })
     .xwayland-satellite
     pkgs.xdg-desktop-portal-wlr # Added for wlroots screencopy/screenshots
   ];
 
-  # DankMaterialShell — the actual shell (panel, dock, launcher, lock
-  # screen, notifications) for niri, since niri ships bare with none of
-  # that. Back on the flake's own module (not nixpkgs' vendored one) —
-  # see flake.nix input #21b.
+  # DankMaterialShell, the actual shell for niri (panel, dock, launcher, lock screen,
+  # notifications) since niri ships bare with none of that. back on the flake's own
+  # module instead of nixpkgs' vendored one, see flake.nix input #21b
   programs.dank-material-shell = {
     enable = true;
     systemd = {
@@ -41,16 +40,16 @@
     enableCalendarEvents = true;
   };
 
-  # Scope portals by session. niri gets COSMIC's portal first (native
-  # file picker, notifications) with xdg-desktop-portal-wlr as the
-  # fallback for screenshots/screencast — EXCEPT Settings (color-scheme,
-  # accent-color, icon-theme), forced to gtk specifically: COSMIC's own
-  # portal keeps its own separate theme state, not the GNOME-schema dconf
-  # keys set in home-manager/stylix.nix, so apps querying Settings via
-  # COSMIC's portal were getting inconsistent light/dark + wrong accent.
-  # gtk reads dconf/gsettings directly, matching what's actually set.
-  # This also reaches Flatpak apps automatically — they talk to the same
-  # system-wide portal service, no separate flatpak-side config needed.
+  # scope portals by session. niri gets COSMIC's portal first (native file picker,
+  # notifications) with xdg-desktop-portal-wlr as the fallback for
+  # screenshots/screencast
+  # EXCEPT Settings (color-scheme, accent-color, icon-theme), that one is forced to
+  # gtk. COSMIC's own portal keeps its own separate theme state and ignores the GNOME
+  # schema dconf keys set in home-manager/stylix.nix, so apps asking it were getting
+  # inconsistent light/dark and the wrong accent. gtk reads dconf/gsettings directly
+  # so it matches whats actually set
+  # this reaches flatpak apps automatically too, they talk to the same system wide
+  # portal service so no separate flatpak side config needed
   xdg.portal = {
     enable = true;
     extraPortals = [

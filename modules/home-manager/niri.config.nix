@@ -7,19 +7,18 @@
 }:
 
 {
-  # ~/.config/niri is a symlink into this repo (nix-config/.config/niri),
-  # so `dms setup` can freely read/write config.kdl and dms/*.kdl as
-  # normal files (not nix-store symlinks — HM's usual xdg.configFile is
-  # read-only and breaks dms's in-place rewrites), while the content still
-  # lives in git for backup/version history. Content itself is untracked
-  # by Nix on purpose; edit ~/nix-config/.config/niri/ directly or re-run
-  # `dms setup` and commit the result.
+  # ~/.config/niri is a symlink into this repo (nix-config/.config/niri) so
+  # `dms setup` can read/write config.kdl and dms/*.kdl like normal files. HM's usual
+  # xdg.configFile is read only (nix store symlinks) and breaks dms's in place
+  # rewrites. content still lives in git for backup and history
+  # nix doesnt track the content on purpose. edit ~/nix-config/.config/niri/ directly
+  # or rerun `dms setup` and commit the result
   home.file.".config/niri".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-config/.config/niri";
 
-  # dms/colors.kdl keeps getting regenerated back to light mode (DMS
-  # re-derives it from the system light/dark preference on its own,
-  # independent of Nix). Force it back to dark on every activation.
+  # dms/colors.kdl keeps getting regenerated back to light mode (DMS re-derives it
+  # from the system light/dark preference on its own, nix has nothing to do with it).
+  # forcing it back to dark on every activation
   home.activation.dmsColorsDark = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     $DRY_RUN_CMD sed -i \
       -e 's/5f5791/c8bfff/g' \
@@ -28,27 +27,24 @@
       "${config.home.homeDirectory}/nix-config/.config/niri/dms/colors.kdl"
   '';
 
-  # dms.service's own systemd unit file gets symlinked into
-  # ~/.config/systemd/user/dms.service ONCE, imperatively, and never
-  # re-linked on later switches — so a DMS version bump silently leaves
-  # the OLD build running until this gets manually re-pointed. Do that
-  # here on every activation instead: always re-link to whatever package
-  # `programs.dank-material-shell` currently resolves to, and only
-  # daemon-reload + restart the service if the target actually changed
-  # (skip the restart on every no-op switch).
+  # dms.service's systemd unit file gets symlinked into
+  # ~/.config/systemd/user/dms.service ONCE, imperatively, and never re-linked on
+  # later switches. so a DMS version bump silently leaves the OLD build running until
+  # i manually re-point it. doing that here on every activation instead: always
+  # re-link to whatever package `programs.dank-material-shell` currently resolves to,
+  # and only daemon-reload + restart the service if the target actually changed (skip
+  # the restart on no-op switches)
   #
-  # QS_ICON_THEME env var — v1.6.1 switched from writing desktop theme
-  # settings via gsettings to writing directly via dconf (changelog:
-  # "theme: write desktop settings through dconf instead of gsettings"),
-  # which broke DMS's own icon-theme resolution (confirmed real
-  # regression, v1.6.0 works / v1.6.1 doesn't, with git staging ruled out
-  # as a red herring). QS_ICON_THEME is DMS's own documented override
-  # (danklinux.com/docs/dankmaterialshell/icon-theming) that takes
-  # precedence over whatever the broken probe does, sidestepping it
-  # entirely — lets us track "stable" HEAD again instead of pinning an
-  # old commit. Confirmed working Sep 13 2026 (no ExecStartPre delay
-  # needed once this was in place — that was working around the dconf
-  # probe specifically, which QS_ICON_THEME bypasses altogether).
+  # QS_ICON_THEME env var. v1.6.1 switched from writing desktop theme settings via
+  # gsettings to writing straight through dconf (changelog: "theme: write desktop
+  # settings through dconf instead of gsettings") which broke DMS's own icon theme
+  # resolution (confirmed real regression, v1.6.0 works and v1.6.1 doesnt, git staging
+  # was a red herring). QS_ICON_THEME is DMS's own documented override
+  # (danklinux.com/docs/dankmaterialshell/icon-theming) that takes precedence over
+  # whatever the broken probe does, so it sidesteps it completely. lets me track
+  # "stable" HEAD again instead of pinning an old commit. confirmed working Sep 13
+  # 2026. no ExecStartPre delay needed once this is in, that was only working around
+  # the dconf probe which QS_ICON_THEME bypasses altogether
   home.activation.dmsServiceRelink = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
         DMS_UNIT="${osConfig.programs.dank-material-shell.package}/share/systemd/user/dms.service"
         LINK="${config.home.homeDirectory}/.config/systemd/user/dms.service"

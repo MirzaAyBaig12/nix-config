@@ -13,13 +13,13 @@
     libsForQt5.qt5ct
   ];
 
-  # DankSearch — file search plugin powering DMS's launcher results
+  # DankSearch, file search plugin that powers the DMS launcher results
   programs.dsearch.enable = true;
 
-  # nix-monitor — tracks rebuild status/history. Home-manager module,
-  # not the NixOS one — the NixOS module tries to symlink a plugin
-  # config into /etc/xdg/quickshell/dms-plugins/, which collides with
-  # DMS's own plugin-dir symlink there (permission denied at build).
+  # nix-monitor, tracks rebuild status/history. using the home-manager module not the
+  # nixos one, the nixos module tries to symlink a plugin config into
+  # /etc/xdg/quickshell/dms-plugins/ which collides with DMS's own plugin dir symlink
+  # there (permission denied at build)
   programs.nix-monitor = {
     enable = true;
     rebuildCommand = [

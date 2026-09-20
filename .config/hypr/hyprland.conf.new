@@ -1,9 +1,9 @@
-# Hyprland config — plain, hand-edited file (see
-# modules/home-manager/hyprland.nix for why this isn't home-manager-owned).
-# Keybinds below are a 1:1 translation of what lived in the old
-# ~/nix-config/.config/niri/config.kdl + dms/binds.kdl, so muscle memory
-# carries over. Run `hyprctl configerrors` after first launch to catch
-# any syntax drift from whatever Hyprland version the flake pulls in.
+# hyprland config, plain hand edited file (see modules/home-manager/hyprland.nix for
+# why home-manager doesnt own it).
+# keybinds below are a 1:1 translation of what was in the old
+# ~/nix-config/.config/niri/config.kdl + dms/binds.kdl so muscle memory carries over.
+# run `hyprctl configerrors` after first launch to catch any syntax drift from
+# whatever hyprland version the flake pulls in
 
 $mainMod = SUPER
 
@@ -30,9 +30,9 @@ general {
     layout = scrolling
 }
 
-# Scrolling layout is built into Hyprland core now (the old
-# hyprland-plugins/hyprscrolling plugin got merged upstream) — this is
-# the niri-style "infinite tape of columns" behavior.
+# scrolling layout is built into hyprland core now (the old
+# hyprland-plugins/hyprscrolling plugin got merged upstream). this is the niri style
+# "infinite tape of columns" behavior
 scrolling {
     fullscreen_on_one_column = true
     column_width = 0.5
@@ -64,21 +64,21 @@ layerrule = blur, ^(quickshell)$
 layerrule = ignorezero, ^(quickshell)$
 
 # --- Gestures ------------------------------------------------------------
-# niri-style: 3-finger horizontal swipe scrolls through columns (like
-# panning the scrolling layout), 3-finger vertical swipe switches
-# workspace up/down. If left/right feels backwards for your touchpad's
-# natural-scroll setting, just swap the two `focus` lines below.
+# niri style: 3 finger horizontal swipe scrolls through columns (like panning the
+# scrolling layout), 3 finger vertical swipe switches workspace up/down. if left/right
+# feels backwards with my touchpad's natural scroll setting, just swap the two `focus`
+# lines below
 gesture = 3, left, layoutmsg, focus r
 gesture = 3, right, layoutmsg, focus l
 gesture = 3, up, workspace, r-1
 gesture = 3, down, workspace, r+1
 
 # --- Super key / spotlight -----------------------------------------------
-# Bare Super tap opens the spotlight bar directly — replaces the old keyd
-# hack that remapped a bare Super press into Alt+Space (niri couldn't
-# bind a modifier-alone tap natively; Hyprland can, via bindr).
+# bare Super tap opens the spotlight bar directly, replaces the old keyd hack that
+# remapped a bare Super press into Alt+Space (niri couldnt bind a modifier only tap
+# natively, hyprland can through bindr)
 bindr = SUPER, SUPER_L, exec, dms ipc call spotlight-bar toggle
-# Alt+Space kept too, in case you still want the explicit combo directly.
+# Alt+Space kept too in case i still want the explicit combo directly
 bind = ALT, space, exec, dms ipc call spotlight-bar toggle
 
 bind = $mainMod, space, exec, dms ipc call spotlight toggle
@@ -222,9 +222,9 @@ bind = $mainMod CTRL, mouse_down, movetoworkspace, r+1
 bind = $mainMod CTRL, mouse_up, movetoworkspace, r-1
 
 # --- Alt-tab ---------------------------------------------------------------
-# niri's built-in window switcher had no Hyprland equivalent, so this is
-# cyclenext-based; grave binds don't filter to same-app windows like
-# niri's did — Hyprland has no native equivalent for that filter.
+# niri's built in window switcher has no hyprland equivalent so this is cyclenext
+# based. grave binds dont filter to same app windows like niri's did, hyprland has no
+# native equivalent for that filter
 bind = ALT, Tab, cyclenext,
 bind = ALT, Tab, bringactivetotop,
 bind = ALT SHIFT, Tab, cyclenext, prev
@@ -237,19 +237,18 @@ windowrulev2 = float, class:^(gnome-control-center|pavucontrol|nm-connection-edi
 windowrulev2 = float, class:^(org.gnome.Calculator|gnome-calculator|galculator|blueman-manager|org.gnome.Nautilus|xdg-desktop-portal)$
 windowrulev2 = float, class:^(zoom)$, title:^(Picture-in-Picture)$
 
-# --- Dropped from niri with no clean Hyprland equivalent (see chat) -----
-# - move-workspace-up/down (Mod+Shift+I/U/Page_Up/Page_Down): niri
-#   reorders workspaces in its per-output vertical stack; Hyprland's
-#   flat numbered-workspace model has no equivalent "reorder" dispatcher.
-# - move-column-to-first/last (Mod+Ctrl+Home/End): no direct equivalent
-#   dispatcher in the scrolling layout beyond `fit tobeg/toend`, which
-#   only pans the view rather than reordering the column.
-# - toggle-column-tabbed-display (Mod+W): scrolling layout has no tabbed
-#   column concept.
-# - toggle-keyboard-shortcuts-inhibit (Mod+Escape): Wayland accessibility
-#   toggle niri had for VM/remote-desktop apps grabbing all keys; no
-#   Hyprland dispatcher for this.
-# - toggle-overview (Mod+O / Mod+Tab): Hyprland has no built-in overview.
-#   If you want this back, the community "ScrollOverview" plugin
-#   (github: yayuuu/hyprland-scroll-overview) targets exactly this for
-#   the scrolling layout — happy to wire it in if you want it.
+# --- Dropped from niri with no clean Hyprland equivalent -----
+# - move-workspace-up/down (Mod+Shift+I/U/Page_Up/Page_Down): niri reorders workspaces
+#   in its per output vertical stack, hyprland's flat numbered workspace model has no
+#   "reorder" dispatcher for that
+# - move-column-to-first/last (Mod+Ctrl+Home/End): no direct dispatcher in the
+#   scrolling layout beyond `fit tobeg/toend`, which only pans the view instead of
+#   reordering the column
+# - toggle-column-tabbed-display (Mod+W): scrolling layout has no tabbed column
+#   concept
+# - toggle-keyboard-shortcuts-inhibit (Mod+Escape): wayland accessibility toggle niri
+#   had for vm/remote desktop apps that grab all keys, hyprland has no dispatcher for
+#   this
+# - toggle-overview (Mod+O / Mod+Tab): hyprland has no built in overview. if i want it
+#   back the community "ScrollOverview" plugin (github:
+#   yayuuu/hyprland-scroll-overview) is made for exactly this on the scrolling layout

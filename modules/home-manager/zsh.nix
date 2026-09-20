@@ -14,15 +14,15 @@
       mkdir -p "$HOME/.cache/zsh"
       export ZSH_COMPDUMP="$HOME/.cache/zsh/zcompdump-$ZSH_VERSION"
 
-      # Runs the real flatpak command with your args first, then syncs
-      # flatpak.packages.nix only if that command succeeded
+      # runs the real flatpak command with my args first, then syncs
+      # flatpak.packages.nix only if that command worked
       flatpak() {
         command flatpak "$@" && sync-flatpak-apps
       }
 
-      # dms shell completion — generated live so it never goes stale
-      # against whatever dms version is actually installed (oh-my-zsh's
-      # compinit has already run by this point in initContent)
+      # dms shell completion, generated live so it never goes stale vs whatever dms
+      # version is actually installed (oh-my-zsh's compinit already ran by this point
+      # in initContent)
       if command -v dms >/dev/null 2>&1; then
         eval "$(dms completion zsh)"
       fi

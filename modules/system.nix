@@ -6,9 +6,9 @@
 }:
 
 {
-  # Explicit env vars for nh (belt-and-suspenders alongside programs.nh.flake,
-  # since NH_FLAKE via the module option has been flaky to propagate to
-  # already-open shells after a rebuild)
+  # setting the nh env vars explicitly too just in case. NH_FLAKE from
+  # programs.nh.flake is flaky about reaching shells that are already open after a
+  # rebuild
   environment.variables = {
     NH_FLAKE = "/home/ayaan_mirza/nix-config";
     NH_OS_FLAKE = "/home/ayaan_mirza/nix-config";
@@ -25,9 +25,9 @@
     device = "/dev/disk/by-uuid/EBBE-BBC8";
     fsType = "exfat";
     options = [
-      "nofail" # don't block boot if this fails to mount
-      "x-systemd.device-timeout=5" # stop waiting after 5s instead of hanging
-      "uid=1000" # mount owned by your user, not root
+      "nofail" # dont block boot if it fails to mount
+      "x-systemd.device-timeout=5" # dont hang, give up after 5s
+      "uid=1000" # owned by me not root
       "gid=100"
       "umask=0022"
     ];
@@ -36,12 +36,12 @@
   fileSystems."/mnt/nvme0n1p3" = {
     device = "/dev/disk/by-uuid/E234F38734F35CCB";
     fsType = "ntfs";
-    # fsck for ntfs skipped — no real fsck.ntfs implementation on Linux,
-    # the check unit just fails every boot regardless
+    # no fsck for ntfs, linux doesnt have a real fsck.ntfs so the check unit just
+    # fails every boot anyway
     options = [
-      "nofail" # don't block boot if this fails to mount
-      "x-systemd.device-timeout=5" # stop waiting after 5s instead of hanging
-      "uid=1000" # mount owned by your user, not root
+      "nofail" # dont block boot if it fails to mount
+      "x-systemd.device-timeout=5" # dont hang, give up after 5s
+      "uid=1000" # owned by me not root
       "gid=100"
       "umask=0022"
     ];
@@ -61,21 +61,21 @@
     enroll-tpm = "doas systemd-cryptenroll --wipe-slot=1 /dev/nvme0n1p6 && doas systemd-cryptenroll --tpm2-device=auto /dev/nvme0n1p6";
   };
 
-  # Bootloader setup (Lanzaboote — signed UKIs for Secure Boot)
+  # bootloader setup (lanzaboote, signed UKIs for secure boot)
   boot.lanzaboote = {
     enable = true;
-    pkiBundle = "/var/lib/sbctl"; # reuses your existing enrolled sbctl keys
+    pkiBundle = "/var/lib/sbctl"; # reusing my existing enrolled sbctl keys
 
-    # Auto-generate Secure Boot keys in pkiBundle if they don't already
-    # exist yet (runs as a systemd service on boot, not during switch/install)
+    # auto generates secure boot keys in pkiBundle if they dont exist yet (runs as a
+    # systemd service on boot, not during switch/install)
     autoGenerateKeys.enable = true;
 
-    # Auto-enroll the generated keys into firmware. Keeps Microsoft keys
-    # included (default/safe) so Option ROMs signed by MS still load.
+    # auto enrolls the generated keys into firmware. keeping the microsoft keys so
+    # option roms signed by ms still load
     autoEnrollKeys = {
       enable = true;
       includeMicrosoftKeys = true;
-      autoReboot = true; # reboots once automatically so enrollment finishes same session
+      autoReboot = true; # reboots once so enrollment finishes in the same session
     };
   };
 
@@ -111,12 +111,12 @@
   swapDevices = [
     {
       device = "/swapfile";
-      size = 16384; # 16 GB to safely cover ~15.3GB RAM
+      size = 16384; # 16gb, covers my ~15.3gb of ram
     }
   ];
 
-  # FHS compat symlinks — some non-Nix apps/scripts hardcode /bin/bash, /bin/sh
-  # instead of resolving via PATH. /usr/bin/env is already provided by NixOS.
+  # symlinks for /bin/bash and /bin/sh, some non nix apps and scripts hardcode them
+  # instead of using PATH. /usr/bin/env is already there on nixos
   systemd.tmpfiles.rules = [
     "L+ /bin/bash - - - - ${pkgs.bash}/bin/bash"
     "L+ /bin/sh - - - - ${pkgs.bash}/bin/sh"

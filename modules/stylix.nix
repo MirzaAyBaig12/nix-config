@@ -77,11 +77,10 @@
       platform = "qtct";
     };
 
-    # These two targets set nixpkgs.overlays internally, which throws the
-    # "nixpkgs.config/overlays set while useGlobalPkgs" warning. nixos-icons
-    # is redundant anyway since gtk.iconTheme is force-set to Adwaita in
-    # home-manager/stylix.nix; gtksourceview isn't something we're relying
-    # on stylix for.
+    # these two targets set nixpkgs.overlays internally which throws the
+    # "nixpkgs.config/overlays set while useGlobalPkgs" warning. nixos-icons is
+    # redundant anyway cuz gtk.iconTheme is force set to Adwaita in
+    # home-manager/stylix.nix, and im not relying on stylix for gtksourceview
     targets.nixos-icons.enable = false;
     targets.gtksourceview.enable = false;
   };
