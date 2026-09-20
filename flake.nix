@@ -87,18 +87,17 @@
     danksearch.url = "github:AvengeMedia/danksearch";
     danksearch.inputs.nixpkgs.follows = "nixpkgs";
 
-    # 21. DankGreeter — back on the flake's own module, not nixpkgs'
-    # vendored one: nixpkgs' version left /var/lib/dms-greeter owned by
-    # nobody:nogroup instead of the dms-greeter user, crash-looping the
-    # greeter on "permission denied" extracting embedded UI. The flake's
-    # module doesn't have that gap.
+    # 21. DankGreeter. back on the flake's own module instead of nixpkgs' vendored one
+    # cuz nixpkgs' version left /var/lib/dms-greeter owned by nobody:nogroup instead
+    # of the dms-greeter user, which crash looped the greeter on "permission denied"
+    # extracting the embedded UI. the flake's module doesnt have that problem
     dank-greeter.url = "github:AvengeMedia/dank-greeter";
     dank-greeter.inputs.nixpkgs.follows = "nixpkgs";
 
-    # 21b. DankMaterialShell — back on the flake's own module instead of
-    # nixpkgs' vendored one, same reasoning as dank-greeter above.
+    # 21b. DankMaterialShell. back on the flake's own module instead of nixpkgs'
+    # vendored one, same reason as dank-greeter above
     dms = {
-      url = "github:AvengeMedia/DankMaterialShell/stable";
+      url = "github:AvengeMedia/DankMaterialShell/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -117,7 +116,7 @@
     # 25. Free Download Manager
     nix-fdm.url = "github:j-a-sunny/nix-FDM";
 
-    # 26. fx-autoconfig (config.js for LibreWolf userChrome.js/Natsumi) - update with: nix flake update fx-autoconfig
+    # 26. fx-autoconfig (config.js for librewolf userChrome.js/natsumi), update with: nix flake update fx-autoconfig
     fx-autoconfig = {
       url = "github:MrOtherGuy/fx-autoconfig";
       flake = false;
