@@ -22,9 +22,9 @@
 
   ];
 
-  # Lix — swaps in Lix from nixpkgs' own lixPackageSets, which always
-  # tracks the exact Lix version matching this pinned nixpkgs, so there's
-  # never a version-mismatch warning like with the external lix-module flake
+  # using lix from nixpkgs' own lixPackageSets so the version always matches my pinned
+  # nixpkgs. no more version mismatch warning like the external lix-module flake gave
+  # me
   nixpkgs.overlays = [
     (final: prev: {
       inherit (prev.lixPackageSets.stable) nixpkgs-review nix-eval-jobs nix-fast-build colmena;
