@@ -105,4 +105,7 @@
         fi
         $DRY_RUN_CMD sh -c "echo '$BOOT_ID' > '$BOOT_STAMP'"
   '';
+  
+  home.file.".vscode/argv.json".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-config/.config/.vscode/argv.json";
 }
