@@ -1,8 +1,12 @@
 [
   "aliataf.task-done",
+  "anthropic.claude-code",
   "anweber.local-sync",
+  "atomicspirit.nix-embedded-highlighter",
   "atommaterial.a-file-icon-vscode",
+  "b9software.vsx-auto-close-tab",
   "christian-kohler.path-intellisense",
+  "danklinux.dms-theme",
   "drcika.apc-extension",
   "github.remotehub",
   "jeff-hykin.better-nix-syntax",
@@ -14,5 +18,8 @@
   "ms-python.vscode-pylance",
   "ms-vscode.azure-repos",
   "ms-vscode.remote-repositories",
-  "ms-vscode.vscode-python-web-wasm"
+  "ms-vscode.vscode-python-web-wasm",
+  "rionoir.gitcharm",
+  "yusifaliyevpro.vscicons",
+  "zokugun.cron-tasks"
 ]
