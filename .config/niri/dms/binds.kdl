@@ -1,7 +1,7 @@
 binds {
     Alt+Ctrl+B hotkey-overlay-title="Default Web Browser: Open" { spawn "dms" "ipc" "call" "defaultApp" "browser"; }
     Alt+Ctrl+F hotkey-overlay-title="Default File Manager: Open" { spawn "dms" "ipc" "call" "defaultApp" "fileManager"; }
-    Alt+Ctrl+L hotkey-overlay-title="Power Menu: Toggle" { spawn "dms" "ipc" "call" "powermenu" "toggle"; }
+    Alt+Ctrl+L allow-when-locked=true hotkey-overlay-title="Power Menu: Toggle" { spawn "dms" "ipc" "call" "powermenu" "toggle"; }
     Alt+Space hotkey-overlay-title="Spotlight Bar" { spawn "dms" "ipc" "call" "spotlight-bar" "toggle"; }
     Ctrl+Alt+Delete hotkey-overlay-title="Task Manager" { spawn "dms" "ipc" "call" "processlist" "focusOrToggle"; }
     Ctrl+Shift+R hotkey-overlay-title="Rename Workspace" { spawn "dms" "ipc" "call" "workspace-rename" "open"; }
@@ -61,9 +61,9 @@ binds {
     Mod+Shift+Page_Down { move-workspace-down; }
     Mod+Shift+Page_Up { move-workspace-up; }
     Mod+Shift+U { move-workspace-down; }
+    Mod+Shift+WheelScrollDown { focus-workspace-down; }
+    Mod+Shift+WheelScrollUp { focus-workspace-up; }
     Mod+U { focus-workspace-down; }
-    Mod+WheelScrollDown cooldown-ms=150 { focus-column-right; }
-    Mod+WheelScrollUp cooldown-ms=150 { focus-column-left; }
     Alt+Ctrl+Shift+F hotkey-overlay-title="Toggle Floating" { toggle-window-floating; }
     Alt+Print { screenshot-window; }
     Alt+XF86Launch1 { screenshot-window; }
@@ -123,12 +123,12 @@ binds {
     Mod+Shift+T { toggle-window-floating; }
     Mod+Shift+Up { move-window-up; }
     Mod+Shift+V { switch-focus-between-floating-and-tiling; }
-    Mod+Shift+WheelScrollDown { focus-workspace-down; }
-    Mod+Shift+WheelScrollUp { focus-workspace-up; }
     Mod+Up { focus-window-up; }
     Mod+W { toggle-column-tabbed-display; }
+    Mod+WheelScrollDown cooldown-ms=150 { focus-column-right; }
     Mod+WheelScrollLeft { focus-column-left; }
     Mod+WheelScrollRight { focus-column-right; }
+    Mod+WheelScrollUp cooldown-ms=150 { focus-column-left; }
     Mod+Shift+P { power-off-monitors; }
     Ctrl+Print { screenshot-screen; }
     Ctrl+XF86Launch1 { screenshot-screen; }
@@ -137,7 +137,7 @@ binds {
     Mod+Shift+E { quit; }
     Alt+Ctrl+C hotkey-overlay-title="Open Claude Desktop" { spawn "claude-desktop"; }
     Alt+Ctrl+Shift+S hotkey-overlay-title="Screenshot" { spawn "sh" "-c" "grim -g \"$(slurp)\" - | satty --filename - --early-exit --copy-command wl-copy"; }
-    Alt+Ctrl+V hotkey-overlay-title="Launch VSCodium" { spawn "codium"; }
+    Alt+Ctrl+V hotkey-overlay-title="Launch VSCode" { spawn "code"; }
     Mod+T hotkey-overlay-title="Open Terminal" { spawn "ghostty"; }
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
     Mod+O repeat=false { toggle-overview; }
