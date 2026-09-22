@@ -212,6 +212,7 @@
     unzip
     flutter
     onlyoffice-desktopeditors
+    iloader
     inputs.dank-calendar.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     # External Inputs / Custom Desktop GUI Packages
