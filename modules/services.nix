@@ -116,6 +116,7 @@
   system.activationScripts.removeOldBaks = {
     text = ''
       find /home/ayaan_mirza/.config -name "*.bak" -delete 2>/dev/null || true
+      find /home/ayaan_mirza/.vscode -name "*.bak" -delete 2>/dev/null || true
     '';
     deps = [ ];
   };
@@ -205,6 +206,25 @@
     keyboards.default = {
       ids = [ "*" ];
       settings.main.leftmeta = "overload(meta, macro(M-S-space))";
+    };
+
+    # 2.4G Wireless Mouse (3938:1191). "*" above only matches keyboards, so the mouse
+    # needs its own explicit id block. holding a side button = modifier layer, so
+    # niri can bind modifier+wheel (see the binds{} block in .config/niri/config.kdl):
+    #   hold Forward = Ctrl+Alt        -> scroll windows
+    #   hold Back    = Ctrl+Shift+Alt  -> scroll workspaces
+    # overloadt: a quick tap (<200ms) is still a normal back/forward click, holding
+    # longer never fires the click, so scrolling doesn't randomly navigate a browser
+    keyboards.mouse = {
+      ids = [ "3938:1191" ];
+      settings = {
+        main = {
+          mouseforward = "overloadt(fwdmod, mouseforward, 200)";
+          mouseback = "overloadt(backmod, mouseback, 200)";
+        };
+        "fwdmod:C-A" = { };
+        "backmod:C-S-A" = { };
+      };
     };
   };
 
