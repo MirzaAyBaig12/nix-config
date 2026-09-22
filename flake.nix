@@ -125,6 +125,12 @@
     dank-calendar = {
       url = "github:AvengeMedia/dankcalendar";
     };
+
+    # 27. VS Code extensions from the Marketplace + Open VSX (nixpkgs only has a handful)
+    nix-vscode-extensions = {
+      url = "github:nix-community/nix-vscode-extensions";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
