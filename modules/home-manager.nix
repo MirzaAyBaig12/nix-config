@@ -18,6 +18,7 @@
         ./home-manager/zsh.nix
         ./home-manager/stylix.nix
         ./home-manager/nixd.nix
+        ./home-manager/vscode.nix
         ./home-manager/services.hm.nix
         ./home-manager/niri.config.nix
         ./home-manager/fx-autoconfig.hm.nix
