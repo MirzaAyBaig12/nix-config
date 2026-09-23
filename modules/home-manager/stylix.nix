@@ -124,4 +124,10 @@
   # error or need .bak cleanup on every rebuild
   xdg.configFile."gtk-3.0/gtk.css".force = true;
   xdg.configFile."gtk-4.0/gtk.css".force = true;
+
+  # VSCode's look (theme, extensions, everything) is fully managed in
+  # vscode.nix instead — Stylix's own vscode target sets
+  # workbench.colorTheme = "Stylix" and conflicts with whatever theme
+  # is set there (e.g. Dracula).
+  stylix.targets.vscode.enable = false;
 }
