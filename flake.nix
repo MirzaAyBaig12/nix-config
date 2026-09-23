@@ -131,6 +131,9 @@
       url = "github:nix-community/nix-vscode-extensions";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    #28. Catppuccin Flake for VS Code
+    catppuccin.url = "github:catppuccin/nix";
   };
 
   outputs =
@@ -146,6 +149,7 @@
       winpodx,
       home-manager,
       llm-agents,
+      catppuccin,
       ...
     }@inputs:
     {
