@@ -124,6 +124,7 @@ in
         # my purple accent, same purple as my gtk/cosmic theme everywhere
         # else on this machine. layered on top of dracula for the specific
         # bits dracula itself doesn't touch (buttons, badges, activity bar).
+        "window.controlsStyle" = "hidden";
         "workbench".colorCustomizations = {
           "activityBar.activeBorder" = "#c8bfff";
           "activityBarBadge.background" = "#c8bfff";
@@ -175,7 +176,6 @@ in
           "hooks".postDownload = "";
         };
         "local-sync" = {
-          "autorestore" = true;
           "backupPath" = "/home/ayaan_mirza/nix-config/.config/.vscode";
           "ignoreSettings" = [ ];
           "ignoreExtensions" = [ ];
