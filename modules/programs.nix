@@ -125,7 +125,11 @@
 
   # Session Variables
   environment.sessionVariables = {
-    PATH = [ "/var/lib/snapd/snap/bin" ];
+    # /home/ayaan_mirza/.local/bin (fcc-claude and other personal scripts)
+    # was only ever on PATH inside interactive zsh — GUI apps launched from
+    # the niri/DMS session directly (VSCode, GitCharm's spawn calls, etc)
+    # never saw it. This puts it in the actual session-wide PATH instead.
+    PATH = [ "/var/lib/snapd/snap/bin" "/home/ayaan_mirza/.local/bin" ];
     XDG_DATA_DIRS = [ "/run/current-system/sw/share" ];
   };
 
@@ -152,7 +156,6 @@
     python3
     python3Packages.pip
     python3Packages.virtualenv
-    vscode
     vscodium
     zed-editor
     jetbrains.idea
