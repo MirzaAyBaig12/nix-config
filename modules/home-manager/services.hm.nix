@@ -6,24 +6,6 @@
 }:
 
 {
-  # make sure the systemd user daemon is enabled in home manager
-  systemd.user.services = {
-    polkit-gnome-authentication-agent-1 = {
-      Unit = {
-        Description = "polkit-gnome-authentication-agent-1";
-        WantedBy = [ "graphical-session.target" ];
-        Wants = [ "graphical-session.target" ];
-        After = [ "graphical-session.target" ];
-      };
-      Service = {
-        Type = "simple";
-        ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-        Restart = "on-failure";
-        RestartSec = 1;
-        TimeoutStopSec = 10;
-      };
-    };
-
     fcc-server = {
       Unit = {
         Description = "FCC Server Background Daemon";
@@ -39,6 +21,11 @@
         RestartSec = 5;
       };
     };
+  };
+  
+  catppuccin = {
+    enable = false;
+    gtk.icon.enable = false;
   };
 
   # icon lookups for anything only reachable through the hicolor fallback (not a
