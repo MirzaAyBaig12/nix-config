@@ -27,6 +27,7 @@
         inputs.stylix.homeModules.stylix
         inputs.danksearch.homeModules.dsearch
         inputs.nix-monitor.homeManagerModules.default
+        inputs.catppuccin.homeModules.catppuccin
       ];
 
       home.stateVersion = "26.05";
