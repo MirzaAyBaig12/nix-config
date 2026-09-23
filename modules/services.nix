@@ -117,6 +117,7 @@
     text = ''
       find /home/ayaan_mirza/.config -name "*.bak" -delete 2>/dev/null || true
       find /home/ayaan_mirza/.vscode -name "*.bak" -delete 2>/dev/null || true
+      find /home/ayaan_mirza/.local/share/flatpak/overrides/ -name "*.bak" -delete 2>/dev/null || true
     '';
     deps = [ ];
   };
