@@ -16,10 +16,6 @@ in
     package = pkgs.vscode;
     mutableExtensionsDir = false;
 
-    # argv.json (password-store etc) isn't managed here anymore — it's
-    # symlinked straight from ~/nix-config/.config/.vscode/argv.json, see
-    # home.file.".vscode/argv.json" in services.hm.nix.
-
     profiles.default = {
       enableUpdateCheck = false;
       enableExtensionUpdateCheck = false;
@@ -40,7 +36,6 @@ in
         # of me duplicating a marketplace entry for no reason.
         ++ (with openvsx; [
           anthropic.claude-code
-          anweber.local-sync
           atomicspirit.nix-embedded-highlighter
           b9software.vsx-auto-close-tab
           christian-kohler.path-intellisense
@@ -108,12 +103,20 @@ in
         # stylix is deliberately OFF for vscode (see stylix.nix), this block
         # is the only thing controlling how vscode actually looks.
         "workbench" = {
-          "colorTheme" = "Dracula Theme";
           "iconTheme" = "a-file-icon-vscode";
           "productIconTheme" = "a-file-icon-vscode-product-icon-theme";
           "experimental".modernUI = true;
           "browser".showInTitleBar = true;
         };
+        # colorTheme lives as its own flat key (not nested in the block
+        # above) because catppuccin's module writes "workbench.colorTheme"
+        # the same flat way — matching the exact attribute path lets
+        # mkDefault actually do its job instead of leaving two different-
+        # shaped definitions of the same setting sitting in the JSON.
+        # mkDefault means catppuccin (normal priority, see below) wins while
+        # it's enabled, and dracula becomes the fallback if I ever turn
+        # catppuccin back off — not deleting it, just stepping back.
+        #"workbench.colorTheme" = lib.mkDefault "Dracula Theme";
 
         # apc's css injection to hide my min/max/close window buttons.
         # leaves the rest of the titlebar alone, that's all I wanted gone.
@@ -122,10 +125,9 @@ in
         };
 
         # my purple accent, same purple as my gtk/cosmic theme everywhere
-        # else on this machine. layered on top of dracula for the specific
+        # else on this machinq. layered on top of dracula for the specific
         # bits dracula itself doesn't touch (buttons, badges, activity bar).
-        "window.controlsStyle" = "hidden";
-        "workbench".colorCustomizations = {
+        /* "workbench".colorCustomizations = {
           "activityBar.activeBorder" = "#c8bfff";
           "activityBarBadge.background" = "#c8bfff";
           "activityBarBadge.foreground" = "#30285f";
@@ -152,7 +154,21 @@ in
           "statusBarItem.prominentHoverBackground" = "#d8d2ff";
           "list.activeSelectionBackground" = "#473f77";
           "list.activeSelectionForeground" = "#e5deff";
-        };
+        }; */
+        
+        "window.controlsStyle" = "hidden";
+        "editor.semanticHighlighting.enabled" = "true";
+        "window.titleBarStyle" = "custom";
+
+        # catppuccin.accentColor and workbench.colorTheme are NOT set here
+        # anymore — the module below writes those two exact keys itself
+        # (accent = "lavender", flavor = "mocha", matching what I had typed
+        # here by hand). Keeping both would be a straight-up conflicting-
+        # definition error, same deal as the stylix colorTheme fight earlier.
+        "catppuccin.showUpdateNotification" = false;
+        "catppuccin.silent" = true;
+        "workbench.colorTheme" = "Catppuccin Mocha";
+        "catppuccin.accentColor" = "lavender";
 
         # ============================================================
         # GIT
@@ -174,11 +190,6 @@ in
         "syncSettings" = {
           "hostname" = "Void";
           "hooks".postDownload = "";
-        };
-        "local-sync" = {
-          "backupPath" = "/home/ayaan_mirza/nix-config/.config/.vscode";
-          "ignoreSettings" = [ ];
-          "ignoreExtensions" = [ ];
         };
 
         # ============================================================
@@ -204,5 +215,27 @@ in
         "workbench".enableExperiments = false;
       };
     };
+  };
+
+  catppuccin.vscode.profiles.default = {
+    enable = true;
+    # matches what I'd already typed by hand into userSettings before
+    # wiring this up properly: "Catppuccin Mocha" + accentColor "lavender".
+    flavor = "mocha";
+    accent = "lavender";
+    settings = {
+      boldKeywords = true;
+      italicComments = true;
+      italicKeywords = true;
+      colorOverrides = {};
+      customUIColors = {};
+      workbenchMode = "default";
+      bracketMode = "rainbow";
+      extraBordersEnabled = false;
+    };
+    # a-file-icon-vscode (set above, nested in the workbench block) is what
+    # I actually want for file icons — this module's own icon pack defaults
+    # to on, which would fight it, so explicitly off.
+    icons.enable = false;
   };
 }
