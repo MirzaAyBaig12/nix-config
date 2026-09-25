@@ -165,10 +165,10 @@ in
         # (accent = "lavender", flavor = "mocha", matching what I had typed
         # here by hand). Keeping both would be a straight-up conflicting-
         # definition error, same deal as the stylix colorTheme fight earlier.
-        "catppuccin.showUpdateNotification" = false;
+        /*"catppuccin.showUpdateNotification" = false;
         "catppuccin.silent" = true;
         "workbench.colorTheme" = "Catppuccin Mocha";
-        "catppuccin.accentColor" = "lavender";
+        "catppuccin.accentColor" = "lavender";*/
 
         # ============================================================
         # GIT
