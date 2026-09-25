@@ -207,7 +207,6 @@
     unzip
     flutter
     onlyoffice-desktopeditors
-    iloader
     inputs.dank-calendar.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     # External Inputs / Custom Desktop GUI Packages
@@ -230,6 +229,7 @@
       };
     }))
     inputs.nix-fdm.packages.${pkgs.system}.default # Free Download Manager
+    inputs.iloader.packages.${pkgs.system}.default
 
     # ==========================================
     # 5. DEDICATED AI CODING AGENTS (LLM Agents Flake)
