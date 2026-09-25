@@ -6,6 +6,7 @@
 }:
 
 {
+  systemd.user.services = {
     fcc-server = {
       Unit = {
         Description = "FCC Server Background Daemon";
@@ -21,11 +22,6 @@
         RestartSec = 5;
       };
     };
-  };
-  
-  catppuccin = {
-    enable = false;
-    gtk.icon.enable = false;
   };
 
   # icon lookups for anything only reachable through the hicolor fallback (not a
@@ -95,4 +91,17 @@
   
   home.file.".vscode/argv.json".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-config/.config/.vscode/argv.json";
+
+  # catppuccin.enable is the global master switch for the WHOLE flake, not
+  # just vscode. every app's own enable option cascades from this by
+  # default (learned that the hard way — it auto-enabled GTK theming too
+  # and broke a rebuild fighting stylix's icon package). the actual fix
+  # is opting individual apps OUT explicitly, like gtk.icon.enable below,
+  # rather than leaving this off — leaving THIS off means nothing at all
+  # applies, vscode included, since the real gate is enable && profile.enable.
+  # the vscode-specific profile config itself lives in vscode.nix.
+  catppuccin = {
+    enable = true;
+    gtk.icon.enable = false;
+  };
 }
