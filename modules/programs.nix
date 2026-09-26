@@ -7,6 +7,8 @@
 }:
 
 {
+  imports = [ inputs.natsumi.nixosModules.default ];
+
   nixpkgs.overlays = [ inputs.claude-desktop.overlays.default ]; # provides claude-desktop-fhs below
 
   # Enable Zsh
@@ -100,6 +102,18 @@
   };
 
   environment.etc."firefox/policies/policies.json".target = "librewolf/policies/policies.json";
+
+  # Floorp + Natsumi (separate module, separate browser -- does not touch
+  # the LibreWolf setup above or modules/home-manager/fx-autoconfig.hm.nix)
+  programs.natsumi = {
+    enable = true;
+    browser = "floorp";
+    homeDirectory = "/home/ayaan_mirza";
+    # existing profile is x9ezxqe3.default-default -- set explicitly
+    # rather than relying on profiles.ini's Default=1 auto-resolve, so
+    # this can't land somewhere unexpected.
+    profile = "x9ezxqe3.default-default";
+  };
 
   # AppImage & Nix-LD
   programs.appimage = {
