@@ -188,6 +188,7 @@
     slurp
     satty
     vesktop
+    hydralauncher
 
     # ==========================================
     # 4. SYSTEM & UTILITIES (CLI / GUI)
