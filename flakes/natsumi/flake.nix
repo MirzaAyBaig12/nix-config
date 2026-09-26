@@ -172,6 +172,11 @@
 
           resolvedPackage = renamedPackage;
 
+          # Best-effort guess at the launcher binary name inside
+          # resolvedPackage, used to force-create a profile when one
+          # doesn't exist yet (see installProfileScript below).
+          binaryName = resolvedPackage.meta.mainProgram or resolvedPackage.pname or "firefox";
+
           # ---- profile-side install, identical for every browser --------
           # Uses rsync so re-running on a newer flake.lock (new natsumi/
           # fx-autoconfig commit) actually syncs -- updates changed files
@@ -181,25 +186,47 @@
             set -eu
             profiles_ini="$1"
             profiles_root="$2"
+            browser_bin="$3"
             requested="${cfg.profile}"
             rsync="${pkgs.rsync}/bin/rsync"
 
-            resolve_profile() {
-              if [ "$requested" != "default" ]; then
-                printf '%s\n' "$requested"
-                return
-              fi
+            mkdir -p "$profiles_root"
+
+            resolve_default() {
               awk -F= '
                 /^\[/ { path="" ; isdef=0 }
                 /^Path=/ { path=$2 }
                 /^Default=1/ { isdef=1 }
                 isdef==1 && path!="" { print path; exit }
-              ' "$profiles_ini"
+              ' "$profiles_ini" 2>/dev/null
             }
 
-            rel="$(resolve_profile)"
-            if [ -z "''${rel:-}" ]; then
-              echo "natsumi: could not resolve profile '$requested' via $profiles_ini" >&2
+            profile_registered() {
+              [ -d "$profiles_root/$1" ] && return 0
+              [ -f "$profiles_ini" ] && grep -q "^Path=$1\$" "$profiles_ini" 2>/dev/null
+            }
+
+            # A Firefox-family profile can only really be born from the
+            # browser itself (or its -CreateProfile flag) -- profiles.ini
+            # plus the internal salt/naming bookkeeping isn't something
+            # safe to hand-fabricate. -CreateProfile writes the profile +
+            # registers it in profiles.ini and exits without opening a
+            # window, so this is safe to run unattended during activation.
+            if [ "$requested" = "default" ]; then
+              rel="$(resolve_default)"
+              if [ -z "''${rel:-}" ]; then
+                "$browser_bin" -CreateProfile "default-release" -no-remote >/dev/null 2>&1 || true
+                rel="$(resolve_default)"
+              fi
+            else
+              rel="$requested"
+              if ! profile_registered "$rel"; then
+                "$browser_bin" -CreateProfile "$rel $profiles_root/$rel" -no-remote >/dev/null 2>&1 || true
+              fi
+            fi
+
+            if [ -z "''${rel:-}" ] || [ ! -d "$profiles_root/$rel" ]; then
+              echo "natsumi: could not resolve or create profile '$requested' (tried $browser_bin -CreateProfile)" >&2
               exit 1
             fi
 
@@ -384,7 +411,8 @@
             (let
               script = ''
                 ${installProfileScript} \
-                  "${cfg.profilesDirectory}/profiles.ini" "${cfg.profilesDirectory}"
+                  "${cfg.profilesDirectory}/profiles.ini" "${cfg.profilesDirectory}" \
+                  "${cfg.package}/bin/${binaryName}"
               '';
             in
               if isHomeManager
