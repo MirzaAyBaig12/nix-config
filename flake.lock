@@ -765,6 +765,22 @@
         "type": "github"
       }
     },
+    "fx-autoconfig_2": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1784800794,
+        "narHash": "sha256-bpOt/fD8zZiKbb2sRQHl7eobuGklY9c2QI/jmYi9WE4=",
+        "owner": "MrOtherGuy",
+        "repo": "fx-autoconfig",
+        "rev": "dfdab5684faffc112b76ccb1d8cab7f75da0102c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "MrOtherGuy",
+        "repo": "fx-autoconfig",
+        "type": "github"
+      }
+    },
     "gnome-shell": {
       "flake": false,
       "locked": {
@@ -910,6 +926,41 @@
       "original": {
         "owner": "SergioRibera",
         "repo": "s4rchiso-plymouth-theme",
+        "type": "github"
+      }
+    },
+    "natsumi": {
+      "inputs": {
+        "fx-autoconfig": "fx-autoconfig_2",
+        "natsumi": "natsumi_2",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1,
+        "narHash": "sha256-zksauVeLmly6ozCeHzPLRg9f6zL00R9keQX+XF4R8uU=",
+        "path": "./flakes/natsumi",
+        "type": "path"
+      },
+      "original": {
+        "path": "./flakes/natsumi",
+        "type": "path"
+      }
+    },
+    "natsumi_2": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1788004170,
+        "narHash": "sha256-AlY07icDkUeIIXlyo1j8and7uuAXGKZfYO/Xaj0a2LU=",
+        "owner": "greeeen-dev",
+        "repo": "natsumi-browser",
+        "rev": "6d64256b444f349feff85794d72263fb26a1c015",
+        "type": "github"
+      },
+      "original": {
+        "owner": "greeeen-dev",
+        "repo": "natsumi-browser",
         "type": "github"
       }
     },
@@ -1366,6 +1417,7 @@
         "llm-agents": "llm-agents",
         "look": "look",
         "mac-style-plymouth": "mac-style-plymouth",
+        "natsumi": "natsumi",
         "niri": "niri",
         "nix-fdm": "nix-fdm",
         "nix-flatpak": "nix-flatpak",
