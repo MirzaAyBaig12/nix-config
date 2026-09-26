@@ -228,7 +228,7 @@ in
     # matches what I'd already typed by hand into userSettings before
     # wiring this up properly: "Catppuccin Mocha" + accentColor "lavender".
     flavor = "mocha";
-    accent = "lavender";
+    accent = "mauve";
     settings = {
       boldKeywords = true;
       italicComments = true;
