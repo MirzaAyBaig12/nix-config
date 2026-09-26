@@ -9,7 +9,6 @@
     config = {
       useQuickCss = true; # Required for themeLinks to work
       themeLinks = [
-        "https://catppuccin.github.io/discord/dist/catppuccin-mocha-mauve.theme.css"
         "https://capnkitten.github.io/Material-Discord/Material-Discord.theme.css"
       ];
       
