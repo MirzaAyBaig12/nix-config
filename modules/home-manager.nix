@@ -22,12 +22,14 @@
         ./home-manager/services.hm.nix
         ./home-manager/niri.config.nix
         ./home-manager/fx-autoconfig.hm.nix
+        ./home-manager/nixcord.nix
 
         inputs.cosmic-manager.homeManagerModules.cosmic-manager
         inputs.stylix.homeModules.stylix
         inputs.danksearch.homeModules.dsearch
         inputs.nix-monitor.homeManagerModules.default
         inputs.catppuccin.homeModules.catppuccin
+        inputs.nixcord.homeModules.nixcord
       ];
 
       home.stateVersion = "26.05";
