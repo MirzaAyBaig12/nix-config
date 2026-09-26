@@ -122,6 +122,14 @@
       flake = false;
     };
 
+    # 27. natsumi (programs.natsumi module: fx-autoconfig + Natsumi theme
+    # for a picked browser -- Floorp for now). Local for now, at
+    # flakes/natsumi/; swap the url for a git remote once pushed.
+    natsumi = {
+      url = "path:./flakes/natsumi";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     dank-calendar = {
       url = "github:AvengeMedia/dankcalendar";
     };
