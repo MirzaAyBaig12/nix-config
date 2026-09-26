@@ -142,6 +142,8 @@
 
     #28. Catppuccin Flake for VS Code
     catppuccin.url = "github:catppuccin/nix";
+
+    nixcord.url = "github:4evy/nixcord";
   };
 
   outputs =
