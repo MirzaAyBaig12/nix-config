@@ -10,6 +10,8 @@
   stylix = {
     enable = true;
 
+    targets.vesktop.enable = false;
+
     cursor = {
       package = osConfig.custom.bibataMaterialCursor;
       name = "Bibata-Material-Lilac";
