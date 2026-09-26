@@ -1,4 +1,10 @@
-{ config, lib, pkgs, inputs, ... }:
+{ 
+  config, 
+  lib, 
+  pkgs, 
+  inputs, 
+  ... 
+}:
 
 let
   exts = (pkgs.extend inputs.nix-vscode-extensions.overlays.default).nix-vscode-extensions;

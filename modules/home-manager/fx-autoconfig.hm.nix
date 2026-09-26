@@ -1,4 +1,8 @@
-{ inputs, lib, ... }:
+{ 
+  inputs,
+  lib,
+  ... 
+}:
 
 # profile half of fx-autoconfig (utils/, CSS/, resources/) for one librewolf profile.
 # the config.js half lives in modules/programs.nix via extraPrefsFiles
