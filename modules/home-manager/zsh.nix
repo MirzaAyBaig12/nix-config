@@ -11,6 +11,7 @@
       export PATH="$HOME/.npm-global/bin:$PATH"
       export PATH="/var/lib/snapd/snap/bin:$PATH"
       export PATH="/home/ayaan_mirza/.local/share/pi-node/node-v22.23.2-linux-x64/bin:$PATH"
+      export NIX_CONFIG="access-tokens = github.com=$(gh auth token)"
       mkdir -p "$HOME/.cache/zsh"
       export ZSH_COMPDUMP="$HOME/.cache/zsh/zcompdump-$ZSH_VERSION"
 
