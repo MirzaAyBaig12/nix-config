@@ -106,7 +106,7 @@
   # Floorp + Natsumi (separate module, separate browser -- does not touch
   # the LibreWolf setup above or modules/home-manager/fx-autoconfig.hm.nix)
   programs.natsumi = {
-    enable = true;
+    enable = false;
     browser = "floorp";
     homeDirectory = "/home/ayaan_mirza";
     # existing profile is x9ezxqe3.default-default -- set explicitly
@@ -188,7 +188,6 @@
     slurp
     satty
     vesktop
-    hydralauncher
 
     # ==========================================
     # 4. SYSTEM & UTILITIES (CLI / GUI)
@@ -197,6 +196,7 @@
     curl
     htop
     baobab
+    gh
     gnome-disk-utility
     gnome-system-monitor
     kdePackages.partitionmanager
