@@ -31,33 +31,6 @@
 
           fxAutoconfigConfigJs = cfg.fxAutoconfigSource + "/program/config.js";
 
-          # ---- per-browser presets -------------------------------------
-          # Natsumi itself supports Firefox and "all popular forks except
-          # Zen Browser" -- Zen is deliberately left out of this list.
-          #
-          # method = "wrapFirefox": the *real*, universal fix. nixpkgs'
-          #   own wrapFirefox already has first-class support for dropping
-          #   extra AutoConfig JS in via `extraPrefsFiles` -- it gets
-          #   concatenated into the same generated mozilla.cfg the wrapper
-          #   builds, so it loads with full chrome privileges the same way
-          #   fx-autoconfig's config.js would if placed by hand. This is
-          #   used for anything nixpkgs builds from source (has a
-          #   `*-unwrapped` package): Firefox and LibreWolf, confirmed.
-          #   For LibreWolf specifically, its own `extraPrefsFiles`
-          #   (its privacy hardening) is inherited and ours appended
-          #   *after* -- same effect as the old "override file loads after
-          #   mozilla.cfg" trick, just via the standard mechanism instead
-          #   of a special case.
-          #
-          # method = "directPatch": fallback for browsers nixpkgs ships as
-          #   a prebuilt binary with no `*-unwrapped`/wrapper split to hook
-          #   into (Floorp, Waterfox, as packaged today). Clones the
-          #   package with `cp -rs` (cheap -- symlinks, not real copies)
-          #   and swaps in fx-autoconfig's program-side files directly,
-          #   locating the app dir generically via the shallowest
-          #   `omni.ja` in the tree (every Gecko app ships one next to its
-          #   binary) so it isn't tied to any particular directory-naming
-          #   convention.
           # nixpkgs marks removed/renamed packages with `throw "..."` rather
           # than just omitting the attribute -- `a.b or c` only catches a
           # genuinely *missing* attribute, not one that exists but throws
@@ -69,6 +42,32 @@
             let t = builtins.tryEval pkgs.${attr}; in
             if t.success then t.value else fallback;
 
+          # ---- per-browser presets -------------------------------------
+          # Natsumi itself supports Firefox and "all popular forks except
+          # Zen Browser" -- Zen is deliberately left out of this list.
+          #
+          # method = "wrapFirefox": the *real*, universal fix. nixpkgs'
+          #   own wrapFirefox already has first-class support for dropping
+          #   extra AutoConfig JS in via `extraPrefsFiles` -- it gets
+          #   concatenated into the same generated mozilla.cfg the wrapper
+          #   builds, so it loads with full chrome privileges the same way
+          #   fx-autoconfig's config.js would if placed by hand. Used for
+          #   anything nixpkgs builds from source (has a `*-unwrapped`
+          #   package): Firefox and LibreWolf, confirmed. For LibreWolf
+          #   specifically, its own `extraPrefsFiles` (its privacy
+          #   hardening) is inherited and ours appended *after* -- same
+          #   effect as an override file loading after mozilla.cfg, via
+          #   the standard mechanism instead of a special case.
+          #
+          # method = "directPatch": fallback for browsers nixpkgs ships as
+          #   a prebuilt binary with no `*-unwrapped`/wrapper split to hook
+          #   into (Floorp, Waterfox, as packaged today). Clones the
+          #   package with `cp -rs` (cheap -- symlinks, not real copies)
+          #   and swaps in fx-autoconfig's program-side files directly,
+          #   locating the app dir generically via the shallowest
+          #   `omni.ja` in the tree (every Gecko app ships one next to its
+          #   binary) so it isn't tied to any particular directory-naming
+          #   convention.
           browserPresets = {
             firefox = {
               method = "wrapFirefox";
@@ -91,13 +90,11 @@
               # upstream) -- confirmed directly against nixos-unstable.
               # floorp-bin's own .override isn't a wrapFirefox-style
               # function either, so this always goes through directPatch.
-              method = "directPatch";
-              # NOTE: must clone the fully-wrapped floorp-bin, not
+              # Must clone the fully-wrapped floorp-bin, not
               # floorp-bin-unwrapped -- the unwrapped one's bin/ only has a
               # private .floorp-wrapped binary, no actual `floorp` launcher
-              # script or .desktop entry (confirmed directly on Axiom: an
-              # earlier version of this preset pointed at -unwrapped and
-              # silently produced an unlaunchable package).
+              # script or .desktop entry (confirmed directly on Axiom).
+              method = "directPatch";
               package = tryPkg "floorp" pkgs.floorp-bin;
               displayName = "Floorp";
               profilesDirectory = "${homeDir}/.floorp";
@@ -172,10 +169,24 @@
 
           resolvedPackage = renamedPackage;
 
-          # Best-effort guess at the launcher binary name inside
-          # resolvedPackage, used to force-create a profile when one
-          # doesn't exist yet (see installProfileScript below).
-          binaryName = resolvedPackage.meta.mainProgram or resolvedPackage.pname or "firefox";
+          # Guess at the launcher binary name, used to force-create a
+          # profile when one doesn't exist yet (see installProfileScript
+          # below). NOT resolvedPackage.meta -- confirmed directly (via
+          # nix eval, no build) that a plain pkgs.runCommand output (what
+          # directPatch produces) has no meta.mainProgram and no .pname at
+          # all, which would silently fall through to the "firefox"
+          # default for every directPatch browser (Floorp, Waterfox) and
+          # break -CreateProfile outright. The pre-patch source package
+          # (cfg.unwrappedPackage) has correct metadata for directPatch
+          # (confirmed: pkgs.floorp-bin.meta.mainProgram = "floorp", while
+          # its own .pname is "floorp-bin" -- wrong -- so mainProgram has
+          # to come first). For wrapFirefox, the wrapped resolvedPackage
+          # itself carries correct meta (confirmed against pkgs.firefox
+          # and pkgs.librewolf, both built the same way).
+          binaryName =
+            if presetMethod == "wrapFirefox"
+            then (resolvedPackage.meta.mainProgram or resolvedPackage.pname or "firefox")
+            else (cfg.unwrappedPackage.meta.mainProgram or cfg.unwrappedPackage.pname or "firefox");
 
           # ---- profile-side install, identical for every browser --------
           # Uses rsync so re-running on a newer flake.lock (new natsumi/
@@ -189,44 +200,111 @@
             browser_bin="$3"
             requested="${cfg.profile}"
             rsync="${pkgs.rsync}/bin/rsync"
+            # -CreateProfile still needs a DISPLAY even though it's not
+            # supposed to open a window -- confirmed directly on Axiom:
+            # running it with no display gives a flat "Error: no DISPLAY
+            # environment variable specified" and exits 1, which activation
+            # (with no desktop session attached at all) will always hit.
+            # xvfb-run gives it a throwaway virtual one just for this call.
+            xvfb_run="${pkgs.xvfb-run}/bin/xvfb-run"
 
             mkdir -p "$profiles_root"
 
-            resolve_default() {
-              awk -F= '
-                /^\[/ { path="" ; isdef=0 }
-                /^Path=/ { path=$2 }
-                /^Default=1/ { isdef=1 }
-                isdef==1 && path!="" { print path; exit }
-              ' "$profiles_ini" 2>/dev/null
+            # If this tree (or anything -CreateProfile writes into it
+            # below) ends up owned by someone else -- root, since
+            # system.activationScripts runs the whole script including
+            # $browser_bin as root, or a leftover from however it was
+            # originally created (confirmed on Axiom: an existing profile
+            # had ended up owned by nobody:nogroup, silently killing every
+            # write) -- fix it automatically when possible. Only root can
+            # chown away from another owner; a plain user-level
+            # home-manager activation is already running as the right
+            # user and doesn't need this.
+            fix_ownership() {
+              if [ "$(id -u)" = "0" ]; then
+                target_owner="$(stat -c '%u:%g' "${homeDir}" 2>/dev/null || true)"
+                [ -n "$target_owner" ] && chown -R "$target_owner" "$profiles_root" 2>/dev/null || true
+              fi
             }
 
+            fix_ownership
+
+            if [ -e "$profiles_root" ] && [ ! -w "$profiles_root" ]; then
+              echo "natsumi: $profiles_root is not writable by $(id -un) (owned by $(stat -c '%U:%G' "$profiles_root" 2>/dev/null)). Fix with: sudo chown -R $(id -un): $profiles_root -- then rebuild." >&2
+              exit 1
+            fi
+
             profile_registered() {
-              [ -d "$profiles_root/$1" ] && return 0
+              # A directory existing on disk is NOT the same as the
+              # browser actually knowing about it -- confirmed on Axiom: a
+              # pre-existing profile dir with no profiles.ini entry got
+              # silently skipped here (treated as "already there"), so
+              # -CreateProfile never ran, the profile never got
+              # registered, and the browser created an entirely separate
+              # profile of its own on first launch instead. profiles.ini
+              # is the only thing that actually matters.
               [ -f "$profiles_ini" ] && grep -q "^Path=$1\$" "$profiles_ini" 2>/dev/null
             }
 
+            # Rewrites profiles.ini so exactly one [ProfileN] section --
+            # the one whose Path matches $1 -- has Default=1, clearing it
+            # from every other section. Only called right after creating
+            # a brand new profile; an already-existing target is left as
+            # whatever default state it already had.
+            set_as_default() {
+              [ -f "$profiles_ini" ] || return 0
+              "${pkgs.python3}/bin/python3" - "$profiles_ini" "$1" <<'INNERPY'
+import re, sys
+path, target = sys.argv[1], sys.argv[2]
+with open(path) as f:
+    content = f.read()
+blocks = re.split(r"(?m)^(?=\[)", content)
+out = []
+for block in blocks:
+    if not block.strip():
+        out.append(block)
+        continue
+    lines = block.splitlines()
+    header, body = lines[0], lines[1:]
+    body = [l for l in body if not l.startswith("Default=")]
+    sec_path = next((l[len("Path="):] for l in body if l.startswith("Path=")), None)
+    if header.startswith("[Profile") and sec_path == target:
+        body.append("Default=1")
+    out.append("\n".join([header] + body) + "\n")
+with open(path, "w") as f:
+    f.write("".join(out))
+INNERPY
+            }
+
+            # "default" means a fixed, always-the-same name --
+            # natsumi.default-default -- not "whatever profiles.ini
+            # currently marks Default=1" (that auto-resolve was the
+            # earlier design; dropped because it let a browser's own
+            # auto-created profile silently win over this module's, which
+            # is exactly what happened on Axiom). An explicit name is used
+            # as-is either way.
+            #
             # A Firefox-family profile can only really be born from the
             # browser itself (or its -CreateProfile flag) -- profiles.ini
             # plus the internal salt/naming bookkeeping isn't something
             # safe to hand-fabricate. -CreateProfile writes the profile +
             # registers it in profiles.ini and exits without opening a
-            # window, so this is safe to run unattended during activation.
+            # real window (just needs a virtual display to get that far,
+            # see xvfb_run above).
             if [ "$requested" = "default" ]; then
-              rel="$(resolve_default)"
-              if [ -z "''${rel:-}" ]; then
-                "$browser_bin" -CreateProfile "default-release" -no-remote >/dev/null 2>&1 || true
-                rel="$(resolve_default)"
-              fi
+              rel="natsumi.default-default"
             else
               rel="$requested"
-              if ! profile_registered "$rel"; then
-                "$browser_bin" -CreateProfile "$rel $profiles_root/$rel" -no-remote >/dev/null 2>&1 || true
-              fi
             fi
 
-            if [ -z "''${rel:-}" ] || [ ! -d "$profiles_root/$rel" ]; then
-              echo "natsumi: could not resolve or create profile '$requested' (tried $browser_bin -CreateProfile)" >&2
+            if ! profile_registered "$rel"; then
+              "$xvfb_run" -a "$browser_bin" -CreateProfile "$rel $profiles_root/$rel" -no-remote || true
+              fix_ownership
+              set_as_default "$rel"
+            fi
+
+            if [ ! -d "$profiles_root/$rel" ]; then
+              echo "natsumi: could not create profile '$rel' (tried $browser_bin -CreateProfile under xvfb-run)" >&2
               exit 1
             fi
 
@@ -287,13 +365,26 @@
             browser = mkOption {
               type = types.enum ([ "" ] ++ builtins.attrNames browserPresets);
               default = "";
-              example = "librewolf";
+              example = "floorp";
               description = ''
                 Pick a Natsumi-supported browser and everything else (nixpkgs
                 package, install method, profiles directory) is filled in
                 automatically. Supported: ${concatStringsSep ", " (builtins.attrNames browserPresets)}.
                 Zen Browser is intentionally not listed -- Natsumi doesn't
                 support it upstream. Leave as `""` for manual mode.
+              '';
+            };
+
+            profile = mkOption {
+              type = types.str;
+              default = "default";
+              description = ''
+                Which profile to install into. `"default"` targets a fixed,
+                always-the-same profile named `natsumi.default-default`
+                (creating it if it doesn't exist yet); any other value
+                targets exactly that profile name (creating it too, if
+                needed). Either way, whichever profile ends up targeted
+                gets forced to be the browser's actual default.
               '';
             };
 
@@ -304,17 +395,7 @@
                 NixOS-module mode only: which user's $HOME to install into
                 (profiles live under $HOME, not anywhere the NixOS module
                 can infer on its own). Ignored by the home-manager module,
-                which always uses the current user's home.home.homeDirectory.
-              '';
-            };
-
-            profile = mkOption {
-              type = types.str;
-              default = "default";
-              description = ''
-                Which profile to install into. Use "default" to auto-resolve
-                the profile marked `Default=1` in profiles.ini, or give an
-                explicit profile directory name.
+                which always uses the current user's home.homeDirectory.
               '';
             };
 
