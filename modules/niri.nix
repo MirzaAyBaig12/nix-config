@@ -19,8 +19,7 @@
   # apps (found it on a reddit thread, not fixed upstream yet). see flake.nix input
   # #24
   environment.systemPackages = [
-    (import inputs.nixpkgs-xwayland-satellite-0-8-1 { system = pkgs.stdenv.hostPlatform.system; })
-    .xwayland-satellite
+    inputs.xwayland-satellite.packages.${pkgs.stdenv.hostPlatform.system}.default
     pkgs.xdg-desktop-portal-wlr # Added for wlroots screencopy/screenshots
   ];
 
