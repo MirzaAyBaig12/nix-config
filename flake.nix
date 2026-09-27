@@ -144,6 +144,8 @@
     catppuccin.url = "github:catppuccin/nix";
 
     nixcord.url = "github:4evy/nixcord";
+
+    xwayland-satellite.url = "github:Supreeeme/xwayland-satellite";
   };
 
   outputs =
