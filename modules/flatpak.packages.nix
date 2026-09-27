@@ -3,6 +3,7 @@
     "com.github.IsmaelMartinez.teams_for_linux"
     "com.github.tchx84.Flatseal"
     "com.github.unrud.VideoDownloader"
+    "com.logseq.Logseq"
     "com.spotify.Client"
     "com.usebottles.bottles"
     "com.vivaldi.Vivaldi"
