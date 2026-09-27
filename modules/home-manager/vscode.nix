@@ -111,7 +111,10 @@ in
         "workbench" = {
           "iconTheme" = "a-file-icon-vscode";
           "productIconTheme" = "a-file-icon-vscode-product-icon-theme";
-          "experimental".modernUI = true;
+          "experimental" = {
+            "modernUI" = true;
+            "modernUIEditorTabStyle" = "pill"; # Fixed here
+          };
           "browser".showInTitleBar = true;
         };
         # colorTheme lives as its own flat key (not nested in the block
