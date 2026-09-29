@@ -3,6 +3,8 @@
   programs.nixcord = {
     enable = true;
 
+    discord.enable = false;
+
     # Enable Vesktop correctly as a top-level attribute
     vesktop.enable = true;
 
