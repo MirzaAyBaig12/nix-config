@@ -145,6 +145,9 @@
 
     nixcord.url = "github:4evy/nixcord";
 
+    blip.url = "github:blip-net/nix";
+
+
     xwayland-satellite.url = "github:Supreeeme/xwayland-satellite";
   };
 
