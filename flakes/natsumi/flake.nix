@@ -13,8 +13,13 @@
       url = "github:MrOtherGuy/fx-autoconfig";
       flake = false;
     };
+    # Pinned to a tagged release rather than tracking the default
+    # branch, since the repo doesn't publish separate release assets --
+    # a tag is the closest equivalent. To update: bump the tag here, then
+    # `nix flake update natsumi`. Check https://github.com/greeeen-dev/natsumi-browser/tags
+    # for what's available.
     natsumi = {
-      url = "github:greeeen-dev/natsumi-browser";
+      url = "github:greeeen-dev/natsumi-browser/v6.12.2";
       flake = false;
     };
   };
@@ -123,6 +128,23 @@
             });
 
           # ---- method 2: direct patch of a prebuilt package --------------
+          # cp -rs (symlink-clone) is cheap, but it's fundamentally wrong
+          # for this: Gecko's AutoConfig loader requires config.js to sit
+          # physically next to the *real running binary* -- deliberately,
+          # since config.js runs with full chrome/Components privileges
+          # and Mozilla restricts where it can load from to prevent
+          # exactly this kind of redirection. cp -s doesn't preserve a
+          # symlink's own (often relative) target -- it makes a *new*
+          # absolute symlink pointing straight back at the source file --
+          # so every file cp -rs touches, all the way down to the actual
+          # ELF binary, still physically lives inside the *original*
+          # untouched package. Confirmed directly on Axiom: the browser
+          # launched and ran entirely out of the unpatched original,
+          # config.js sitting unused in our derivation's copy of the tree.
+          # Fix: make the app dir (and bin/ launcher scripts, which
+          # commonly hardcode an absolute exec path back to the original)
+          # real, not symlinked, so the binary that actually launches is
+          # the one living inside this derivation.
           directPatched = pkgs.runCommand "${cfg.unwrappedPackage.pname or "browser"}-fx-autoconfig"
             {
               preferLocalBuild = true;
@@ -138,6 +160,18 @@
               exit 1
             fi
 
+            relpath="''${appdir#$out/}"
+            rm -rf "$appdir"
+            # --preserve=mode is deliberate here (unlike the --no-preserve
+            # cp -rs clone above): confirmed on Axiom that discarding mode
+            # (the earlier version of this fix used --no-preserve=mode)
+            # silently strips the executable bit from the real Gecko
+            # binary and every .so alongside it, since chmod -R u+w only
+            # ever adds write, never execute -- the browser failed to
+            # launch at all as a result.
+            cp -r --preserve=mode --no-preserve=ownership "${cfg.unwrappedPackage}/$relpath" "$appdir"
+            chmod -R u+w "$appdir"
+
             # fx-autoconfig has no mozilla.cfg -- just config.js next to
             # the binary, plus defaults/pref/config-prefs.js pointing
             # general.config.filename straight at it (confirmed against
@@ -149,6 +183,36 @@
             rm -f "$appdir/defaults/pref/config-prefs.js"
             install -m644 ${cfg.fxAutoconfigSource}/program/defaults/pref/config-prefs.js \
               "$appdir/defaults/pref/config-prefs.js"
+
+            # bin/ launcher scripts: recreate each one from the ORIGINAL
+            # source's own raw link target (not cp -rs's corrupted
+            # absolute-back-reference version) for symlinks -- so a
+            # relative target like ../lib/foo-1.2.3/foo correctly resolves
+            # against the real copy above -- and for regular wrapper
+            # scripts, copy the real text and rewrite any hardcoded
+            # absolute reference to the original package so the exec line
+            # points at $out instead.
+            if [ -d "$out/bin" ]; then
+              # dotglob: plain */bin/* silently skips dotfiles like
+              # .floorp-wrapped -- confirmed on Axiom, it never got
+              # recreated at all under the plain glob and was left
+              # pointing at the original package.
+              shopt -s dotglob
+              for f in "$out"/bin/*; do
+                [ -e "$f" ] || [ -L "$f" ] || continue
+                name=$(basename "$f")
+                srcf="${cfg.unwrappedPackage}/bin/$name"
+                rm -f "$f"
+                if [ -L "$srcf" ]; then
+                  ln -s "$(readlink "$srcf")" "$f"
+                else
+                  cp --preserve=mode --no-preserve=ownership "$srcf" "$f"
+                  chmod u+w "$f"
+                  sed -i "s|${cfg.unwrappedPackage}|$out|g" "$f" 2>/dev/null || true
+                fi
+              done
+              shopt -u dotglob
+            fi
           '';
 
           builtPackage =
@@ -193,6 +257,40 @@
           # fx-autoconfig commit) actually syncs -- updates changed files
           # *and* removes ones the new commit dropped -- rather than just
           # overlaying on top and leaving orphaned files behind.
+          # Standalone, not an inline heredoc inside installProfileScript's
+          # bash string -- an inline heredoc starting at column 0 (which
+          # Python needs for its own indentation) drags down Nix's
+          # ''-string dedent calculation for the *whole* surrounding bash
+          # script (it strips the minimum common indentation across every
+          # line in the string), which silently broke the
+          # chrome.manifest heredoc's closing EOF marker further down --
+          # confirmed on Axiom: bash reported "here-document ... delimited
+          # by end-of-file", having swallowed everything after
+          # chrome.manifest (including the final fix_ownership) as
+          # heredoc body. Keeping this in its own file sidesteps the
+          # interaction entirely.
+          setDefaultProfilePy = pkgs.writeText "set-default-profile.py" ''
+            import re, sys
+            path, target = sys.argv[1], sys.argv[2]
+            with open(path) as f:
+                content = f.read()
+            blocks = re.split(r"(?m)^(?=\[)", content)
+            out = []
+            for block in blocks:
+                if not block.strip():
+                    out.append(block)
+                    continue
+                lines = block.splitlines()
+                header, body = lines[0], lines[1:]
+                body = [l for l in body if not l.startswith("Default=")]
+                sec_path = next((l[len("Path="):] for l in body if l.startswith("Path=")), None)
+                if header.startswith("[Profile") and sec_path == target:
+                    body.append("Default=1")
+                out.append("\n".join([header] + body) + "\n")
+            with open(path, "w") as f:
+                f.write("".join(out))
+          '';
+
           installProfileScript = pkgs.writeShellScript "install-natsumi-profile" ''
             set -eu
             profiles_ini="$1"
@@ -207,6 +305,26 @@
             # (with no desktop session attached at all) will always hit.
             # xvfb-run gives it a throwaway virtual one just for this call.
             xvfb_run="${pkgs.xvfb-run}/bin/xvfb-run"
+            runuser="${pkgs.util-linux}/bin/runuser"
+            # Many Firefox-family browsers flatly refuse to start as root
+            # regardless of display availability -- confirmed on Axiom:
+            # the exact same -CreateProfile call under xvfb-run succeeded
+            # when run manually as a normal user, then failed under the
+            # real system.activationScripts run (which is root). So when
+            # this script is running as root, the browser itself has to
+            # be dropped down to the real target user first; everything
+            # else in this script (fix_ownership, mkdir, chmod) still
+            # needs root and stays as-is.
+            run_as_target_user() {
+              if [ "$(id -u)" = "0" ]; then
+                target_user="$(stat -c '%U' "${homeDir}" 2>/dev/null || true)"
+                if [ -n "$target_user" ] && [ "$target_user" != "root" ]; then
+                  "$runuser" -u "$target_user" -- "$@"
+                  return $?
+                fi
+              fi
+              "$@"
+            }
 
             mkdir -p "$profiles_root"
 
@@ -253,27 +371,7 @@
             # whatever default state it already had.
             set_as_default() {
               [ -f "$profiles_ini" ] || return 0
-              "${pkgs.python3}/bin/python3" - "$profiles_ini" "$1" <<'INNERPY'
-import re, sys
-path, target = sys.argv[1], sys.argv[2]
-with open(path) as f:
-    content = f.read()
-blocks = re.split(r"(?m)^(?=\[)", content)
-out = []
-for block in blocks:
-    if not block.strip():
-        out.append(block)
-        continue
-    lines = block.splitlines()
-    header, body = lines[0], lines[1:]
-    body = [l for l in body if not l.startswith("Default=")]
-    sec_path = next((l[len("Path="):] for l in body if l.startswith("Path=")), None)
-    if header.startswith("[Profile") and sec_path == target:
-        body.append("Default=1")
-    out.append("\n".join([header] + body) + "\n")
-with open(path, "w") as f:
-    f.write("".join(out))
-INNERPY
+              "${pkgs.python3}/bin/python3" "${setDefaultProfilePy}" "$profiles_ini" "$1"
             }
 
             # "default" means a fixed, always-the-same name --
@@ -298,7 +396,7 @@ INNERPY
             fi
 
             if ! profile_registered "$rel"; then
-              "$xvfb_run" -a "$browser_bin" -CreateProfile "$rel $profiles_root/$rel" -no-remote || true
+              run_as_target_user "$xvfb_run" -a "$browser_bin" -CreateProfile "$rel $profiles_root/$rel" -no-remote || true
               fix_ownership
               set_as_default "$rel"
             fi
@@ -327,7 +425,21 @@ INNERPY
             # Natsumi itself goes into chrome/natsumi/ (its own subfolder,
             # not flattened into chrome/ root) -- synced at exactly the
             # commit this flake is pinned to.
-            "$rsync" -a --delete ${cfg.natsumiSource}/. "$chrome_dir/natsumi/"
+            # The whole natsumi repo goes into chrome/ ROOT, not a
+            # chrome/natsumi/ subfolder -- the repo itself already
+            # contains a nested "natsumi/" folder alongside its loose
+            # top-level files (natsumi-config.css, userChrome.css,
+            # userContent.css), which is exactly what chrome.manifest's
+            # "../natsumi/" references expect. Putting the whole repo a
+            # level deeper (chrome/natsumi/natsumi/...) was wrong. Excludes
+            # keep this rsync's --delete from wiping the fx-autoconfig
+            # folders just synced above (natsumi's repo doesn't ship
+            # utils/CSS/resources itself, so without these, --delete would
+            # see them as "not in source" and remove them).
+            "$rsync" -a --delete \
+              --exclude '/utils/' --exclude '/CSS/' --exclude '/resources/' \
+              --exclude '/chrome.manifest' --exclude '/.natsumi-commit' \
+              ${cfg.natsumiSource}/. "$chrome_dir/"
             chmod -R u+w "$chrome_dir"
 
             # Marker: fingerprint of the currently-synced natsumi source
@@ -356,6 +468,16 @@ INNERPY
             fi
 
             rm -rf "$profile_dir/startupCache" 2>/dev/null || true
+
+            # Everything above this point (rsync, chmod, chrome.manifest,
+            # user.js) ran as whoever invoked this script -- root, under
+            # the real system.activationScripts run -- so it all just got
+            # re-owned by root regardless of the run_as_target_user fix
+            # for -CreateProfile earlier. One last pass fixes the whole
+            # tree back to the real user so the browser (which runs as
+            # that user in normal desktop use, never as root) can actually
+            # read/write its own profile.
+            fix_ownership
           '';
         in
         {
