@@ -37,24 +37,20 @@ in
           ms-vscode.azure-repos
           ms-vscode.remote-repositories
           ms-vscode.vscode-python-web-wasm
+          github.codespaces
         ])
         # everything else here is on Open VSX too, so it lives here instead
         # of me duplicating a marketplace entry for no reason.
         ++ (with openvsx; [
           anthropic.claude-code
           atomicspirit.nix-embedded-highlighter
-          b9software.vsx-auto-close-tab
           christian-kohler.path-intellisense
-          danklinux.dms-theme
-          dracula-theme.theme-dracula
           drcika.apc-extension
           jeff-hykin.better-nix-syntax
           jnoortheen.nix-ide
-          mkhl.direnv
           ms-python.debugpy
           ms-python.python
           yusifaliyevpro.vscicons
-          zokugun.cron-tasks
           rionoir.gitcharm
         ]);
 
