@@ -7,7 +7,9 @@
 }:
 
 {
-  imports = [ inputs.natsumi.nixosModules.default ];
+  imports = [ inputs.blip.nixosModules.default 
+    inputs.natsumi.nixosModules.default
+    ];
 
   nixpkgs.overlays = [ inputs.claude-desktop.overlays.default ]; # provides claude-desktop-fhs below
 
@@ -106,7 +108,7 @@
   # Floorp + Natsumi (separate module, separate browser -- does not touch
   # the LibreWolf setup above or modules/home-manager/fx-autoconfig.hm.nix)
   programs.natsumi = {
-    enable = false;
+    enable = true;
     browser = "floorp";
     homeDirectory = "/home/ayaan_mirza";
     # existing profile is x9ezxqe3.default-default -- set explicitly
@@ -136,7 +138,8 @@
     enable = true;
     linuxFeatures = [ "read-aloud" ];
   };
-
+  
+  programs.blip.enable = true;
   
 
   programs.gamemode.enable = true;
@@ -188,6 +191,8 @@
     slurp
     satty
     vesktop
+    hydralauncher
+    bubblewrap # needed by hydralauncher/umu-run's Steam Runtime container — not reliably added by programs.steam.enable
 
     # ==========================================
     # 4. SYSTEM & UTILITIES (CLI / GUI)
@@ -211,6 +216,8 @@
     libimobiledevice
     idescriptor
     hplip
+    joplin-desktop
+    obsidian
     system-config-printer
     gnome-boxes
     gsettings-desktop-schemas
