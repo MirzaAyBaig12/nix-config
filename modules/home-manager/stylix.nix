@@ -11,6 +11,7 @@
     enable = true;
 
     targets.vesktop.enable = false;
+    targets.vencord.enable = false;
 
     cursor = {
       package = osConfig.custom.bibataMaterialCursor;
