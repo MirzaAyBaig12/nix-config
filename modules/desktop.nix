@@ -49,17 +49,19 @@
   };
 
   config = {
-  # Display Managers & Desktop Environments
+  # Desktop session and display manager
   services.displayManager.defaultSession = pkgs.lib.mkForce "niri";
   services.displayManager.cosmic-greeter.enable = false;
   services.desktopManager.cosmic.enable = true;
 
+  # Shared cursor theme
   # Bibata-Material-Lilac (see greetd niri_overrides.kdl +
   # systemd.services.greetd.environment below) needs to resolve to a real cursor theme
   # in the SYSTEM profile. greetd runs as its own systemd service with XDG_DATA_DIRS
   # pointing at /run/current-system/sw/share, not my home-manager profile
   environment.systemPackages = [ bibataMaterialCursor ];
 
+  # Greeter configuration
   # dank-greeter's module only wires its package into greetd's own ExecStart, it never
   # puts `dms-greeter` on PATH for my shell (like to run `dms-greeter --command niri`
   # manually or check --version). so adding it explicitly
@@ -96,6 +98,7 @@
     mode = "0644";
   };
 
+  # Greeter environment
   # greetd runs as a bare systemd service (user "cosmic-greeter"), not a login shell
   # session, so it never sees environment.variables from system.nix (thats PAM/session
   # only). greetd.toml only substitutes ${XCURSOR_THEME:-Pop} explicitly, so without
@@ -109,6 +112,7 @@
     XDG_DATA_DIRS = "/run/current-system/sw/share";
   };
 
+  # Desktop portals and authentication
   xdg.portal = {
     enable = true;
     extraPortals = [ pkgs.xdg-desktop-portal-cosmic ];
@@ -120,13 +124,13 @@
     greetd.enableGnomeKeyring = true;
   };
 
-  # Keymap
+  # Keyboard layout
   services.xserver.xkb = {
     layout = "us";
     variant = "";
   };
 
-  # Printing & Audio
+  # Printing and audio
   services.printing.enable = true;
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -137,7 +141,7 @@
     pulse.enable = true;
   };
 
-  # Fonts
+  # Font packages
   fonts.enableDefaultPackages = true;
   fonts.packages = with pkgs; [
     noto-fonts

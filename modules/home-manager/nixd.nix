@@ -1,6 +1,7 @@
 { ... }:
 
 {
+  # Nix language server settings for VS Code
   programs.vscode = {
     profiles.default.userSettings = {
       "nix.serverSettings" = {

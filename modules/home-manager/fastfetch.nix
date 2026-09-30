@@ -4,6 +4,7 @@
 }:
  
 {
+  # Fastfetch package and configuration links
   home.packages = [ pkgs.fastfetch ];
 
   xdg.configFile."fastfetch/config.jsonc".source = ../../.config/fastfetch/config.jsonc;

@@ -5,10 +5,12 @@
 
 {
   home.packages = with pkgs; [
-    #vscode
-    gtk2
+    # Nix language server and formatter
     nixd
     nixfmt
+
+    # GTK and Qt theme configuration
+    gtk2
     qt6Packages.qt6ct
     libsForQt5.qt5ct
   ];

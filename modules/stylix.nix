@@ -9,11 +9,13 @@
   stylix = {
     enable = true;
 
+    # Cursor theme
     cursor = {
       name = "Bibata-Material-Lilac";
       size = 30;
     };
 
+    # Font families
     fonts = {
       sansSerif = {
         package = pkgs.dejavu_fonts;
@@ -33,6 +35,7 @@
       };
     };
 
+    # Base16 color palette
     base16Scheme = {
       base00 = "141318";
       base01 = "201f25";
@@ -52,6 +55,7 @@
       base0F = "be5046";
     };
 
+    # GTK and Qt application styling
     targets.gtk = {
       enable = true;
       extraCss = ''

@@ -1,6 +1,7 @@
 { ... }:
 
 {
+  # Interactive shell, startup helpers, and plugins
   programs.zsh = {
     enable = true;
     autosuggestion.enable = true;

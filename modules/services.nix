@@ -7,7 +7,8 @@
 
 {
 
-  # User Account
+  # Accounts and security
+  # User account
   users.users."ayaan_mirza" = {
     isNormalUser = true;
     description = "Ayaan Mirza";
@@ -30,7 +31,8 @@
     ];
   };
 
-  # snap & flatpak (declarative, see flatpak.nix)
+  # Flatpak
+  # Declarative Flatpak setup; package declarations live in flatpak.nix.
   services.snap.enable = false;
   services.flatpak.enable = true;
   services.flatpak.overrides = {
@@ -74,7 +76,8 @@
 
   security.apparmor.enable = true; # Enable AppArmor for Snap confinement
 
-  # reinstalls rEFInd and re-signs it after every rebuild (chainloads lanzaboote's
+  # Activation scripts
+  # Reinstall rEFInd and re-sign it after every rebuild (chainloads lanzaboote's
   # signed UKIs + windows). activation scripts already run as root so no doas here,
   # doas caused emergency mode boot failures on gens 133/134 (PAM helper wasnt
   # reachable that early in boot). PATH is extended cuz activation scripts run with a
@@ -199,6 +202,7 @@
     deps = [ ];
   };
 
+  # Input devices
   # keyd: tapping bare Super/Mod alone sends Alt+Space (DMS's own spotlight-bar bind,
   # see dms/binds.kdl) cuz niri cant natively bind a modifier only tap. holding
   # leftmeta still acts as a normal modifier for every other Mod+ bind in niri,
@@ -235,7 +239,8 @@
   #Enable USBMUXD for iOS device management
   services.usbmuxd.enable = true;
 
-  # cups printing, only using hplip drivers (the hp-* gui utilities are broken on
+  # Printing and scanning
+  # CUPS printing uses only hplip drivers (the hp-* gui utilities are broken on
   # python3.14, see the hplip URLopener issue). the cups web ui at localhost:631
   # doesnt depend on those scripts and the drivers still work
   services.printing = {
@@ -254,7 +259,8 @@
     openFirewall = true;
   };
 
-  # watches for flatpaks installed outside of nix (like through bazaar) and appends
+  # Flatpak sync service
+  # Watches for Flatpaks installed outside of Nix (like through Bazaar) and appends
   # them to flatpak.nix, formatted correctly for flathub vs cosmic
   # the script itself is defined in flatpak.nix (options.custom.flatpakSyncScript)
   # systemd user service that runs the sync script

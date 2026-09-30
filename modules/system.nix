@@ -6,6 +6,7 @@
 }:
 
 {
+  # System-wide environment
   # setting the nh env vars explicitly too just in case. NH_FLAKE from
   # programs.nh.flake is flaky about reaching shells that are already open after a
   # rebuild
@@ -19,18 +20,22 @@
     QT_QPA_PLATFORMTHEME = "gtk3";
   };
 
-  # Session Variables
+  # Graphical and user session environment
   environment.sessionVariables = {
     # /home/ayaan_mirza/.local/bin (fcc-claude and other personal scripts)
     # was only ever on PATH inside interactive zsh — GUI apps launched from
     # the niri/DMS session directly (VSCode, GitCharm's spawn calls, etc)
     # never saw it. This puts it in the actual session-wide PATH instead.
-    PATH = [ "/var/lib/snapd/snap/bin" "/home/ayaan_mirza/.local/bin" ];
+    PATH = [
+      "/var/lib/snapd/snap/bin"
+      "/home/ayaan_mirza/.local/bin"
+    ];
     XDG_DATA_DIRS = [ "/run/current-system/sw/share" ];
   };
 
   environment.systemPackages = [ pkgs.exfatprogs ];
 
+  # Data partitions and mounts
   fileSystems."/mnt/nvme0n1p7" = {
     device = "/dev/disk/by-uuid/EBBE-BBC8";
     fsType = "exfat";
@@ -57,7 +62,7 @@
     ];
   };
 
-  # Shell aliases
+  # Shell shortcuts
   environment.shellAliases = {
     nix-hwgen = "doas nixos-generate-config --dir ~/nix-config";
     nix-rebuild = "doas nixos-rebuild switch --flake ~/nix-config#Axiom";
@@ -71,7 +76,7 @@
     enroll-tpm = "doas systemd-cryptenroll --wipe-slot=1 /dev/nvme0n1p6 && doas systemd-cryptenroll --tpm2-device=auto /dev/nvme0n1p6";
   };
 
-  # bootloader setup (lanzaboote, signed UKIs for secure boot)
+  # Secure Boot and bootloader
   boot.lanzaboote = {
     enable = true;
     pkiBundle = "/var/lib/sbctl"; # reusing my existing enrolled sbctl keys
@@ -93,7 +98,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot";
 
-  # Plymouth boot theme & silent boot
+  # Kernel, hibernation, and boot appearance
   boot.plymouth = {
     enable = true;
     theme = "mac-style";
@@ -125,6 +130,7 @@
     }
   ];
 
+  # Compatibility paths for software that expects /bin/bash and /bin/sh
   # symlinks for /bin/bash and /bin/sh, some non nix apps and scripts hardcode them
   # instead of using PATH. /usr/bin/env is already there on nixos
   systemd.tmpfiles.rules = [
@@ -132,7 +138,7 @@
     "L+ /bin/sh - - - - ${pkgs.bash}/bin/sh"
   ];
 
-  # Networking & Firewall
+  # Network identity and firewall
   networking.hostName = "Axiom";
   networking.networkmanager.enable = true;
   networking.firewall.allowedTCPPorts = [ 9295 ];
@@ -145,7 +151,7 @@
     9303
   ];
 
-  # Waydroid
+  # Android compatibility
   virtualisation.waydroid.enable = true;
   virtualisation.waydroid.package = pkgs.waydroid-nftables;
 }

@@ -1,5 +1,6 @@
 { inputs, ... }:
 {
+  # Vesktop client and enabled plugins
   programs.nixcord = {
     enable = true;
 

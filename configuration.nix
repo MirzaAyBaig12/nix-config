@@ -10,23 +10,25 @@
 }:
 
 {
+  # Hardware and system modules
   imports = [
-    ./hardware-configuration.nix #import hardware configuration 
+    # Hardware-specific generated settings
+    ./hardware-configuration.nix
 
-    #modules 
-      ./modules/system.nix #import system configuration module
-      ./modules/desktop.nix #import desktop configuration module
-      ./modules/programs.nix #import programs configuration module
-      ./modules/services.nix #import services configuration module
-      ./modules/flatpak.nix #import flatpak configuration module 
-      ./modules/niri.nix #import niri + DMS shell module
-      
-    #import home-manager module
-      inputs.home-manager.nixosModules.default
-      ./modules/home-manager.nix #import home-manager configuration module
+    # System, desktop, programs, and services
+    ./modules/system.nix
+    ./modules/desktop.nix
+    ./modules/programs.nix
+    ./modules/services.nix
+    ./modules/flatpak.nix
+    ./modules/niri.nix
 
+    # Home Manager integration
+    inputs.home-manager.nixosModules.default
+    ./modules/home-manager.nix
   ];
 
+  # Nix implementation and package policy
   # using lix from nixpkgs' own lixPackageSets so the version always matches my pinned
   # nixpkgs. no more version mismatch warning like the external lix-module flake gave
   # me
@@ -41,6 +43,7 @@
   nix.settings.trusted-users = [ "root" "ayaan_mirza" ];
   nixpkgs.config.allowUnfree = true;
 
+  # Locale and system version
   time.timeZone = "America/Vancouver";
   i18n.defaultLocale = "en_CA.UTF-8";
   system.stateVersion = "26.05";

@@ -17,7 +17,7 @@ This repository is home to the nix code that builds my system:
 
 - **NixOS Desktop (Axiom)** — my main daily driver. Daily session is **niri** (scrollable-tiling Wayland compositor) shelled by **DankMaterialShell (DMS)**, with **COSMIC** kept installed as an alt session at the greeter. Lanzaboote-signed boot, PipeWire audio, Waydroid, and extensive customization.
 
-See [`/.config/refind`](./.config/refind/) for my rEFInd configuration and theme, and [`/.config/niri`](./.config/niri/) for my niri + DMS config.
+See [`/.config/refind`](./.config/refind/) for my rEFInd configuration, and [`/.config/niri`](./.config/niri/) for my niri + DMS config. Historical Niri configs are kept in [`/.config/niri/backups`](./.config/niri/backups/).
 
 See [`/modules/`](./modules/) for each configuration module, and [`/modules/home-manager/`](./modules/home-manager/) for user-specific config files configured as modules within home-manager.
  
@@ -33,15 +33,22 @@ See [`/modules/`](./modules/) for each configuration module, and [`/modules/home
 ```
 .
 ├── .config/
+│   ├── cosmic/                     # COSMIC personal color preferences
 │   ├── fastfetch/                  # fastfetch configs (synced to Home Manager)
-│   ├── niri/                       # niri + DMS config (kdl) — symlinked in-place via home-manager/niri.config.nix
+│   ├── hypr/                       # Hyprland and DMS Lua config drafts
+│   ├── misc/                       # App-specific settings and backups
+│   ├── niri/                       # niri + DMS config (KDL), symlinked in-place via Home Manager
+│   │   ├── backups/                # Historical Niri configs
+│   │   └── dms/                    # DMS-managed Niri settings
 │   ├── refind/                     # rEFInd configuration files
-│   └── wallpapers/
+│   ├── VSCodium/                   # VSCodium settings and extensions
+│   ├── wallpapers/                 # Desktop wallpapers
+│   └── .vscode/                    # VS Code launch arguments
 ├── modules/
-│   ├── desktop.nix                 # dank-greeter (greetd) + niri default session, COSMIC alt session, PipeWire, CUPS, fonts, keymap
-│   ├── flatpak.nix                 # declarative Flatpak remotes/packages + sync-flatpak-apps (auto-commits installs/removals)
-│   ├── flatpak.packages.nix        # generated — do not hand-edit, sync-flatpak-apps owns this file
-│   ├── home-manager.nix            # wires up Home Manager, imports the home-manager/ modules below
+│   ├── desktop.nix                 # display manager, desktop sessions, audio, fonts, and keymap
+│   ├── flatpak.nix                 # declarative Flatpak remotes/packages + sync-flatpak-apps
+│   ├── flatpak.packages.nix        # generated — sync-flatpak-apps owns this file
+│   ├── home-manager.nix            # wires up Home Manager and its modules
 │   ├── home-manager/
 │   │   ├── fastfetch.nix           # links .config/fastfetch into the HM profile
 │   │   ├── niri.config.nix         # niri config symlink, DMS dark-mode pin + service-relink activation fixes
@@ -51,12 +58,23 @@ See [`/modules/`](./modules/) for each configuration module, and [`/modules/home
 │   │   ├── stylix.nix              # HM-side Stylix (cursor package, GTK/dconf theming, forced dark mode)
 │   │   └── zsh.nix                 # Oh-My-Zsh, PATH exports, flatpak() sync wrapper, dms shell completion
 │   ├── niri.nix                    # niri compositor + DankMaterialShell shell, portals, xwayland-satellite
-│   ├── programs.nix                # shell aliases, system packages, Steam/Librewolf/Codex Desktop, nix-ld, appimage support
-│   ├── services.nix                # doas/sudo, user account, keyd, printing/scanning, rEFInd/systemd-boot signing
+│   ├── programs.nix                # imports the focused programs/ modules
+│   ├── programs/
+│   │   ├── browsers.nix            # Firefox/LibreWolf and Floorp/Natsumi
+│   │   ├── containers.nix          # Podman, Docker, WinPodX, and container access
+│   │   ├── core.nix                # NH, Zsh, dconf, direnv, and KDE Connect
+│   │   ├── desktop-apps.nix        # Steam, AppImage, Nix-ld, and desktop app options
+│   │   └── packages/               # development, media, system, and external packages
+│   ├── services.nix                # imports the focused services/ modules
+│   ├── services/
+│   │   ├── account-security.nix    # user account, doas/sudo, and AppArmor
+│   │   ├── activation.nix          # boot signing and system activation scripts
+│   │   ├── flatpak.nix             # Flatpak overrides and sync service
+│   │   ├── input.nix               # keyd, uinput, and USBMUXD
+│   │   └── printing.nix            # CUPS, scanning, and Avahi discovery
 │   ├── stylix.nix                  # system-wide Stylix theming (fonts, base16 scheme, GTK/QT targets)
 │   └── system.nix                  # Lanzaboote + rEFInd bootloader, Plymouth, networking, Waydroid, swap
-├── _img/                           # README screenshots
-├── CLAUDE.md                       
+├── _img/                           # README and desktop screenshots
 ├── configuration.nix               # entry point — imports every module
 ├── flake.nix / flake.lock
 └── hardware-configuration.nix
@@ -106,7 +124,7 @@ See [`/modules/`](./modules/) for each configuration module, and [`/modules/home
 | **Android Subsystem** | Waydroid |
 | **Package Formats** | Flatpak, AppImage, Nix |
  
-Wallpapers: [`/wallpapers`](./.config/wallpapers)
+Wallpapers: [`/.config/wallpapers`](./.config/wallpapers/)
 
 ## Screenshots
 

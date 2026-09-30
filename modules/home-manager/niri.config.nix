@@ -16,6 +16,27 @@
   home.file.".config/niri".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-config/.config/niri";
 
+  # DMS may leave timestamped config backups beside config.kdl. Keep the live
+  # directory tidy by collecting those files in the repository's backup folder.
+  home.activation.archiveNiriBackups = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    niri_dir="${config.home.homeDirectory}/nix-config/.config/niri"
+    backup_dir="$niri_dir/backups"
+
+    for backup in "$niri_dir"/*.backup*; do
+      [ -f "$backup" ] || continue
+      name="''${backup##*/}"
+      target="$backup_dir/$name"
+      suffix=1
+      while [ -e "$target" ]; do
+        target="$backup_dir/$name.$suffix"
+        suffix=$((suffix + 1))
+      done
+
+      $DRY_RUN_CMD mkdir -p "$backup_dir"
+      $DRY_RUN_CMD mv -- "$backup" "$target"
+    done
+  '';
+
   # dms/colors.kdl keeps getting regenerated back to light mode (DMS re-derives it
   # from the system light/dark preference on its own, nix has nothing to do with it).
   # forcing it back to dark on every activation

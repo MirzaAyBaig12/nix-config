@@ -23,6 +23,7 @@ let
   ];
 in
 {
+  # Profile files supplied by fx-autoconfig and Natsumi
   home.file = {
     "${chrome}/CSS".source = "${fx}/CSS";
     "${chrome}/resources".source = "${fx}/resources";

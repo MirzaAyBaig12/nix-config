@@ -6,70 +6,216 @@
   ...
 }:
 
-{
-  imports = [ 
-    inputs.blip.nixosModules.default 
-    inputs.natsumi.nixosModules.default
-    inputs.cpak.nixosModules.default
+let
+  appPackages = with pkgs; {
+    # Web browsers and progressive web app support.
+    browsers = [
+      firefox
+      firefoxpwa
+      google-chrome
     ];
 
-  nixpkgs.overlays = [ inputs.claude-desktop.overlays.default ]; # provides claude-desktop-fhs below
+    # Editors, language runtimes, and developer tools.
+    development = [
+      vim
+      neovim
+      git
+      gdb
+      just
+      nodejs
+      sassc
+      python3
+      python3Packages.pip
+      python3Packages.virtualenv
+      vscodium
+      zed-editor
+      jetbrains.idea
+      jetbrains.webstorm
+      jetbrains.pycharm
+      sourcegit
+      kdePackages.kate
+      flutter
+      distrobox
+    ];
+
+    # Notes, office work, and personal productivity.
+    productivity = [
+      joplin-desktop
+      obsidian
+      ferdium
+      onlyoffice-desktopeditors
+    ];
+
+    # Chat and communication clients.
+    communication = [
+      vesktop
+    ];
+
+    # Audio and video playback.
+    mediaPlayback = [
+      vlc
+    ];
+
+    # Image editing and video production.
+    creativeTools = [
+      gimp
+      kdePackages.kdenlive
+    ];
+
+    # Games, compatibility tools, and their runtime support.
+    gaming = [
+      gamemode
+      winetricks
+      hydralauncher
+      # Needed by hydralauncher/umu-run's Steam Runtime container.
+      bubblewrap
+    ];
+
+    # File management, terminal, screenshots, and desktop themes.
+    desktop = [
+      kdePackages.dolphin
+      ghostty
+      wl-clipboard
+      grim
+      slurp
+      satty
+      adwaita-icon-theme
+      papirus-icon-theme
+      hicolor-icon-theme
+    ];
+
+    # General command line and desktop utilities.
+    systemUtilities = [
+      wget
+      curl
+      htop
+      baobab
+      gnome-system-monitor
+      gh
+      gsettings-desktop-schemas
+      glib
+      libnotify
+      espeak
+      unzip
+      libsForQt5.qtstyleplugin-kvantum
+    ];
+
+    # Keyring, authentication, and password tools.
+    security = [
+      seahorse
+      gnome-keyring
+      kdePackages.ksshaskpass
+      proton-pass
+    ];
+
+    # Storage, devices, printing, virtualization, and boot tools.
+    hardware = [
+      gnome-disk-utility
+      kdePackages.partitionmanager
+      parted
+      efibootmgr
+      sbctl
+      refind
+      libimobiledevice
+      idescriptor
+      hplip
+      system-config-printer
+      gnome-boxes
+      ventoy-full-gtk
+      acpi
+    ];
+
+    # Applications and packages supplied by other flakes.
+    externalApps = [
+      inputs.dank-calendar.packages.${pkgs.stdenv.hostPlatform.system}.default
+      inputs.chatgpt-desktop.packages.${pkgs.stdenv.hostPlatform.system}.chatgpt
+      claude-desktop-fhs
+      opencode-desktop
+      config.custom.bibataMaterialCursor
+      (inputs.winpodx.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
+        nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkgs.cacert ];
+        env = (old.env or { }) // {
+          SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
+        };
+        doCheck = false;
+        checkPhase = "echo skipping winpodx tests";
+        installCheckPhase = "echo skipping winpodx tests";
+      }))
+      (inputs.efiboots.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
+        nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkgs.cacert ];
+        env = (old.env or { }) // {
+          SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
+        };
+      }))
+      inputs.nix-fdm.packages.${pkgs.system}.default
+      inputs.iloader.packages.${pkgs.system}.default
+    ];
+
+    # Command line coding agents.
+    aiAgents = [
+      inputs.llm-agents.packages.${pkgs.system}.claude-code
+      inputs.llm-agents.packages.${pkgs.system}.pi
+      inputs.llm-agents.packages.${pkgs.system}.opencode
+    ];
+  };
+in
+
+{
+
+  # Keep installed applications grouped by purpose.
+  environment.systemPackages =
+    appPackages.browsers
+    ++ appPackages.development
+    ++ appPackages.productivity
+    ++ appPackages.communication
+    ++ appPackages.mediaPlayback
+    ++ appPackages.creativeTools
+    ++ appPackages.gaming
+    ++ appPackages.desktop
+    ++ appPackages.systemUtilities
+    ++ appPackages.security
+    ++ appPackages.hardware
+    ++ appPackages.externalApps
+    ++ appPackages.aiAgents;
+
+  imports = [
+    inputs.blip.nixosModules.default
+    inputs.natsumi.nixosModules.default
+    inputs.cpak.nixosModules.default
+  ];
+
+  nixpkgs.overlays = [ inputs.claude-desktop.overlays.default ];
 
   services.cpak.enable = true;
 
-  # Enable Zsh
+  # Shell and desktop utilities
   programs.zsh.enable = true; # config lives in modules/home-manager/zsh.nix
-
-  # Enable NH
   programs.nh = {
     enable = true;
     clean.enable = true;
     clean.extraArgs = "--keep 3";
-    flake = "/home/ayaan_mirza/nix-config"; # sets the NH_OS_FLAKE variable
+    flake = "/home/ayaan_mirza/nix-config";
   };
-
-  # dconf backend, needed for gtk3/4 apps and anything that reads/writes through
-  # gsettings (theme, color-scheme, etc)
   programs.dconf.enable = true;
-
-  # Enable Direnv
   programs.direnv.enable = true;
-
-  # Enable KDE Connect
   programs.kdeconnect.enable = true;
 
-  # Enable Podman
+  # Container tools
   virtualisation.podman = {
     enable = true;
     dockerCompat = false;
     defaultNetwork.settings.dns_enabled = true;
   };
-
   virtualisation.docker = {
     enable = true;
     autoPrune.enable = true;
   };
-
-  # winpodx runs a rootless podman pod for its windows container (dockur/windows)
-  # kvm: /dev/kvm access for the kvm backed container
-  # podman: rootless podman socket access
   users.users.ayaan_mirza.extraGroups = [
     "docker"
     "podman"
     "kvm"
   ];
-
-  # nixos's containers module writes image_copy_tmp_dir = "/nix/containers/tmp" into
-  # /etc/containers/containers.conf, which is root owned and not writable for regular
-  # users. rootless `podman pull` (what winpodx uses) fails with "permission denied"
-  # making a temp dir for the image copy. overriding to a location any user can write
-  # to
-  virtualisation.containers.containersConf.settings = {
-    engine.image_copy_tmp_dir = lib.mkForce "/tmp";
-  };
-
-  # pin winpodx's windows version to tiny11. only written if the file doesnt exist
-  # yet, `winpodx setup` honours pod.version so no --win-version flag needed
+  virtualisation.containers.containersConf.settings.engine.image_copy_tmp_dir = lib.mkForce "/tmp";
   system.userActivationScripts.winpodxConfig = ''
     cfg="$HOME/.config/winpodx/winpodx.toml"
     if [[ ! -f "$cfg" ]]; then
@@ -79,49 +225,36 @@
     fi
   '';
 
-  # Steam
+  # Gaming
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
   };
+  programs.gamemode.enable = true;
 
-  # Firefox / Librewolf
+  # Browsers
   programs.firefox = {
     enable = true;
-    # appends the fx-autoconfig config.js to librewolf's mozilla.cfg (keeps librewolf's own prefs)
     package = pkgs.librewolf.override (old: {
-      extraPrefsFiles = (old.extraPrefsFiles or [ ]) ++ [
-        "${inputs.fx-autoconfig}/program/config.js"
-      ];
-      # dark mode on websites: RFP pins prefers-color-scheme to light so use FPP with
-      # only that target exempted. lives here (mozilla.cfg) on purpose, NOT in
-      # librewolf.overrides.cfg, and uses defaultPref so i can still change these in
-      # Settings / about:config
+      extraPrefsFiles = (old.extraPrefsFiles or [ ]) ++ [ "${inputs.fx-autoconfig}/program/config.js" ];
       extraPrefs = (old.extraPrefs or "") + ''
         defaultPref("privacy.resistFingerprinting", false);
         defaultPref("privacy.fingerprintingProtection", true);
         defaultPref("privacy.fingerprintingProtection.overrides", "+AllTargets,-CSSPrefersColorScheme");
       '';
     });
-    nativeMessagingHosts.packages = [ pkgs.firefoxpwa ]; 
+    nativeMessagingHosts.packages = [ pkgs.firefoxpwa ];
   };
-
   environment.etc."firefox/policies/policies.json".target = "librewolf/policies/policies.json";
-
-  # Floorp + Natsumi (separate module, separate browser -- does not touch
-  # the LibreWolf setup above or modules/home-manager/fx-autoconfig.hm.nix)
   programs.natsumi = {
     enable = true;
     browser = "floorp";
     homeDirectory = "/home/ayaan_mirza";
-    # existing profile is x9ezxqe3.default-default -- set explicitly
-    # rather than relying on profiles.ini's Default=1 auto-resolve, so
-    # this can't land somewhere unexpected.
     profile = "x9ezxqe3.default-default";
   };
 
-  # AppImage & Nix-LD
+  # App compatibility and desktop integrations
   programs.appimage = {
     enable = true;
     binfmt = true;
@@ -136,136 +269,10 @@
     libGL
     fuse3
   ];
-
-  # Codex Desktop
   programs.codexDesktopLinux = {
     enable = true;
     linuxFeatures = [ "read-aloud" ];
   };
-  
   programs.blip.enable = true;
-  
 
-  programs.gamemode.enable = true;
-
-  environment.systemPackages = with pkgs; [
-    # ==========================================
-    # 1. BROWSERS & WEB
-    # ==========================================
-    firefox
-    firefoxpwa
-    google-chrome
-
-    # ==========================================
-    # 2. DEVELOPMENT & PROGRAMMING TOOLS
-    # ==========================================
-    vim
-    neovim
-    git
-    gdb
-    just
-    nodejs
-    sassc
-    python3
-    python3Packages.pip
-    python3Packages.virtualenv
-    vscodium
-    zed-editor
-    jetbrains.idea
-    jetbrains.webstorm
-    jetbrains.pycharm
-    sourcegit
-    distrobox
-    kdePackages.dolphin
-
-    # ==========================================
-    # 3. MEDIA, GRAPHICS & ENTERTAINMENT
-    # ==========================================
-    vlc
-    gimp
-    kdePackages.kdenlive
-    kdePackages.kate
-    adwaita-icon-theme
-    papirus-icon-theme
-    hicolor-icon-theme
-    gamemode
-    winetricks
-    ghostty
-    grim
-    slurp
-    satty
-    vesktop
-    hydralauncher
-    bubblewrap # needed by hydralauncher/umu-run's Steam Runtime container — not reliably added by programs.steam.enable
-
-    # ==========================================
-    # 4. SYSTEM & UTILITIES (CLI / GUI)
-    # ==========================================
-    wget
-    curl
-    htop
-    baobab
-    gh
-    gnome-disk-utility
-    gnome-system-monitor
-    kdePackages.partitionmanager
-    parted
-    efibootmgr
-    sbctl
-    refind
-    wl-clipboard
-    seahorse
-    gnome-keyring
-    kdePackages.ksshaskpass
-    libimobiledevice
-    idescriptor
-    hplip
-    joplin-desktop
-    obsidian
-    system-config-printer
-    gnome-boxes
-    gsettings-desktop-schemas
-    glib
-    ventoy-full-gtk
-    proton-pass
-    acpi
-    libnotify
-    espeak
-    ferdium
-    libsForQt5.qtstyleplugin-kvantum
-    unzip
-    flutter
-    onlyoffice-desktopeditors
-    inputs.dank-calendar.packages.${pkgs.stdenv.hostPlatform.system}.default
-    inputs.chatgpt-desktop.packages.${pkgs.stdenv.hostPlatform.system}.chatgpt
-
-    # External Inputs / Custom Desktop GUI Packages
-    claude-desktop-fhs
-    opencode-desktop # OpenCode GUI
-    config.custom.bibataMaterialCursor
-    (inputs.winpodx.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
-      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkgs.cacert ];
-      env = (old.env or { }) // {
-        SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
-      };
-      doCheck = false;
-      checkPhase = "echo skipping winpodx tests";
-      installCheckPhase = "echo skipping winpodx tests";
-    }))
-    (inputs.efiboots.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
-      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkgs.cacert ];
-      env = (old.env or { }) // {
-        SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
-      };
-    }))
-    inputs.nix-fdm.packages.${pkgs.system}.default # Free Download Manager
-    inputs.iloader.packages.${pkgs.system}.default
-
-    # ==========================================
-    # 5. DEDICATED AI CODING AGENTS (LLM Agents Flake)
-    # ==========================================
-    inputs.llm-agents.packages.${pkgs.system}.claude-code
-    inputs.llm-agents.packages.${pkgs.system}.pi
-    inputs.llm-agents.packages.${pkgs.system}.opencode
-  ];
 }

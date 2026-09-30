@@ -6,6 +6,7 @@
 }:
 
 {
+  # User session services
   systemd.user.services = {
     fcc-server = {
       Unit = {
@@ -24,6 +25,7 @@
     };
   };
 
+  # Icon theme cache activation
   # icon lookups for anything only reachable through the hicolor fallback (not a
   # theme's own native icons) were taking ~5s on first use. traced it to no theme
   # having a compiled icon-theme.cache at all, which forces a full directory tree scan
@@ -89,10 +91,12 @@
         $DRY_RUN_CMD sh -c "echo '$BOOT_ID' > '$BOOT_STAMP'"
   '';
   
+  # Editor configuration link
   home.file.".vscode/argv.json".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-config/.config/.vscode/argv.json";
 
-  # catppuccin.enable is the global master switch for the WHOLE flake, not
+  # Shared Catppuccin module settings. catppuccin.enable is the global master
+  # switch for the WHOLE flake, not
   # just vscode. every app's own enable option cascades from this by
   # default (learned that the hard way — it auto-enabled GTK theming too
   # and broke a rebuild fighting stylix's icon package). the actual fix

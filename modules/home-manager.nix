@@ -12,7 +12,7 @@
 
     users.ayaan_mirza = {
       imports = [
-        #imports from home-manager modules
+        # Repository modules
         ./home-manager/programs.hm.nix
         ./home-manager/fastfetch.nix
         ./home-manager/zsh.nix
@@ -24,6 +24,7 @@
         ./home-manager/fx-autoconfig.hm.nix
         ./home-manager/nixcord.nix
 
+        # Upstream Home Manager modules
         inputs.cosmic-manager.homeManagerModules.cosmic-manager
         inputs.stylix.homeModules.stylix
         inputs.danksearch.homeModules.dsearch
@@ -32,6 +33,7 @@
         inputs.nixcord.homeModules.nixcord
       ];
 
+      # Home profile identity and compatibility version
       home.stateVersion = "26.05";
       home.username = "ayaan_mirza";
       home.homeDirectory = "/home/ayaan_mirza";

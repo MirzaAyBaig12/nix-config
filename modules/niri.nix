@@ -7,11 +7,13 @@
 }:
 
 {
+  # Niri compositor and session
   # niri, scrollable tiling wayland compositor. runs as an alt session next to COSMIC
   # (pick either at the greeter). module comes from the niri flake input imported in
   # flake.nix
   programs.niri.enable = true;
 
+  # Xwayland compatibility
   # xwayland support. niri has no built in xwayland, it relies on the separate
   # xwayland-satellite process. the native module doesnt spawn it so the package needs
   # to be installed and started at niri login. pinned to 0.8.1 through an older
@@ -23,6 +25,7 @@
     pkgs.xdg-desktop-portal-wlr # Added for wlroots screencopy/screenshots
   ];
 
+  # Desktop shell
   # DankMaterialShell, the actual shell for niri (panel, dock, launcher, lock screen,
   # notifications) since niri ships bare with none of that. back on the flake's own
   # module instead of nixpkgs' vendored one, see flake.nix input #21b
@@ -39,6 +42,7 @@
     enableCalendarEvents = true;
   };
 
+  # Session-specific portals
   # scope portals by session. niri gets COSMIC's portal first (native file picker,
   # notifications) with xdg-desktop-portal-wlr as the fallback for
   # screenshots/screencast
