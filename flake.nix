@@ -45,10 +45,7 @@
 
     # 11. iLoader
     iloader.url = "github:nab138/iloader";
-
-    # 12. Look Launcher
-    look.url = "github:kunkka19xx/look?dir=apps/linows";
-
+    
     # 13. Home Manager
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -147,8 +144,9 @@
 
     blip.url = "github:blip-net/nix";
 
+    cpak.url = "github:Containerpak/cpak/v2";
 
-    xwayland-satellite.url = "github:Supreeeme/xwayland-satellite";
+    chatgpt-desktop.url = "github:alioguzhan/chatgpt-desktop-flake";
   };
 
   outputs =
@@ -164,6 +162,7 @@
       winpodx,
       home-manager,
       llm-agents,
+      cpak,
       catppuccin,
       ...
     }@inputs:
