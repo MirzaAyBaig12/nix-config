@@ -180,6 +180,18 @@
             install -m644 ${cfg.fxAutoconfigSource}/program/config.js "$appdir/config.js"
 
             mkdir -p "$appdir/defaults/pref"
+            # Some browsers ship their own defaults/pref/*.js already
+            # setting general.config.filename to something else (confirmed
+            # on Axiom: Floorp's own autoconfig.js points it at
+            # "mozilla.cfg", a file that doesn't exist here) -- directory
+            # read order isn't guaranteed alphabetical at the filesystem
+            # level, so rather than gambling that ours loads last and
+            # wins, remove any existing file setting this pref first, so
+            # there's only ever one source of truth.
+            for f in "$appdir"/defaults/pref/*.js; do
+              [ -f "$f" ] || continue
+              grep -q 'general\.config\.filename' "$f" 2>/dev/null && rm -f "$f"
+            done
             rm -f "$appdir/defaults/pref/config-prefs.js"
             install -m644 ${cfg.fxAutoconfigSource}/program/defaults/pref/config-prefs.js \
               "$appdir/defaults/pref/config-prefs.js"
