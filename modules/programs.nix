@@ -7,11 +7,15 @@
 }:
 
 {
-  imports = [ inputs.blip.nixosModules.default 
+  imports = [ 
+    inputs.blip.nixosModules.default 
     inputs.natsumi.nixosModules.default
+    inputs.cpak.nixosModules.default
     ];
 
   nixpkgs.overlays = [ inputs.claude-desktop.overlays.default ]; # provides claude-desktop-fhs below
+
+  services.cpak.enable = true;
 
   # Enable Zsh
   programs.zsh.enable = true; # config lives in modules/home-manager/zsh.nix
@@ -224,12 +228,16 @@
     glib
     ventoy-full-gtk
     proton-pass
+    acpi
+    libnotify
+    espeak
     ferdium
     libsForQt5.qtstyleplugin-kvantum
     unzip
     flutter
     onlyoffice-desktopeditors
     inputs.dank-calendar.packages.${pkgs.stdenv.hostPlatform.system}.default
+    inputs.chatgpt-desktop.packages.${pkgs.stdenv.hostPlatform.system}.chatgpt
 
     # External Inputs / Custom Desktop GUI Packages
     claude-desktop-fhs
