@@ -10,14 +10,14 @@ let
   appPackages = with pkgs; {
     # Web browsers and progressive web app support.
     browsers = [
-      firefox
       firefoxpwa
       google-chrome
+      inputs.helium.packages.x86_64-linux.default
+      inputs.brave-origin.packages.${pkgs.stdenv.hostPlatform.system}.default
     ];
 
     # Editors, language runtimes, and developer tools.
     development = [
-      vim
       neovim
       git
       gdb
@@ -29,9 +29,6 @@ let
       python3Packages.virtualenv
       vscodium
       zed-editor
-      jetbrains.idea
-      jetbrains.webstorm
-      jetbrains.pycharm
       sourcegit
       kdePackages.kate
       flutter
@@ -40,7 +37,6 @@ let
 
     # Notes, office work, and personal productivity.
     productivity = [
-      joplin-desktop
       obsidian
       ferdium
       onlyoffice-desktopeditors
@@ -74,6 +70,7 @@ let
     # File management, terminal, screenshots, and desktop themes.
     desktop = [
       kdePackages.dolphin
+      nautilus
       ghostty
       wl-clipboard
       grim
@@ -113,11 +110,9 @@ let
       gnome-disk-utility
       kdePackages.partitionmanager
       parted
-      efibootmgr
       sbctl
       refind
       libimobiledevice
-      idescriptor
       hplip
       system-config-printer
       gnome-boxes
@@ -127,7 +122,6 @@ let
 
     # Applications and packages supplied by other flakes.
     externalApps = [
-      inputs.dank-calendar.packages.${pkgs.stdenv.hostPlatform.system}.default
       inputs.chatgpt-desktop.packages.${pkgs.stdenv.hostPlatform.system}.chatgpt
       claude-desktop-fhs
       opencode-desktop
@@ -141,12 +135,6 @@ let
         checkPhase = "echo skipping winpodx tests";
         installCheckPhase = "echo skipping winpodx tests";
       }))
-      (inputs.efiboots.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
-        nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkgs.cacert ];
-        env = (old.env or { }) // {
-          SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
-        };
-      }))
       inputs.nix-fdm.packages.${pkgs.system}.default
       inputs.iloader.packages.${pkgs.system}.default
     ];
@@ -154,7 +142,6 @@ let
     # Command line coding agents.
     aiAgents = [
       inputs.llm-agents.packages.${pkgs.system}.claude-code
-      inputs.llm-agents.packages.${pkgs.system}.pi
       inputs.llm-agents.packages.${pkgs.system}.opencode
     ];
   };
@@ -183,8 +170,6 @@ in
     inputs.natsumi.nixosModules.default
     inputs.cpak.nixosModules.default
   ];
-
-  nixpkgs.overlays = [ inputs.claude-desktop.overlays.default ];
 
   services.cpak.enable = true;
 
@@ -249,7 +234,7 @@ in
   environment.etc."firefox/policies/policies.json".target = "librewolf/policies/policies.json";
   programs.natsumi = {
     enable = true;
-    browser = "floorp";
+    browser = "firefox";
     homeDirectory = "/home/ayaan_mirza";
     profile = "x9ezxqe3.default-default";
   };
@@ -269,10 +254,6 @@ in
     libGL
     fuse3
   ];
-  programs.codexDesktopLinux = {
-    enable = true;
-    linuxFeatures = [ "read-aloud" ];
-  };
   programs.blip.enable = true;
 
 }
