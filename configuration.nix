@@ -20,6 +20,8 @@
     ./modules/desktop.nix
     ./modules/programs.nix
     ./modules/services.nix
+    ./modules/stylix.nix
+    ./modules/catppuccin.nix
     ./modules/flatpak.nix
     ./modules/niri.nix
 
@@ -32,11 +34,6 @@
   # using lix from nixpkgs' own lixPackageSets so the version always matches my pinned
   # nixpkgs. no more version mismatch warning like the external lix-module flake gave
   # me
-  nixpkgs.overlays = [
-    (final: prev: {
-      inherit (prev.lixPackageSets.stable) nixpkgs-review nix-eval-jobs nix-fast-build colmena;
-    })
-  ];
   nix.package = pkgs.lixPackageSets.stable.lix;
   
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -47,4 +44,4 @@
   time.timeZone = "America/Vancouver";
   i18n.defaultLocale = "en_CA.UTF-8";
   system.stateVersion = "26.05";
-} 
+}
