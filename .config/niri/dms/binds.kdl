@@ -141,6 +141,7 @@ binds {
     Alt+Ctrl+Shift+S hotkey-overlay-title="Screenshot" { spawn "sh" "-c" "grim -g \"$(slurp)\" - | satty --filename - --early-exit --copy-command wl-copy"; }
     Alt+Ctrl+Shift+V { spawn "vesktop"; }
     Alt+Ctrl+V hotkey-overlay-title="Launch Visual Studio Code" { spawn "code"; }
+    Mod+Alt+Shift+P allow-when-locked=true hotkey-overlay-title="Power Off" { spawn "sh" "-c" "systemctl poweroff"; }
     Mod+T hotkey-overlay-title="Open Terminal" { spawn "ghostty"; }
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
     Mod+O repeat=false { toggle-overview; }
