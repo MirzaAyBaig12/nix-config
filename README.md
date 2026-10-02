@@ -91,7 +91,7 @@ See [`/modules/`](./modules/) for each configuration module, and [`/modules/home
 | **Desktop Environments** | niri (primary — scrollable-tiling Wayland) shelled by DankMaterialShell; COSMIC kept as an alt session at the greeter |
 | **Window Managers** | niri (native), COSMIC native WM (alt session) |
 | **Terminal Emulator** | Ghostty |
-| **Shell** | Zsh + Oh-My-Zsh (xiong-chiamiov-plus theme; plugins: git, npm, history, node, rust, deno, snap) |
+| **Shell** | Zsh + Oh-My-Zsh (xiong-chiamiov-plus theme; plugins: git, npm, history, node, rust, deno) |
 | **Notification Daemon** | DankMaterialShell (niri session), COSMIC native services (alt session) |
 | **Network Management** | NetworkManager |
 | **Input Method** | None (default XKB/Wayland input) |
@@ -144,7 +144,7 @@ Low-level system configuration: Lanzaboote (signed UKIs) + rEFInd chainloading, 
 Graphical environment: dank-greeter (greetd) as the display manager with niri as the default session, COSMIC kept installed as an alt session, PipeWire audio (PulseAudio compat), CUPS printing, keymap, font packages.
 
 ### niri.nix
-niri compositor + DankMaterialShell (panel, dock, launcher, lock screen, notifications), xwayland-satellite (pinned to 0.8.1 for a nixos-unstable regression), and per-session portal routing (COSMIC portal first, wlr fallback for screenshots/screencast).
+niri compositor + DankMaterialShell (panel, dock, launcher, lock screen, notifications), xwayland-satellite from nixpkgs, and per-session portal routing (COSMIC portal first, wlr fallback for screenshots/screencast).
 
 ### stylix.nix
 System-wide Stylix theming: cursor theme, font stack, base16 colour scheme, and GTK/QT targets.
