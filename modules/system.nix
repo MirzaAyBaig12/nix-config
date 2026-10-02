@@ -17,7 +17,7 @@
     XCURSOR_THEME = "Bibata-Material-Lilac";
     XCURSOR_SIZE = "30";
     NIXOS_INSTALL_BOOTLOADER = "true";
-    QT_QPA_PLATFORMTHEME = "gtk3";
+    QT_QPA_PLATFORMTHEME = "qt6ct";
   };
 
   # Graphical and user session environment
@@ -27,7 +27,6 @@
     # the niri/DMS session directly (VSCode, GitCharm's spawn calls, etc)
     # never saw it. This puts it in the actual session-wide PATH instead.
     PATH = [
-      "/var/lib/snapd/snap/bin"
       "/home/ayaan_mirza/.local/bin"
     ];
     XDG_DATA_DIRS = [ "/run/current-system/sw/share" ];
@@ -101,7 +100,7 @@
   # Kernel, hibernation, and boot appearance
   boot.plymouth = {
     enable = true;
-    theme = "mac-style";
+    theme = lib.mkForce "mac-style";
     themePackages = [ pkgs.mac-style-plymouth ];
   };
   boot.initrd.systemd.enable = true;
@@ -121,7 +120,6 @@
     HibernateMode = "shutdown";
   };
 
-  boot.supportedFilesystems = [ "squashfs" ]; # Enable squashfs for Snap
 
   swapDevices = [
     {
