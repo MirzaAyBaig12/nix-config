@@ -77,7 +77,7 @@
         $DRY_RUN_CMD mkdir -p "${config.home.homeDirectory}/.config/systemd/user/dms.service.d"
         $DRY_RUN_CMD cat > "${config.home.homeDirectory}/.config/systemd/user/dms.service.d/icon-theme-race-fix.conf" << EOF
     [Service]
-    Environment=QT_QPA_PLATFORMTHEME=gtk3
+    Environment=QT_QPA_PLATFORMTHEME=qt6ct
     Environment=QS_ICON_THEME=Papirus-Dark
     Environment=XDG_DATA_DIRS=/nix/store/smn5bv5gqz8sfyg6c2rga82g8s6bd1m5-ghostty-1.3.1/share:/nix/store/jkmzkh3rjak10ccsrkgwybxngqqswgm4-gsettings-desktop-schemas-50.1/share/gsettings-schemas/gsettings-desktop-schemas-50.1:/nix/store/6d3v90p73c3qx6axdlqnm5xfd4w93w20-gtk4-4.22.4/share/gsettings-schemas/gtk4-4.22.4:/nix/store/gvgrz4bh8hryjzrvkqjiwyh4acpn27aj-quickshell-0.3.1/share:/run/current-system/sw/share:/nix/store/id7wgv26ga466m5n2cmn2hv3g5y45861-desktops/share:/home/ayaan_mirza/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/home/ayaan_mirza/.nix-profile/share:/nix/profile/share:/home/ayaan_mirza/.local/state/nix/profile/share:/etc/profiles/per-user/ayaan_mirza/share:/nix/var/nix/profiles/default/share:/run/current-system/sw/share
     EOF
