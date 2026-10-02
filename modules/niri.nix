@@ -13,13 +13,8 @@
   # flake.nix
   programs.niri.enable = true;
 
-  # Xwayland compatibility
-  # xwayland support. niri has no built in xwayland, it relies on the separate
-  # xwayland-satellite process. the native module doesnt spawn it so the package needs
-  # to be installed and started at niri login. pinned to 0.8.1 through an older
-  # nixpkgs rev cuz current nixos-unstable's version has a bug that breaks xwayland
-  # apps (found it on a reddit thread, not fixed upstream yet). see flake.nix input
-  # #24
+  # Xwayland compatibility. Niri relies on the separate xwayland-satellite
+  # process, so keep its package installed for Xwayland applications.
   environment.systemPackages = [
     pkgs.xwayland-satellite
     pkgs.xdg-desktop-portal-wlr # Added for wlroots screencopy/screenshots
@@ -37,10 +32,21 @@
     };
 
     enableVPN = true;
-    enableDynamicTheming = true;
+    enableDynamicTheming = false;
     enableAudioWavelength = true;
     enableCalendarEvents = true;
   };
+
+  # Keep the GTK Settings portal's org.freedesktop.appearance color-scheme fixed
+  # to dark. xdg-desktop-portal-gtk derives that portal value from this GSettings
+  # key; the system database lock prevents user settings from changing its report.
+  programs.dconf.enable = true;
+  programs.dconf.profiles.user.databases = [
+    {
+      settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
+      locks = [ "/org/gnome/desktop/interface/color-scheme" ];
+    }
+  ];
 
   # Session-specific portals
   # scope portals by session. niri gets COSMIC's portal first (native file picker,
@@ -48,7 +54,7 @@
   # screenshots/screencast
   # EXCEPT Settings (color-scheme, accent-color, icon-theme), that one is forced to
   # gtk. COSMIC's own portal keeps its own separate theme state and ignores the GNOME
-  # schema dconf keys set in home-manager/stylix.nix, so apps asking it were getting
+  # schema dconf keys set in home-manager/gtk.nix, so apps asking it were getting
   # inconsistent light/dark and the wrong accent. gtk reads dconf/gsettings directly
   # so it matches whats actually set
   # this reaches flatpak apps automatically too, they talk to the same system wide
