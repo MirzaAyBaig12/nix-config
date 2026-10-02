@@ -1,3 +1,4 @@
+
 {
   config,
   pkgs,
@@ -13,16 +14,31 @@ let
   };
 in
 {
+  imports = [ inputs.catppuccin.nixosModules.catppuccin ];
+
   # Install outside the per-user profile too so system GTK apps can resolve the
   # theme from the system XDG data directories.
   environment.systemPackages = [ catppuccinGtkTheme ];
+
+  # System-wide Catppuccin ports (tty, console, bootloader, etc). Mocha + Mauve everywhere.
+  # Stylix autoEnable is off (below), so catppuccin is what themes stuff.
+  catppuccin = {
+    enable = true;
+    autoEnable = true;
+    flavor = "mocha";
+    accent = "mauve";
+
+    # Boot splash is the mac-style plymouth theme (see system.nix), not catppuccin's.
+    plymouth.enable = false;
+  };
 
   stylix = {
     enable = true;
 
     # Don't let stylix auto-theme every target (chromium etc). Catppuccin handles
-    # that now (see catppuccin.nix), stylix only does what's explicitly enabled.
+    # that (see the catppuccin block above), stylix only does what's explicitly enabled.
     autoEnable = false;
+    plymouth.enable = false; #Disabe plymouth for Stylix as well
 
     # Cursor theme
     cursor = {
@@ -79,7 +95,7 @@ in
     # these two targets set nixpkgs.overlays internally which throws the
     # "nixpkgs.config/overlays set while useGlobalPkgs" warning. nixos-icons is
     # redundant anyway cuz gtk.iconTheme is force set to Adwaita in
-    # home-manager/stylix.nix, and im not relying on stylix for gtksourceview
+    # home-manager/stylix.hm.nix, and im not relying on stylix for gtksourceview
     targets.nixos-icons.enable = false;
     targets.gtksourceview.enable = false;
   };
