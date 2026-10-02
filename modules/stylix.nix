@@ -2,15 +2,31 @@
   config,
   pkgs,
   lib,
+  inputs,
   ...
 }:
 
+let
+  catppuccinGtkTheme = import ./gtk.nix {
+    inherit pkgs;
+    src = inputs.catppuccinGtkTheme;
+  };
+in
 {
+  # Install outside the per-user profile too so system GTK apps can resolve the
+  # theme from the system XDG data directories.
+  environment.systemPackages = [ catppuccinGtkTheme ];
+
   stylix = {
     enable = true;
 
+    # Don't let stylix auto-theme every target (chromium etc). Catppuccin handles
+    # that now (see catppuccin.nix), stylix only does what's explicitly enabled.
+    autoEnable = false;
+
     # Cursor theme
     cursor = {
+      package = config.custom.bibataMaterialCursor;
       name = "Bibata-Material-Lilac";
       size = 30;
     };
@@ -30,56 +46,35 @@
         name = "DejaVu Sans Mono";
       };
       emoji = {
-        package = pkgs.noto-fonts-emoji;
+        package = pkgs.noto-fonts-color-emoji;
         name = "Noto Color Emoji";
       };
     };
 
     # Base16 color palette
     base16Scheme = {
-      base00 = "141318";
-      base01 = "201f25";
-      base02 = "2b292f";
-      base03 = "9b99a5";
-      base04 = "c9c5d0";
-      base05 = "e5e1e9";
-      base06 = "e6e2ff";
-      base07 = "f9f8ff";
-      base08 = "ff7292";
-      base09 = "d19a66";
-      base0A = "ffd972";
-      base0B = "7fff98";
-      base0C = "56b6c2";
-      base0D = "b3a9f2";
-      base0E = "c8bfff";
-      base0F = "be5046";
+      base00 = "1e1e2e";
+      base01 = "181825";
+      base02 = "313244";
+      base03 = "45475a";
+      base04 = "585b70";
+      base05 = "cdd6f4";
+      base06 = "f5e0dc";
+      base07 = "b4befe";
+      base08 = "f38ba8";
+      base09 = "fab387";
+      base0A = "f9e2af";
+      base0B = "a6e3a1";
+      base0C = "94e2d5";
+      base0D = "89b4fa";
+      base0E = "cba6f7";
+      base0F = "f2cdcd";
     };
 
-    # GTK and Qt application styling
-    targets.gtk = {
-      enable = true;
-      extraCss = ''
-        @define-color theme_selected_bg_color #c8bfff;
-        @define-color theme_selected_fg_color #30285f;
-        @define-color accent_color #c8bfff;
-        @define-color accent_bg_color #c8bfff;
-        @define-color accent_fg_color #30285f;
-        @define-color window_bg_color #141318;
-        @define-color window_fg_color #e5e1e9;
-
-        * {
-          border-radius: 8px;
-        }
-        button, entry, combobox, menu, .csd window {
-          border-radius: 8px;
-        }
-      '';
-    };
-
-    targets.qt = {
-      enable = true;
-      platform = "qtct";
-    };
+    # GTK and Qt are themed directly with Catppuccin, not Stylix targets.
+    targets.gtk.enable = false;
+    targets.qt.enable = false;
+    targets.chromium.enable = false;
 
     # these two targets set nixpkgs.overlays internally which throws the
     # "nixpkgs.config/overlays set while useGlobalPkgs" warning. nixos-icons is
