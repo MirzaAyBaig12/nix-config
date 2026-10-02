@@ -102,7 +102,7 @@ in
         # to figure that out, since setting it wrong just silently falls
         # back to whatever theme vscode had cached instead of erroring lol.
         # icons from a-file-icon-vscode for both files and the product icons.
-        # stylix is deliberately OFF for vscode (see stylix.nix), this block
+        # Stylix is no longer imported, this block
         # is the only thing controlling how vscode actually looks.
         "workbench" = {
           "iconTheme" = "a-file-icon-vscode";
@@ -167,13 +167,13 @@ in
 
         # catppuccin.accentColor and workbench.colorTheme are NOT set here
         # anymore — the module below writes those two exact keys itself
-        # (accent = "lavender", flavor = "mocha", matching what I had typed
+        # (accent = "mauve", flavor = "mocha", matching what I had typed
         # here by hand). Keeping both would be a straight-up conflicting-
         # definition error, same deal as the stylix colorTheme fight earlier.
         /*"catppuccin.showUpdateNotification" = false;
         "catppuccin.silent" = true;
         "workbench.colorTheme" = "Catppuccin Mocha";
-        "catppuccin.accentColor" = "lavender";*/
+        "catppuccin.accentColor" = "mauve";*/
 
         # ============================================================
         # GIT
@@ -225,7 +225,7 @@ in
   catppuccin.vscode.profiles.default = {
     enable = true;
     # matches what I'd already typed by hand into userSettings before
-    # wiring this up properly: "Catppuccin Mocha" + accentColor "lavender".
+    # wiring this up properly: "Catppuccin Mocha" + accentColor "mauve".
     flavor = "mocha";
     accent = "mauve";
     settings = {
