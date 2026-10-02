@@ -44,8 +44,19 @@
           # actually catches the throw, so this is the only safe way to do
           # a "prefer X, fall back to Y" package lookup here.
           tryPkg = attr: fallback:
-            let t = builtins.tryEval pkgs.${attr}; in
-            if t.success then t.value else fallback;
+            # tryEval reliably catches a throw (confirmed: floorp,
+            # floorp-unwrapped), but a genuinely *missing* attribute
+            # raises a different kind of error during attribute selection
+            # that tryEval does NOT consistently catch. `?`
+            # (has-attribute) never forces evaluation, so checking
+            # existence first, then only selecting if present, handles
+            # both cases correctly.
+            if pkgs ? ${attr}
+            then
+              let t = builtins.tryEval pkgs.${attr}; in
+              if t.success then t.value else fallback
+            else fallback;
+
 
           # ---- per-browser presets -------------------------------------
           # Natsumi itself supports Firefox and "all popular forks except
@@ -104,12 +115,6 @@
               displayName = "Floorp";
               profilesDirectory = "${homeDir}/.floorp";
             };
-            waterfox = {
-              method = "directPatch";
-              package = tryPkg "waterfox-unwrapped" pkgs.waterfox;
-              displayName = "Waterfox";
-              profilesDirectory = "${homeDir}/.waterfox";
-            };
           };
 
           hasPreset = cfg.browser != "";
@@ -121,10 +126,34 @@
             let
               baseUnwrapped = cfg.unwrappedPackage;
               inheritedExtraPrefsFiles = baseUnwrapped.extraPrefsFiles or [ ];
+
+              # Always present, not an option -- same pref as the
+              # unconditional one in user.js (which covers Floorp, where
+              # there's no extraPrefs-equivalent to hook into), set here
+              # too at the program level for anything going through
+              # wrapFirefox (Firefox, LibreWolf).
+              updaterDisabledPref = ''
+                defaultPref("natsumi.updater.disabled", true);
+              '';
+
+              # LibreWolf's fingerprinting protection normalizes away
+              # CSSPrefersColorScheme by default, so sites can't reliably
+              # detect dark/light preference -- this override excludes
+              # just that one target, leaving the rest of fingerprinting
+              # protection intact. Off by default; only applies when
+              # actually on LibreWolf.
+              darkModeFixPref =
+                optionalString (cfg.browser == "librewolf" && cfg.librewolf.DarkModeFix) ''
+                  defaultPref("privacy.resistFingerprinting", false);
+                  defaultPref("privacy.fingerprintingProtection", true);
+                  defaultPref("privacy.fingerprintingProtection.overrides", "+AllTargets,-CSSPrefersColorScheme");
+                '';
             in
             cfg.wrapper baseUnwrapped (cfg.wrapperArgs // {
               extraPrefsFiles = inheritedExtraPrefsFiles ++ [ fxAutoconfigConfigJs ]
                 ++ (cfg.wrapperArgs.extraPrefsFiles or [ ]);
+              extraPrefs = (cfg.wrapperArgs.extraPrefs or "")
+                + updaterDisabledPref + darkModeFixPref;
             });
 
           # ---- method 2: direct patch of a prebuilt package --------------
@@ -478,6 +507,9 @@
             if ! grep -q 'toolkit.legacyUserProfileCustomizations.stylesheets' "$user_js" 2>/dev/null; then
               echo 'user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);' >> "$user_js"
             fi
+            if ! grep -q 'natsumi.updater.disabled' "$user_js" 2>/dev/null; then
+              echo 'user_pref("natsumi.updater.disabled", true);' >> "$user_js"
+            fi
 
             rm -rf "$profile_dir/startupCache" 2>/dev/null || true
 
@@ -495,6 +527,22 @@
         {
           options.programs.natsumi = {
             enable = mkEnableOption "fx-autoconfig + Natsumi theme for a Firefox-based browser";
+
+            librewolf = {
+              DarkModeFix = mkOption {
+                type = types.bool;
+                default = false;
+                description = ''
+                  LibreWolf's fingerprinting protection normalizes away
+                  CSSPrefersColorScheme by default, so websites can't
+                  reliably detect your dark/light mode preference. Setting
+                  this to true excludes just that one target from
+                  fingerprinting protection, leaving everything else
+                  intact. Only has an effect when `browser = "librewolf"`.
+                  Off by default.
+                '';
+              };
+            };
 
             browser = mkOption {
               type = types.enum ([ "" ] ++ builtins.attrNames browserPresets);
