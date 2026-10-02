@@ -33,7 +33,6 @@
 
   # Flatpak
   # Declarative Flatpak setup; package declarations live in flatpak.nix.
-  services.snap.enable = false;
   services.flatpak.enable = true;
   services.flatpak.overrides = {
     global = {
@@ -50,7 +49,7 @@
       # directly instead of dconf
       Environment = {
         ADW_DEBUG_COLOR_SCHEME = "prefer-dark";
-        GTK_THEME = "Adwaita:dark";
+        GTK_THEME = "Catppuccin-GTK-Dark";
         ICON_THEME = "Papirus-Dark";
       };
     };
@@ -74,7 +73,7 @@
 
   security.sudo.enable = true;
 
-  security.apparmor.enable = true; # Enable AppArmor for Snap confinement
+  security.apparmor.enable = true;
 
   # Activation scripts
   # Reinstall rEFInd and re-sign it after every rebuild (chainloads lanzaboote's
@@ -187,8 +186,8 @@
     deps = [ ];
   };
 
-  # forces COSMIC's own dark mode flag on every rebuild (stylix has no target for
-  # COSMIC's native theme daemon so this is a manual pin)
+  # forces COSMIC's own dark mode flag on every rebuild because its native theme
+  # daemon does not follow the GNOME color-scheme setting
   system.activationScripts.forceCosmicDark = {
     text = ''
       target=/home/ayaan_mirza/.config/cosmic/com.system76.CosmicTheme.Mode/v1/is_dark
