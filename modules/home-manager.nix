@@ -21,7 +21,6 @@
         ./home-manager/vscode.nix
         ./home-manager/services.hm.nix
         ./home-manager/niri.config.nix
-        ./home-manager/fx-autoconfig.hm.nix
         ./home-manager/nixcord.nix
 
         # Upstream Home Manager modules
