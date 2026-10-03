@@ -100,6 +100,7 @@
   # Kernel, hibernation, and boot appearance
   boot.plymouth = {
     enable = true;
+    theme = lib.mkForce "mac-style";
     themePackages = [ pkgs.mac-style-plymouth ];
   };
   boot.initrd.systemd.enable = true;
