@@ -95,6 +95,7 @@ let
       espeak
       unzip
       libsForQt5.qtstyleplugin-kvantum
+      matugen
     ];
 
     # Keyring, authentication, and password tools.
