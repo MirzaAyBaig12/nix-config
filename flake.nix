@@ -83,7 +83,7 @@
     nix-monitor.url = "github:antonjah/nix-monitor";
 
     # 17. Free Download Manager package.
-    nix-fdm.url = "github:j-a-sunny/nix-FDM";
+    nix-fdm.url = "github:QaisAlsaid/fdm-nix";
 
     # 18. Browser config.js files used by Natsumi and LibreWolf; update with: nix flake update fx-autoconfig
     fx-autoconfig = {
@@ -178,6 +178,9 @@
 
             # DankMaterialShell
             inputs.dms.nixosModules.dank-material-shell
+
+            # Home Manager integration
+            inputs.home-manager.nixosModules.default
 
             # Plymouth overlay
             {
