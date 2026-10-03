@@ -38,7 +38,6 @@ in
     # Don't let stylix auto-theme every target (chromium etc). Catppuccin handles
     # that (see the catppuccin block above), stylix only does what's explicitly enabled.
     autoEnable = false;
-    plymouth.enable = false; #Disabe plymouth for Stylix as well
 
     # Cursor theme
     cursor = {
@@ -91,6 +90,7 @@ in
     targets.gtk.enable = false;
     targets.qt.enable = false;
     targets.chromium.enable = false;
+    targets.plymouth.enable = false; #Disabe plymouth for Stylix as well
 
     # these two targets set nixpkgs.overlays internally which throws the
     # "nixpkgs.config/overlays set while useGlobalPkgs" warning. nixos-icons is
