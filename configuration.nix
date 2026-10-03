@@ -23,9 +23,6 @@
     ./modules/stylix.nix
     ./modules/flatpak.nix
     ./modules/niri.nix
-
-    # Home Manager integration
-    inputs.home-manager.nixosModules.default
     ./modules/home-manager.nix
   ];
 
