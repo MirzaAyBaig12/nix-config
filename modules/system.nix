@@ -17,7 +17,7 @@
     XCURSOR_THEME = "Bibata-Material-Lilac";
     XCURSOR_SIZE = "30";
     NIXOS_INSTALL_BOOTLOADER = "true";
-    QT_QPA_PLATFORMTHEME = "qt6ct";
+    QT_QPA_PLATFORMTHEME = lib.mkForce "qt5ct";
   };
 
   # Graphical and user session environment
@@ -100,7 +100,6 @@
   # Kernel, hibernation, and boot appearance
   boot.plymouth = {
     enable = true;
-    theme = lib.mkForce "mac-style";
     themePackages = [ pkgs.mac-style-plymouth ];
   };
   boot.initrd.systemd.enable = true;
