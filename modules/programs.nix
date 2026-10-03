@@ -40,6 +40,7 @@ let
       obsidian
       ferdium
       onlyoffice-desktopeditors
+      dankcalendar
     ];
 
     # Chat and communication clients.
