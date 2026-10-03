@@ -21,7 +21,6 @@
     ./modules/programs.nix
     ./modules/services.nix
     ./modules/stylix.nix
-    ./modules/catppuccin.nix
     ./modules/flatpak.nix
     ./modules/niri.nix
 
