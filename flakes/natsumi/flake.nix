@@ -19,7 +19,7 @@
     # `nix flake update natsumi`. Check https://github.com/greeeen-dev/natsumi-browser/tags
     # for what's available.
     natsumi = {
-      url = "github:greeeen-dev/natsumi-browser/v6.12.2";
+      url = "github:greeeen-dev/natsumi-browser/v6.12.3";
       flake = false;
     };
   };
@@ -97,7 +97,13 @@
               unwrapped = pkgs.librewolf-unwrapped;
               wrapper = pkgs.wrapFirefox;
               displayName = "LibreWolf";
-              profilesDirectory = "${homeDir}/.librewolf";
+              # NOT ~/.librewolf -- confirmed on Axiom: LibreWolf profiles
+              # live under the XDG config path. (Native messaging host
+              # manifests are a separate, unrelated discovery path --
+              # that one IS ~/.librewolf/native-messaging-hosts/, handled
+              # internally by wrapFirefox's own nativeMessagingHosts arg,
+              # not this option.)
+              profilesDirectory = "${homeDir}/.config/librewolf/librewolf";
             };
             floorp = {
               # floorp/floorp-unwrapped are both throw-aliases pointing at
@@ -154,6 +160,14 @@
                 ++ (cfg.wrapperArgs.extraPrefsFiles or [ ]);
               extraPrefs = (cfg.wrapperArgs.extraPrefs or "")
                 + updaterDisabledPref + darkModeFixPref;
+              # wrapFirefox has first-class support for this (confirmed
+              # directly in nixpkgs' own programs.firefox module source:
+              # it's passed straight through, same shape as
+              # extraPrefsFiles) -- it handles wiring the manifests to
+              # wherever the wrapped browser actually looks for them
+              # internally, no manual /etc wiring needed on our end.
+              nativeMessagingHosts = cfg.nativeMessagingHosts
+                ++ (cfg.wrapperArgs.nativeMessagingHosts or [ ]);
             });
 
           # ---- method 2: direct patch of a prebuilt package --------------
@@ -542,6 +556,21 @@
                   Off by default.
                 '';
               };
+            };
+
+            nativeMessagingHosts = mkOption {
+              type = types.listOf types.package;
+              default = [ ];
+              example = literalExpression "[ pkgs.firefoxpwa ]";
+              description = ''
+                Packages providing native messaging hosts (e.g.
+                `pkgs.firefoxpwa`) to make available to extensions. Only
+                takes effect for `method = "wrapFirefox"` browsers
+                (Firefox, LibreWolf) -- passed straight through to
+                `wrapper`'s own `nativeMessagingHosts` argument, same as
+                `programs.firefox.nativeMessagingHosts.packages` would.
+                Not yet supported for `directPatch` browsers (Floorp).
+              '';
             };
 
             browser = mkOption {
