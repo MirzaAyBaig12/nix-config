@@ -10,6 +10,7 @@
     "fr.arnaudmichel.launcherstudio"
     "io.github.cosmic_utils.camera"
     "io.github.flattool.Warehouse"
+    "io.github.hkdb.Aerion"
     "io.github.kolunmi.Bazaar"
     "io.github.peazip.PeaZip"
     "io.github.screwys.Rufin"

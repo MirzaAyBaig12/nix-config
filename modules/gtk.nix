@@ -83,6 +83,14 @@ pkgs.stdenvNoCC.mkDerivation {
       --size standard \
       --dest "$out/share/themes"
 
+    # Upstream's mauve variant only recolors the named accent colors; the
+    # suggested-action buttons (Install, Select, ...) still hardcode Catppuccin
+    # blue. Recolor those (base, hover and focus shades) to mauve.
+    find "$out/share/themes" -type f -name '*.css' -exec sed -i \
+      -e 's/#89b4fa/#cba6f7/g' \
+      -e 's/rgba(137, 180, 250,/rgba(203, 166, 247,/g' \
+      -e 's/rgba(110, 143, 199, 0.961)/rgba(162, 133, 198, 0.961)/g' {} +
+
     jdupes --quiet --link-soft --recurse "$out/share"
 
     runHook postInstall
