@@ -221,24 +221,16 @@ in
   programs.gamemode.enable = true;
 
   # Browsers
-  programs.firefox = {
-    enable = true;
-    package = pkgs.librewolf.override (old: {
-      extraPrefsFiles = (old.extraPrefsFiles or [ ]) ++ [ "${inputs.fx-autoconfig}/program/config.js" ];
-      extraPrefs = (old.extraPrefs or "") + ''
-        defaultPref("privacy.resistFingerprinting", false);
-        defaultPref("privacy.fingerprintingProtection", true);
-        defaultPref("privacy.fingerprintingProtection.overrides", "+AllTargets,-CSSPrefersColorScheme");
-      '';
-    });
-    nativeMessagingHosts.packages = [ pkgs.firefoxpwa ];
-  };
-  environment.etc."firefox/policies/policies.json".target = "librewolf/policies/policies.json";
+  # LibreWolf, fully through programs.natsumi -- replaces the old
+  # programs.firefox + pkgs.librewolf.override block. fx-autoconfig's
+  # config.js and the dark-mode fingerprinting-protection override are
+  # both handled by the module itself now (flakes/natsumi/flake.nix).
   programs.natsumi = {
     enable = true;
-    browser = "firefox";
+    browser = "librewolf";
     homeDirectory = "/home/ayaan_mirza";
-    profile = "x9ezxqe3.default-default";
+    profile = "f4jwAmgv.Profile 1";
+    librewolf.DarkModeFix = true;
   };
 
   # App compatibility and desktop integrations
