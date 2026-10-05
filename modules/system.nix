@@ -18,6 +18,7 @@
     XCURSOR_SIZE = "30";
     NIXOS_INSTALL_BOOTLOADER = "true";
     QT_QPA_PLATFORMTHEME = lib.mkForce "qt5ct";
+    GTK_THEME = "Catppuccin-Mauve-Dark";
   };
 
   # Graphical and user session environment
