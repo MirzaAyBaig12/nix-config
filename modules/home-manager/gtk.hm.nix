@@ -9,12 +9,15 @@ let
   themeName = "Catppuccin-Mauve-Dark";
   themeSrc = "${config.gtk.theme.package}/share/themes/${themeName}";
 
-  # Package the Python recoloring script cleanly into the Nix store
+  # Linter-compliant Python script using pkgs.writers.writePython3
   rotateBlueScript = pkgs.writers.writePython3 "rotate-blue.py" { } ''
-    import colorsys, re, sys
+    import colorsys
+    import re
+    import sys
 
     MAUVE = (203, 166, 247)  # #cba6f7
     BASE = (30, 30, 46)      # #1e1e2e
+
 
     def rotate(r, g, b):
         h, l, s = colorsys.rgb_to_hls(r / 255, g / 255, b / 255)
@@ -23,10 +26,12 @@ let
         t = min(1.0, max(0.0, (l - 0.15) / (0.75 - 0.15)))
         return tuple(round(BASE[i] * (1 - t) + MAUVE[i] * t) for i in range(3))
 
+
     def hex_sub(m):
         v = m.group(1)
         out = rotate(*(int(v[i:i + 2], 16) for i in (0, 2, 4)))
         return m.group(0) if out is None else "#%02x%02x%02x" % out
+
 
     def rgb_sub(m):
         r, g, b = int(m.group(2)), int(m.group(3)), int(m.group(4))
@@ -36,11 +41,13 @@ let
         tail = m.group(5) or ""
         return "%s(%d, %d, %d%s)" % (m.group(1), *out, tail)
 
+
     EXACT = (
         ("#89b4fa", "#cba6f7"),
         ("rgba(137, 180, 250,", "rgba(203, 166, 247,"),
         ("rgba(110, 143, 199, 0.961)", "rgba(162, 133, 198, 0.961)"),
     )
+
 
     def process(text):
         for a, b in EXACT:
@@ -50,6 +57,7 @@ let
             r"(rgba?)\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(,\s*[\d.]+\s*)?\)",
             rgb_sub, text)
         return text
+
 
     if __name__ == "__main__":
         for path in sys.argv[1:]:
@@ -77,7 +85,6 @@ let
   '';
 in
 {
-  # stop home-manager from symlinking these; the activation script owns them[cite: 1]
   xdg.configFile."gtk-4.0/gtk.css".enable = lib.mkForce false;
   xdg.configFile."gtk-4.0/settings.ini".enable = lib.mkForce false;
   xdg.configFile."gtk-3.0/settings.ini".enable = lib.mkForce false;
@@ -93,19 +100,16 @@ in
       install -m644 ${settingsIni} "$cfg/gtk-4.0/settings.ini"
       install -m644 ${settingsIni} "$cfg/gtk-3.0/settings.ini"
 
-      # libadwaita: theme css imported relatively from gtk.css[cite: 1]
       rm -rf "$cfg/gtk-4.0/catppuccin"
       mkdir -p "$cfg/gtk-4.0/catppuccin"
       cp -rL --no-preserve=mode,ownership ${themeSrc}/gtk-4.0/. "$cfg/gtk-4.0/catppuccin/"
 
-      # GTK3 flatpaks: theme must live in xdg-data/themes (exposed by the flatpak override)[cite: 1]
       rm -rf "$theme"
       mkdir -p "$theme"
       cp -rL --no-preserve=mode,ownership ${themeSrc}/gtk-3.0 ${themeSrc}/gtk-4.0 ${themeSrc}/index.theme "$theme/"
 
       chmod -R u+w "$cfg/gtk-4.0/catppuccin" "$theme"
 
-      # Run the Python script to recolor blue accents to mauve in all copied CSS files
       find "$cfg/gtk-4.0/catppuccin" "$theme" -type f -name "*.css" -exec ${rotateBlueScript} {} +
     fi
   '';
