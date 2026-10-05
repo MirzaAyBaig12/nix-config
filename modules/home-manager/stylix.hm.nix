@@ -153,6 +153,101 @@ in
           --popover-fg-color: #cdd6f4;
           --accent-bg-color: #cba6f7;
           --accent-fg-color: #1e1e2e;
+        --accent-color: #cba6f7;
+        --accent-standalone-color: #cba6f7;
+        --blue-1: #cba6f7;
+        --blue-2: #ae90d6;
+        --blue-3: #9279b4;
+        --blue-4: #7d689c;
+        --blue-5: #675883;
+        }
+
+        selection,
+        text > selection,
+        text selection,
+        entry > text > selection,
+        entry.search > text > selection,
+        entry text selection,
+        textview text selection,
+        label > selection,
+        spinbutton > text > selection,
+        .view selection {
+          background-color: #cba6f7;
+          color: #1e1e2e;
+        }
+
+        text > selection:focus-within,
+        text:focus-within > selection,
+        entry:focus-within > text > selection,
+        textview:focus-within text selection {
+          background-color: #cba6f7;
+          color: #1e1e2e;
+        }
+
+        entry:focus-within,
+        entry.search:focus-within {
+          outline: 2px solid #cba6f7;
+          outline-offset: -2px;
+        }
+
+        /* tab/toggle switchers: soft tint + mauve text, same as selected sidebar rows */
+        toggle-group toggle:checked,
+        toggle-group > toggle:checked,
+        toggle-group button.toggle:checked,
+        .toggle-group button:checked,
+        viewswitcher button:checked,
+        viewswitcher > button:checked {
+          background-color: alpha(@accent_bg_color, 0.16);
+          color: @accent_color;
+          font-weight: 500;
+        }
+
+        toggle-group toggle:checked:hover,
+        toggle-group > toggle:checked:hover,
+        toggle-group button.toggle:checked:hover,
+        .toggle-group button:checked:hover,
+        viewswitcher button:checked:hover,
+        viewswitcher > button:checked:hover {
+          background-color: alpha(@accent_bg_color, 0.22);
+          color: @accent_color;
+        }
+
+        /* unfocused (backdrop) windows: text falls back to the light default, which
+           disappears on solid mauve fills. keep the dark on-accent text there too. */
+        button:checked:backdrop,
+        button:checked:backdrop *,
+        button.suggested-action:backdrop,
+        button.suggested-action:backdrop *,
+        button.opaque:backdrop,
+        button.opaque:backdrop *,
+        viewswitcher button.toggle:checked:backdrop,
+        viewswitcher button.toggle:checked:backdrop *,
+        stackswitcher button:checked:backdrop,
+        stackswitcher button:checked:backdrop * {
+          color: #1e1e2e;
+        }
+
+        /* soft-tint toggles keep mauve text when unfocused */
+        toggle-group toggle:checked:backdrop,
+        toggle-group toggle:checked:backdrop *,
+        toggle-group > toggle:checked:backdrop,
+        toggle-group > toggle:checked:backdrop * {
+          color: @accent_color;
+        }
+
+        /* Bazaar tiles + featured banner: keep rounded corners at every window width */
+        button.card.app-tile,
+        button.card.category-tile,
+        .card.app-tile,
+        .card.category-tile,
+        .card.featured-carousel,
+        .featured-carousel {
+          border-radius: 12px;
+        }
+
+        .card.featured-carousel,
+        .featured-carousel {
+          overflow: hidden;
         }
       '';
     };
