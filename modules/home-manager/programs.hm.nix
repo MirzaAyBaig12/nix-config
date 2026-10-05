@@ -1,5 +1,6 @@
 { 
-  pkgs, 
+  pkgs,
+  inputs, 
   ... 
 }:
 
@@ -13,6 +14,8 @@
     gtk2
     qt6Packages.qt6ct
     libsForQt5.qt5ct
+
+    inputs.nix-ext-packages.packages.${pkgs.system}.sklauncher
   ];
 
   # DankSearch, file search plugin that powers the DMS launcher results
