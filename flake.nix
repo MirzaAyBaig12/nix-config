@@ -83,7 +83,7 @@
     nix-monitor.url = "github:antonjah/nix-monitor";
 
     # 17. Free Download Manager package.
-    nix-fdm.url = "github:QaisAlsaid/fdm-nix";
+    fdm-nix.url = "github:QaisAlsaid/fdm-nix";
 
     # 18. Browser config.js files used by Natsumi and LibreWolf; update with: nix flake update fx-autoconfig
     fx-autoconfig = {
@@ -130,6 +130,9 @@
 
     # 28. Brave Orgin Flake.
     brave-origin.url = "github:tekq/brave-origin-flake";
+
+    # 29. My Personal flake of External AppImages
+    nix-ext-packages.url = "github:MirzaAyBaig12/nix-ext-packages";
   };
 
   outputs =
@@ -161,7 +164,10 @@
             ./configuration.nix
 
             {
-              nixpkgs.hostPlatform = "x86_64-linux";
+              nixpkgs = {
+                hostPlatform = "x86_64-linux";
+                config.allowUnfree = true;
+              };
             }
 
             # Declarative Flatpak

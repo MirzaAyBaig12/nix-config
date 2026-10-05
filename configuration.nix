@@ -34,7 +34,6 @@
   
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.settings.trusted-users = [ "root" "ayaan_mirza" ];
-  nixpkgs.config.allowUnfree = true;
 
   # Locale and system version
   time.timeZone = "America/Vancouver";
