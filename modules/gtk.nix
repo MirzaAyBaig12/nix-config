@@ -48,6 +48,67 @@ let
     strictDeps = true;
     meta.platforms = pkgs.lib.platforms.linux;
   };
+
+  # Recolors every blue-ish color in the theme css to Catppuccin mauve (see the
+  # comment in installPhase). Linted by writePython3, so keep it flake8-clean.
+  rotateBlue = pkgs.writers.writePython3 "rotate-blue" { } ''
+    import colorsys
+    import re
+    import sys
+
+    MAUVE = (203, 166, 247)  # #cba6f7
+    BASE = (30, 30, 46)      # #1e1e2e
+
+
+    def rotate(r, g, b):
+        h, l, s = colorsys.rgb_to_hls(r / 255, g / 255, b / 255)
+        if not (200 <= h * 360 <= 262 and s >= 0.35 and 0.10 < l < 0.97):
+            return None
+        t = min(1.0, max(0.0, (l - 0.15) / (0.75 - 0.15)))
+        return tuple(round(BASE[i] * (1 - t) + MAUVE[i] * t) for i in range(3))
+
+
+    def hex_sub(m):
+        v = m.group(1)
+        out = rotate(*(int(v[i:i + 2], 16) for i in (0, 2, 4)))
+        return m.group(0) if out is None else "#%02x%02x%02x" % out
+
+
+    def rgb_sub(m):
+        r, g, b = int(m.group(2)), int(m.group(3)), int(m.group(4))
+        out = rotate(r, g, b)
+        if out is None:
+            return m.group(0)
+        tail = m.group(5) or ""
+        return "%s(%d, %d, %d%s)" % (m.group(1), *out, tail)
+
+
+    EXACT = (
+        ("#89b4fa", "#cba6f7"),
+        ("rgba(137, 180, 250,", "rgba(203, 166, 247,"),
+        ("rgba(110, 143, 199, 0.961)", "rgba(162, 133, 198, 0.961)"),
+    )
+
+
+    def process(text):
+        for a, b in EXACT:
+            text = re.sub(re.escape(a), b, text, flags=re.I)
+        text = re.sub(r"#([0-9a-fA-F]{6})\b", hex_sub, text)
+        text = re.sub(
+            r"(rgba?)\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(,\s*[\d.]+\s*)?\)",
+            rgb_sub, text)
+        return text
+
+
+    if __name__ == "__main__":
+        for path in sys.argv[1:]:
+            with open(path) as f:
+                old = f.read()
+            new = process(old)
+            if new != old:
+                with open(path, "w") as f:
+                    f.write(new)
+  '';
 in
 pkgs.stdenvNoCC.mkDerivation {
   pname = "catppuccin-mauve-dark-gtk";
@@ -83,13 +144,12 @@ pkgs.stdenvNoCC.mkDerivation {
       --size standard \
       --dest "$out/share/themes"
 
-    # Upstream's mauve variant only recolors the named accent colors; the
-    # suggested-action buttons (Install, Select, ...) still hardcode Catppuccin
-    # blue. Recolor those (base, hover and focus shades) to mauve.
-    find "$out/share/themes" -type f -name '*.css' -exec sed -i \
-      -e 's/#89b4fa/#cba6f7/g' \
-      -e 's/rgba(137, 180, 250,/rgba(203, 166, 247,/g' \
-      -e 's/rgba(110, 143, 199, 0.961)/rgba(162, 133, 198, 0.961)/g' {} +
+    # Upstream's mauve variant only recolors the named accent colors; plenty of
+    # hardcoded blues remain (suggested-action buttons, libadwaita's blue_N
+    # palette, app tiles, ...). Rotate every blue-ish color to mauve, keeping
+    # lightness/saturation/alpha.
+    find "$out/share/themes" -type f -name '*.css' -print0 \
+      | xargs -0 ${rotateBlue}
 
     jdupes --quiet --link-soft --recurse "$out/share"
 
