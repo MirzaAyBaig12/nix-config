@@ -15,6 +15,7 @@
         # Repository modules
         ./home-manager/programs.hm.nix
         ./home-manager/stylix.hm.nix
+        ./home-manager/gtk.hm.nix
         ./home-manager/fastfetch.nix
         ./home-manager/zsh.nix
         ./home-manager/nixd.nix
