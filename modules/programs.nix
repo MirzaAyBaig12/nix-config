@@ -97,6 +97,7 @@ let
       unzip
       libsForQt5.qtstyleplugin-kvantum
       matugen
+      iloader
     ];
 
     # Keyring, authentication, and password tools.
@@ -137,8 +138,7 @@ let
         checkPhase = "echo skipping winpodx tests";
         installCheckPhase = "echo skipping winpodx tests";
       }))
-      inputs.nix-fdm.packages.${pkgs.system}.default
-      inputs.iloader.packages.${pkgs.system}.default
+      inputs.fdm-nix.packages.${pkgs.system}.default
     ];
 
     # Command line coding agents.
