@@ -55,7 +55,7 @@
       # Force dark mode + Papirus-Dark icons for every Flatpak app.
       Environment = {
         ADW_DEBUG_COLOR_SCHEME = "prefer-dark";
-        GTK_THEME = "Catppuccin-GTK-Dark";
+        GTK_THEME = "Catppuccin-Mauve-Dark";
         ICON_THEME = "Papirus-Dark";
       };
     };
