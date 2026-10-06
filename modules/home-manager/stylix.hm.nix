@@ -245,9 +245,16 @@ in
           border-radius: 12px;
         }
 
-        .card.featured-carousel,
-        .featured-carousel {
-          overflow: hidden;
+        /* dialog scrim: the theme defines shade_color as light (white 12%), so libadwaita's
+           dialog dimming lightens the window behind a dialog instead of darkening it and
+           the sheet shadow disappears. restore libadwaita's dark shade for dialogs. */
+        dialog-host > dialog {
+          --shade-color: rgb(0 0 6 / 25%);
+        }
+
+        floating-sheet > dimming,
+        bottom-sheet > dimming {
+          background-color: rgb(0 0 6 / 50%);
         }
       '';
     };
