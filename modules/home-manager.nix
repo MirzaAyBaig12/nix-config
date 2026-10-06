@@ -23,6 +23,7 @@
         ./home-manager/services.hm.nix
         ./home-manager/niri.config.nix
         ./home-manager/nixcord.nix
+        ./home-manager/web-apps.nix
 
         # Upstream Home Manager modules
         inputs.danksearch.homeModules.dsearch
