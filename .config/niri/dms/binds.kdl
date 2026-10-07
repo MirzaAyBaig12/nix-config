@@ -4,7 +4,7 @@ binds {
     Alt+Ctrl+L allow-when-locked=true hotkey-overlay-title="Power Menu: Toggle" { spawn "dms" "ipc" "call" "powermenu" "toggle"; }
     Alt+Space hotkey-overlay-title="Spotlight Bar" { spawn "dms" "ipc" "call" "spotlight-bar" "toggle"; }
     Ctrl+Alt+Delete hotkey-overlay-title="Task Manager" { spawn "dms" "ipc" "call" "processlist" "focusOrToggle"; }
-    Ctrl+Shift+R hotkey-overlay-title="Rename Workspace" { spawn "dms" "ipc" "call" "workspace-rename" "open"; }
+    Ctrl+Shift+W hotkey-overlay-title="Rename Workspace" { spawn "dms" "ipc" "call" "workspace-rename" "open"; }
     Ctrl+XF86AudioLowerVolume allow-when-locked=true { spawn "dms" "ipc" "call" "mpris" "decrement" "3"; }
     Ctrl+XF86AudioRaiseVolume allow-when-locked=true { spawn "dms" "ipc" "call" "mpris" "increment" "3"; }
     Mod+Alt+L hotkey-overlay-title="Lock Screen" { spawn "dms" "ipc" "call" "lock" "lock"; }
@@ -65,7 +65,6 @@ binds {
     Mod+Shift+WheelScrollDown { focus-workspace-down; }
     Mod+Shift+WheelScrollUp { focus-workspace-up; }
     Mod+U { focus-workspace-down; }
-    Alt+Ctrl+Shift+F hotkey-overlay-title="Toggle Floating" { toggle-window-floating; }
     Alt+Print { screenshot-window; }
     Alt+XF86Launch1 { screenshot-window; }
     Mod+BracketLeft { consume-or-expel-window-left; }
@@ -138,8 +137,10 @@ binds {
     Alt+Ctrl+C hotkey-overlay-title="Open Claude Desktop" { spawn "claude-desktop"; }
     Alt+Ctrl+N hotkey-overlay-title="Open Obsidian" { spawn "obsidian"; }
     Alt+Ctrl+Shift+C hotkey-overlay-title="Open ChatGPT" { spawn "chatgpt"; }
+    Alt+Ctrl+Shift+F hotkey-overlay-title="Toggle Ferdium" { spawn "ferdium"; }
     Alt+Ctrl+Shift+S hotkey-overlay-title="Screenshot" { spawn "sh" "-c" "grim -g \"$(slurp)\" - | satty --filename - --early-exit --copy-command wl-copy"; }
     Alt+Ctrl+Shift+V { spawn "vesktop"; }
+    Alt+Ctrl+T hotkey-overlay-title="Open Teams" { spawn "teams-for-linux"; }
     Alt+Ctrl+V hotkey-overlay-title="Launch Visual Studio Code" { spawn "code"; }
     Mod+Alt+Shift+P allow-when-locked=true hotkey-overlay-title="Power Off" { spawn "sh" "-c" "systemctl poweroff"; }
     Mod+T hotkey-overlay-title="Open Terminal" { spawn "ghostty"; }
