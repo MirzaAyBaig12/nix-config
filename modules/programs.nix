@@ -46,6 +46,7 @@ let
     # Chat and communication clients.
     communication = [
       vesktop
+      teams-for-linux
     ];
 
     # Audio and video playback.
