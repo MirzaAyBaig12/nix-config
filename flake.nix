@@ -34,104 +34,98 @@
     winpodx.url = "github:kernalix7/winpodx";
     winpodx.inputs.nixpkgs.follows = "nixpkgs";
 
-    # 7. NixOS configuration editor (declared here; no use found in the current config).
-    nixos-conf-editor.url = "github:snowfallorg/nixos-conf-editor";
-
-    # 8. iLoader application package.
-    iloader.url = "github:nab138/iloader";
-    
-    # 9. Home Manager modules for declarative user environment configuration.
+    # 7. Home Manager modules for declarative user environment configuration.
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # 10. Secure Boot support and bootloader integration for NixOS.
+    # 8. Secure Boot support and bootloader integration for NixOS.
     lanzaboote = {
       url = "github:nix-community/lanzaboote";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # 11. CLI coding agents, including Codex, Claude Code, and OpenCode.
+    # 9. CLI coding agents, including Codex, Claude Code, and OpenCode.
     llm-agents.url = "github:numtide/llm-agents.nix";
 
-    # 12. DankSearch Home Manager module for file search.
+    # 10. DankSearch Home Manager module for file search.
     danksearch.url = "github:AvengeMedia/danksearch";
     danksearch.inputs.nixpkgs.follows = "nixpkgs";
 
-    # 13. DankGreeter login manager module. Use this flake's module rather than nixpkgs' vendored one:
+    # 11. DankGreeter login manager module. Use this flake's module rather than nixpkgs' vendored one:
     # cuz nixpkgs' version left /var/lib/dms-greeter owned by nobody:nogroup instead
     # of the dms-greeter user, which crash looped the greeter on "permission denied"
     # extracting the embedded UI. the flake's module doesnt have that problem
     dank-greeter.url = "github:AvengeMedia/dank-greeter";
     dank-greeter.inputs.nixpkgs.follows = "nixpkgs";
 
-    # 14. DankMaterialShell desktop shell and NixOS module. Use this flake's module rather than nixpkgs'
+    # 12. DankMaterialShell desktop shell and NixOS module. Use this flake's module rather than nixpkgs'
     # vendored one, same reason as dank-greeter above
     dms = {
       url = "github:AvengeMedia/DankMaterialShell/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # 15. dgop system monitoring utility (declared here; no use found in the current config).
+    # 13. dgop system monitoring utility (declared here; no use found in the current config).
     dgop = {
       url = "github:AvengeMedia/dgop";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # 16. Home Manager module for monitoring Nix builds and system activity.
+    # 14. Home Manager module for monitoring Nix builds and system activity.
     nix-monitor.url = "github:antonjah/nix-monitor";
 
-    # 17. Free Download Manager package.
+    # 15. Free Download Manager package.
     fdm-nix.url = "github:QaisAlsaid/fdm-nix";
 
-    # 18. Browser config.js files used by Natsumi and LibreWolf; update with: nix flake update fx-autoconfig
+    # 16. Browser config.js files used by Natsumi and LibreWolf; update with: nix flake update fx-autoconfig
     fx-autoconfig = {
       url = "github:MrOtherGuy/fx-autoconfig";
       flake = false;
     };
 
-    # 19. Local Natsumi browser-theme module; combines fx-autoconfig with the theme for the selected browser.
+    # 17. Local Natsumi browser-theme module; combines fx-autoconfig with the theme for the selected browser.
     natsumi = {
       url = "path:./flakes/natsumi";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # 20. Larger VS Code extension collection from the Marketplace and Open VSX.
+    # 18. Larger VS Code extension collection from the Marketplace and Open VSX.
     nix-vscode-extensions = {
       url = "github:nix-community/nix-vscode-extensions";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # 21. Catppuccin theme modules for NixOS and Home Manager.
+    # 19. Catppuccin theme modules for NixOS and Home Manager.
     catppuccin.url = "github:catppuccin/nix";
 
-    # 22. Pinned Catppuccin GTK theme source used to build the local GTK theme package; pin independently of the
+    # 20. Pinned Catppuccin GTK theme source used to build the local GTK theme package; pin independently of the
     # machine-local clone and fetch it as a plain source tree (not a flake).
     catppuccinGtkTheme = {
       url = "github:Fausto-Korpsvart/Catppuccin-GTK-Theme/a0f69cc33299dc97267c3507fe8a001aecc46b0f";
       flake = false;
     };
 
-    # 23. Home Manager module for configuring Vencord in Discord clients.
+    # 21. Home Manager module for configuring Discord clients.
     nixcord.url = "github:4evy/nixcord";
 
-    # 24. Blip desktop shell module.
+    # 22. Blip desktop shell module.
     blip.url = "github:blip-net/nix";
 
-    # 25. Containerpak NixOS module for managing containerized applications.
+    # 23. Containerpak NixOS module for managing containerized applications.
     cpak.url = "github:Containerpak/cpak/v2";
 
-    # 26. ChatGPT Desktop package.
+    # 24. ChatGPT Desktop package.
     chatgpt-desktop.url = "github:alioguzhan/chatgpt-desktop-flake";
 
-    # 27. Helium browser package.
+    # 25. Helium browser package.
     helium.url = "github:amaanq/helium-flake";
 
-    # 28. Brave Orgin Flake.
+    # 26. Brave Orgin Flake.
     brave-origin.url = "github:tekq/brave-origin-flake";
 
-    # 29. My Personal flake of External AppImages
+    # 27. My Personal flake of External AppImages
     nix-ext-packages.url = "github:MirzaAyBaig12/nix-ext-packages";
   };
 
@@ -191,20 +185,29 @@
             # Plymouth overlay
             {
               nixpkgs.overlays = [
-                (final: prev: {inherit (prev.lixPackageSets.stable)
-                nixpkgs-review nix-eval-jobs nix-fast-build colmena;})
-                (final: prev: {
-                  # Round the Catppuccin theme in place while retaining its upstream
-                  # theme name, files, palette, and Catppuccin module selection.
-                  catppuccin-kvantum = prev.catppuccin-kvantum.overrideAttrs (old: {
-                    postInstall = (old.postInstall or "") + ''
-                      for config in "$out"/share/Kvantum/catppuccin-*/*.kvconfig; do
-                        sed -i '/^\[PanelButtonCommand\]$/a frame.expansion=16' "$config"
-                        sed -i '/^\[Menu\]$/a frame.expansion=16' "$config"
-                      done
-                    '';
-                  });
-                })
+                (
+                  final: prev: {
+                    inherit (prev.lixPackageSets.stable)
+                      nixpkgs-review
+                      nix-eval-jobs
+                      nix-fast-build
+                      colmena;
+                  }
+                )
+                (
+                  final: prev: {
+                    # Round the Catppuccin theme in place while retaining its upstream
+                    # theme name, files, palette, and Catppuccin module selection.
+                    catppuccin-kvantum = prev.catppuccin-kvantum.overrideAttrs (old: {
+                      postInstall = (old.postInstall or "") + ''
+                        for config in "$out"/share/Kvantum/catppuccin-*/*.kvconfig; do
+                          sed -i '/^\[PanelButtonCommand\]$/a frame.expansion=16' "$config"
+                          sed -i '/^\[Menu\]$/a frame.expansion=16' "$config"
+                        done
+                      '';
+                    });
+                  }
+                )
                 mac-style-plymouth.overlays.default
                 claude-desktop.overlays.default
               ];
