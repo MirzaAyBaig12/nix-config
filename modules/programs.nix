@@ -87,6 +87,7 @@ let
     systemUtilities = [
       wget
       curl
+      icu
       htop
       baobab
       gnome-system-monitor
