@@ -48,6 +48,7 @@ let
     communication = [
       vesktop
       teams-for-linux
+      telegram-desktop
     ];
 
     # Audio and video playback.
