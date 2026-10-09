@@ -19,7 +19,7 @@
     # `nix flake update natsumi`. Check https://github.com/greeeen-dev/natsumi-browser/tags
     # for what's available.
     natsumi = {
-      url = "github:greeeen-dev/natsumi-browser/v6.12.3";
+      url = "github:greeeen-dev/natsumi-browser/v6.12.4";
       flake = false;
     };
   };
