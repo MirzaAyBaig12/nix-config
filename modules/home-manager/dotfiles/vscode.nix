@@ -129,6 +129,8 @@ in
           ".window-controls-container" = "display: none !important;";
         };
 
+        "explorer.confirmDragAndDrop" = false;
+
         # my purple accent, same purple as my gtk/cosmic theme everywhere
         # else on this machinq. layered on top of dracula for the specific
         # bits dracula itself doesn't touch (buttons, badges, activity bar).
