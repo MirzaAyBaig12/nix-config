@@ -33,6 +33,7 @@ let
       kdePackages.kate
       flutter
       distrobox
+
     ];
 
     # Notes, office work, and personal productivity.
@@ -64,7 +65,6 @@ let
     gaming = [
       gamemode
       winetricks
-      hydralauncher
       # Needed by hydralauncher/umu-run's Steam Runtime container.
       bubblewrap
     ];
@@ -127,10 +127,12 @@ let
 
     # Applications and packages supplied by other flakes.
     externalApps = [
+      # AI apps
       inputs.chatgpt-desktop.packages.${pkgs.stdenv.hostPlatform.system}.chatgpt
       claude-desktop-fhs
       opencode-desktop
-      config.custom.bibataMaterialCursor
+
+      # Windows compatibility
       (inputs.winpodx.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
         nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkgs.cacert ];
         env = (old.env or { }) // {
@@ -140,13 +142,19 @@ let
         checkPhase = "echo skipping winpodx tests";
         installCheckPhase = "echo skipping winpodx tests";
       }))
-      inputs.fdm-nix.packages.${pkgs.system}.default
+
+      # Utilities
+      inputs.fdm-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
+      inputs.LinuxFiles.packages.${pkgs.stdenv.hostPlatform.system}.default
+
+      # Theming
+      config.custom.bibataMaterialCursor
     ];
 
     # Command line coding agents.
     aiAgents = [
-      inputs.llm-agents.packages.${pkgs.system}.claude-code
-      inputs.llm-agents.packages.${pkgs.system}.opencode
+      inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code
+      inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.opencode
     ];
   };
 in

@@ -14,8 +14,10 @@
     gtk2
     qt6Packages.qt6ct
     libsForQt5.qt5ct
-
-    inputs.nix-ext-packages.packages.${pkgs.system}.sklauncher
+    
+    # Gaming
+    inputs.nix-ext-packages.packages.${pkgs.stdenv.hostPlatform.system}.hydra-launcher
+    inputs.nix-ext-packages.packages.${pkgs.stdenv.hostPlatform.system}.sklauncher
   ];
 
   # DankSearch, file search plugin that powers the DMS launcher results
