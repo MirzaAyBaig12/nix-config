@@ -127,6 +127,9 @@
 
     # 27. My Personal flake of External AppImages
     nix-ext-packages.url = "github:MirzaAyBaig12/nix-ext-packages";
+
+    # Linux Files
+    LinuxFiles.url = "github:MemerGamer/LinuxFiles";
   };
 
   outputs =
