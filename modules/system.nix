@@ -19,6 +19,9 @@
     NIXOS_INSTALL_BOOTLOADER = "true";
     QT_QPA_PLATFORMTHEME = lib.mkForce "qt5ct";
     GTK_THEME = "Catppuccin-Mauve-Dark";
+    LD_LIBRARY_PATH = lib.mkForce (
+      "/etc/sane-libs:${pkgs.icu}/lib"
+    );
   };
 
   # Graphical and user session environment
