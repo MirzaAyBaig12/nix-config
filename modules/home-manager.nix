@@ -16,14 +16,14 @@
         ./home-manager/programs.hm.nix
         ./home-manager/stylix.hm.nix
         ./home-manager/gtk.hm.nix
-        ./home-manager/fastfetch.nix
-        ./home-manager/zsh.nix
-        ./home-manager/nixd.nix
-        ./home-manager/vscode.nix
         ./home-manager/services.hm.nix
         ./home-manager/niri.config.nix
-        ./home-manager/nixcord.nix
-        ./home-manager/web-apps.nix
+        ./home-manager/dotfiles/fastfetch.nix
+        ./home-manager/dotfiles/nixcord.nix
+        ./home-manager/dotfiles/nixd.nix
+        ./home-manager/dotfiles/vscode.nix
+        ./home-manager/dotfiles/web-apps.nix
+        ./home-manager/dotfiles/zsh.nix
 
         # Upstream Home Manager modules
         inputs.danksearch.homeModules.dsearch
