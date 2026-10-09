@@ -727,7 +727,7 @@
       },
       "locked": {
         "lastModified": 1,
-        "narHash": "sha256-VqlDpxoEkh4h0JDm8rwcFaKW0DlopLbVSadpHuZfDx8=",
+        "narHash": "sha256-HsClmnkabDgwYmcDk74cprOd6McBKI4b/OMneH/Gn60=",
         "path": "./flakes/natsumi",
         "type": "path"
       },
@@ -739,16 +739,16 @@
     "natsumi_2": {
       "flake": false,
       "locked": {
-        "lastModified": 1790929085,
-        "narHash": "sha256-nPISVW2ccOyMOWuJX+fOU04WHwKVQhzhclw1PsiOgeI=",
+        "lastModified": 1791512525,
+        "narHash": "sha256-Ur0+WjTEEY9MpGNSfLD+QzT9rcAxhv0db+oQtyOABCM=",
         "owner": "greeeen-dev",
         "repo": "natsumi-browser",
-        "rev": "6002858f7766389a0b6a3bf0834e68ba56d603b3",
+        "rev": "d4e53042f3cd840babc38a2bc754225511f640b3",
         "type": "github"
       },
       "original": {
         "owner": "greeeen-dev",
-        "ref": "v6.12.3",
+        "ref": "v6.12.4",
         "repo": "natsumi-browser",
         "type": "github"
       }
