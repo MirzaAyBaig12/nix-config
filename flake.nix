@@ -87,7 +87,7 @@
 
     # 17. Local Natsumi browser-theme module; combines fx-autoconfig with the theme for the selected browser.
     natsumi = {
-      url = "path:./flakes/natsumi";
+      url = "github:MirzaAyBaig12/natsumi-browser?dir=nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
