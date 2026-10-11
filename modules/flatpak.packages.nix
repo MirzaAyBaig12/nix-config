@@ -24,6 +24,7 @@
     "org.mozilla.thunderbird_esr"
     "org.pvermeer.WebAppHub"
     "org.soundconverter.SoundConverter"
+    "org.vinegarhq.Sober"
     "page.codeberg.grinka.Transition"
     "space.bigrat.mocktail"
     "uk.co.cappsy.Tesseract"
