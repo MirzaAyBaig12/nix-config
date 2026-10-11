@@ -1,3 +1,4 @@
+
 {
   config,
   pkgs,
@@ -33,7 +34,6 @@ let
       kdePackages.kate
       flutter
       distrobox
-
     ];
 
     # Notes, office work, and personal productivity.
@@ -66,8 +66,11 @@ let
     gaming = [
       gamemode
       winetricks
+
       # Needed by hydralauncher/umu-run's Steam Runtime container.
       bubblewrap
+
+      chiaki-ng
     ];
 
     # File management, terminal, screenshots, and desktop themes.
@@ -133,16 +136,8 @@ let
       claude-desktop-fhs
       opencode-desktop
 
-      # Windows compatibility
-      (inputs.winpodx.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
-        nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkgs.cacert ];
-        env = (old.env or { }) // {
-          SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
-        };
-        doCheck = false;
-        checkPhase = "echo skipping winpodx tests";
-        installCheckPhase = "echo skipping winpodx tests";
-      }))
+      # Windows compatibility: patched by the nixpkgs overlay.
+      winpodx
 
       # Utilities
       inputs.fdm-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
@@ -159,9 +154,7 @@ let
     ];
   };
 in
-
 {
-
   # Keep installed applications grouped by purpose.
   environment.systemPackages =
     appPackages.browsers
@@ -186,34 +179,41 @@ in
 
   services.cpak.enable = true;
 
-  # Shell and desktop utilities
+  # Shell and desktop utilities.
   programs.zsh.enable = true; # config lives in modules/home-manager/zsh.nix
+
   programs.nh = {
     enable = true;
     clean.enable = true;
     clean.extraArgs = "--keep 3";
     flake = "/home/ayaan_mirza/nix-config";
   };
+
   programs.dconf.enable = true;
   programs.direnv.enable = true;
   programs.kdeconnect.enable = true;
 
-  # Container tools
+  # Container tools.
   virtualisation.podman = {
     enable = true;
     dockerCompat = false;
     defaultNetwork.settings.dns_enabled = true;
   };
+
   virtualisation.docker = {
     enable = true;
     autoPrune.enable = true;
   };
+
   users.users.ayaan_mirza.extraGroups = [
     "docker"
     "podman"
     "kvm"
   ];
-  virtualisation.containers.containersConf.settings.engine.image_copy_tmp_dir = lib.mkForce "/tmp";
+
+  virtualisation.containers.containersConf.settings.engine.image_copy_tmp_dir =
+    lib.mkForce "/tmp";
+
   system.userActivationScripts.winpodxConfig = ''
     cfg="$HOME/.config/winpodx/winpodx.toml"
     if [[ ! -f "$cfg" ]]; then
@@ -223,19 +223,17 @@ in
     fi
   '';
 
-  # Gaming
+  # Gaming.
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
   };
+
   programs.gamemode.enable = true;
 
-  # Browsers
-  # LibreWolf, fully through programs.natsumi -- replaces the old
-  # programs.firefox + pkgs.librewolf.override block. fx-autoconfig's
-  # config.js and the dark-mode fingerprinting-protection override are
-  # both handled by the module itself now (flakes/natsumi/flake.nix).
+  # Browsers.
+  # LibreWolf is configured through programs.natsumi.
   programs.natsumi = {
     enable = true;
     browser = "librewolf";
@@ -244,12 +242,14 @@ in
     librewolf.DarkModeFix = true;
   };
 
-  # App compatibility and desktop integrations
+  # App compatibility and desktop integrations.
   programs.appimage = {
     enable = true;
     binfmt = true;
   };
+
   programs.nix-ld.enable = true;
+
   programs.nix-ld.libraries = with pkgs; [
     stdenv.cc.cc
     zlib
@@ -259,6 +259,6 @@ in
     libGL
     fuse3
   ];
-  programs.blip.enable = true;
 
+  programs.blip.enable = true;
 }
