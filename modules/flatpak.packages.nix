@@ -28,6 +28,7 @@
     "page.codeberg.grinka.Transition"
     "space.bigrat.mocktail"
     "uk.co.cappsy.Tesseract"
+    "org.vinegarhq.Sober"
   ];
 
   cosmic = [
