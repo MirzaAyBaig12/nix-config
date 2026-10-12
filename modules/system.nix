@@ -77,6 +77,8 @@
     waydroid = "/usr/bin/python3 /usr/bin/waydroid";
     zsh-reload = "omz reload";
     enroll-tpm = "doas systemd-cryptenroll --wipe-slot=1 /dev/nvme0n1p6 && doas systemd-cryptenroll --tpm2-device=auto /dev/nvme0n1p6";
+    spf = "superfile";
+    rspf = "sudo superfile";
   };
 
   # Secure Boot and bootloader
