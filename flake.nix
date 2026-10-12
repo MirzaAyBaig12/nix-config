@@ -3,9 +3,13 @@
   description = "Комиссар Блятников's Nix Flake";
 
   nixConfig = {
-    extra-substituters = [ "https://look.cachix.org" ];
+    extra-substituters = [ 
+      "https://look.cachix.org"
+      "https://yazi.cachix.org"
+    ];
     extra-trusted-public-keys = [
       "look.cachix.org-1:8elPCeSVBzlDZXqIRKBK9GyLIK/Hoe1xiWZF0ir7uX4="
+      "yazi.cachix.org-1:Dcdz63NZKfvUCbDGngQDAZq6kOroIrFoyO064uvLh8k="
     ];
     extra-deprecated-features = [ "or-as-identifier" ];
   };
@@ -119,13 +123,23 @@
     helium.url = "github:amaanq/helium-flake";
 
     # 26. Brave Origin flake.
-    brave-origin.url = "github:tekq/brave-origin-flake";
+    brave-origin.url = "github:stardazed/brave-origin-flake";
 
     # 27. External AppImages.
     nix-ext-packages.url = "github:MirzaAyBaig12/nix-ext-packages";
 
     # Linux Files.
     LinuxFiles.url = "github:MemerGamer/LinuxFiles";
+
+    yazi.url = "github:sxyazi/yazi";
+
+
+    # 29. Base46 Neovim colorschemes and DMS/Matugen integration.
+    base46 = {
+      url = "github:AvengeMedia/base46/v3.0";
+      flake = false;
+    };
+
   };
 
   outputs =
@@ -211,27 +225,9 @@
                   }
                 )
 
-                # WinPodX and Chiaki-NG fixes.
+                # Chiaki-NG fixes.
                 (
                   final: prev: {
-                    # WinPodX: retain the upstream flake package as the base,
-                    # then apply the certificate and test overrides.
-                    winpodx =
-                      inputs.winpodx.packages.${final.stdenv.hostPlatform.system}.default
-                        .overrideAttrs (old: {
-                          nativeBuildInputs =
-                            (old.nativeBuildInputs or [ ])
-                            ++ [ final.cacert ];
-
-                          env = (old.env or { }) // {
-                            SSL_CERT_FILE =
-                              "${final.cacert}/etc/ssl/certs/ca-bundle.crt";
-                          };
-
-                          doCheck = false;
-                          checkPhase = "echo skipping winpodx tests";
-                          installCheckPhase = "echo skipping winpodx tests";
-                        });
 
                     # Chiaki-NG: unset the global Kvantum style override
                     # for this executable only.
