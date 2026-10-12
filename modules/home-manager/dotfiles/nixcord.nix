@@ -1,4 +1,8 @@
-{ inputs, ... }:
+{ 
+  inputs, 
+  ... 
+}:
+
 {
   # Vesktop client and enabled plugins
   programs.nixcord = {
@@ -29,7 +33,7 @@
         noTrack.enable = true;
         settings.enable = true;
         supportHelper.enable = true;
-        tenorGifSearch.enable = true;
+        gifProviderSwitcher.enable = true;
         translate.enable = true;
         webContextMenus.enable = true;
         webKeybinds = {
