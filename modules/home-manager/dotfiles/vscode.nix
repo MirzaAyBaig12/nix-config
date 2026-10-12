@@ -9,6 +9,7 @@
 let
   exts = (pkgs.extend inputs.nix-vscode-extensions.overlays.default).nix-vscode-extensions;
   marketplace = exts.vscode-marketplace;
+  marketplace-release = exts.vscode-marketplace-release;
   openvsx = exts.open-vsx;
 in
 {
@@ -31,13 +32,15 @@ in
       extensions =
         (with marketplace; [
           atommaterial.a-file-icon-vscode
-          github.remotehub
           kconway.vscode-undo-buttons
           ms-python.vscode-pylance
           ms-vscode.azure-repos
           ms-vscode.remote-repositories
           ms-vscode.vscode-python-web-wasm
           github.codespaces
+        ])
+        ++ (with marketplace-release; [
+          #none
         ])
         # everything else here is on Open VSX too, so it lives here instead
         # of me duplicating a marketplace entry for no reason.
@@ -164,8 +167,9 @@ in
         }; */
         
         "window.controlsStyle" = "hidden";
-        "editor.semanticHighlighting.enabled" = "true";
+        "editor.semanticHighlighting.enabled" = true;
         "window.titleBarStyle" = "custom";
+        "window.zoomLevel" = 1;
 
         # catppuccin.accentColor and workbench.colorTheme are NOT set here
         # anymore — the module below writes those two exact keys itself
