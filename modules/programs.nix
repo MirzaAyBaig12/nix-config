@@ -13,7 +13,7 @@ let
     browsers = [
       firefoxpwa
       google-chrome
-      inputs.helium.packages.x86_64-linux.default
+      inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
       inputs.brave-origin.packages.${pkgs.stdenv.hostPlatform.system}.default
     ];
 
@@ -69,7 +69,6 @@ let
 
       # Needed by hydralauncher/umu-run's Steam Runtime container.
       bubblewrap
-
       chiaki-ng
     ];
 
@@ -104,6 +103,7 @@ let
       libsForQt5.qtstyleplugin-kvantum
       matugen
       iloader
+      ffmpeg
     ];
 
     # Keyring, authentication, and password tools.
@@ -136,9 +136,21 @@ let
       claude-desktop-fhs
       opencode-desktop
 
-      # Windows compatibility: patched by the nixpkgs overlay.
-      winpodx
-
+      # WinPodX
+      (inputs.winpodx.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
+        nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkgs.cacert ];
+        env = (old.env or { }) // {
+          SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
+        };
+        doCheck = false;
+        checkPhase = "echo skipping winpodx tests";
+        installCheckPhase = "echo skipping winpodx tests";
+      }))
+							
+      (inputs.yazi.packages.${pkgs.stdenv.hostPlatform.system}.default.override {
+				_7zz = pkgs._7zz-rar;  # Support for RAR extraction
+			})
+      
       # Utilities
       inputs.fdm-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
       inputs.LinuxFiles.packages.${pkgs.stdenv.hostPlatform.system}.default
@@ -261,4 +273,11 @@ in
   ];
 
   programs.blip.enable = true;
+
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+    viAlias = true;
+    vimAlias = true;
+  };
 }
