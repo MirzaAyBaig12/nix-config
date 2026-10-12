@@ -86,6 +86,8 @@
 
   security.apparmor.enable = true;
 
+  services.udisks2.enable = true; # Automatially mount drives when they are plugged in
+
   # -------------------------------------------------------------------------
   # Boot-time / system activation
   # -------------------------------------------------------------------------
