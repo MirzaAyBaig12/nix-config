@@ -29,11 +29,20 @@
   # Nix implementation and package policy
   # using lix from nixpkgs' own lixPackageSets so the version always matches my pinned
   # nixpkgs. no more version mismatch warning like the external lix-module flake gave
-  # me
+
   nix.package = pkgs.lixPackageSets.stable.lix;
   
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  nix.settings.trusted-users = [ "root" "ayaan_mirza" ];
+  nix.settings = {
+    experimental-features = [ 
+      "nix-command" 
+      "flakes" 
+    ];
+    trusted-users = [
+      "root"
+      "ayaan_mirza"
+    ];
+    accept-flake-config = true;
+  };
 
   # Locale and system version
   time.timeZone = "America/Vancouver";
