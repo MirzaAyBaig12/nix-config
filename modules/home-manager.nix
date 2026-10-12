@@ -8,7 +8,7 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     extraSpecialArgs = { inherit inputs; };
-    backupFileExtension = "bak";
+    backupCommand = "rm -f -- \"$1.bak\" && mv -- \"$1\" \"$1.bak\"";
 
     users.ayaan_mirza = {
       imports = [
@@ -21,6 +21,7 @@
         ./home-manager/dotfiles/fastfetch.nix
         ./home-manager/dotfiles/nixcord.nix
         ./home-manager/dotfiles/nixd.nix
+        ./home-manager/dotfiles/superfile.nix
         ./home-manager/dotfiles/vscode.nix
         ./home-manager/dotfiles/web-apps.nix
         ./home-manager/dotfiles/zsh.nix
