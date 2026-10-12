@@ -30,6 +30,12 @@
     };
   };
 
+  services.udiskie = {
+    enable = true;
+    automount = true;
+    notify = true;
+  };
+
   # -------------------------------------------------------------------------
   # Home Manager activation
   # -------------------------------------------------------------------------
@@ -45,38 +51,6 @@
   # The icon cache has one additional gate:
   #   graphical-session.target must be active.
   # -------------------------------------------------------------------------
-
-  # Remove old backup files after every manual rebuild.
-  home.activation.removeOldBaks =
-    lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      if [ -n "''${INVOCATION_ID:-}" ]; then
-        echo "Systemd boot activation detected, skipping backup cleanup"
-      else
-        find "$HOME/.config" \
-          -name "*.bak" \
-          -delete \
-          2>/dev/null \
-          || true
-
-        find "$HOME/.vscode" \
-          -name "*.bak" \
-          -delete \
-          2>/dev/null \
-          || true
-
-        find "$HOME/.local/share/flatpak/overrides/" \
-          -name "*.bak" \
-          -delete \
-          2>/dev/null \
-          || true
-
-        find "$HOME/.config/vesktop/themes/" \
-          -name "*.css" \
-          -delete \
-          2>/dev/null \
-          || true
-      fi
-    '';
 
   # Force COSMIC's own dark mode flag after every manual rebuild.
   home.activation.forceCosmicDark =
