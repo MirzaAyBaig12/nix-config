@@ -75,7 +75,6 @@ let
     # File management, terminal, screenshots, and desktop themes.
     desktop = [
       kdePackages.dolphin
-      nautilus
       ghostty
       wl-clipboard
       grim
