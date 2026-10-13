@@ -273,6 +273,7 @@ in
   ];
 
   programs.blip.enable = true;
+  programs.blip.autostart.enable = false;
 
   programs.neovim = {
     enable = true;
