@@ -16,9 +16,18 @@
     enable = true;
     firstUseCheck = false;
 
+    # Custom hotkeys, written to ~/.config/superfile/hotkeys.toml.
+    # Only overrides listed here; everything else keeps the defaults.
+    hotkeys = {
+      open_file_with_editor = [
+        "e"
+        "ctrl+shift+e"
+      ];
+    };
+
     settings = {
       # Editors
-      editor = "code --wait";
+      editor = "nvim";
       dir_editor = "code --wait";
 
       # General
@@ -26,7 +35,7 @@
       cd_on_quit = false;
       default_directory = ".";
       debug = false;
-      ignore_missing_fields = false;
+      ignore_missing_fields = true;
       shell_close_on_success = false;
 
       # File previews
@@ -34,7 +43,7 @@
       show_image_preview = true;
       show_panel_footer_info = true;
       file_preview_width = 0;
-      enable_file_preview_border = false;
+      enable_file_preview_border = true;
       code_previewer = "";
 
       # Sorting and file sizes
@@ -155,12 +164,5 @@
     mimeType = [
       "inode/directory"
     ];
-  };
-
-  xdg.mimeApps = {
-    enable = true;
-    defaultApplications = {
-      "inode/directory" = "superfile.desktop";
-    };
   };
 }
