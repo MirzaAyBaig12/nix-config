@@ -103,6 +103,7 @@ let
       matugen
       iloader
       ffmpeg
+      nil
     ];
 
     # Keyring, authentication, and password tools.
@@ -145,11 +146,11 @@ let
         checkPhase = "echo skipping winpodx tests";
         installCheckPhase = "echo skipping winpodx tests";
       }))
-							
+
       (inputs.yazi.packages.${pkgs.stdenv.hostPlatform.system}.default.override {
 				_7zz = pkgs._7zz-rar;  # Support for RAR extraction
 			})
-      
+
       # Utilities
       inputs.fdm-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
       inputs.LinuxFiles.packages.${pkgs.stdenv.hostPlatform.system}.default
