@@ -12,7 +12,7 @@ let
     # Web browsers and progressive web app support.
     browsers = [
       firefoxpwa
-      google-chrome
+      firefox
       inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
       inputs.brave-origin.packages.${pkgs.stdenv.hostPlatform.system}.default
     ];
