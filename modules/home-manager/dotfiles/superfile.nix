@@ -19,9 +19,18 @@
     # Custom hotkeys, written to ~/.config/superfile/hotkeys.toml.
     # Only overrides listed here; everything else keeps the defaults.
     hotkeys = {
+      # Space = same as Enter: opens folders, toggles selection in select mode,
+      # opens files with the default app (VS Code for text/code files).
+      confirm = [
+        "enter"
+        "right"
+        "l"
+        "space"
+      ];
+
       open_file_with_editor = [
         "e"
-        "ctrl+shift+e"
+        "ctrl+alt+e"
       ];
     };
 
