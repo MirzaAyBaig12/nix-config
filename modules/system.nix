@@ -18,7 +18,11 @@
     XCURSOR_SIZE = "30";
     NIXOS_INSTALL_BOOTLOADER = "true";
     QT_QPA_PLATFORMTHEME = lib.mkForce "qt5ct";
-    GTK_THEME = "Catppuccin-Mauve-Dark";
+    # DO NOT set GTK_THEME here. A forced non-Adwaita theme makes libadwaita skip
+    # its own stylesheet, so AdwDialog/About dialogs lose their rounded corners,
+    # shadow, outline and padding (Catppuccin's GTK4 port has no rules for them).
+    # GTK4/libadwaita get Catppuccin via ~/.config/gtk-4.0/gtk.css instead
+    # (see modules/home-manager/gtk.hm.nix); GTK3 uses gtk-theme-name in settings.ini.
     LD_LIBRARY_PATH = lib.mkForce (
       "/etc/sane-libs:${pkgs.icu}/lib"
     );
@@ -79,6 +83,7 @@
     enroll-tpm = "doas systemd-cryptenroll --wipe-slot=1 /dev/nvme0n1p6 && doas systemd-cryptenroll --tpm2-device=auto /dev/nvme0n1p6";
     spf = "superfile";
     rspf = "sudo superfile";
+    ntfs-perm-fix = "chmod -R u+w /run/media/ayaan_mirza/ZeroTrace/PortableApps"; # clears NTFS read-only attr on folders so linux can delete stuff
   };
 
   # Secure Boot and bootloader
