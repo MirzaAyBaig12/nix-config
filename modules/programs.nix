@@ -14,12 +14,10 @@ let
       firefoxpwa
       firefox
       inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
-      inputs.brave-origin.packages.${pkgs.stdenv.hostPlatform.system}.default
     ];
 
     # Editors, language runtimes, and developer tools.
     development = [
-      neovim
       git
       gdb
       just
@@ -75,6 +73,7 @@ let
     # File management, terminal, screenshots, and desktop themes.
     desktop = [
       kdePackages.dolphin
+      (yazi.override { _7zz = _7zz-rar; }) # RAR extraction support
       ghostty
       wl-clipboard
       grim
@@ -124,7 +123,6 @@ let
       libimobiledevice
       hplip
       system-config-printer
-      gnome-boxes
       ventoy-full-gtk
       acpi
     ];
@@ -147,13 +145,8 @@ let
         installCheckPhase = "echo skipping winpodx tests";
       }))
 
-      (inputs.yazi.packages.${pkgs.stdenv.hostPlatform.system}.default.override {
-				_7zz = pkgs._7zz-rar;  # Support for RAR extraction
-			})
-
       # Utilities
       inputs.fdm-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
-      inputs.LinuxFiles.packages.${pkgs.stdenv.hostPlatform.system}.default
 
       # Theming
       config.custom.bibataMaterialCursor
@@ -185,14 +178,14 @@ in
 
   imports = [
     inputs.blip.nixosModules.default
-    inputs.natsumi.nixosModules.default
+    inputs.nix-ext-packages.nixosModules.natsumi
     inputs.cpak.nixosModules.default
   ];
 
   services.cpak.enable = true;
 
   # Shell and desktop utilities.
-  programs.zsh.enable = true; # config lives in modules/home-manager/zsh.nix
+  programs.zsh.enable = true;
 
   programs.nh = {
     enable = true;

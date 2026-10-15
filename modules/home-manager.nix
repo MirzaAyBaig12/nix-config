@@ -28,7 +28,6 @@
 
         # Upstream Home Manager modules
         inputs.danksearch.homeModules.dsearch
-        inputs.nix-monitor.homeManagerModules.default
         inputs.nixcord.homeModules.nixcord
         inputs.catppuccin.homeModules.catppuccin
       ];
