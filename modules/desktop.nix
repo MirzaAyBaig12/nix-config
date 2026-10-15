@@ -70,8 +70,7 @@
   # "niri" here cuz niri is what's actually installed through the nixos config (see
   # note above the module option), not home-manager. configHome points at my DMS
   # settings.json so the greeter picks up the same theme/accent instead of its own
-  # default. back on the flake's own module instead of nixpkgs' vendored one, see
-  # flake.nix input #21 for why
+  # default. uses the flake's own module instead of nixpkgs' vendored one.
   programs.dms-greeter = {
     enable = true;
     compositor = {

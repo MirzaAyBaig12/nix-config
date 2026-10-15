@@ -98,20 +98,6 @@
   services.udisks2.enable = true; # Automatially mount drives when they are plugged in
 
   # -------------------------------------------------------------------------
-  # Boot-time / system activation
-  # -------------------------------------------------------------------------
-  #
-  # Only scripts that genuinely need to participate in boot remain here.
-  #
-  # User-specific tasks are handled by Home Manager.
-  # Lanzaboote handles EFI bootloader signing.
-  #
-  # The p3/p7 mount scripts should remain here.
-  #
-  # Keep your existing p3/p7 activation scripts below this point.
-  # -------------------------------------------------------------------------
-
-  # -------------------------------------------------------------------------
   # Input devices
   # -------------------------------------------------------------------------
 

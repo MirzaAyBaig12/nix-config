@@ -9,8 +9,7 @@
 {
   # Niri compositor and session
   # niri, scrollable tiling wayland compositor. runs as an alt session next to COSMIC
-  # (pick either at the greeter). module comes from the niri flake input imported in
-  # flake.nix
+  # (pick either at the greeter).
   programs.niri.enable = true;
 
   # Xwayland compatibility. Niri relies on the separate xwayland-satellite
@@ -22,8 +21,8 @@
 
   # Desktop shell
   # DankMaterialShell, the actual shell for niri (panel, dock, launcher, lock screen,
-  # notifications) since niri ships bare with none of that. back on the flake's own
-  # module instead of nixpkgs' vendored one, see flake.nix input #21b
+  # notifications) since niri ships bare with none of that. uses the flake's own
+  # module instead of nixpkgs' vendored one.
   programs.dank-material-shell = {
     enable = true;
     systemd = {
@@ -73,11 +72,16 @@
           "wlr"
         ];
         "org.freedesktop.impl.portal.Settings" = [ "gtk" ];
+        # cosmic can't capture niri outputs (panics w/ CaptureSourceError), so pin
+        # screen capture to wlr. note the capital C in ScreenCast, interface names
+        # are case sensitive. swap to "gnome" for per-window capture support
+        "org.freedesktop.impl.portal.ScreenCast" = [ "wlr" ];
+        "org.freedesktop.impl.portal.Screenshot" = [ "wlr" ];
       };
       common = {
         default = [ "wlr" ];
         "org.freedesktop.impl.portal.Screenshot" = [ "wlr" ];
-        "org.freedesktop.impl.portal.Screencast" = [ "wlr" ];
+        "org.freedesktop.impl.portal.ScreenCast" = [ "wlr" ];
       };
     };
   };
