@@ -1,2 +1,0 @@
--- DMS Window Rules — managed by DankMaterialShell
--- Do not edit manually; changes may be overwritten
