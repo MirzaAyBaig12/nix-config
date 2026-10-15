@@ -17,7 +17,6 @@
     "io.missioncenter.MissionCenter"
     "io.podman_desktop.PodmanDesktop"
     "it.mijorus.gearlever"
-    "org.gnome.Boxes"
     "org.gnome.Loupe"
     "org.gnome.Maps"
     "org.kde.isoimagewriter"
@@ -28,7 +27,6 @@
     "page.codeberg.grinka.Transition"
     "space.bigrat.mocktail"
     "uk.co.cappsy.Tesseract"
-    "org.vinegarhq.Sober"
   ];
 
   cosmic = [
