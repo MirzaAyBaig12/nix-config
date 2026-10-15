@@ -33,51 +33,68 @@ See [`/modules/`](./modules/) for each configuration module, and [`/modules/home
 ```
 .
 ├── .config/
-│   ├── cosmic/                     # COSMIC personal color preferences
-│   ├── fastfetch/                  # fastfetch configs (synced to Home Manager)
-│   ├── hypr/                       # Hyprland and DMS Lua config drafts
-│   ├── misc/                       # App-specific settings and backups
-│   ├── niri/                       # niri + DMS config (KDL), symlinked in-place via Home Manager
-│   │   ├── backups/                # Historical Niri configs
-│   │   └── dms/                    # DMS-managed Niri settings
-│   ├── refind/                     # rEFInd configuration files
-│   ├── VSCodium/                   # VSCodium settings and extensions
-│   ├── wallpapers/                 # Desktop wallpapers
-│   └── .vscode/                    # VS Code launch arguments
+│   ├── .img/                       # README screenshots and images
+│   ├── .vscode/
+│   │   └── argv.json               # VS Code launch arguments
+│   ├── cosmic/
+│   │   └── My Personal Colour Prefs.ron   # COSMIC personal color preferences
+│   ├── fastfetch/
+│   │   ├── compact-config.jsonc    # daily fastfetch config
+│   │   ├── config.jsonc            # full fastfetch config
+│   │   └── logo.txt                # custom logo
+│   ├── misc/
+│   │   ├── icons/                  # custom icons (web app launchers)
+│   │   ├── MYNT Backup.json        # app settings backup
+│   │   └── natsumi-theme.json      # Natsumi browser theme settings
+│   ├── niri/
+│   │   ├── backups/                # historical niri configs
+│   │   ├── dms/                    # DMS-managed niri settings
+│   │   │   ├── alttab.kdl
+│   │   │   ├── binds.kdl
+│   │   │   ├── colors.kdl
+│   │   │   ├── cursor.kdl
+│   │   │   ├── input.kdl
+│   │   │   ├── layout.kdl
+│   │   │   ├── outputs.kdl
+│   │   │   ├── windowrules.kdl
+│   │   │   └── wpblur.kdl
+│   │   └── config.kdl              # niri main config, symlinked via Home Manager
+│   ├── refind/
+│   │   ├── refind.conf             # rEFInd configuration
+│   │   └── refind.conf-sample      # upstream sample for reference
+│   ├── VSCodium/
+│   │   ├── extension.json          # VSCodium extensions
+│   │   └── settings.json           # VSCodium settings
+│   └── wallpapers/                 # desktop wallpapers
 ├── modules/
-│   ├── desktop.nix                 # display manager, desktop sessions, audio, fonts, and keymap
+│   ├── home-manager/
+│   │   ├── dotfiles/
+│   │   │   ├── fastfetch.nix       # links .config/fastfetch into the HM profile
+│   │   │   ├── nixcord.nix         # Discord client (nixcord) settings
+│   │   │   ├── nixd.nix            # nixd LSP settings, points at this flake's option tree
+│   │   │   ├── superfile.nix       # superfile file manager + zoxide
+│   │   │   ├── vscode.nix          # VS Code settings and extensions
+│   │   │   ├── web-apps.nix        # web app desktop entries
+│   │   │   └── zsh.nix             # Oh-My-Zsh, PATH exports, flatpak() sync wrapper
+│   │   ├── gtk.hm.nix              # GTK theming (Catppuccin, gtk.css, dconf)
+│   │   ├── niri.config.nix         # niri config symlink + DMS activation fixes
+│   │   ├── programs.hm.nix         # user-level home.packages and DankSearch
+│   │   ├── services.hm.nix         # user services (udiskie, flatpak updates, icon cache)
+│   │   └── stylix.hm.nix           # HM-side Stylix (cursor, fonts, theming targets)
+│   ├── desktop.nix                 # display manager, COSMIC, audio, fonts, keymap, Bibata cursor
 │   ├── flatpak.nix                 # declarative Flatpak remotes/packages + sync-flatpak-apps
 │   ├── flatpak.packages.nix        # generated — sync-flatpak-apps owns this file
+│   ├── gtk.nix                     # Catppuccin GTK theme package, shared by both Stylix modules
 │   ├── home-manager.nix            # wires up Home Manager and its modules
-│   ├── home-manager/
-│   │   ├── fastfetch.nix           # links .config/fastfetch into the HM profile
-│   │   ├── niri.config.nix         # niri config symlink, DMS dark-mode pin + service-relink activation fixes
-│   │   ├── nixd.nix                # VS Code nixd LSP settings, points at this flake's own option tree
-│   │   ├── programs.hm.nix         # user-level home.packages, Flameshot, DankSearch, nix-monitor
-│   │   ├── services.hm.nix         # user systemd services (polkit auth agent, fcc-server)
-│   │   ├── stylix.nix              # HM-side Stylix (cursor package, GTK/dconf theming, forced dark mode)
-│   │   └── zsh.nix                 # Oh-My-Zsh, PATH exports, flatpak() sync wrapper, dms shell completion
-│   ├── niri.nix                    # niri compositor + DankMaterialShell shell, portals, xwayland-satellite
-│   ├── programs.nix                # imports the focused programs/ modules
-│   ├── programs/
-│   │   ├── browsers.nix            # Firefox/LibreWolf and Floorp/Natsumi
-│   │   ├── containers.nix          # Podman, Docker, WinPodX, and container access
-│   │   ├── core.nix                # NH, Zsh, dconf, direnv, and KDE Connect
-│   │   ├── desktop-apps.nix        # Steam, AppImage, Nix-ld, and desktop app options
-│   │   └── packages/               # development, media, system, and external packages
-│   ├── services.nix                # imports the focused services/ modules
-│   ├── services/
-│   │   ├── account-security.nix    # user account, doas/sudo, and AppArmor
-│   │   ├── activation.nix          # boot signing and system activation scripts
-│   │   ├── flatpak.nix             # Flatpak overrides and sync service
-│   │   ├── input.nix               # keyd, uinput, and USBMUXD
-│   │   └── printing.nix            # CUPS, scanning, and Avahi discovery
-│   ├── stylix.nix                  # system-wide Stylix theming (fonts, base16 scheme, GTK/QT targets)
-│   └── system.nix                  # Lanzaboote + rEFInd bootloader, Plymouth, networking, Waydroid, swap
-├── _img/                           # README and desktop screenshots
+│   ├── niri.nix                    # niri compositor + DankMaterialShell, portals, xwayland-satellite
+│   ├── programs.nix                # system packages grouped by purpose, plus program options
+│   ├── services.nix                # accounts, Flatpak overrides, doas/sudo, keyd, printing
+│   ├── stylix.nix                  # system-wide Stylix theming (fonts, cursor, base16 scheme)
+│   └── system.nix                  # Lanzaboote, Plymouth, networking, Waydroid, swap, mounts
 ├── configuration.nix               # entry point — imports every module
 ├── flake.nix / flake.lock
-└── hardware-configuration.nix
+├── hardware-configuration.nix
+└── README.md
 ```
 
 ## Components
@@ -91,38 +108,49 @@ See [`/modules/`](./modules/) for each configuration module, and [`/modules/home
 | **Desktop Environments** | niri (primary — scrollable-tiling Wayland) shelled by DankMaterialShell; COSMIC kept as an alt session at the greeter |
 | **Window Managers** | niri (native), COSMIC native WM (alt session) |
 | **Terminal Emulator** | Ghostty |
-| **Shell** | Zsh + Oh-My-Zsh (xiong-chiamiov-plus theme; plugins: git, npm, history, node, rust, deno) |
+| **Shell** | Zsh + Oh-My-Zsh (xiong-chiamiov-plus theme; plugins: git, npm, history, node, rust, deno), autosuggestions, syntax highlighting, zoxide |
 | **Notification Daemon** | DankMaterialShell (niri session), COSMIC native services (alt session) |
 | **Network Management** | NetworkManager |
-| **Input Method** | None (default XKB/Wayland input) |
-| **Web Browser** | LibreWolf (daily driver, run under `programs.firefox`'s package slot) |
+| **Theme** | Catppuccin Mocha + Mauve system-wide; Catppuccin-Mauve-Dark for GTK, qt5ct/qt6ct + Kvantum (rounded) for Qt; Stylix handles fonts, cursor, and the base16 scheme |
+| **Cursor** | Bibata Material (Lilac)|
+| **Web Browser** | LibreWolf, Helium, and Firefox |
 
 ### Apps & Tools
 | |                                                        |
 |---|--------------------------------------------------------|
 | **System Monitor** | Mission Center (Flatpak, primary), GNOME System Monitor, Fastfetch (terminal), DMS system monitor widget |
-| **File Manager** | COSMIC Files |
-| **Media Player** | Spotify (primary), Vinyl (music), Celluloid (video) — all Flatpak |
-| **Editors / IDE** | VSCodium (primary), JetBrains IDEs — IntelliJ IDEA / PyCharm / WebStorm (second), VSCode (last resort); Zed and Neovim also installed |
+| **File Manager** | Superfile, Dolphin, and Yazi; COSMIC Files in the COSMIC session |
+| **Media Player** | VLC, Spotify (Flatpak) |
+| **Editors / IDE** | Visual Studio Code (primary, managed declaratively through Home Manager), VSCodium, Zed, Kate; Neovim is the default `$EDITOR` |
 | **Fonts** | Noto fonts, Noto Color Emoji, JetBrains Mono Nerd Font installed system-wide; Stylix themes GTK/QT apps in DejaVu Sans / DejaVu Sans Mono |
 | **Icon Theme** | Papirus-Dark, forced system-wide via Stylix (GTK + dconf) and applied to Flatpak apps via override |
 | **Image Viewer** | GNOME Image Viewer / Loupe (Flatpak) |
-| **Mail** | Thunderbird (Flatpak) |
-| **Screenshots** | DMS Screenshot (DankMaterialShell) |
+| **Mail** | Thunderbird ESR (Flatpak) |
+| **Chat** | Vesktop (via nixcord, Material Discord theme), Telegram, Teams for Linux, Ferdium |
+| **Productivity** | Obsidian, OnlyOffice, DankCalendar |
+| **Password Manager** | Proton Pass, GNOME Keyring |
+| **Screenshots** | grim + slurp + Satty |
 | **Screen Recording** | Kooha (Flatpak) |
-| **ISO Flashing** | KDE ISO Image Writer, Impression (Flatpak) |
+| **Download Manager** | Free Download Manager |
+| **ISO Flashing** | KDE ISO Image Writer, Impression (Flatpak), Ventoy |
 | **Disk & Partition Management** | GNOME Disks, KDE Partition Manager |
-| **App Store / Sideloading** | Bazaar, Gear Lever, Warehouse (Flatpak) |
-| **Development Tools** | Git, Python3 (pip, virtualenv), Node.js, GDB, Just, Sass |
+| **App Store / Sideloading** | Bazaar, Gear Lever, Warehouse, Flatseal (Flatpak) |
+| **Gaming** | Steam, GameMode, Chiaki-NG, Hydra Launcher, SKLauncher, Modrinth, Sober, Bottles, ProtonPlus |
+| **Containers & Compatibility** | Podman, Docker, Distrobox, cpak, WinPodX (Windows apps as desktop entries), Waydroid |
+| **Development Tools** | Git, GitHub CLI, Python3 (pip, virtualenv), Node.js, GDB, Just, Sass, Flutter, nixd + nixfmt, direnv |
 
 ### System-Level
 | | |
 |---|---|
-| **Filesystem & Encryption** | Ext4, no encryption (triple-boot system) |
+| **Filesystem & Encryption** | Ext4 on LUKS with TPM2 auto-unlock (triple-boot system) |
 | **Secure Boot** | Lanzaboote (signed UKIs) + sbctl, with auto-generate and auto-enroll of keys |
+| **Kernel** | Latest mainline from nixpkgs, with hibernation to a swapfile |
 | **Nix Implementation** | Lix, pinned via nixpkgs' own `lixPackageSets.stable` (always tracks this flake's exact nixpkgs rev) |
+| **Nix Tooling** | nh (auto-clean, keeps the last 3 generations), nix-ld for unpackaged binaries |
+| **Privilege Escalation** | doas (sudo also enabled, aliased to doas) |
+| **Hardening** | AppArmor |
 | **Android Subsystem** | Waydroid |
-| **Package Formats** | Flatpak, AppImage, Nix |
+| **Package Formats** | Nix, Flatpak (declarative via nix-flatpak, kept in sync automatically), AppImage (binfmt) |
  
 Wallpapers: [`/.config/wallpapers`](./.config/wallpapers/)
 
@@ -130,33 +158,42 @@ Wallpapers: [`/.config/wallpapers`](./.config/wallpapers/)
 
 | Desktop | Fastfetch |
 |---|---|
-| ![desktop](_img/desktop.png) | ![fastfetch](_img/fastfetch.png) |
+| ![desktop](.config/.img/desktop.png) | ![fastfetch](.config/.img/fastfetch.png) |
 
 ## System Modules
 
 ### flake.nix
-Entry point — defines inputs (nixpkgs channel, home-manager, niri, DankMaterialShell, and every other flake-packaged app/overlay) and the `Axiom` nixosConfiguration output.
+Entry point — defines inputs (nixpkgs unstable, Home Manager, Stylix, Catppuccin, Lanzaboote, DankMaterialShell, nix-flatpak, and the flake-packaged apps), the `Axiom` nixosConfiguration output, and the package overlays (stable Lix for nixpkgs-review/nix-eval-jobs/colmena, rounded Kvantum theme, Chiaki-NG fix).
+
+### configuration.nix
+Imports every module, sets Lix as the Nix implementation, enables flakes, and sets the timezone, locale, and state version.
 
 ### system.nix
-Low-level system configuration: Lanzaboote (signed UKIs) + rEFInd chainloading, Plymouth boot theme, networking (NetworkManager, firewall rules), Waydroid Android subsystem, swap, exFAT/NTFS mount points.
+Low-level system configuration: Lanzaboote (signed UKIs), Plymouth boot theme, latest kernel, hibernation and swap, networking (NetworkManager, firewall rules), Waydroid, exFAT/NTFS mount points, session environment variables, and shell aliases (`nix-rebuild`, `nix-clean`, etc.).
 
 ### desktop.nix
-Graphical environment: dank-greeter (greetd) as the display manager with niri as the default session, COSMIC kept installed as an alt session, PipeWire audio (PulseAudio compat), CUPS printing, keymap, font packages.
+Graphical environment: dank-greeter (greetd) as the display manager with niri as the default session, COSMIC kept installed as an alt session, PipeWire audio, GNOME Keyring, desktop portals, keymap, font packages, and the custom Bibata Material cursor package.
 
 ### niri.nix
-niri compositor + DankMaterialShell (panel, dock, launcher, lock screen, notifications), xwayland-satellite from nixpkgs, and per-session portal routing (COSMIC portal first, wlr fallback for screenshots/screencast).
+niri compositor + DankMaterialShell (panel, dock, launcher, lock screen, notifications), xwayland-satellite from nixpkgs, forced dark color-scheme, and per-session portal routing (COSMIC portal first, wlr fallback for screenshots/screencast).
 
 ### stylix.nix
-System-wide Stylix theming: cursor theme, font stack, base16 colour scheme, and GTK/QT targets.
+System-wide theming: Catppuccin (Mocha + Mauve) for most targets, Stylix for cursor, fonts, and the base16 colour scheme. Uses [`gtk.nix`](./modules/gtk.nix) to build the Catppuccin GTK theme.
+
+### gtk.nix
+Builds the pinned Catppuccin GTK theme package, including the GTK2 murrine engine that nixpkgs dropped. Shared by both the system and Home Manager Stylix modules.
 
 ### programs.nix
-User environment: Zsh + Oh-My-Zsh with plugins, shell aliases, desktop apps (Steam, Firefox/Librewolf, Codex Desktop), and system packages (dev tools → multimedia → custom flake-packaged GUI apps).
+Every installed application, grouped by purpose (browsers, development, communication, gaming, desktop, hardware, flake-packaged apps), plus program options: Steam, GameMode, nh, direnv, KDE Connect, nix-ld, AppImage, Natsumi/LibreWolf, Neovim, Podman, Docker, and cpak.
+
+### flatpak.nix
+Declarative Flatpak remotes and packages, plus the `sync-flatpak-apps` script that records apps installed outside Nix into `flatpak.packages.nix`.
 
 ### services.nix
-System services: Flatpak daemon (with global dark-mode + Papirus-Dark icon overrides), doas + sudo for `ayaan_mirza`, user account setup, keyd (Super-tap override for DMS spotlight), printing/scanning (hplip/sane), activation scripts for rEFInd/systemd-boot signing and dotfile cleanup.
+System services: user account setup, Flatpak daemon (with global dark-mode + Papirus-Dark overrides), doas + sudo, AppArmor, udisks2, keyd (Super-tap override and mouse button remaps), USBMUXD, printing/scanning (hplip/sane), and Avahi discovery.
 
 ### home-manager.nix
-User-level configuration managed through Home Manager. Mirrors the modular structure of the main configuration, keeping dotfiles and program configs organized into separate modules. (See [`/modules/home-manager`](./modules/home-manager/))
+User-level configuration managed through Home Manager. Keeps dotfiles and program configs organized into separate modules: GTK and Stylix theming, the niri config symlink, user services, and per-app files such as zsh, VSCode, nixcord, superfile, and fastfetch. (See [`/modules/home-manager`](./modules/home-manager/))
 
 ## Why This Setup?
 
