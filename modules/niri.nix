@@ -16,7 +16,7 @@
   # process, so keep its package installed for Xwayland applications.
   environment.systemPackages = [
     pkgs.xwayland-satellite
-    pkgs.xdg-desktop-portal-wlr # Added for wlroots screencopy/screenshots
+    pkgs.xdg-desktop-portal-gnome # screencast/screenshot backend for niri (org.gnome.Mutter.ScreenCast)
   ];
 
   # Desktop shell
@@ -61,27 +61,27 @@
   xdg.portal = {
     enable = true;
     extraPortals = [
-      pkgs.xdg-desktop-portal-wlr
+      pkgs.xdg-desktop-portal-gnome
       pkgs.xdg-desktop-portal-gtk
     ];
     config = {
       cosmic.default = [ "cosmic" ];
       niri = {
-        default = lib.mkForce [
-          "cosmic"
-          "wlr"
-        ];
+        default = lib.mkForce [ "gtk" ];
         "org.freedesktop.impl.portal.Settings" = [ "gtk" ];
+        # cosmic's file picker is the only thing cosmic handles on niri
+        "org.freedesktop.impl.portal.FileChooser" = [ "cosmic" ];
         # cosmic can't capture niri outputs (panics w/ CaptureSourceError), so pin
-        # screen capture to wlr. note the capital C in ScreenCast, interface names
-        # are case sensitive. swap to "gnome" for per-window capture support
-        "org.freedesktop.impl.portal.ScreenCast" = [ "wlr" ];
-        "org.freedesktop.impl.portal.Screenshot" = [ "wlr" ];
+        # screen capture to gnome (niri implements org.gnome.Mutter.ScreenCast, this
+        # also gives per-window capture). note the capital C in ScreenCast, interface
+        # names are case sensitive. wlr was tried and never got routed/worked
+        "org.freedesktop.impl.portal.ScreenCast" = [ "gnome" ];
+        "org.freedesktop.impl.portal.Screenshot" = [ "gnome" ];
       };
       common = {
-        default = [ "wlr" ];
-        "org.freedesktop.impl.portal.Screenshot" = [ "wlr" ];
-        "org.freedesktop.impl.portal.ScreenCast" = [ "wlr" ];
+        default = [ "gtk" ];
+        "org.freedesktop.impl.portal.Screenshot" = [ "gnome" ];
+        "org.freedesktop.impl.portal.ScreenCast" = [ "gnome" ];
       };
     };
   };
