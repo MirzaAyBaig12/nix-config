@@ -82,6 +82,7 @@ let
       adwaita-icon-theme
       papirus-icon-theme
       hicolor-icon-theme
+      openscreen
     ];
 
     # General command line and desktop utilities.
@@ -145,8 +146,12 @@ let
         installCheckPhase = "echo skipping winpodx tests";
       }))
 
+      # Editors
+      inputs.code-insiders.packages.${pkgs.stdenv.hostPlatform.system}.vscode-insider
+
       # Utilities
       inputs.fdm-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
+      inputs.LinuxFiles.packages.${pkgs.stdenv.hostPlatform.system}.default
 
       # Theming
       config.custom.bibataMaterialCursor
