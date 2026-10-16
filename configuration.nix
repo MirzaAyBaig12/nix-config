@@ -27,11 +27,9 @@
   ];
 
   # Nix implementation and package policy
-  # using lix from nixpkgs' own lixPackageSets so the version always matches my pinned
-  # nixpkgs. no more version mismatch warning like the external lix-module flake gave
+  # Lix comes from the lix-module flake input (see flake.nix); don't set nix.package
+  # here or it overrides the module.
 
-  nix.package = pkgs.lixPackageSets.stable.lix;
-  
   nix.settings = {
     experimental-features = [ 
       "nix-command" 
@@ -42,6 +40,8 @@
       "ayaan_mirza"
     ];
     accept-flake-config = true;
+    extra-substituters = [ "https://cache.lix.systems" ];
+    extra-trusted-public-keys = [ "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o=" ];
   };
 
   # Locale and system version
