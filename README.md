@@ -142,15 +142,11 @@ See [`/modules/`](./modules/) for each configuration module, and [`/modules/home
 ### System-Level
 | | |
 |---|---|
-| **Filesystem & Encryption** | Ext4 on LUKS with TPM2 auto-unlock (triple-boot system) |
+| **Filesystem & Encryption** | Ext4 on LUKS with TPM2 auto-unlock (dual-boot system) |
 | **Secure Boot** | Lanzaboote (signed UKIs) + sbctl, with auto-generate and auto-enroll of keys |
 | **Kernel** | Latest mainline from nixpkgs, with hibernation to a swapfile |
-| **Nix Implementation** | Lix, pinned via nixpkgs' own `lixPackageSets.stable` (always tracks this flake's exact nixpkgs rev) |
-| **Nix Tooling** | nh (auto-clean, keeps the last 3 generations), nix-ld for unpackaged binaries |
 | **Privilege Escalation** | doas (sudo also enabled, aliased to doas) |
-| **Hardening** | AppArmor |
-| **Android Subsystem** | Waydroid |
-| **Package Formats** | Nix, Flatpak (declarative via nix-flatpak, kept in sync automatically), AppImage (binfmt) |
+| **Package Formats** | Nix, Flatpak, AppImage |
  
 Wallpapers: [`/.config/wallpapers`](./.config/wallpapers/)
 
