@@ -8,9 +8,10 @@
 }:
 
 let
-  catppuccinGtkTheme = import ./gtk.nix {
-    inherit pkgs;
-    src = inputs.catppuccinGtkTheme;
+  catppuccinGtkTheme = pkgs.magnetic-catppuccin-gtk.override {
+    accent = [ "mauve" ];
+    shade = "dark";
+    size = "standard";
   };
 in
 {

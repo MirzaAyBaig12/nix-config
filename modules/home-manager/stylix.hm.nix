@@ -8,9 +8,10 @@
 }:
 
 let
-  catppuccinGtkTheme = import ../gtk.nix {
-    inherit pkgs;
-    src = inputs.catppuccinGtkTheme;
+  catppuccinGtkTheme = pkgs.magnetic-catppuccin-gtk.override {
+    accent = [ "mauve" ];
+    shade = "dark";
+    size = "standard";
   };
 
   qtColors = ''
@@ -118,12 +119,12 @@ in
     enable = true;
     theme = lib.mkForce {
       package = catppuccinGtkTheme;
-      name = "Catppuccin-Mauve-Dark";
+      name = "Catppuccin-GTK-Mauve-Dark";
     };
     gtk4 = {
       theme = lib.mkForce {
         package = catppuccinGtkTheme;
-        name = "Catppuccin-Mauve-Dark";
+        name = "Catppuccin-GTK-Mauve-Dark";
       };
       extraConfig.gtk-decoration-layout = ":";
       extraCss = ''
