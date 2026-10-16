@@ -6,7 +6,7 @@
 { config, lib, pkgs, ... }:
 
 let
-  themeName = "Catppuccin-Mauve-Dark";
+  themeName = "Catppuccin-GTK-Mauve-Dark";
   themeSrc = "${config.gtk.theme.package}/share/themes/${themeName}";
 
   # Linter-compliant Python script using pkgs.writers.writePython3
