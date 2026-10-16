@@ -136,6 +136,7 @@ binds {
     Mod+Shift+E { quit; }
     Alt+Ctrl+C hotkey-overlay-title="Open Claude Desktop" { spawn "claude-desktop"; }
     Alt+Ctrl+N hotkey-overlay-title="Open Obsidian" { spawn "obsidian"; }
+    Alt+Ctrl+Shift+3 hotkey-overlay-title="Open Screen Recorder" { spawn "openscreen"; }
     Alt+Ctrl+Shift+C hotkey-overlay-title="Open ChatGPT" { spawn "chatgpt"; }
     Alt+Ctrl+Shift+F hotkey-overlay-title="Toggle Ferdium" { spawn "ferdium"; }
     Alt+Ctrl+Shift+S hotkey-overlay-title="Screenshot" { spawn "sh" "-c" "grim -g \"$(slurp)\" - | satty --filename - --early-exit --copy-command wl-copy"; }
