@@ -1,4 +1,3 @@
-
 {
   config,
   pkgs,
@@ -145,9 +144,6 @@ let
         checkPhase = "echo skipping winpodx tests";
         installCheckPhase = "echo skipping winpodx tests";
       }))
-
-      # Editors
-      inputs.code-insiders.packages.${pkgs.stdenv.hostPlatform.system}.vscode-insider
 
       # Utilities
       inputs.fdm-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
