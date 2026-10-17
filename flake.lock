@@ -570,7 +570,7 @@
         "type": "gitlab"
       }
     },
-    "helium-flake": {
+    "helium": {
       "inputs": {
         "nixpkgs": [
           "nixpkgs"
@@ -692,18 +692,6 @@
         "url": "https://git.lix.systems/lix-project/nixos-module/archive/main.tar.gz"
       }
     },
-    "lix-tags": {
-      "flake": false,
-      "locked": {
-        "narHash": "sha256-EAjloykjWXJ2me2+SKki+Kmwx5FHeS2fxZnRJ6f44LM=",
-        "type": "file",
-        "url": "https://git.lix.systems/api/v1/repos/lix-project/lix/tags"
-      },
-      "original": {
-        "type": "file",
-        "url": "https://git.lix.systems/api/v1/repos/lix-project/lix/tags"
-      }
-    },
     "llm-agents": {
       "inputs": {
         "bun2nix": "bun2nix",
@@ -713,11 +701,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1792270277,
-        "narHash": "sha256-iRxe+vZ4N4+TbersbF/V3n347y4A1K3tjmyoggmxQgg=",
+        "lastModified": 1792278144,
+        "narHash": "sha256-pWF6v2K3xAoEysYnl56MnYkuAhHJsaJnBQqIiFD2pAg=",
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "rev": "ff769daa133979172e76efbca37f045275b8357d",
+        "rev": "803ef46814fc52de72307a20d6ac1b07ad45f518",
         "type": "github"
       },
       "original": {
@@ -851,11 +839,11 @@
         "treefmt-nix": "treefmt-nix_2"
       },
       "locked": {
-        "lastModified": 1792236246,
-        "narHash": "sha256-SttBwl9KAlNK6ilyTG5IFvZw9FHKG0uHVJo+L3lJKiI=",
+        "lastModified": 1792277718,
+        "narHash": "sha256-Nv32eZ+x7qr/yKofkemv1O2ImnXkUpFQgq71u6c6Wi8=",
         "owner": "4evy",
         "repo": "nixcord",
-        "rev": "fc11ff6901b9bb2de811db719346a6aa70e990aa",
+        "rev": "f4f803048d4bb6bc296fc4bdbd8620ff63fe100f",
         "type": "github"
       },
       "original": {
@@ -1119,12 +1107,11 @@
         "danksearch": "danksearch",
         "dms": "dms",
         "fdm-nix": "fdm-nix",
-        "helium-flake": "helium-flake",
+        "helium": "helium",
         "home-manager": "home-manager",
         "lanzaboote": "lanzaboote",
         "lix": "lix",
         "lix-module": "lix-module",
-        "lix-tags": "lix-tags",
         "llm-agents": "llm-agents",
         "mac-style-plymouth": "mac-style-plymouth",
         "nix-ext-packages": "nix-ext-packages",
