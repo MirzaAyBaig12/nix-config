@@ -2,7 +2,7 @@
 
 {
   # Nix language server settings for VS Code
-  programs.vscode = {
+  programs.vscode-insiders = {
     profiles.default.userSettings = {
       "nix.serverSettings" = {
         "nixd" = {
