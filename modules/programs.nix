@@ -156,8 +156,9 @@ let
 
     # Command line coding agents.
     aiAgents = [
-      inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code
-      inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.opencode
+      llm-agents.claude-code
+      llm-agents.opencode
+      llm-agents.codex
     ];
   };
 in
@@ -242,7 +243,7 @@ in
   # Browsers.
   # LibreWolf is configured through programs.natsumi.
   programs.natsumi = {
-    enable = true;
+    enable = false;
     browser = "librewolf";
     homeDirectory = "/home/ayaan_mirza";
     profile = "f4jwAmgv.Profile 1";
