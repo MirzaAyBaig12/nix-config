@@ -1,5 +1,6 @@
 { 
   inputs, 
+  pkgs,
   ... 
 }:
 
@@ -8,14 +9,17 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     extraSpecialArgs = { inherit inputs; };
-    backupCommand = "rm -f -- \"$1.bak\" && mv -- \"$1\" \"$1.bak\"";
+    # Must be a real script: home-manager runs this *unquoted*
+    # (`run $HOME_MANAGER_BACKUP_COMMAND "$target"`), so an inline shell string
+    # gets word-split into args for `rm` instead of being interpreted.
+    # Works on files and directories; replaces any previous .bak.
+    backupCommand = "${pkgs.writeShellScript "hm-backup" ''rm -rf -- "$1.bak" && mv -- "$1" "$1.bak"''}";
 
     users.ayaan_mirza = {
       imports = [
         # Repository modules
         ./home-manager/programs.hm.nix
         ./home-manager/stylix.hm.nix
-        ./home-manager/gtk.hm.nix
         ./home-manager/services.hm.nix
         ./home-manager/niri.config.nix
         ./home-manager/dotfiles/fastfetch.nix
