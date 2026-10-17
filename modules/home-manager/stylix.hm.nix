@@ -8,11 +8,93 @@
 }:
 
 let
+  # ============================================================================
+  # 1. THEME VARIABLES & SCRIPTS (Including Flatpak GTK Overrides)
+  # ============================================================================
+  themeName = "Catppuccin-GTK-Mauve-Dark";
+  
   catppuccinGtkTheme = pkgs.magnetic-catppuccin-gtk.override {
     accent = [ "mauve" ];
     shade = "dark";
     size = "standard";
   };
+
+  themeSrc = "${catppuccinGtkTheme}/share/themes/${themeName}";
+
+  # Python script to handle blue-to-mauve color rotation for Flatpak theme compatibility[cite: 1, 2]
+  rotateBlueScript = pkgs.writers.writePython3 "rotate-blue.py" { } ''
+    import colorsys
+    import re
+    import sys
+
+    MAUVE = (203, 166, 247)  # #cba6f7
+    BASE = (30, 30, 46)      # #1e1e2e
+
+
+    def rotate(r, g, b):
+        h, l, s = colorsys.rgb_to_hls(r / 255, g / 255, b / 255)
+        if not (200 <= h * 360 <= 262 and s >= 0.35 and 0.10 < l < 0.97):
+            return None
+        t = min(1.0, max(0.0, (l - 0.15) / (0.75 - 0.15)))
+        return tuple(round(BASE[i] * (1 - t) + MAUVE[i] * t) for i in range(3))
+
+
+    def hex_sub(m):
+        v = m.group(1)
+        out = rotate(*(int(v[i:i + 2], 16) for i in (0, 2, 4)))
+        return m.group(0) if out is None else "#%02x%02x%02x" % out
+
+
+    def rgb_sub(m):
+        r, g, b = int(m.group(2)), int(m.group(3)), int(m.group(4))
+        out = rotate(r, g, b)
+        if out is None:
+            return m.group(0)
+        tail = m.group(5) or ""
+        return "%s(%d, %d, %d%s)" % (m.group(1), *out, tail)
+
+
+    EXACT = (
+        ("#89b4fa", "#cba6f7"),
+        ("rgba(137, 180, 250,", "rgba(203, 166, 247,"),
+        ("rgba(110, 143, 199, 0.961)", "rgba(162, 133, 198, 0.961)"),
+    )
+
+
+    def process(text):
+        for a, b in EXACT:
+            text = re.sub(re.escape(a), b, text, flags=re.I)
+        text = re.sub(r"#([0-9a-fA-F]{6})\b", hex_sub, text)
+        text = re.sub(
+            r"(rgba?)\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(,\s*[\d.]+\s*)?\)",
+            rgb_sub, text)
+        return text
+
+
+    if __name__ == "__main__":
+        for path in sys.argv[1:]:
+            with open(path) as f:
+                old = f.read()
+            new = process(old)
+            if new != old:
+                with open(path, "w") as f:
+                    f.write(new)
+  '';
+
+  gtk4Css = pkgs.writeText "gtk4.css" ''
+    /* real file, not a store symlink, so flatpak sandboxes can read it[cite: 1, 2] */
+    @import url("catppuccin/gtk.css");
+    ${config.gtk.gtk4.extraCss}
+  '';
+
+  settingsIni = pkgs.writeText "settings.ini" ''
+    [Settings]
+    gtk-cursor-theme-name=${config.gtk.cursorTheme.name}
+    gtk-cursor-theme-size=${toString config.gtk.cursorTheme.size}
+    gtk-decoration-layout=:
+    gtk-icon-theme-name=${config.gtk.iconTheme.name}
+    gtk-theme-name=${themeName}
+  '';
 
   qtColors = ''
     [ColorScheme]
@@ -23,10 +105,9 @@ let
 
 in
 {
-
-   # Catppuccin ports for every program HM knows about. Mocha + Mauve everywhere.
-  # Stylix autoEnable is off (see stylix.nix), so catppuccin is what themes stuff.
-  # GTK/Qt toolkit styling stays explicit in stylix.nix + gtk.nix.
+  # ============================================================================
+  # 2. CATPPUCCIN HOME MANAGER INTEGRATION
+  # ============================================================================
   catppuccin = {
     enable = true;
     autoEnable = true;
@@ -42,16 +123,20 @@ in
       accent = "mauve";
     };
   };
-  
+
+  # ============================================================================
+  # 3. STYLIX CORE CONFIGURATION
+  # ============================================================================
   stylix = {
     enable = true;
     autoEnable = false;
 
     targets.vesktop.enable = false;
     targets.vencord.enable = false;
-    # This auto-enabled Linux target writes color-scheme='default' to dconf,
-    # which conflicts with the system-locked prefer-dark value in modules/niri.nix.
-    targets.gnome.enable = false;
+    targets.gnome.enable = false;     # Prevents writing color-scheme='default' conflicting with Niri
+    targets.vscode.enable = false;    # Handled separately in vscode.nix
+    targets.gtk.enable = false;       # Handled manually via gtk section below
+    targets.qt.enable = false;        # Handled manually via qt5ct/qt6ct configurations
 
     cursor = {
       package = osConfig.custom.bibataMaterialCursor;
@@ -96,24 +181,49 @@ in
       base0E = "cba6f7";
       base0F = "f2cdcd";
     };
-
-    # Use the packaged Catppuccin GTK theme and explicit qtct palettes below;
-    # Stylix must not replace either toolkit's theme or colors.
-    targets.gtk.enable = false;
-    targets.qt.enable = false;
   };
 
-  # DMS has "syncModeWithPortal": true, so it doesnt remember a dark/light choice at
-  # all, it just mirrors this dconf key on every sync. thats why colors.kdl kept
-  # reverting no matter what i patched after the fact. pinning the actual source to
-  # dark
+  # ============================================================================
+  # 4. DCONF & DESKTOP ENVIRONMENT SETTINGS
+  # ============================================================================
   dconf.settings."org/gnome/desktop/wm/preferences".button-layout = "appmenu";
 
   dconf.settings."org/gnome/desktop/interface" = {
-    # color-scheme is set and locked in the system dconf profile (modules/niri.nix).
     icon-theme = lib.mkForce "Papirus-Dark";
     accent-color = lib.mkForce "purple";
   };
+
+  # ============================================================================
+  # 5. GTK TOOLKIT & FLATPAK REAL-FILE ACTIVATION OVERRIDES
+  # ============================================================================
+  xdg.configFile."gtk-4.0/gtk.css".enable = lib.mkForce false;
+  xdg.configFile."gtk-4.0/settings.ini".enable = lib.mkForce false;
+  xdg.configFile."gtk-3.0/settings.ini".enable = lib.mkForce false;
+
+  home.activation.flatpakGtkRealFiles = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+    if [[ ! -v DRY_RUN ]]; then
+      cfg="$HOME/.config"
+      theme="$HOME/.local/share/themes/${themeName}"
+      mkdir -p "$cfg/gtk-3.0" "$cfg/gtk-4.0" "$HOME/.local/share/themes"
+
+      rm -f "$cfg/gtk-4.0/gtk.css" "$cfg/gtk-4.0/settings.ini" "$cfg/gtk-3.0/settings.ini"
+      install -m644 ${gtk4Css} "$cfg/gtk-4.0/gtk.css"
+      install -m644 ${settingsIni} "$cfg/gtk-4.0/settings.ini"
+      install -m644 ${settingsIni} "$cfg/gtk-3.0/settings.ini"
+
+      rm -rf "$cfg/gtk-4.0/catppuccin"
+      mkdir -p "$cfg/gtk-4.0/catppuccin"
+      cp -rL --no-preserve=mode,ownership ${themeSrc}/gtk-4.0/. "$cfg/gtk-4.0/catppuccin/"
+
+      rm -rf "$theme"
+      mkdir -p "$theme"
+      cp -rL --no-preserve=mode,ownership ${themeSrc}/gtk-3.0 ${themeSrc}/gtk-4.0 ${themeSrc}/index.theme "$theme/"
+
+      chmod -R u+w "$cfg/gtk-4.0/catppuccin" "$theme"
+
+      find "$cfg/gtk-4.0/catppuccin" "$theme" -type f -name "*.css" -exec ${rotateBlueScript} {} +
+    fi
+  '';
 
   gtk = {
     enable = true;
@@ -154,13 +264,13 @@ in
           --popover-fg-color: #cdd6f4;
           --accent-bg-color: #cba6f7;
           --accent-fg-color: #1e1e2e;
-        --accent-color: #cba6f7;
-        --accent-standalone-color: #cba6f7;
-        --blue-1: #cba6f7;
-        --blue-2: #ae90d6;
-        --blue-3: #9279b4;
-        --blue-4: #7d689c;
-        --blue-5: #675883;
+          --accent-color: #cba6f7;
+          --accent-standalone-color: #cba6f7;
+          --blue-1: #cba6f7;
+          --blue-2: #ae90d6;
+          --blue-3: #9279b4;
+          --blue-4: #7d689c;
+          --blue-5: #675883;
         }
 
         selection,
@@ -191,7 +301,7 @@ in
           outline-offset: -2px;
         }
 
-        /* tab/toggle switchers: soft tint + mauve text, same as selected sidebar rows */
+        /* tab/toggle switchers: soft tint + mauve text */
         toggle-group toggle:checked,
         toggle-group > toggle:checked,
         toggle-group button.toggle:checked,
@@ -213,8 +323,7 @@ in
           color: @accent_color;
         }
 
-        /* unfocused (backdrop) windows: text falls back to the light default, which
-           disappears on solid mauve fills. keep the dark on-accent text there too. */
+        /* unfocused (backdrop) windows */
         button:checked:backdrop,
         button:checked:backdrop *,
         button.suggested-action:backdrop,
@@ -228,7 +337,6 @@ in
           color: #1e1e2e;
         }
 
-        /* soft-tint toggles keep mauve text when unfocused */
         toggle-group toggle:checked:backdrop,
         toggle-group toggle:checked:backdrop *,
         toggle-group > toggle:checked:backdrop,
@@ -236,7 +344,7 @@ in
           color: @accent_color;
         }
 
-        /* Bazaar tiles + featured banner: keep rounded corners at every window width */
+        /* Bazaar tiles + featured banner */
         button.card.app-tile,
         button.card.category-tile,
         .card.app-tile,
@@ -246,9 +354,7 @@ in
           border-radius: 12px;
         }
 
-        /* dialog scrim: the theme defines shade_color as light (white 12%), so libadwaita's
-           dialog dimming lightens the window behind a dialog instead of darkening it and
-           the sheet shadow disappears. restore libadwaita's dark shade for dialogs. */
+        /* dialog scrim */
         dialog-host > dialog {
           --shade-color: rgb(0 0 6 / 25%);
         }
@@ -289,8 +395,9 @@ in
     '';
   };
 
-  # These qtct schemes preserve the supplied Qt active/inactive/disabled
-  # palettes exactly and are shared by Qt 5 and Qt 6.
+  # ============================================================================
+  # 6. QT5 / QT6 CONFIGURATION & COLOR SCHEMES
+  # ============================================================================
   xdg.configFile = {
     "qt5ct/colors/Catppuccin-Mauve-Dark.conf" = {
       text = qtColors;
@@ -325,10 +432,4 @@ in
       force = true;
     };
   };
-
-  # VSCode's look (theme, extensions, everything) is fully managed in
-  # vscode.nix instead — Stylix's own vscode target sets
-  # workbench.colorTheme = "Stylix" and conflicts with whatever theme
-  # is set there (e.g. Dracula).
-  stylix.targets.vscode.enable = false;
 }
