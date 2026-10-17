@@ -3,17 +3,21 @@
 
   nixConfig = {
     extra-substituters = [ 
-      "https://look.cachix.org"
+      "https://nix-community.cachix.org"
+      "https://lanzaboote.cachix.org"
       "https://cache.lix.systems"
+      "https://catppuccin.cachix.org"
       "https://noel.cachix.org"
-      "https://afnix-hydra.s3-bulk-web.afnix.fr/"
+      "https://cache.numtide.com"
 
     ];
     extra-trusted-public-keys = [
-      "look.cachix.org-1:8elPCeSVBzlDZXqIRKBK9GyLIK/Hoe1xiWZF0ir7uX4="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "lanzaboote.cachix.org-1:zJ8JYcHqVX5R3l0nQXvJZ0jZK3pQZ5lQZ5lQZ5lQZ5g="
       "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
+      "catppuccin.cachix.org-1:noG/4HkbhJb+lUAdKrph6LaozJvAeEEZj4N732IysmU="
+      "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
       "noel.cachix.org-1:9g83z453g453g453g453g453g453g453g453g453g45="
-      "afnix:oqt801y+IwJ09XRtNDQYCKb7zuCw9DQXQk8fDWPkwxM="
     ];
     extra-deprecated-features = [ "or-as-identifier" ];
   };
@@ -244,6 +248,7 @@
                 })
                 mac-style-plymouth.overlays.default
                 claude-desktop.overlays.default
+                llm-agents.overlays.shared-nixpkgs
               ];
             }
 
