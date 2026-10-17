@@ -63,6 +63,7 @@ let
     gaming = [
       gamemode
       winetricks
+      protonplus
 
       # Needed by hydralauncher/umu-run's Steam Runtime container.
       bubblewrap
