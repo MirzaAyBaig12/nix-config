@@ -7,20 +7,67 @@
 }:
 
 let
-  exts = (pkgs.extend inputs.nix-vscode-extensions.overlays.default).nix-vscode-extensions;
+  # Extensions are resolved against the Insiders build's base version
+  # (strip the "-insider" suffix so the semver compat check parses it).
+  vscodeVersion = lib.head (lib.splitString "-" pkgs.vscode-insiders.version);
+  exts = (pkgs.extend inputs.nix-vscode-extensions.overlays.default).nix-vscode-extensions.forVSCodeVersion vscodeVersion;
   marketplace = exts.vscode-marketplace;
   marketplace-release = exts.vscode-marketplace-release;
   openvsx = exts.open-vsx;
 in
 {
-  programs.vscode = {
+  # home-manager only ships dedicated modules for stable vscode and a few
+  # forks, and `programs.vscode` is hardwired to stable's paths
+  # (~/.config/Code, ~/.vscode). Instantiate the same generator for Insiders
+  # so settings/extensions land in ~/.config/Code - Insiders + ~/.vscode-insiders.
+  imports = [
+    (import "${inputs.home-manager}/modules/programs/vscode/mkVscodeModule.nix" {
+      modulePath = [ "programs" "vscode-insiders" ];
+      name = "Visual Studio Code - Insiders";
+      packageName = "vscode-insiders";
+      nameShort = "Code - Insiders";
+      dataFolderName = ".vscode-insiders";
+    })
+
+    # catppuccin/nix only wires its vscode theme into programs.vscode & co,
+    # so mirror it for insiders, driven by catppuccin.vscode.profiles.* below.
+    (
+      { config, lib, ... }:
+      {
+        programs.vscode-insiders.profiles = lib.mapAttrs (
+          _: profile:
+          lib.mkIf (config.catppuccin.enable && profile.enable) {
+            extensions = [
+              (config.catppuccin.sources.vscode.override { catppuccinOptions = profile.settings; })
+            ]
+            ++ lib.optional profile.icons.enable config.catppuccin.sources.vscode-icons;
+
+            userSettings = {
+              "workbench.colorTheme" =
+                "Catppuccin "
+                + (lib.toUpper (builtins.substring 0 1 profile.flavor) + builtins.substring 1 (-1) profile.flavor);
+              "catppuccin.accentColor" = profile.accent;
+              "editor.semanticHighlighting.enabled" = lib.mkDefault true;
+              "terminal.integrated.minimumContrastRatio" = lib.mkDefault 1;
+              "window.titleBarStyle" = lib.mkDefault "custom";
+            }
+            // lib.optionalAttrs profile.icons.enable {
+              "workbench.iconTheme" = "catppuccin-" + profile.icons.flavor;
+            };
+          }
+        ) config.catppuccin.vscode.profiles;
+      }
+    )
+  ];
+
+  programs.vscode-insiders = {
     enable = true;
 
     # home-manager owns the actual vscode binary now too, not just my
     # config. used to be `null` + a systemPackages entry but that meant
     # extensions.json never auto-regenerated when I changed my list. pulled
     # vscode out of programs.nix's systemPackages so there's no dupe install.
-    package = pkgs.vscode;
+    package = pkgs.vscode-insiders;
     mutableExtensionsDir = false;
 
     profiles.default = {
