@@ -1,4 +1,3 @@
-
 {
   description = "Комиссар Блятников's Nix Flake";
 
@@ -6,10 +5,15 @@
     extra-substituters = [ 
       "https://look.cachix.org"
       "https://cache.lix.systems"
+      "https://noel.cachix.org"
+      "https://afnix-hydra.s3-bulk-web.afnix.fr/"
+
     ];
     extra-trusted-public-keys = [
       "look.cachix.org-1:8elPCeSVBzlDZXqIRKBK9GyLIK/Hoe1xiWZF0ir7uX4="
       "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
+      "noel.cachix.org-1:9g83z453g453g453g453g453g453g453g453g453g45="
+      "afnix:oqt801y+IwJ09XRtNDQYCKb7zuCw9DQXQk8fDWPkwxM="
     ];
     extra-deprecated-features = [ "or-as-identifier" ];
   };
@@ -26,14 +30,14 @@
 
     # Lix NixOS module (main branch tracks current Lix; release tags lag behind nixpkgs).
     lix-module = {
-      url = "git+https://git.lix.systems/lix-project/nixos-module";
+      url = "https://git.lix.systems/lix-project/nixos-module/archive/main.tar.gz";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.lix.follows = "lix";
     };
 
     # Lix source the module builds. Without this the module uses its own stale pin (2.94-pre).
     lix = {
-      url = "git+https://git.lix.systems/lix-project/lix?ref=refs/tags/2.96.0";
+      url = "https://git.lix.systems/lix-project/lix/archive/refs/tags/2.96.0.tar.gz";
       flake = false;
     };
 
@@ -114,8 +118,11 @@
     # Helium browser package.
     helium.url = "github:amaanq/helium-flake";
 
-    # VS Code Insiders (installed alongside stable vscode).
-    code-insiders.url = "github:iosmanthus/code-insiders-flake";
+    # VS Code Insiders via overlay (fixed package)
+    vscode-insiders = {
+      url = "github:auguwu/vscode-insiders-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # Free Download Manager.
     fdm-nix.url = "github:QaisAlsaid/fdm-nix";
@@ -138,6 +145,7 @@
       cpak,
       catppuccin,
       helium,
+      vscode-insiders,
       ...
     }@inputs:
     {
@@ -221,6 +229,16 @@
                   }
                 )
 
+                (import inputs.vscode-insiders)
+                # Show up as plain "Visual Studio Code" in launchers.
+                (final: prev: {
+                  vscode-insiders = prev.vscode-insiders.overrideAttrs (old: {
+                    postFixup = (old.postFixup or "") + ''
+                      sed -i 's/Visual Studio Code - Insiders/Visual Studio Code/g' \
+                        $out/share/applications/*.desktop
+                    '';
+                  });
+                })
                 mac-style-plymouth.overlays.default
                 claude-desktop.overlays.default
               ];
