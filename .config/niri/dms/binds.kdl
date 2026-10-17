@@ -14,7 +14,6 @@ binds {
     Mod+P hotkey-overlay-title="Cycle Display Profile" { spawn "dms" "ipc" "outputs" "cycleProfile"; }
     Mod+Period hotkey-overlay-title="Emoji Picker" { spawn "dms" "ipc" "call" "emojiPicker" "toggle"; }
     Mod+Shift+N hotkey-overlay-title="Notepad" { spawn "dms" "ipc" "call" "notepad" "toggle"; }
-    Mod+Shift+S hotkey-overlay-title="DMS Screenshot" { spawn "dms" "screenshot"; }
     Mod+Shift+W hotkey-overlay-title="Create window rule" { spawn "dms" "ipc" "call" "window-rules" "toggle"; }
     Mod+Shift+space hotkey-overlay-title="Spotlight Bar" { spawn "dms" "ipc" "call" "spotlight-bar" "toggle"; }
     Mod+V hotkey-overlay-title="Clipboard Manager" { spawn "dms" "ipc" "call" "clipboard" "toggle"; }
@@ -131,7 +130,6 @@ binds {
     Mod+Shift+P { power-off-monitors; }
     Ctrl+Print { screenshot-screen; }
     Ctrl+XF86Launch1 { screenshot-screen; }
-    Print { screenshot; }
     XF86Launch1 { screenshot; }
     Mod+Shift+E { quit; }
     Alt+Ctrl+C hotkey-overlay-title="Open Claude Desktop" { spawn "claude-desktop"; }
@@ -144,7 +142,9 @@ binds {
     Alt+Ctrl+T hotkey-overlay-title="Open Teams" { spawn "teams-for-linux"; }
     Alt+Ctrl+V hotkey-overlay-title="Launch Visual Studio Code" { spawn "code"; }
     Mod+Alt+Shift+P allow-when-locked=true hotkey-overlay-title="Power Off" { spawn "sh" "-c" "systemctl poweroff"; }
+    Mod+Shift+S hotkey-overlay-title="Screenshot (Lumine Capture)" { spawn "sh" "-c" "lumine-capture"; }
     Mod+T hotkey-overlay-title="Open Terminal" { spawn "ghostty"; }
+    Print hotkey-overlay-title="Screenshot (Lumine Capture)" { spawn "sh" "-c" "lumine-capture"; }
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
     Mod+O repeat=false { toggle-overview; }
     Mod+Shift+Slash { show-hotkey-overlay; }
