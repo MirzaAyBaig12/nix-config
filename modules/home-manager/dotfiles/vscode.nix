@@ -296,4 +296,9 @@ in
     # to on, which would fight it, so explicitly off.
     icons.enable = false;
   };
+
+  #Symlink the argv.json file so VSCode Insiders will use it
+  home.file.".vscode-insiders/argv.json".source =
+    config.lib.file.mkOutOfStoreSymlink
+      "${config.home.homeDirectory}/nix-config/.config/.vscode/argv.json";
 }

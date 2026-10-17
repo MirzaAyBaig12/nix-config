@@ -287,7 +287,7 @@
   # Editor configuration
   # -------------------------------------------------------------------------
 
-  home.file.".vscode/argv.json".source =
+  home.file.".vscode-insiders/argv.json".source =
     config.lib.file.mkOutOfStoreSymlink
       "${config.home.homeDirectory}/nix-config/.config/.vscode/argv.json";
 }
