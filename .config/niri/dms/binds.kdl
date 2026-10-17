@@ -140,7 +140,7 @@ binds {
     Alt+Ctrl+Shift+S hotkey-overlay-title="Screenshot" { spawn "sh" "-c" "grim -g \"$(slurp)\" - | satty --filename - --early-exit --copy-command wl-copy"; }
     Alt+Ctrl+Shift+V { spawn "vesktop"; }
     Alt+Ctrl+T hotkey-overlay-title="Open Teams" { spawn "teams-for-linux"; }
-    Alt+Ctrl+V hotkey-overlay-title="Launch Visual Studio Code" { spawn "code"; }
+    Alt+Ctrl+V hotkey-overlay-title="Launch Visual Studio Code" { spawn "code-insiders"; }
     Mod+Alt+Shift+P allow-when-locked=true hotkey-overlay-title="Power Off" { spawn "sh" "-c" "systemctl poweroff"; }
     Mod+Shift+S hotkey-overlay-title="Screenshot (Lumine Capture)" { spawn "sh" "-c" "lumine-capture"; }
     Mod+T hotkey-overlay-title="Open Terminal" { spawn "ghostty"; }
