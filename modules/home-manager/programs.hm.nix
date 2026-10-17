@@ -19,6 +19,9 @@
     inputs.nix-ext-packages.packages.${pkgs.stdenv.hostPlatform.system}.hydra-launcher
     inputs.nix-ext-packages.packages.${pkgs.stdenv.hostPlatform.system}.sklauncher
     inputs.nix-ext-packages.packages.${pkgs.stdenv.hostPlatform.system}.modrinth
+
+    # Screenshots
+    inputs.nix-ext-packages.packages.${pkgs.stdenv.hostPlatform.system}.lumine-capture
   ];
 
   # DankSearch, file search plugin that powers the DMS launcher results
