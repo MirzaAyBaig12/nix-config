@@ -116,7 +116,10 @@
     chatgpt-desktop.url = "github:alioguzhan/chatgpt-desktop-flake";
 
     # Helium browser package.
-    helium.url = "github:amaanq/helium-flake";
+    helium = {
+      url = "github:amaanq/helium-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # VS Code Insiders via overlay (fixed package)
     vscode-insiders = {
