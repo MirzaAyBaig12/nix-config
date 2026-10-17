@@ -25,6 +25,7 @@ in
   # Stylix autoEnable is off (below), so catppuccin is what themes stuff.
   catppuccin = {
     enable = true;
+    cache.enable = true;
     autoEnable = true;
     flavor = "mocha";
     accent = "mauve";
