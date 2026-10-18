@@ -83,7 +83,6 @@
     enroll-tpm = "doas systemd-cryptenroll --wipe-slot=1 /dev/nvme0n1p6 && doas systemd-cryptenroll --tpm2-device=auto /dev/nvme0n1p6";
     spf = "superfile";
     rspf = "sudo superfile";
-    ntfs-perm-fix = "chmod -R u+w /run/media/ayaan_mirza/ZeroTrace/PortableApps"; # clears NTFS read-only attr on folders so linux can delete stuff
   };
 
   # Secure Boot and bootloader
@@ -117,25 +116,20 @@
   boot.initrd.systemd.enable = true;
   boot.consoleLogLevel = 3;
   boot.initrd.verbose = false;
-  boot.resumeDevice = "/dev/disk/by-uuid/8f7d05ae-c0d8-49e0-8799-46e2ad9a514d";
+  
+  # Hibernation settings removed here
   boot.kernelParams = [
     "quiet"
     "splash"
     "rd.udev.log_level=3"
     "rd.systemd.show_status=auto"
-    "resume_offset=192512"
   ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  powerManagement.enable = true;
-  systemd.sleep.settings.Sleep = {
-    HibernateMode = "shutdown";
-  };
-
 
   swapDevices = [
     {
       device = "/swapfile";
-      size = 16384; # 16gb, covers my ~15.3gb of ram
+      size = 8192; # 8 GB
     }
   ];
 
