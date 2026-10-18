@@ -81,13 +81,12 @@ in
           atommaterial.a-file-icon-vscode
           kconway.vscode-undo-buttons
           ms-python.vscode-pylance
-          ms-vscode.azure-repos
           ms-vscode.remote-repositories
           ms-vscode.vscode-python-web-wasm
           github.codespaces
         ])
         ++ (with marketplace-release; [
-          #none
+          github.remotehub
         ])
         # everything else here is on Open VSX too, so it lives here instead
         # of me duplicating a marketplace entry for no reason.
@@ -95,12 +94,10 @@ in
           anthropic.claude-code
           atomicspirit.nix-embedded-highlighter
           christian-kohler.path-intellisense
-          drcika.apc-extension
           jeff-hykin.better-nix-syntax
           jnoortheen.nix-ide
           ms-python.debugpy
           ms-python.python
-          yusifaliyevpro.vscicons
           rionoir.gitcharm
         ]);
 
