@@ -149,18 +149,17 @@ let
 
       # Utilities
       inputs.fdm-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
-      inputs.LinuxFiles.packages.${pkgs.stdenv.hostPlatform.system}.default
 
       # Theming
       config.custom.bibataMaterialCursor
     ];
 
     # Command line coding agents.
-    aiAgents = [
-      llm-agents.claude-code
-      llm-agents.opencode
-      llm-agents.codex
-    ];
+    aiAgents =
+      inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code
+      inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.opencode
+      inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.codex  
+      inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.pi
   };
 in
 {
