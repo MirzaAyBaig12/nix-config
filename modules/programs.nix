@@ -155,11 +155,12 @@ let
     ];
 
     # Command line coding agents.
-    aiAgents =
+    aiAgents = [
       inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code
       inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.opencode
       inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.codex  
       inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.pi
+    ];
   };
 in
 {
