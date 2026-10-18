@@ -36,6 +36,7 @@ let
     # Notes, office work, and personal productivity.
     productivity = [
       obsidian
+      logseq
       ferdium
       onlyoffice-desktopeditors
       dankcalendar
