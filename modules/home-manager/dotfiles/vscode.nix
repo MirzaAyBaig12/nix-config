@@ -124,6 +124,8 @@ in
           "claudePath" = "fcc-claude";
         };
 
+        "gitcharm.avatars.gravatar.enabled" = true;
+
         # everything that ISN'T claude code — vscode's built-in chat, ghost
         # text suggestions, copilot — all off. I don't want ai shoved in my
         # face by default, claude code is the one ai tool I actually chose
