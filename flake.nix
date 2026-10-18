@@ -9,15 +9,17 @@
       "https://catppuccin.cachix.org"
       "https://noel.cachix.org"
       "https://cache.numtide.com"
+      "https://hydra.iohk.io"
 
     ];
     extra-trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      "lanzaboote.cachix.org-1:zJ8JYcHqVX5R3l0nQXvJZ0jZK3pQZ5lQZ5lQZ5lQZ5g="
+      "lanzaboote.cachix.org-1:Nt9//zGmqkg1k5iu+B3bkj3OmHKjSw9pvf3faffLLNk="
       "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
       "catppuccin.cachix.org-1:noG/4HkbhJb+lUAdKrph6LaozJvAeEEZj4N732IysmU="
       "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
-      "noel.cachix.org-1:9g83z453g453g453g453g453g453g453g453g453g45="
+      "noel.cachix.org-1:pQHbMJOB5h5VqYi3RV0Vv0EaeHfxARxgOhE9j013XwQ="
+      "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
     ];
     extra-deprecated-features = [ "or-as-identifier" ];
   };
@@ -60,12 +62,6 @@
 
     # Catppuccin theme modules.
     catppuccin.url = "github:catppuccin/nix";
-
-    # Pinned Catppuccin GTK theme source.
-    catppuccinGtkTheme = {
-      url = "github:Fausto-Korpsvart/Catppuccin-GTK-Theme/a0f69cc33299dc97267c3507fe8a001aecc46b0f";
-      flake = false;
-    };
 
     # DankMaterialShell.
     dms = {
@@ -134,9 +130,6 @@
     # Free Download Manager.
     fdm-nix.url = "github:QaisAlsaid/fdm-nix";
 
-    # Linux Files.
-    LinuxFiles.url = "github:MemerGamer/LinuxFiles";
-
   };
 
   outputs =
@@ -146,13 +139,6 @@
       nix-flatpak,
       claude-desktop,
       mac-style-plymouth,
-      winpodx,
-      home-manager,
-      llm-agents,
-      cpak,
-      catppuccin,
-      helium,
-      vscode-insiders,
       ...
     }@inputs:
     {
@@ -248,7 +234,6 @@
                 })
                 mac-style-plymouth.overlays.default
                 claude-desktop.overlays.default
-                llm-agents.overlays.shared-nixpkgs
               ];
             }
 
