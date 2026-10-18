@@ -261,8 +261,9 @@
             # Insecure packages.
             {
               nixpkgs.config.permittedInsecurePackages = [
-                "ventoy-gtk3-1.1.17"
+                "ventoy-gtk3-1.1.18"
                 "electron-41.10.7"
+                "electron-39.8.10"
               ];
             }
           ];
