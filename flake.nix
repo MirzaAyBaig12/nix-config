@@ -130,6 +130,12 @@
     # Free Download Manager.
     fdm-nix.url = "github:QaisAlsaid/fdm-nix";
 
+    # Strata file manager (flake by deepwatrcreatur, fork of lgse/strata).
+    strata = {
+      url = "github:deepwatrcreatur/nix-strata-filemanager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
   outputs =
