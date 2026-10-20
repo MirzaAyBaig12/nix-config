@@ -149,7 +149,7 @@ let
 
       # Utilities
       inputs.fdm-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
-      inputs.strata.packages.${pkgs.stdenv.hostPlatform.system}.default
+
       # Theming
       config.custom.bibataMaterialCursor
     ];
