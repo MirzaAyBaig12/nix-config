@@ -57,8 +57,10 @@
     nix-flatpak.url = "github:gmodena/nix-flatpak";
 
     # Theming module for NixOS and Home Manager.
-    stylix.url = "github:nix-community/stylix";
-    stylix.inputs.nixpkgs.follows = "nixpkgs";
+    stylix = {
+      url = "github:nix-community/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # Catppuccin theme modules.
     catppuccin.url = "github:catppuccin/nix";
@@ -70,12 +72,16 @@
     };
 
     # DankGreeter.
-    dank-greeter.url = "github:AvengeMedia/dank-greeter";
-    dank-greeter.inputs.nixpkgs.follows = "nixpkgs";
+    dank-greeter = {
+      url = "github:AvengeMedia/dank-greeter";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # DankSearch.
-    danksearch.url = "github:AvengeMedia/danksearch";
-    danksearch.inputs.nixpkgs.follows = "nixpkgs";
+    danksearch = {
+      url = "github:AvengeMedia/danksearch";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # Blip desktop shell module.
     blip.url = "github:blip-net/nix";
@@ -101,16 +107,20 @@
     # CLI coding agents.
     llm-agents.url = "github:numtide/llm-agents.nix";
 
-    # WinPodX: launches Windows applications as desktop entries.
-    winpodx.url = "github:kernalix7/winpodx";
-    winpodx.inputs.nixpkgs.follows = "nixpkgs";
+    # WinPodX: Windows Pod Subsystem
+    winpodx = {
+      url = "github:kernalix7/winpodx";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # Containerpak module.
     cpak.url = "github:Containerpak/cpak/v2";
 
     # Claude Desktop client.
-    claude-desktop.url = "github:aaddrick/claude-desktop-debian";
-    claude-desktop.inputs.nixpkgs.follows = "nixpkgs";
+    claude-desktop = {
+      url = "github:aaddrick/claude-desktop-debian";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # ChatGPT Desktop package.
     chatgpt-desktop.url = "github:alioguzhan/chatgpt-desktop-flake";
