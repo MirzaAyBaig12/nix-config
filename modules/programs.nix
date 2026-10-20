@@ -52,6 +52,7 @@ let
     # Audio and video playback.
     mediaPlayback = [
       vlc
+      kid3-qt # bulk tag + cover art editing
     ];
 
     # Image editing and video production.
