@@ -82,8 +82,7 @@ See [`/modules/`](./modules/) for each configuration module, and [`/modules/home
 │   │   ├── services.hm.nix         # user services (udiskie, flatpak updates, icon cache)
 │   │   └── stylix.hm.nix           # HM-side Stylix (cursor, fonts, theming targets)
 │   ├── desktop.nix                 # display manager, COSMIC, audio, fonts, keymap, Bibata cursor
-│   ├── flatpak.nix                 # declarative Flatpak remotes/packages + sync-flatpak-apps
-│   ├── flatpak.packages.nix        # generated — sync-flatpak-apps owns this file
+│   ├── flatpak.nix                 # declarative Flatpak packages (Flathub only)
 │   ├── gtk.nix                     # Catppuccin GTK theme package, shared by both Stylix modules
 │   ├── home-manager.nix            # wires up Home Manager and its modules
 │   ├── niri.nix                    # niri compositor + DankMaterialShell, portals, xwayland-satellite
@@ -183,7 +182,7 @@ Builds the pinned Catppuccin GTK theme package, including the GTK2 murrine engin
 Every installed application, grouped by purpose (browsers, development, communication, gaming, desktop, hardware, flake-packaged apps), plus program options: Steam, GameMode, nh, direnv, KDE Connect, nix-ld, AppImage, Natsumi/LibreWolf, Neovim, Podman, Docker, and cpak.
 
 ### flatpak.nix
-Declarative Flatpak remotes and packages, plus the `sync-flatpak-apps` script that records apps installed outside Nix into `flatpak.packages.nix`.
+Declarative Flatpak package list (Flathub only). Unmanaged Flatpaks get removed on rebuild, so add new apps here.
 
 ### services.nix
 System services: user account setup, Flatpak daemon (with global dark-mode + Papirus-Dark overrides), doas + sudo, AppArmor, udisks2, keyd (Super-tap override and mouse button remaps), USBMUXD, printing/scanning (hplip/sane), and Avahi discovery.
