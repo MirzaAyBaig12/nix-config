@@ -9,7 +9,7 @@
       "https://catppuccin.cachix.org"
       "https://noel.cachix.org"
       "https://cache.numtide.com"
-      "https://hydra.iohk.io"
+      "https://cache.iog.io"
 
     ];
     extra-trusted-public-keys = [
@@ -221,6 +221,25 @@
                       });
                   }
                 )
+
+                # khal (pulled in by DMS calendar events): the man output
+                # is never built (sphinx-hook only runs the html builder),
+                # so the derivation fails. Drop the man output until
+                # nixpkgs fixes it. "dist" must stay: the python hooks
+                # expect it, and omitting it breaks pythonOutputDistPhase.
+                (final: prev: {
+                  khal = prev.khal.overrideAttrs (old: {
+                    outputs = [ "out" "dist" "doc" ];
+                    sphinxBuilders = [ "html" ];
+                  });
+                })
+
+                # hplip: fix wrapper argument breakage by clearing problematic hooks or wrapping cleanly
+                (final: prev: {
+                  hplip = prev.hplip.overrideAttrs (old: {
+                    nativeBuildInputs = builtins.filter (x: x != (prev.gappsWrapperArgsHook or null)) (old.nativeBuildInputs or []);
+                  });
+                })
 
                 (import inputs.vscode-insiders)
                 # Show up as plain "Visual Studio Code" in launchers.
