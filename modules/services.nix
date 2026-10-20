@@ -37,47 +37,6 @@
   };
 
   # -------------------------------------------------------------------------
-  # Flatpak
-  # -------------------------------------------------------------------------
-
-  # Declarative Flatpak setup; package declarations live in flatpak.nix.
-  services.flatpak.enable = true;
-
-  services.flatpak.overrides = {
-    # "replace" = Nix fully owns the override files. The default "merge" only ever
-    # adds/updates keys and never deletes ones removed from this config, which is
-    # why GTK_THEME kept lingering in /var/lib/flatpak/overrides/global after I
-    # removed it below.
-    writeMode = "replace";
-
-    settings = {
-      global = {
-        Context.filesystems = [
-          "xdg-data/themes:ro"
-          "xdg-data/icons:ro"
-          "xdg-config/gtk-3.0:ro"
-          "xdg-config/gtk-4.0:ro"
-        ];
-
-        # Force dark mode + Papirus-Dark icons for every Flatpak app.
-        # No GTK_THEME here on purpose: forcing a non-Adwaita theme makes libadwaita
-        # skip its stylesheet and breaks AdwDialog styling (see modules/system.nix).
-        Environment = {
-          ADW_DEBUG_COLOR_SCHEME = "prefer-dark";
-          ICON_THEME = "Papirus-Dark";
-        };
-      };
-
-      "com.kolumni.bazaar" = {
-        Context.filesystems = [
-          "xdg-config/gtk-3.0:ro"
-          "xdg-config/gtk-4.0:ro"
-        ];
-      };
-    };
-  };
-
-  # -------------------------------------------------------------------------
   # Security & privileges
   # -------------------------------------------------------------------------
 
@@ -155,26 +114,4 @@
     nssmdns4 = true;
     openFirewall = true;
   };
-
-  # -------------------------------------------------------------------------
-  # Flatpak sync service
-  # -------------------------------------------------------------------------
-  #
-  # Watches for Flatpaks installed outside Nix and appends them to
-  # flatpak.nix.
-  #
-  # Run manually with:
-  #
-  #   systemctl --user start flatpak-app-sync.service
-  #
-  systemd.user.services.flatpak-app-sync = {
-    description = "Periodic sync for unmanaged Flatpaks into flatpak.nix";
-
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${config.custom.flatpakSyncScript}/bin/sync-flatpak-apps";
-    };
-  };
-
-  # No timer. The service is intentionally manual.
 }
