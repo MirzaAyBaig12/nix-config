@@ -3,6 +3,11 @@
 
   nixConfig = {
     extra-deprecated-features = [ "or-as-identifier" ];
+    permittedInsecurePackages = [
+      "ventoy-gtk3-1.1.18"
+      "electron-41.10.7"
+      "electron-39.8.10"
+    ];
   };
 
   inputs = {
@@ -191,7 +196,7 @@
               #Dux Suite
               dux-shell.nixosModules.dank-material-shell
               dux-greeter.nixosModules.default
-              dux-greeter.nixosModules.default
+              dux-files.nixosModules.dux-files
 
               #Blip (File Transfer)
               blip.nixosModules.default
@@ -298,15 +303,6 @@
             {
               system.configurationRevision =
                 self.rev or self.dirtyRev or "dirty";
-            }
-
-            # Insecure packages.
-            {
-              nixpkgs.config.permittedInsecurePackages = [
-                "ventoy-gtk3-1.1.18"
-                "electron-41.10.7"
-                "electron-39.8.10"
-              ];
             }
           ];
         };
