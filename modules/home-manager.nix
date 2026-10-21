@@ -31,7 +31,7 @@
         ./home-manager/dotfiles/zsh.nix
 
         # Upstream Home Manager modules
-        inputs.danksearch.homeModules.dsearch
+        inputs.dux-search.homeModules.dsearch
         inputs.nixcord.homeModules.nixcord
         inputs.catppuccin.homeModules.catppuccin
       ];
