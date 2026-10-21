@@ -1,6 +1,15 @@
 {
   description = "Комиссар Блятников's Nix Flake";
 
+  nixConfig = {
+    extra-deprecated-features = [ "or-as-identifier" ];
+    permittedInsecurePackages = [
+      "ventoy-gtk3-1.1.18"
+      "electron-41.10.7"
+      "electron-39.8.10"
+    ];
+  };
+
   inputs = {
     # NixOS packages used to build the system and install applications.
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -125,15 +134,6 @@
     # Free Download Manager.
     fdm-nix.url = "github:QaisAlsaid/fdm-nix";
 
-  };
-  
-  nixConfig = {
-    extra-deprecated-features = [ "or-as-identifier" ];
-    permittedInsecurePackages = [
-      "ventoy-gtk3-1.1.18"
-      "electron-41.10.7"
-      "electron-39.8.10"
-    ];
   };
 
   outputs =
