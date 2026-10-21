@@ -3,11 +3,6 @@
 
   nixConfig = {
     extra-deprecated-features = [ "or-as-identifier" ];
-    permittedInsecurePackages = [
-      "ventoy-gtk3-1.1.18"
-      "electron-41.10.7"
-      "electron-39.8.10"
-    ];
   };
 
   inputs = {
@@ -303,6 +298,15 @@
             {
               system.configurationRevision =
                 self.rev or self.dirtyRev or "dirty";
+            }
+
+            # Insecure packages.
+            {
+              nixpkgs.config.permittedInsecurePackages = [
+                "ventoy-gtk3-1.1.18"
+                "electron-41.10.7"
+                "electron-39.8.10"
+              ];
             }
           ];
         };
