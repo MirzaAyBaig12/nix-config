@@ -47,6 +47,12 @@
     }
   ];
 
+  programs.dux-files = {
+    enable = true;
+    systemd.enable = true;
+    portal.enable = true;
+  };
+
   # Session-specific portals
   # scope portals by session. niri gets COSMIC's portal first (native file picker,
   # notifications) with xdg-desktop-portal-wlr as the fallback for
@@ -69,10 +75,9 @@
       niri = {
         default = lib.mkForce [ "gtk" ];
         "org.freedesktop.impl.portal.Settings" = [ "gtk" ];
-        # cosmic's file picker is the only thing cosmic handles on niri
-        "org.freedesktop.impl.portal.FileChooser" = [ "cosmic" ];
-        # cosmic can't capture niri outputs (panics w/ CaptureSourceError), so pin
-        # screen capture to gnome (niri implements org.gnome.Mutter.ScreenCast, this
+        #use dux-files as file picker
+        "org.freedesktop.impl.portal.FileChooser" = [ "dfiles" ];
+        # pin screen capture to gnome (niri implements org.gnome.Mutter.ScreenCast, this
         # also gives per-window capture). note the capital C in ScreenCast, interface
         # names are case sensitive. wlr was tried and never got routed/worked
         "org.freedesktop.impl.portal.ScreenCast" = [ "gnome" ];
