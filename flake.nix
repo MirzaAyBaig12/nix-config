@@ -265,9 +265,14 @@
                   });
                 })
 
-                # hplip: drivers only (no Qt GUI), keeps the build small and avoids the wrapper breakage
+                # hplip: drivers only (no Qt GUI), keeps the build small and avoids the wrapper breakage.
+                # Also drop the hplip.desktop launcher, since it points at the removed GUI.
                 (final: prev: {
-                  hplip = prev.hplip.override { withQt5 = false; };
+                  hplip = (prev.hplip.override { withQt5 = false; }).overrideAttrs (old: {
+                    postInstall = (old.postInstall or "") + ''
+                      rm -f $out/share/applications/hplip.desktop
+                    '';
+                  });
                 })
 
                 # udiskie: its keyutils test needs the kernel keyring, which the
