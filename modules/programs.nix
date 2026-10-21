@@ -180,12 +180,7 @@ in
     ++ appPackages.externalApps
     ++ appPackages.aiAgents;
 
-  imports = [
-    inputs.blip.nixosModules.default
-    inputs.nix-ext-packages.nixosModules.natsumi
-    inputs.cpak.nixosModules.default
-  ];
-
+    
   services.cpak.enable = true;
 
   # Shell and desktop utilities.

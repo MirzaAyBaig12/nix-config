@@ -15,8 +15,6 @@ let
   };
 in
 {
-  imports = [ inputs.catppuccin.nixosModules.catppuccin ];
-
   # Install outside the per-user profile too so system GTK apps can resolve the
   # theme from the system XDG data directories.
   environment.systemPackages = [ catppuccinGtkTheme ];
