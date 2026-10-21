@@ -2,25 +2,6 @@
   description = "Комиссар Блятников's Nix Flake";
 
   nixConfig = {
-    extra-substituters = [ 
-      "https://nix-community.cachix.org"
-      "https://lanzaboote.cachix.org"
-      "https://cache.lix.systems"
-      "https://catppuccin.cachix.org"
-      "https://noel.cachix.org"
-      "https://cache.numtide.com"
-      "https://cache.iog.io"
-
-    ];
-    extra-trusted-public-keys = [
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      "lanzaboote.cachix.org-1:Nt9//zGmqkg1k5iu+B3bkj3OmHKjSw9pvf3faffLLNk="
-      "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
-      "catppuccin.cachix.org-1:noG/4HkbhJb+lUAdKrph6LaozJvAeEEZj4N732IysmU="
-      "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
-      "noel.cachix.org-1:pQHbMJOB5h5VqYi3RV0Vv0EaeHfxARxgOhE9j013XwQ="
-      "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
-    ];
     extra-deprecated-features = [ "or-as-identifier" ];
   };
 
@@ -65,21 +46,29 @@
     # Catppuccin theme modules.
     catppuccin.url = "github:catppuccin/nix";
 
-    # DankMaterialShell.
-    dms = {
-      url = "github:AvengeMedia/DankMaterialShell/master";
+    # Dux Shell (formerly DankMaterialShell), stable branch.
+    dux-shell = {
+      url = "github:duxlabs-dev/dux-shell/stable";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # DankGreeter.
-    dank-greeter = {
-      url = "github:AvengeMedia/dank-greeter";
+    dux-files.url = "github:duxlabs-dev/dux-files";
+
+    # Dux Greeter (formerly DankGreeter), stable 2.0 branch.
+    dux-greeter = {
+      url = "github:duxlabs-dev/dux-greeter/stable-2.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # DankSearch.
-    danksearch = {
-      url = "github:AvengeMedia/danksearch";
+    # Dux Search (formerly DankSearch).
+    dux-search = {
+      url = "github:duxlabs-dev/dux-search";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Dux GOP (formerly dgop), system resources API & CLI.
+    dux-gop = {
+      url = "github:duxlabs-dev/dux-gop";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -181,16 +170,18 @@
             inputs.lanzaboote.nixosModules.lanzaboote
 
             # DankGreeter.
-            inputs.dank-greeter.nixosModules.default
+            inputs.dux-greeter.nixosModules.default
 
             # DankMaterialShell.
-            inputs.dms.nixosModules.dank-material-shell
+            inputs.dux-shell.nixosModules.dank-material-shell
 
             # Home Manager integration.
             inputs.home-manager.nixosModules.default
 
             # Lix.
             inputs.lix-module.nixosModules.default
+
+            inputs.dux-files.nixosModules.dux-files
 
             # Package overlays.
             {
@@ -244,10 +235,17 @@
                   });
                 })
 
-                # hplip: fix wrapper argument breakage by clearing problematic hooks or wrapping cleanly
+                # hplip: drivers only (no Qt GUI), keeps the build small and avoids the wrapper breakage
                 (final: prev: {
-                  hplip = prev.hplip.overrideAttrs (old: {
-                    nativeBuildInputs = builtins.filter (x: x != (prev.gappsWrapperArgsHook or null)) (old.nativeBuildInputs or []);
+                  hplip = prev.hplip.override { withQt5 = false; };
+                })
+
+                # udiskie: its keyutils test needs the kernel keyring, which the
+                # build sandbox doesn't provide, so the test suite fails. Skip tests.
+                (final: prev: {
+                  udiskie = prev.udiskie.overrideAttrs (old: {
+                    doCheck = false;
+                    doInstallCheck = false;
                   });
                 })
 
