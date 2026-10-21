@@ -135,9 +135,22 @@
     {
       self,
       nixpkgs,
+      lix-module,
+      lanzaboote,
       nix-flatpak,
       claude-desktop,
       mac-style-plymouth,
+      stylix,
+      catppuccin,
+      dux-shell,
+      dux-greeter,
+      dux-files,
+      dux-search,
+      home-manager,
+      nixcord,
+      blip,
+      nix-ext-packages,
+      cpak,
       ...
     }@inputs:
     {
@@ -159,29 +172,46 @@
                 config.allowUnfree = true;
               };
             }
+            
+            #Import nixosModules
 
-            # Declarative Flatpak.
-            nix-flatpak.nixosModules.nix-flatpak
+              #Lix Module & Overlay
+              lix-module.nixosModules.default
 
-            # Stylix.
-            inputs.stylix.nixosModules.stylix
+              #Declarative Flatpak Management
+              nix-flatpak.nixosModules.nix-flatpak
 
-            # Lanzaboote.
-            inputs.lanzaboote.nixosModules.lanzaboote
+              #System Theme Management
+              stylix.nixosModules.stylix
+              catppuccin.nixosModules.catppuccin
 
-            # DankGreeter.
-            inputs.dux-greeter.nixosModules.default
+              #Bootloader
+              lanzaboote.nixosModules.lanzaboote
 
-            # DankMaterialShell.
-            inputs.dux-shell.nixosModules.dank-material-shell
+              #Dux Suite
+              dux-shell.nixosModules.dank-material-shell
+              dux-greeter.nixosModules.default
+              dux-greeter.nixosModules.default
 
-            # Home Manager integration.
-            inputs.home-manager.nixosModules.default
+              #Blip (File Transfer)
+              blip.nixosModules.default
 
-            # Lix.
-            inputs.lix-module.nixosModules.default
+              #nix-ext-packages (Custom Packages on my repo)
+              nix-ext-packages.nixosModules.natsumi
 
-            inputs.dux-files.nixosModules.dux-files
+              #containerpak
+              cpak.nixosModules.default
+            
+            #Import Home-Manager
+            home-manager.nixosModules.default
+            {
+            home-manager.sharedModules = [
+              # Home Manager Module Imports
+              dux-search.homeModules.dsearch
+              nixcord.homeModules.nixcord
+              catppuccin.homeModules.catppuccin
+              ];
+            }
 
             # Package overlays.
             {

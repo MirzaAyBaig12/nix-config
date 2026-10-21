@@ -29,11 +29,6 @@
         ./home-manager/dotfiles/vscode.nix
         ./home-manager/dotfiles/web-apps.nix
         ./home-manager/dotfiles/zsh.nix
-
-        # Upstream Home Manager modules
-        inputs.dux-search.homeModules.dsearch
-        inputs.nixcord.homeModules.nixcord
-        inputs.catppuccin.homeModules.catppuccin
       ];
 
       # Qt 5 and Qt 6 use qtct for palette/font settings and Kvantum for
