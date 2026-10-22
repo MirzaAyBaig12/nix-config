@@ -72,6 +72,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    #DMS Declarative Extentions source
+    dms-plugin-registry = {
+      url = "github:duxlabs-dev/dux-plugin-registry";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Blip desktop shell module.
     blip.url = "github:blip-net/nix";
 
@@ -146,6 +152,7 @@
       dux-greeter,
       dux-files,
       dux-search,
+      dms-plugin-registry,
       home-manager,
       nixcord,
       blip,
@@ -192,6 +199,7 @@
               dux-shell.nixosModules.dank-material-shell
               dux-greeter.nixosModules.default
               dux-files.nixosModules.dux-files
+              dms-plugin-registry.nixosModules.default
 
               #Blip (File Transfer)
               blip.nixosModules.default
