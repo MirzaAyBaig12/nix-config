@@ -25,6 +25,24 @@
   # module instead of nixpkgs' vendored one.
   programs.dank-material-shell = {
     enable = true;
+
+    plugins = {
+      caffeineRedesigned.enable = true;
+      nixPackageRunner.enable = true;
+      prayerTimes.enable = true;
+      quranWidget.enable = true;
+      vscodeLauncher.enable = true;
+      webSearch.enable = true;
+      dankPomodoroTimer.enable = true;
+      emojiLauncher.enable = true;
+      activateLinux.enable = true;
+      batteryOSD.enable = true;
+      calculator.enable = true;
+      dankGifSearch.enable = true;
+      emojiPicker.enable = true;
+      modernClock.enable = true;
+    };
+
     systemd = {
       enable = true;
       restartIfChanged = true;
@@ -71,7 +89,6 @@
       pkgs.xdg-desktop-portal-gtk
     ];
     config = {
-      cosmic.default = [ "cosmic" ];
       niri = {
         default = lib.mkForce [ "gtk" ];
         "org.freedesktop.impl.portal.Settings" = [ "gtk" ];
