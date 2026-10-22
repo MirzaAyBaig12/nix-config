@@ -87,20 +87,35 @@
     uninstallUnmanaged = true;
   };
 
-  # Automatically install all Kvantum runtime branches non-interactively on switch
+  # Install any missing Kvantum runtime branches non-interactively on switch,
+  # but only when a Wayland session is running. Each branch is checked first,
+  # so a normal rebuild does no network work when everything is installed.
+  # No `exit` here: activation scripts are concatenated into one script.
   system.activationScripts.installKvantumBranches = {
     text = ''
-      ${pkgs.flatpak}/bin/flatpak install --system --noninteractive flathub \
-        org.kde.KStyle.Kvantum//6.10 \
-        org.kde.KStyle.Kvantum//6.9 \
-        org.kde.KStyle.Kvantum//6.6 \
-        org.kde.KStyle.Kvantum//6.5 \
-        org.kde.KStyle.Kvantum//5.15-25.08 \
-        org.kde.KStyle.Kvantum//5.15-24.08 \
-        org.kde.KStyle.Kvantum//5.15-23.08 \
-        org.kde.KStyle.Kvantum//5.15-22.08 \
-        org.kde.KStyle.Kvantum//5.15-21.08 \
-        org.kde.KStyle.Kvantum//5.15 || true
+      has_wayland=0
+      for sock in /run/user/*/wayland-*; do
+        if [ -S "$sock" ]; then
+          has_wayland=1
+          break
+        fi
+      done
+
+      if [ "$has_wayland" = 1 ]; then
+        flatpak=${pkgs.flatpak}/bin/flatpak
+        missing=""
+
+        for branch in 6.10 6.9 6.6 6.5 \
+          5.15-25.08 5.15-24.08 5.15-23.08 5.15-22.08 5.15-21.08 5.15; do
+          if ! $flatpak info --system "org.kde.KStyle.Kvantum//$branch" >/dev/null 2>&1; then
+            missing="$missing org.kde.KStyle.Kvantum//$branch"
+          fi
+        done
+
+        if [ -n "$missing" ]; then
+          $flatpak install --system --noninteractive flathub $missing || true
+        fi
+      fi
     '';
   };
 }
