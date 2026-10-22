@@ -83,9 +83,8 @@
     EOF
 
         if [ "$OLD_TARGET" != "$(readlink -f "$LINK" 2>/dev/null || true)" ]; then
-          $DRY_RUN_CMD ${pkgs.systemd}/bin/systemctl --user daemon-reload || true
-          $DRY_RUN_CMD ${pkgs.systemd}/bin/systemctl --user try-restart dms.service || true
+          $DRY_RUN_CMD${pkgs.systemd}/bin/systemctl --user daemon-reload || true
+          $DRY_RUN_CMD${pkgs.systemd}/bin/systemctl --user try-restart dms.service || true
         fi
   '';
-
 }
