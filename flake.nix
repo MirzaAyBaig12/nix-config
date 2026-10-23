@@ -113,7 +113,7 @@
 
     # Claude Desktop client.
     claude-desktop = {
-      url = "github:aaddrick/claude-desktop-debian";
+      url = "github:nmcbride/claude-desktop-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -187,6 +187,9 @@
 
               #Declarative Flatpak Management
               nix-flatpak.nixosModules.nix-flatpak
+
+              #Claude Desktop (+ Cowork FHS paths / kvm)
+              claude-desktop.nixosModules.default
 
               #System Theme Management
               stylix.nixosModules.stylix
