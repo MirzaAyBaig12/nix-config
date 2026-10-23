@@ -13,6 +13,8 @@ let
       firefoxpwa
       firefox
       inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
+      tor-browser
+      chromium
     ];
 
     # Editors, language runtimes, and developer tools.
@@ -133,7 +135,6 @@ let
     externalApps = [
       # AI apps
       inputs.chatgpt-desktop.packages.${pkgs.stdenv.hostPlatform.system}.chatgpt
-      claude-desktop-fhs
       opencode-desktop
 
       # WinPodX
@@ -184,6 +185,14 @@ in
     
   services.cpak.enable = true;
 
+  # Claude Desktop (official Linux build, nmcbride/claude-desktop-nix).
+  # Cowork is off: only chat + connectors are used, so skip the
+  # OVMF/virtiofsd FHS symlinks, vhost_vsock and kvm group setup.
+  programs.claude-desktop = {
+    enable = true;
+    cowork.enable = false;
+  };
+
   # Shell and desktop utilities.
   programs.zsh.enable = true;
 
@@ -209,12 +218,6 @@ in
     enable = true;
     autoPrune.enable = true;
   };
-
-  users.users.ayaan_mirza.extraGroups = [
-    "docker"
-    "podman"
-    "kvm"
-  ];
 
   virtualisation.containers.containersConf.settings.engine.image_copy_tmp_dir =
     lib.mkForce "/tmp";
