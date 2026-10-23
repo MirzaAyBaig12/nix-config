@@ -158,22 +158,21 @@
     },
     "claude-desktop": {
       "inputs": {
-        "flake-parts": "flake-parts",
         "nixpkgs": [
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1792632084,
-        "narHash": "sha256-/A5w6OebFSe9TWwvZxnU/2gRdaFTXlmHAc5JOvONn/M=",
-        "owner": "aaddrick",
-        "repo": "claude-desktop-debian",
-        "rev": "c6d15da9f8332b416695ebb819125745db0c25f9",
+        "lastModified": 1792666506,
+        "narHash": "sha256-QDXzlZP5zZFzirZoUSE1AR5rrcWq/fGRTvc2VxVSMVI=",
+        "owner": "nmcbride",
+        "repo": "claude-desktop-nix",
+        "rev": "52f85d1068c61261221d68bbb179c37a19f1aa0a",
         "type": "github"
       },
       "original": {
-        "owner": "aaddrick",
-        "repo": "claude-desktop-debian",
+        "owner": "nmcbride",
+        "repo": "claude-desktop-nix",
         "type": "github"
       }
     },
@@ -266,11 +265,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792684591,
-        "narHash": "sha256-DtpOPUXbCejCFxYDmCsDCfe6Dx5OKgmveNHLyKa2iSM=",
+        "lastModified": 1792723191,
+        "narHash": "sha256-zrQuR6/vzAJHGqbbl6ib5H1n20Dbia6F7pXDDVeHVTY=",
         "owner": "duxlabs-dev",
         "repo": "dux-plugin-registry",
-        "rev": "8b16f347dce5c4c0f8644c6c378d0dfe06d99ce9",
+        "rev": "e0b5e9442453208e44c2d10ac04b049661299f6f",
         "type": "github"
       },
       "original": {
@@ -451,24 +450,6 @@
     },
     "flake-parts": {
       "inputs": {
-        "nixpkgs-lib": "nixpkgs-lib"
-      },
-      "locked": {
-        "lastModified": 1790898470,
-        "narHash": "sha256-zTwuwezD0w3hpga6a6P8emidzAZFyWqlNeRBlpWOOl8=",
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "rev": "024633cd702b10285db5cb19b40ad48d2399ba60",
-        "type": "github"
-      },
-      "original": {
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "type": "github"
-      }
-    },
-    "flake-parts_2": {
-      "inputs": {
         "nixpkgs-lib": [
           "llm-agents",
           "nixpkgs"
@@ -488,7 +469,7 @@
         "type": "github"
       }
     },
-    "flake-parts_3": {
+    "flake-parts_2": {
       "inputs": {
         "nixpkgs-lib": [
           "stylix",
@@ -736,17 +717,17 @@
     "llm-agents": {
       "inputs": {
         "bun2nix": "bun2nix",
-        "flake-parts": "flake-parts_2",
+        "flake-parts": "flake-parts",
         "nixpkgs": "nixpkgs_7",
         "systems": "systems_2",
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1792708090,
-        "narHash": "sha256-/bMdN82swqdD2Uk66QZMw0JXPu6TPbtkDNU3DbDRFaQ=",
+        "lastModified": 1792728351,
+        "narHash": "sha256-91rRFnBm9hpMIAFYi+ZvuLOupMtBMrnMVsd6CmH5ik8=",
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "rev": "529ee8f9a886cb6f09d6f3d25f13b0de72c8a4c0",
+        "rev": "4726c319ae0692a84f20819395411d9f8b88335a",
         "type": "github"
       },
       "original": {
@@ -857,11 +838,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792642300,
-        "narHash": "sha256-J8DxAG8MBalgVKo7MEcCy7ZG0PbWnyvCadw2X97WaEY=",
+        "lastModified": 1792728804,
+        "narHash": "sha256-9ylfkYOvq0SiMYaDJ/wVjSD1MPclnewbL2a5SVxXSg8=",
         "owner": "nix-community",
         "repo": "nix-vscode-extensions",
-        "rev": "13893865e7165471ce258bff94e61aca9ccfbb87",
+        "rev": "38be83a22538cc79c3d14d53e8d312d5c32eedea",
         "type": "github"
       },
       "original": {
@@ -880,11 +861,11 @@
         "treefmt-nix": "treefmt-nix_2"
       },
       "locked": {
-        "lastModified": 1792706836,
-        "narHash": "sha256-HqvqANTIPCe+Z1ghWQPBIauk56p0rZJUwO8GWiF5IiI=",
+        "lastModified": 1792723906,
+        "narHash": "sha256-5ITl5ZFbF6tV7+HCKMyPJCHvAYQE/2Ezv9ZbmkFLOr8=",
         "owner": "4evy",
         "repo": "nixcord",
-        "rev": "337f2b1f8c188c749e3047901282529a309c4d62",
+        "rev": "9c3b575e714f36f72e9f5e780f477c00aa91c90a",
         "type": "github"
       },
       "original": {
@@ -920,21 +901,6 @@
       "original": {
         "type": "tarball",
         "url": "https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.zst"
-      }
-    },
-    "nixpkgs-lib": {
-      "locked": {
-        "lastModified": 1790477367,
-        "narHash": "sha256-oujbxmVKDhci2E4EM3KyAbRUgp5/IsCoiA/LfEF7OOk=",
-        "owner": "nix-community",
-        "repo": "nixpkgs.lib",
-        "rev": "f7cd230690d9fc982d06129f9189b101fddcfa3b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "nixpkgs.lib",
-        "type": "github"
       }
     },
     "nixpkgs-packages": {
@@ -1194,7 +1160,7 @@
         "base16-helix": "base16-helix",
         "base16-vim": "base16-vim",
         "firefox-gnome-theme": "firefox-gnome-theme",
-        "flake-parts": "flake-parts_3",
+        "flake-parts": "flake-parts_2",
         "gnome-shell": "gnome-shell",
         "nixpkgs": [
           "nixpkgs"
