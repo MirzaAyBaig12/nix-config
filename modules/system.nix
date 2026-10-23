@@ -38,9 +38,21 @@
       "/home/ayaan_mirza/.local/bin"
     ];
     XDG_DATA_DIRS = [ "/run/current-system/sw/share" ];
+    LIBVA_DRIVER_NAME = "iHD";
   };
 
   environment.systemPackages = [ pkgs.exfatprogs ];
+
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [
+      intel-media-driver # For Intel Iris Xe & Broadwell or newer
+      vpl-gpu-rt         # Intel VPL / QSV hardware acceleration support
+    ];
+    extraPackages32 = with pkgs; [
+      intel-media-driver
+    ];
+  };
 
   # Data partitions and mounts
   fileSystems."/mnt/nvme0n1p7" = {
