@@ -30,6 +30,14 @@
   # Lix comes from the lix-module flake input (see flake.nix); don't set nix.package
   # here or it overrides the module.
 
+  users.users.ayaan_mirza.extraGroups = [
+    "docker"
+    "podman"
+    "kvm"
+    "video"
+    "render"
+  ];
+  
   nix.settings = {
     experimental-features = [ 
       "nix-command" 
