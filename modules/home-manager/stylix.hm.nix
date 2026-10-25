@@ -305,9 +305,7 @@ in
         toggle-group toggle:checked,
         toggle-group > toggle:checked,
         toggle-group button.toggle:checked,
-        .toggle-group button:checked,
-        viewswitcher button:checked,
-        viewswitcher > button:checked {
+        .toggle-group button:checked {
           background-color: alpha(@accent_bg_color, 0.16);
           color: @accent_color;
           font-weight: 500;
@@ -316,9 +314,7 @@ in
         toggle-group toggle:checked:hover,
         toggle-group > toggle:checked:hover,
         toggle-group button.toggle:checked:hover,
-        .toggle-group button:checked:hover,
-        viewswitcher button:checked:hover,
-        viewswitcher > button:checked:hover {
+        .toggle-group button:checked:hover {
           background-color: alpha(@accent_bg_color, 0.22);
           color: @accent_color;
         }
@@ -362,6 +358,61 @@ in
         floating-sheet > dimming,
         bottom-sheet > dimming {
           background-color: rgb(0 0 6 / 50%);
+        }
+
+        /* force all text white (fixes black labels in portal dialogs etc) */
+        label,
+        text,
+        entry text,
+        textview text {
+          color: #ffffff;
+        }
+
+        /* exceptions: text sitting on the #cba6f7 accent bg stays dark */
+        button.suggested-action label,
+        button.suggested-action image,
+        button.opaque label,
+        button.opaque image,
+        button:checked.suggested-action label,
+        row:selected label,
+        row:selected image,
+        listview > row:selected label,
+        .navigation-sidebar row:selected label,
+        calendar:selected,
+        check:checked,
+        radio:checked,
+        switch:checked label,
+        progressbar label,
+        .accent-bg label,
+        selection label {
+          color: #1e1e2e;
+        }
+
+        /* checked toggles keep their mauve text */
+        toggle-group toggle:checked label,
+        toggle-group > toggle:checked label,
+        toggle-group button.toggle:checked label,
+        .toggle-group button:checked label {
+          color: @accent_color;
+        }
+
+        /* view switchers (Bazaar etc): solid accent pill, dark icon + text */
+        viewswitcher button:checked,
+        viewswitcher > button:checked,
+        viewswitcher toggle:checked,
+        viewswitcherbar button:checked,
+        viewswitcherbar toggle:checked,
+        viewswitcherbar viewswitcher button:checked {
+          background-color: @accent_bg_color;
+          color: @accent_fg_color;
+        }
+
+        viewswitcher button:checked *,
+        viewswitcher > button:checked *,
+        viewswitcher toggle:checked *,
+        viewswitcherbar button:checked *,
+        viewswitcherbar toggle:checked * {
+          color: @accent_fg_color;
         }
       '';
     };
