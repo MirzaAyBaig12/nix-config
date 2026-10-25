@@ -41,17 +41,21 @@
     LIBVA_DRIVER_NAME = "iHD";
   };
 
-  environment.systemPackages = [ pkgs.exfatprogs ];
+  environment.systemPackages = [
+    pkgs.exfatprogs
+    pkgs.gpu-screen-recorder-ui # frontend for gpu-screen-recorder
+  ];
 
+  # GPU Screen Recorder: installs the CLI and sets up the capability wrapper it
+  # needs for KMS/Wayland capture (VA-API encoding on the Iris Xe)
+  programs.gpu-screen-recorder.enable = true;
+
+  # VA-API driver for the Iris Xe. LIBVA_DRIVER_NAME=iHD above points at this,
+  # without it vaInitialize fails and gpu-screen-recorder can't encode h264
+  # (shows up as exit codes 52-54 / "recording ended unexpectedly" in DMS plugins)
   hardware.graphics = {
     enable = true;
-    extraPackages = with pkgs; [
-      intel-media-driver # For Intel Iris Xe & Broadwell or newer
-      vpl-gpu-rt         # Intel VPL / QSV hardware acceleration support
-    ];
-    extraPackages32 = with pkgs; [
-      intel-media-driver
-    ];
+    extraPackages = [ pkgs.intel-media-driver ];
   };
 
   # Data partitions and mounts
@@ -125,10 +129,8 @@
     theme = "mac-style";
     themePackages = [ pkgs.mac-style-plymouth ];
   };
-  boot.initrd.systemd.enable = true;
   boot.consoleLogLevel = 3;
-  boot.initrd.verbose = false;
-  
+
   # Hibernation settings removed here
   boot.kernelParams = [
     "quiet"
