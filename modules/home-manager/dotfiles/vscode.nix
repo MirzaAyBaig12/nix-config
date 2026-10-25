@@ -84,6 +84,7 @@ in
           ms-vscode.remote-repositories
           ms-vscode.vscode-python-web-wasm
           github.codespaces
+          hackatime.hackatime-time-tracker
         ])
         ++ (with marketplace-release; [
           github.remotehub
