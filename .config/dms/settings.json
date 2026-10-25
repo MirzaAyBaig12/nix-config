@@ -496,7 +496,7 @@
   "matugenTemplateEmacs": false,
   "notificationTimeoutNormal": 8000,
   "notificationTimeoutCritical": 30000,
-  "notificationShowTimeoutBar": true,
+  "notificationShowTimeoutBar": false,
   "notificationHistoryMaxCount": 20,
   "notificationHistoryMaxAgeDays": 1,
   "osdAlwaysShowValue": true,
@@ -1054,5 +1054,6 @@
   },
   "mouseAccelSpeed": -0.3,
   "iconThemePerMode": false,
-  "updaterIncludeFlatpak": false
+  "updaterIncludeFlatpak": false,
+  "osdPosition": 5
 }
