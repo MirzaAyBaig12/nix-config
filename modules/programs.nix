@@ -48,6 +48,7 @@ let
       vesktop
       teams-for-linux
       telegram-desktop
+      slack
     ];
 
     # Audio and video playback.
