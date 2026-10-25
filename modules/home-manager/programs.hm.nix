@@ -22,6 +22,7 @@
 
     # Screenshots
     inputs.nix-ext-packages.packages.${pkgs.stdenv.hostPlatform.system}.lumine-capture
+    inputs.nix-ext-packages.packages.${pkgs.stdenv.hostPlatform.system}.ventoy
   ];
 
   # DankSearch, file search plugin that powers the DMS launcher results
