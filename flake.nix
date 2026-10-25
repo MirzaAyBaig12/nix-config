@@ -18,7 +18,6 @@
     # Lix NixOS module (main branch tracks current Lix; release tags lag behind nixpkgs).
     lix-module = {
       url = "https://git.lix.systems/lix-project/nixos-module/archive/main.tar.gz";
-      inputs.nixpkgs.follows = "nixpkgs";
       inputs.lix.follows = "lix";
     };
 
@@ -72,8 +71,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    #DMS Declarative Extentions source
-    dms-plugin-registry = {
+    # Dux plugin registry (formerly dms-plugin-registry), declarative DMS extensions source
+    dux-plugin-registry = {
       url = "github:duxlabs-dev/dux-plugin-registry";
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -132,9 +131,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Free Download Manager.
-    fdm-nix.url = "github:QaisAlsaid/fdm-nix";
-
   };
 
   outputs =
@@ -152,7 +148,7 @@
       dux-greeter,
       dux-files,
       dux-search,
-      dms-plugin-registry,
+      dux-plugin-registry,
       home-manager,
       nixcord,
       blip,
@@ -202,7 +198,7 @@
               dux-shell.nixosModules.dank-material-shell
               dux-greeter.nixosModules.default
               dux-files.nixosModules.dux-files
-              dms-plugin-registry.nixosModules.default
+              dux-plugin-registry.nixosModules.default
 
               #Blip (File Transfer)
               blip.nixosModules.default
@@ -319,7 +315,6 @@
             # Insecure packages.
             {
               nixpkgs.config.permittedInsecurePackages = [
-                "ventoy-gtk3-1.1.18"
                 "electron-41.10.7"
                 "electron-39.8.10"
               ];
