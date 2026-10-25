@@ -6,12 +6,6 @@
 }:
 
 {
-  home.packages = with pkgs; [
-    (writeShellScriptBin "rufin-open" ''
-      exec flatpak run io.github.screwys.Rufin "$@"
-    '')
-  ];
-
   programs.superfile = {
     enable = true;
     firstUseCheck = false;
@@ -114,16 +108,6 @@
         ts = "vlc";
         ogv = "vlc";
         "3gp" = "vlc";
-
-        # Audio -> Rufin
-        mp3 = "rufin-open";
-        flac = "rufin-open";
-        wav = "rufin-open";
-        ogg = "rufin-open";
-        opus = "rufin-open";
-        m4a = "rufin-open";
-        aac = "rufin-open";
-        wma = "rufin-open";
 
         # PDFs -> LibreWolf
         pdf = "librewolf";
