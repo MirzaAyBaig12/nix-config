@@ -40,7 +40,7 @@ let
       obsidian
       ferdium
       onlyoffice-desktopeditors
-      dankcalendar
+      dux-calendar
     ];
 
     # Chat and communication clients.
@@ -127,7 +127,6 @@ let
       libimobiledevice
       hplip
       system-config-printer
-      ventoy-full-gtk
       acpi
     ];
 
@@ -149,7 +148,6 @@ let
       }))
 
       # Utilities
-      inputs.fdm-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
       inputs.dux-gop.packages.${pkgs.stdenv.hostPlatform.system}.default
 
       # Theming
