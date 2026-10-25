@@ -41,6 +41,7 @@
       dankGifSearch.enable = true;
       emojiPicker.enable = true;
       modernClock.enable = true;
+      quickCapture.enable = true;
     };
 
     systemd = {
