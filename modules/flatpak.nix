@@ -23,6 +23,7 @@
       "io.missioncenter.MissionCenter"
       "io.podman_desktop.PodmanDesktop"
       "it.mijorus.gearlever"
+      "org.freedownloadmanager.Manager"
       "org.gnome.Loupe"
       "org.gnome.Maps"
       "org.kde.isoimagewriter"
