@@ -1,4 +1,7 @@
-{ lib, ... }:
+{ 
+  lib, 
+  ... 
+}:
 
 # Declarative extensions for Helium (Chromium-based, profile dir: ~/.config/net.imput.helium).
 # Uses Chromium's "External Extensions" mechanism: one <id>.json per extension, pointing at the
