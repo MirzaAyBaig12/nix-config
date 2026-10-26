@@ -23,6 +23,7 @@
         ./home-manager/services.hm.nix
         ./home-manager/niri.config.nix
         ./home-manager/dms.config.nix
+        ./home-manager/dotfiles/chromium.nix
         ./home-manager/dotfiles/fastfetch.nix
         ./home-manager/dotfiles/nixcord.nix
         ./home-manager/dotfiles/nixd.nix
