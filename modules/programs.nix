@@ -14,7 +14,7 @@ let
       firefox
       inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
       tor-browser
-      chromium
+      ungoogled-chromium
     ];
 
     # Editors, language runtimes, and developer tools.
