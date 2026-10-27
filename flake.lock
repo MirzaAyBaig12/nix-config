@@ -839,11 +839,11 @@
         "nixpkgs": "nixpkgs_9"
       },
       "locked": {
-        "lastModified": 1793077471,
-        "narHash": "sha256-TgMwk4jMz2iwdo7FHSxkVCiBLy4BurYFghjRxjI6Gps=",
+        "lastModified": 1793144495,
+        "narHash": "sha256-MVS3yzQ6xkntI+XevEThC6l/eaBaQhWTz8EXNIGFhc0=",
         "owner": "MirzaAyBaig12",
         "repo": "nix-ext-packages",
-        "rev": "84b2cff0bd6c226a0f2c841686ffdd3ac344fd21",
+        "rev": "2c34f110d86c9cc02f9fd7166580d55f0a6a741e",
         "type": "github"
       },
       "original": {
