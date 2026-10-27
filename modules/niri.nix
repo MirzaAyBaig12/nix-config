@@ -12,6 +12,10 @@
   # (pick either at the greeter).
   programs.niri.enable = true;
 
+  # niri-git. niri-flake's overlay (flake.nix) provides pkgs.niri-unstable, built from
+  # latest YaLTeR/niri main. cache is niri.cachix.org (see configuration.nix)
+  programs.niri.package = pkgs.niri-unstable;
+
   # Xwayland compatibility. Niri relies on the separate xwayland-satellite
   # process, so keep its package installed for Xwayland applications.
   environment.systemPackages = [
