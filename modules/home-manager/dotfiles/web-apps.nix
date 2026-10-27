@@ -1,165 +1,94 @@
-{ config, ... }:
-
 {
-  xdg.desktopEntries."github" = {
-    type = "Application";
-    name = "GitHub";
+  config,
+  lib,
+  ...
+}:
+let
+  run = "chromium --no-first-run";
+  iconDir = ../../../.config/misc/icons;
 
-    exec = "flatpak run io.github.ungoogled_software.ungoogled_chromium --no-first-run --app=\"https://www.github.com\" --class=chrome-www.github.com__-Default --name=chrome-www.github.com__-Default";
+  mkWebApp =
+    {
+      name,
+      host,
+      icon,
+      categories ? [ "Network" ],
+    }:
+    let
+      wmClass = "chrome-${host}__-Default";
+    in
+    {
+      type = "Application";
+      inherit name categories;
 
-    icon = "${../../../.config/misc/icons/Github.png}";
+      exec = "${run} --app=https://${host} --class=${wmClass} --name=${wmClass}";
+      icon = "${iconDir}/${icon}";
 
-    terminal = false;
-    noDisplay = false;
-    startupNotify = false;
-    categories = [ "Network" ];
+      terminal = false;
+      noDisplay = false;
+      startupNotify = false;
 
-    settings = {
-      StartupWMClass = "chrome-www.github.com__-Default";
+      settings.StartupWMClass = wmClass;
     };
-  };
-
-  xdg.desktopEntries."movy" = {
-    type = "Application";
-    name = "Movy";
-
-    exec = "flatpak run io.github.ungoogled_software.ungoogled_chromium --no-first-run --app=\"https://movy.sx\" --class=chrome-movy.sx__-Default --name=chrome-movy.sx__-Default";
-
-    icon = "${../../../.config/misc/icons/movy.png}";
-
-    terminal = false;
-    noDisplay = false;
-    startupNotify = false;
-    categories = [ "Network" ];
-
-    settings = {
-      StartupWMClass = "chrome-movy.sx__-Default";
+in
+{
+  xdg.desktopEntries = {
+    github = mkWebApp {
+      name = "GitHub";
+      host = "www.github.com";
+      icon = "Github.png";
     };
-  };
 
-  xdg.desktopEntries."cineby" = {
-    type = "Application";
-    name = "Cineby";
-
-    exec = "flatpak run io.github.ungoogled_software.ungoogled_chromium --no-first-run --app=\"https://cineby.rocks\" --class=chrome-cineby.rocks__-Default --name=chrome-cineby.rocks__-Default";
-
-    icon = "${../../../.config/misc/icons/cineby.png}";
-
-    terminal = false;
-    noDisplay = false;
-    startupNotify = false;
-    categories = [ "AudioVideo" "Video" ];
-
-    settings = {
-      StartupWMClass = "chrome-cineby.rocks__-Default";
+    movy = mkWebApp {
+      name = "Movy";
+      host = "movy.sx";
+      icon = "movy.png";
     };
-  };
 
-  xdg.desktopEntries."duolingo" = {
-    type = "Application";
-    name = "Duolingo";
-
-    exec = "flatpak run io.github.ungoogled_software.ungoogled_chromium --no-first-run --app=\"https://www.duolingo.com\" --class=chrome-www.duolingo.com__-Default --name=chrome-www.duolingo.com__-Default";
-
-    icon = "${../../../.config/misc/icons/duolingo.png}";
-
-    terminal = false;
-    noDisplay = false;
-    startupNotify = false;
-    categories = [ "Education" ];
-
-    settings = {
-      StartupWMClass = "chrome-www.duolingo.com__-Default";
+    cineby = mkWebApp {
+      name = "Cineby";
+      host = "cineby.rocks";
+      icon = "cineby.png";
+      categories = [ "AudioVideo" "Video" ];
     };
-  };
 
-  xdg.desktopEntries."gemini" = {
-    type = "Application";
-    name = "Google Gemini";
-
-    exec = "flatpak run io.github.ungoogled_software.ungoogled_chromium --no-first-run --app=\"https://gemini.google.com\" --class=chrome-gemini.google.com__-Default --name=chrome-gemini.google.com__-Default";
-
-    icon = "${../../../.config/misc/icons/gemini.png}";
-
-    terminal = false;
-    noDisplay = false;
-    startupNotify = false;
-    categories = [ "Network" ];
-
-    settings = {
-      StartupWMClass = "chrome-gemini.google.com__-Default";
+    duolingo = mkWebApp {
+      name = "Duolingo";
+      host = "www.duolingo.com";
+      icon = "duolingo.png";
+      categories = [ "Education" ];
     };
-  };
 
-  xdg.desktopEntries."ixl" = {
-    type = "Application";
-    name = "IXL";
-
-    exec = "flatpak run io.github.ungoogled_software.ungoogled_chromium --no-first-run --app=\"https://www.ixl.com\" --class=chrome-www.ixl.com__-Default --name=chrome-www.ixl.com__-Default";
-
-    icon = "${../../../.config/misc/icons/ixl.png}";
-
-    terminal = false;
-    noDisplay = false;
-    startupNotify = false;
-    categories = [ "Network" ];
-
-    settings = {
-      StartupWMClass = "chrome-www.ixl.com__-Default";
+    gemini = mkWebApp {
+      name = "Google Gemini";
+      host = "gemini.google.com";
+      icon = "gemini.png";
     };
-  };
 
-  xdg.desktopEntries."nixpkgs-search" = {
-    type = "Application";
-    name = "Nixpkgs Search";
-
-    exec = "flatpak run io.github.ungoogled_software.ungoogled_chromium --no-first-run --app=\"https://search.nixos.org\" --class=chrome-search.nixos.org__-Default --name=chrome-search.nixos.org__-Default";
-
-    icon = "${../../../.config/misc/icons/nixpkgs-search.png}";
-
-    terminal = false;
-    noDisplay = false;
-    startupNotify = false;
-    categories = [ "Utility" ];
-
-    settings = {
-      StartupWMClass = "chrome-search.nixos.org__-Default";
+    ixl = mkWebApp {
+      name = "IXL";
+      host = "www.ixl.com";
+      icon = "ixl.png";
     };
-  };
 
-  xdg.desktopEntries."reddit" = {
-    type = "Application";
-    name = "Reddit";
-
-    exec = "flatpak run io.github.ungoogled_software.ungoogled_chromium --no-first-run --app=\"https://www.reddit.com\" --class=chrome-www.reddit.com__-Default --name=chrome-www.reddit.com__-Default";
-
-    icon = "${../../../.config/misc/icons/reddit.png}";
-
-    terminal = false;
-    noDisplay = false;
-    startupNotify = false;
-    categories = [ "Network" ];
-
-    settings = {
-      StartupWMClass = "chrome-www.reddit.com__-Default";
+    nixpkgs-search = mkWebApp {
+      name = "Nixpkgs Search";
+      host = "search.nixos.org";
+      icon = "nixpkgs-search.png";
+      categories = [ "Utility" ];
     };
-  };
 
-  xdg.desktopEntries."youtube" = {
-    type = "Application";
-    name = "Youtube";
+    reddit = mkWebApp {
+      name = "Reddit";
+      host = "www.reddit.com";
+      icon = "reddit.png";
+    };
 
-    exec = "flatpak run io.github.ungoogled_software.ungoogled_chromium --no-first-run --app=\"https://youtube.com\" --class=chrome-youtube.com__-Default --name=chrome-youtube.com__-Default";
-
-    icon = "${../../../.config/misc/icons/youtube.png}";
-
-    terminal = false;
-    noDisplay = false;
-    startupNotify = false;
-    categories = [ "AudioVideo" "Video" ];
-
-    settings = {
-      StartupWMClass = "chrome-youtube.com__-Default";
+    youtube = mkWebApp {
+      name = "Youtube";
+      host = "youtube.com";
+      icon = "youtube.png";
+      categories = [ "AudioVideo" "Video" ];
     };
   };
 }
