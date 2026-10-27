@@ -150,9 +150,6 @@ let
 
       # Utilities
       inputs.dux-gop.packages.${pkgs.stdenv.hostPlatform.system}.default
-
-      # Theming
-      config.custom.bibataMaterialCursor
     ];
 
     # Command line coding agents.

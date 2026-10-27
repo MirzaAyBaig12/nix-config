@@ -139,7 +139,7 @@ in
     targets.qt.enable = false;        # Handled manually via qt5ct/qt6ct configurations
 
     cursor = {
-      package = osConfig.custom.bibataMaterialCursor;
+      package = pkgs.bibata-material-cursor;
       name = "Bibata-Material-Lilac";
       size = 30;
     }; 

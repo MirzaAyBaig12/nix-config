@@ -41,7 +41,7 @@ in
 
     # Cursor theme
     cursor = {
-      package = config.custom.bibataMaterialCursor;
+      package = pkgs.bibata-material-cursor;
       name = "Bibata-Material-Lilac";
       size = 30;
     };

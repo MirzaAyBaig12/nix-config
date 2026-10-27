@@ -110,10 +110,12 @@
     # Containerpak module.
     cpak.url = "github:Containerpak/cpak/v2";
 
-    # niri via niri-flake: niri-unstable (latest git master) + its binary cache.
+    # niri via epireyn's niri-flake fork (sodiboo's stopped updating its niri pin in Aug 2026,
+    # this one is kept up to date): niri-unstable tracks niri-wm/niri main, cache is
+    # niri-epireyn.cachix.org.
     # nixos module is imported below, overlay adds pkgs.niri-unstable.
     niri-flake = {
-      url = "github:sodiboo/niri-flake";
+      url = "github:epireyn/niri-flake";
     };
 
     # Claude Desktop client.
@@ -236,39 +238,34 @@
 
                 # Round the Catppuccin theme while preserving its upstream
                 # theme name, files, palette, and module selection.
-                (
-                  final: prev: {
-                    catppuccin-kvantum =
-                      prev.catppuccin-kvantum.overrideAttrs (old: {
-                        postInstall = (old.postInstall or "") + ''
-                          for config in "$out"/share/Kvantum/catppuccin-*/*.kvconfig; do
-                            sed -i '/^\[PanelButtonCommand\]$/a frame.expansion=16' "$config"
-                            sed -i '/^\[Menu\]$/a frame.expansion=16' "$config"
-                          done
-                        '';
-                      });
-                  }
-                )
+                (final: prev: {
+                  catppuccin-kvantum =
+                    prev.catppuccin-kvantum.overrideAttrs (old: {
+                      postInstall = (old.postInstall or "") + ''
+                        for config in "$out"/share/Kvantum/catppuccin-*/*.kvconfig; do
+                          sed -i '/^\[PanelButtonCommand\]$/a frame.expansion=16' "$config"
+                          sed -i '/^\[Menu\]$/a frame.expansion=16' "$config"
+                        done
+                      '';
+                  });
+                })
 
                 # Chiaki-NG fixes.
-                (
-                  final: prev: {
+                (final: prev: {
+                  # Chiaki-NG: unset the global Kvantum style override
+                  # for this executable only.
+                  chiaki-ng =
+                    prev.chiaki-ng.overrideAttrs (old: {
+                      nativeBuildInputs =
+                        (old.nativeBuildInputs or [ ])
+                        ++ [ final.makeWrapper ];
 
-                    # Chiaki-NG: unset the global Kvantum style override
-                    # for this executable only.
-                    chiaki-ng =
-                      prev.chiaki-ng.overrideAttrs (old: {
-                        nativeBuildInputs =
-                          (old.nativeBuildInputs or [ ])
-                          ++ [ final.makeWrapper ];
-
-                        postFixup = (old.postFixup or "") + ''
-                          wrapProgram "$out/bin/chiaki" \
-                            --unset QT_STYLE_OVERRIDE
-                        '';
-                      });
-                  }
-                )
+                      postFixup = (old.postFixup or "") + ''
+                        wrapProgram "$out/bin/chiaki" \
+                          --unset QT_STYLE_OVERRIDE
+                      '';
+                  });
+                })
 
                 # khal (pulled in by DMS calendar events): the man output
                 # is never built (sphinx-hook only runs the html builder),
@@ -311,39 +308,15 @@
                     '';
                   });
                 })
-                (final: prev: {
-                  libdisplay-info_0_2 = prev.stdenv.mkDerivation rec {
-                    pname = "libdisplay-info";
-                    version = "0.2.0";
-
-                    src = prev.fetchFromGitLab {
-                      domain = "gitlab.freedesktop.org";
-                      owner = "emersion";
-                      repo = "libdisplay-info";
-                      rev = version;
-                      hash = "sha256-6xmWBrPHghjok43eIDGeshpUEQTuwWLXNHg7CnBUt3Q="; 
-                    };
-
-                    nativeBuildInputs = [ 
-                      prev.meson 
-                      prev.ninja 
-                      prev.pkg-config 
-                      prev.hwdata 
-                      prev.python3
-                    ];
-                    buildInputs = [ prev.hwdata ];
-
-                    postPatch = ''
-                      patchShebangs tool/
-                    '';
-
-                    mesonFlags = [ "-Dwerror=false" ];
-                    env.NIX_CFLAGS_COMPILE = "-Wno-error=maybe-uninitialized";
-                  };
-                })
                 mac-style-plymouth.overlays.default
                 claude-desktop.overlays.default
                 niri-flake.overlays.niri
+
+                # Material Design 3 bibata cursors (SakibShahariar/material-bibata-cursor).
+                (final: prev: {
+                  bibata-material-cursor =
+                    inputs.nix-ext-packages.packages.${final.stdenv.hostPlatform.system}.bibata-material-cursor;
+                })
               ];
             }
 

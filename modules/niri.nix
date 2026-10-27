@@ -13,7 +13,8 @@
   programs.niri.enable = true;
 
   # niri-git. niri-flake's overlay (flake.nix) provides pkgs.niri-unstable, built from
-  # latest YaLTeR/niri main. cache is niri.cachix.org (see configuration.nix)
+  # niri-wm/niri main at whatever commit flake.lock pins (nix flake update niri-flake to bump).
+  # cache is niri-epireyn.cachix.org (see configuration.nix)
   programs.niri.package = pkgs.niri-unstable;
 
   # Xwayland compatibility. Niri relies on the separate xwayland-satellite

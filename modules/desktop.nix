@@ -6,25 +6,7 @@
   ...
 }:
 
-  let
-    # my material design 3 fork of bibata cursors (nixpkgs' bibata-cursors doesnt have
-    # material variants). packaged in nix-ext-packages
-    # (packages/bibata-material-cursor.nix, bumped by its update script)
-    # exposed as custom.bibataMaterialCursor so programs.nix and home-manager use the
-    # same build instead of each declaring it again
-    bibataMaterialCursor =
-      inputs.nix-ext-packages.packages.${pkgs.stdenv.hostPlatform.system}.bibata-material-cursor;
-  in
-  
 {
-  options.custom.bibataMaterialCursor = lib.mkOption {
-    type = lib.types.package;
-    internal = true;
-    readOnly = true;
-    default = bibataMaterialCursor;
-    description = "Ayaan's Material Design 3 Bibata cursor fork, packaged in nix-ext-packages.";
-  };
-
   config = {
   # Desktop session and display manager
   services.displayManager.defaultSession = pkgs.lib.mkForce "niri";
@@ -36,7 +18,7 @@
   # systemd.services.greetd.environment below) needs to resolve to a real cursor theme
   # in the SYSTEM profile. greetd runs as its own systemd service with XDG_DATA_DIRS
   # pointing at /run/current-system/sw/share, not my home-manager profile
-  environment.systemPackages = [ bibataMaterialCursor ];
+  environment.systemPackages = [ pkgs.bibata-material-cursor ];
 
   # Greeter configuration
   # dank-greeter's module only wires its package into greetd's own ExecStart, it never
