@@ -87,7 +87,7 @@ See [`/modules/`](./modules/) for each configuration module, and [`/modules/home
 │   ├── home-manager.nix            # wires up Home Manager and its modules
 │   ├── niri.nix                    # niri compositor + DankMaterialShell, portals, xwayland-satellite
 │   ├── programs.nix                # system packages grouped by purpose, plus program options
-│   ├── services.nix                # accounts, Flatpak overrides, doas/sudo, keyd, printing
+│   ├── services.nix                # accounts, Flatpak overrides, doas/sudo, printing
 │   ├── stylix.nix                  # system-wide Stylix theming (fonts, cursor, base16 scheme)
 │   └── system.nix                  # Lanzaboote, Plymouth, networking, Waydroid, swap, mounts
 ├── configuration.nix               # entry point — imports every module
@@ -185,7 +185,7 @@ Every installed application, grouped by purpose (browsers, development, communic
 Declarative Flatpak package list (Flathub only). Unmanaged Flatpaks get removed on rebuild, so add new apps here.
 
 ### services.nix
-System services: user account setup, Flatpak daemon (with global dark-mode + Papirus-Dark overrides), doas + sudo, AppArmor, udisks2, keyd (Super-tap override and mouse button remaps), USBMUXD, printing/scanning (hplip/sane), and Avahi discovery.
+System services: user account setup, Flatpak daemon (with global dark-mode + Papirus-Dark overrides), doas + sudo, AppArmor, udisks2, USBMUXD, printing/scanning (hplip/sane), and Avahi discovery.
 
 ### home-manager.nix
 User-level configuration managed through Home Manager. Keeps dotfiles and program configs organized into separate modules: GTK and Stylix theming, the niri config symlink, user services, and per-app files such as zsh, VSCode, nixcord, superfile, and fastfetch. (See [`/modules/home-manager`](./modules/home-manager/))
