@@ -60,37 +60,6 @@
   # Input devices
   # -------------------------------------------------------------------------
 
-  services.keyd = {
-    enable = true;
-
-    keyboards.default = {
-      ids = [ "*" ];
-
-      settings.main.leftmeta =
-        "overload(meta, macro(M-S-space))";
-    };
-
-    # 2.4G Wireless Mouse (3938:1191).
-    #
-    # Holding Forward = Ctrl+Alt
-    # Holding Back    = Ctrl+Shift+Alt
-    #
-    # Quick taps remain normal browser back/forward buttons.
-    keyboards.mouse = {
-      ids = [ "3938:1191" ];
-
-      settings = {
-        main = {
-          mouseforward = "overloadt(fwdmod, mouseforward, 200)";
-          mouseback = "overloadt(backmod, mouseback, 200)";
-        };
-
-        "fwdmod:C-A" = { };
-        "backmod:C-S-A" = { };
-      };
-    };
-  };
-
   hardware.uinput.enable = true;
 
   # Enable USBMUXD for iOS device management.
