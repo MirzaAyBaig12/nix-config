@@ -3,9 +3,8 @@
   ... 
 }:
 
-# Declarative extensions for Helium (Chromium-based, profile dir: ~/.config/net.imput.helium).
-# Uses Chromium's "External Extensions" mechanism: one <id>.json per extension, pointing at the
-# update URL. Helium installs them on next launch. Users can still remove them from the UI.
+# Declarative extensions for Chromium-based browsers using the
+# "External Extensions" mechanism: one <id>.json per extension.
 let
   updateUrl = "https://clients2.google.com/service/update2/crx";
 
@@ -14,12 +13,15 @@ let
     proton-pass = "ghmbeldphafepmbegfdlkpapadhbakde";
     modern-wikipedia = "emdkdnnopdnajipoapepbeeiemahbjcn";
   };
-in
-{
-  xdg.configFile = lib.mapAttrs' (
+
+  # Helper function to generate the config entries for a given browser directory
+  mkExtensionFiles = browserDir: lib.mapAttrs' (
     _name: id:
-    lib.nameValuePair "net.imput.helium/External Extensions/${id}.json" {
+    lib.nameValuePair "${browserDir}/External Extensions/${id}.json" {
       text = builtins.toJSON { external_update_url = updateUrl; };
     }
   ) extensions;
+in
+{
+  xdg.configFile = (mkExtensionFiles "net.imput.helium") // (mkExtensionFiles "chromium");
 }
