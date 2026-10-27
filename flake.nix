@@ -110,6 +110,12 @@
     # Containerpak module.
     cpak.url = "github:Containerpak/cpak/v2";
 
+    # niri via niri-flake: niri-unstable (latest git master) + its binary cache.
+    # nixos module is imported below, overlay adds pkgs.niri-unstable.
+    niri-flake = {
+      url = "github:sodiboo/niri-flake";
+    };
+
     # Claude Desktop client.
     claude-desktop = {
       url = "github:nmcbride/claude-desktop-nix";
@@ -154,6 +160,7 @@
       blip,
       nix-ext-packages,
       cpak,
+      niri-flake,
       ...
     }@inputs:
     {
@@ -208,6 +215,9 @@
 
               #containerpak
               cpak.nixosModules.default
+
+              #niri (niri-flake: niri-unstable + binary cache)
+              niri-flake.nixosModules.niri
             
             #Import Home-Manager
             home-manager.nixosModules.default
@@ -301,8 +311,39 @@
                     '';
                   });
                 })
+                (final: prev: {
+                  libdisplay-info_0_2 = prev.stdenv.mkDerivation rec {
+                    pname = "libdisplay-info";
+                    version = "0.2.0";
+
+                    src = prev.fetchFromGitLab {
+                      domain = "gitlab.freedesktop.org";
+                      owner = "emersion";
+                      repo = "libdisplay-info";
+                      rev = version;
+                      hash = "sha256-6xmWBrPHghjok43eIDGeshpUEQTuwWLXNHg7CnBUt3Q="; 
+                    };
+
+                    nativeBuildInputs = [ 
+                      prev.meson 
+                      prev.ninja 
+                      prev.pkg-config 
+                      prev.hwdata 
+                      prev.python3
+                    ];
+                    buildInputs = [ prev.hwdata ];
+
+                    postPatch = ''
+                      patchShebangs tool/
+                    '';
+
+                    mesonFlags = [ "-Dwerror=false" ];
+                    env.NIX_CFLAGS_COMPILE = "-Wno-error=maybe-uninitialized";
+                  };
+                })
                 mac-style-plymouth.overlays.default
                 claude-desktop.overlays.default
+                niri-flake.overlays.niri
               ];
             }
 
