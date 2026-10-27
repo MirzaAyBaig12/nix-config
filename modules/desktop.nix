@@ -8,35 +8,12 @@
 
   let
     # my material design 3 fork of bibata cursors (nixpkgs' bibata-cursors doesnt have
-    # material variants)
-    # packaged from the prebuilt release tarball. on a new release: nix-prefetch-url
-    # --type sha256 <url>, then nix hash convert --hash-algo sha256 <hash>, and bump
-    # version + hash below
-    # lives here instead of its own packages/*.nix cuz this is the only module that
-    # needs it. exposed as custom.bibataMaterialCursor so programs.nix and
-    # home-manager use the same build instead of each declaring it again
-    bibataMaterialCursor = pkgs.stdenv.mkDerivation (finalAttrs: {
-      pname = "bibata-material-cursor";
-     version = "1.2.1";
-
-     src = pkgs.fetchurl {
-        url = "https://github.com/SakibShahariar/material-bibata-cursor/releases/download/v${finalAttrs.version}/bibata-material-v${finalAttrs.version}.tar.gz";
-        hash = "sha256-/B/l+F3CVmJkwPJv/meabvkVpZbXa8Tt7O2MyANheXk=";
-      };
-
-     dontBuild = true;
-      installPhase = ''
-       mkdir -p $out/share/icons
-        cp -r Bibata-Material-* $out/share/icons/
-     '';
-
-     meta = with lib; {
-       description = "28 Bibata cursor themes using Material Design 3's tonal system (Ayaan's fork)";
-       homepage = "https://github.com/SakibShahariar/material-bibata-cursor";
-       license = licenses.gpl3Only;
-       platforms = platforms.all;
-     };
-   });
+    # material variants). packaged in nix-ext-packages
+    # (packages/bibata-material-cursor.nix, bumped by its update script)
+    # exposed as custom.bibataMaterialCursor so programs.nix and home-manager use the
+    # same build instead of each declaring it again
+    bibataMaterialCursor =
+      inputs.nix-ext-packages.packages.${pkgs.stdenv.hostPlatform.system}.bibata-material-cursor;
   in
   
 {
@@ -45,7 +22,7 @@
     internal = true;
     readOnly = true;
     default = bibataMaterialCursor;
-    description = "Ayaan's Material Design 3 Bibata cursor fork, built inline in desktop.nix.";
+    description = "Ayaan's Material Design 3 Bibata cursor fork, packaged in nix-ext-packages.";
   };
 
   config = {
