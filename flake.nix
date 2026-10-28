@@ -51,8 +51,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    dux-files.url = "github:duxlabs-dev/dux-files";
-
     # Dux Greeter (formerly DankGreeter), stable 2.0 branch.
     dux-greeter = {
       url = "github:duxlabs-dev/dux-greeter/stable-2.0";
@@ -139,6 +137,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    lumine-capture.url = "github:Netflate/LumineCapture";
+
   };
 
   outputs =
@@ -154,7 +154,6 @@
       catppuccin,
       dux-shell,
       dux-greeter,
-      dux-files,
       dux-search,
       dux-plugin-registry,
       home-manager,
@@ -206,7 +205,6 @@
               #Dux Suite
               dux-shell.nixosModules.dank-material-shell
               dux-greeter.nixosModules.default
-              dux-files.nixosModules.dux-files
               dux-plugin-registry.nixosModules.default
 
               #Blip (File Transfer)
