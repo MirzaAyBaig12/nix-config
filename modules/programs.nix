@@ -14,7 +14,7 @@ let
       firefox
       inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
       tor-browser
-      ungoogled-chromium
+      # ungoogled-chromium comes from home-manager (programs.ungoogled-chromium.extensions).
     ];
 
     # Editors, language runtimes, and developer tools.

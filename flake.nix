@@ -229,6 +229,7 @@
               dux-search.homeModules.dsearch
               nixcord.homeModules.nixcord
               catppuccin.homeModules.catppuccin
+              nix-ext-packages.homeManagerModules.browser-extensions
               ];
             }
 
@@ -311,6 +312,8 @@
                 mac-style-plymouth.overlays.default
                 claude-desktop.overlays.default
                 niri-flake.overlays.niri
+                # pkgs.browser-ext-sync (declarative Web Store extensions).
+                inputs.nix-ext-packages.overlays.default
 
                 # Material Design 3 bibata cursors (SakibShahariar/material-bibata-cursor).
                 (final: prev: {
