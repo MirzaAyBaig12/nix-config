@@ -14,7 +14,8 @@ let
       firefox
       inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
       tor-browser
-      # ungoogled-chromium comes from home-manager (programs.ungoogled-chromium.extensions).
+      # ungoogled-chromium + the extension flags (built by the home-manager module in dotfiles/chromium.nix).
+      config.home-manager.users.ayaan_mirza.programs.ungoogled-chromium.extensions.wrapped
     ];
 
     # Editors, language runtimes, and developer tools.
@@ -150,6 +151,7 @@ let
 
       # Utilities
       inputs.dux-gop.packages.${pkgs.stdenv.hostPlatform.system}.default
+      inputs.lumine-capture.packages.${pkgs.stdenv.hostPlatform.system}.default
     ];
 
     # Command line coding agents.
