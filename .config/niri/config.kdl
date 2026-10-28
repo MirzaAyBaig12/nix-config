@@ -267,6 +267,12 @@ recent-windows {
     }
 }
 
+// Tap Super on its own -> DMS spotlight (modifier-only release bind, needs niri-git).
+// Lives here, not in dms/binds.kdl, since DMS manages that file.
+binds {
+    Mod { release { spawn "dms" "ipc" "call" "spotlight-bar" "toggle"; }; }
+}
+
 // Include dms files
 include optional=true "dms/colors.kdl"
 include optional=true "dms/layout.kdl"
