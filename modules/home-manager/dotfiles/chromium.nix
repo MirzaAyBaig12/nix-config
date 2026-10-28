@@ -1,28 +1,25 @@
-{ 
-  lib, 
-  ... 
-}:
+{ ... }:
 
-# Declarative extensions for Chromium-based browsers using the
-# "External Extensions" mechanism: one <id>.json per extension.
+# One extension list, fed to both browsers. The modules live in the
+# nix-ext-packages flake (programs.{ungoogled-chromium,helium}.extensions).
 let
-  updateUrl = "https://clients2.google.com/service/update2/crx";
-
-  extensions = {
+  extensionsList = {
     stylus = "clngdbkpkpeebahjckkjfobafhncgmne";
     proton-pass = "ghmbeldphafepmbegfdlkpapadhbakde";
     modern-wikipedia = "emdkdnnopdnajipoapepbeeiemahbjcn";
-    free-download-manager = "ahmpjcflkgiildlgicmcieglgoilbfdp"
+    free-download-manager = "ahmpjcflkgiildlgicmcieglgoilbfdp";
+    save-image-as-type = "agddafeppiiohhalnjfhcfjemjjcgmcb";
+    violentmonkey = "jinjaccalgkegednnccohejagnlnfdag";
   };
-
-  # Helper function to generate the config entries for a given browser directory
-  mkExtensionFiles = browserDir: lib.mapAttrs' (
-    _name: id:
-    lib.nameValuePair "${browserDir}/External Extensions/${id}.json" {
-      text = builtins.toJSON { external_update_url = updateUrl; };
-    }
-  ) extensions;
 in
 {
-  xdg.configFile = (mkExtensionFiles "net.imput.helium") // (mkExtensionFiles "chromium");
+  programs.ungoogled-chromium.extensions = {
+    enable = true;
+    ids = extensionsList;
+  };
+
+  programs.helium.extensions = {
+    enable = true;
+    ids = extensionsList;
+  };
 }
