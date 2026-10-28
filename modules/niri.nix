@@ -73,7 +73,7 @@
 
   programs.dux-files = {
     enable = true;
-    systemd.enable = true;
+    systemd.enable = false;
     portal.enable = true;
   };
 
