@@ -12,6 +12,7 @@ let
     stylus = "clngdbkpkpeebahjckkjfobafhncgmne";
     proton-pass = "ghmbeldphafepmbegfdlkpapadhbakde";
     modern-wikipedia = "emdkdnnopdnajipoapepbeeiemahbjcn";
+    free-download-manager = "ahmpjcflkgiildlgicmcieglgoilbfdp"
   };
 
   # Helper function to generate the config entries for a given browser directory
