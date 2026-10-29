@@ -10,7 +10,7 @@ let
     proton-pass = "ghmbeldphafepmbegfdlkpapadhbakde";
     modern-wikipedia = "emdkdnnopdnajipoapepbeeiemahbjcn";
     free-download-manager = "ahmpjcflkgiildlgicmcieglgoilbfdp";
-    save-image-as-type = "kapklhhpcnelfhlendhjfhddcddfabaps";
+    save-as-type = "kapklhhpcnelfhlendhjfhddcddfabaps";
     violentmonkey = "jinjaccalgkegednnccohejagnlnfdag";
     helium-shimmer-tab = "acgnlhjcipkagocfggidelbghodlddmm";
   };
@@ -31,7 +31,8 @@ in
   programs.helium.extensions = {
     enable = true;
     ids = extensionsList;
-    # uBlock Origin is ungoogled-chromium only.
-    pinned = lib.remove "ublock-origin" pinnedExtensions;
+    # uBlock Origin is ungoogled-chromium only; Helium ships its own built-in uBO,
+    # raw id below, so pin it explicitly (pinned is authoritative now).
+    pinned = pinnedExtensions;
   };
 }
