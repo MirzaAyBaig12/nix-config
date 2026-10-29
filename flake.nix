@@ -139,6 +139,8 @@
 
     lumine-capture.url = "github:Netflate/LumineCapture";
 
+    ghostty-flake.url = "github:ghostty-org/ghostty";
+
   };
 
   outputs =
@@ -232,7 +234,7 @@
             }
 
             # Package overlays.
-            {
+            ({ config, ... }: {
               nixpkgs.overlays = [
 
                 # Round the Catppuccin theme while preserving its upstream
@@ -317,9 +319,15 @@
                 (final: prev: {
                   bibata-material-cursor =
                     inputs.nix-ext-packages.packages.${final.stdenv.hostPlatform.system}.bibata-material-cursor;
+                  ungoogled-chromium = 
+                    config.home-manager.users.ayaan_mirza.programs.ungoogled-chromium.extensions.wrapped;
+                  helium = 
+                    inputs.helium.packages.${prev.stdenv.hostPlatform.system}.default;
+                  ghostty = 
+                    inputs.ghostty-flake.packages.${prev.stdenv.hostPlatform.system}.default;                  
                 })
               ];
-            }
+            })
 
             # Generation revision.
             {
