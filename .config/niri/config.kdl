@@ -239,7 +239,6 @@ window-rule {
     match app-id="librewolf"
     match app-id="zen"
     match app-id="helium"
-    match app-id="ghostty"
     match app-id="chromium-browser"
     match app-id="org.chromium.Chromium"
     opacity 1.0
