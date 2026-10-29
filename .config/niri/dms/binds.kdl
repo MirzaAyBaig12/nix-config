@@ -135,6 +135,7 @@ binds {
     Mod+Shift+E { quit; }
     Alt+Ctrl+C hotkey-overlay-title="Open Claude Desktop" { spawn "claude-desktop"; }
     Alt+Ctrl+N hotkey-overlay-title="Open Obsidian" { spawn "obsidian"; }
+    Alt+Ctrl+Shift+P hotkey-overlay-title="Power Off" { spawn "sh" "-c" "shutdown --poweroff"; }
     Alt+Ctrl+Shift+3 hotkey-overlay-title="Open Screen Recorder" { spawn "openscreen"; }
     Alt+Ctrl+Shift+C hotkey-overlay-title="Open ChatGPT" { spawn "chatgpt"; }
     Alt+Ctrl+Shift+F hotkey-overlay-title="Toggle Ferdium" { spawn "ferdium"; }
@@ -142,7 +143,6 @@ binds {
     Alt+Ctrl+Shift+V { spawn "vesktop"; }
     Alt+Ctrl+T hotkey-overlay-title="Open Teams" { spawn "teams-for-linux"; }
     Alt+Ctrl+V hotkey-overlay-title="Launch Visual Studio Code" { spawn "code-insiders"; }
-    Mod+Alt+Shift+P allow-when-locked=true hotkey-overlay-title="Power Off" { spawn "sh" "-c" "systemctl poweroff"; }
     Mod+Shift+S hotkey-overlay-title="Screenshot (Lumine Capture)" { spawn "sh" "-c" "lumine-capture"; }
     Mod+T hotkey-overlay-title="Open Terminal" { spawn "ghostty"; }
     Print hotkey-overlay-title="Screenshot (Lumine Capture)" { spawn "sh" "-c" "lumine-capture"; }
