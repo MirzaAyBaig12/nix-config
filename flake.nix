@@ -138,9 +138,6 @@
     };
 
     lumine-capture.url = "github:Netflate/LumineCapture";
-
-    ghostty-flake.url = "github:ghostty-org/ghostty";
-
   };
 
   outputs =
@@ -322,9 +319,7 @@
                   ungoogled-chromium = 
                     config.home-manager.users.ayaan_mirza.programs.ungoogled-chromium.extensions.wrapped;
                   helium = 
-                    inputs.helium.packages.${prev.stdenv.hostPlatform.system}.default;
-                  ghostty = 
-                    inputs.ghostty-flake.packages.${prev.stdenv.hostPlatform.system}.default;                  
+                    inputs.helium.packages.${prev.stdenv.hostPlatform.system}.default;               
                 })
               ];
             })
