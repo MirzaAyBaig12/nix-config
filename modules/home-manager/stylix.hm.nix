@@ -388,6 +388,19 @@ in
           color: #1e1e2e;
         }
 
+        /* headerbar buttons (Gear Lever's "Open" etc): the theme fills them with
+           the accent on hover/active/checked and sets dark text, but the forced
+           white label rule above wins for the label. Keep label + icon dark
+           together while the accent fill is showing. */
+        headerbar button:hover:not(.suggested-action):not(.destructive-action) label,
+        headerbar button:hover:not(.suggested-action):not(.destructive-action) image,
+        headerbar button:active:not(.suggested-action):not(.destructive-action) label,
+        headerbar button:active:not(.suggested-action):not(.destructive-action) image,
+        headerbar button:checked:not(.suggested-action):not(.destructive-action) label,
+        headerbar button:checked:not(.suggested-action):not(.destructive-action) image {
+          color: #1e1e2e;
+        }
+
         /* checked toggles keep their mauve text */
         toggle-group toggle:checked label,
         toggle-group > toggle:checked label,
