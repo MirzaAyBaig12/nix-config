@@ -401,6 +401,14 @@ in
           color: #1e1e2e;
         }
 
+        /* some apps (Gear Lever) ask for the non-symbolic "open-menu", which
+           Papirus ships as a fixed white full-color svg that CSS color can't
+           touch. Force the symbolic variant so it follows the rule above. */
+        headerbar menubutton image,
+        headerbar menubutton button image {
+          -gtk-icon-style: symbolic;
+        }
+
         /* checked toggles keep their mauve text */
         toggle-group toggle:checked label,
         toggle-group > toggle:checked label,
