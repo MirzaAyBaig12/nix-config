@@ -164,7 +164,7 @@
       }
     }
   },
-  "clockFormat": "12h",
+  "clockFormat": "24h",
   "blurBorderColor": "primary",
   "useAutoLocation": true,
   "fontFamily": "Inter",
@@ -942,8 +942,10 @@
         "showOnOverviewOnly": true,
         "showOnOverview": false,
         "syncPositionAcrossScreens": true,
-        "customizeText": false,
-        "watermarkOpacity": 50
+        "customizeText": true,
+        "watermarkOpacity": 50,
+        "firstLine": "Activate NixOS",
+        "secondLine": "Go to /etc/nixos/productkey.nix"
       }
     }
   ],
@@ -1056,5 +1058,8 @@
   "iconThemePerMode": false,
   "updaterIncludeFlatpak": false,
   "osdPosition": 5,
-  "blurStrength": 35
+  "blurStrength": 35,
+  "lockDateFormat": "ddd d MMM yyyy",
+  "clockDateFormat": "",
+  "firstDayOfWeek": 2
 }
