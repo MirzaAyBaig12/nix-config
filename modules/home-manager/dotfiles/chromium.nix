@@ -1,5 +1,7 @@
-{ lib, ... }:
-
+{ 
+  lib, 
+  ... 
+}:
 # One extension list, fed to both browsers. The modules live in the
 # nix-ext-packages flake (programs.{ungoogled-chromium,helium}.extensions).
 let
@@ -8,17 +10,14 @@ let
     proton-pass = "ghmbeldphafepmbegfdlkpapadhbakde";
     modern-wikipedia = "emdkdnnopdnajipoapepbeeiemahbjcn";
     free-download-manager = "ahmpjcflkgiildlgicmcieglgoilbfdp";
-    save-image-as-type = "agddafeppiiohhalnjfhcfjemjjcgmcb";
+    save-image-as-type = "kapklhhpcnelfhlendhjfhddcddfabaps";
     violentmonkey = "jinjaccalgkegednnccohejagnlnfdag";
+    helium-shimmer-tab = "acgnlhjcipkagocfggidelbghodlddmm";
   };
 
-  # Toolbar-pinned. Names from extensionsList (or "ublock-origin", chromium
-  # only), or raw ids.
   pinnedExtensions = [
     "ublock-origin"
     "proton-pass"
-    "stylus"
-    "violentmonkey"
   ];
 in
 {
@@ -35,7 +34,4 @@ in
     # uBlock Origin is ungoogled-chromium only.
     pinned = lib.remove "ublock-origin" pinnedExtensions;
   };
-
-  # No browsers are installed here: Helium and the wrapped ungoogled-chromium
-  # (programs.ungoogled-chromium.extensions.wrapped) are listed in programs.nix.
 }
