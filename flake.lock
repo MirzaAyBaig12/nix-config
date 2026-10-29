@@ -822,11 +822,11 @@
         "nixpkgs": "nixpkgs_9"
       },
       "locked": {
-        "lastModified": 1793249422,
-        "narHash": "sha256-Q6RdGwlDB1fli7fFmwWLWAGDgFz+lb0hw+1+7LsXMS8=",
+        "lastModified": 1793316937,
+        "narHash": "sha256-JH+ALiA6iQ7KaSRfS/u0ExGMizmGRIGvKNyWNTZjyfw=",
         "owner": "MirzaAyBaig12",
         "repo": "nix-ext-packages",
-        "rev": "23899108e1479c12738cffb2188b39e3d1bf8a13",
+        "rev": "ffd542b3dbe7eadd772b4ab1783aaab335871b2b",
         "type": "github"
       },
       "original": {

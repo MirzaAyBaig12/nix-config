@@ -10,13 +10,15 @@ let
     proton-pass = "ghmbeldphafepmbegfdlkpapadhbakde";
     modern-wikipedia = "emdkdnnopdnajipoapepbeeiemahbjcn";
     free-download-manager = "ahmpjcflkgiildlgicmcieglgoilbfdp";
-    save-as-type = "kapklhhpcnelfhlendhjfhddcddfabaps";
+    save-as-type = "kapklhhpcnelfhlendhjfhddcddfabap";
     violentmonkey = "jinjaccalgkegednnccohejagnlnfdag";
     helium-shimmer-tab = "acgnlhjcipkagocfggidelbghodlddmm";
   };
 
+  # Toolbar-pinned: names from extensionsList, or raw ids. uBlock Origin is
+  # pinned automatically (ungoogled-chromium via the module, Helium itself),
+  # no need to list it.
   pinnedExtensions = [
-    "ublock-origin"
     "proton-pass"
   ];
 in
@@ -31,8 +33,6 @@ in
   programs.helium.extensions = {
     enable = true;
     ids = extensionsList;
-    # uBlock Origin is ungoogled-chromium only; Helium ships its own built-in uBO,
-    # raw id below, so pin it explicitly (pinned is authoritative now).
     pinned = pinnedExtensions;
   };
 }
