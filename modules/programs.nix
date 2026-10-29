@@ -12,10 +12,9 @@ let
     browsers = [
       firefoxpwa
       firefox
-      inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
+      helium
       tor-browser
-      # ungoogled-chromium + the extension flags (built by the home-manager module in dotfiles/chromium.nix).
-      config.home-manager.users.ayaan_mirza.programs.ungoogled-chromium.extensions.wrapped
+      ungoogled-chromium
     ];
 
     # Editors, language runtimes, and developer tools.
