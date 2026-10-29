@@ -219,7 +219,7 @@ window-rule {
 // ABOVE the specific rules so they can override it; dms/windowrules.kdl is
 // included last, so its opacity 1.00 rule for DMS windows still wins.
 window-rule {
-    opacity 0.88
+    opacity 0.90
     background-effect {
         blur true
         xray false
