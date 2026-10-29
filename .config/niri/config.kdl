@@ -214,6 +214,39 @@ window-rule {
     match app-id=r#"^org\.wezfurlong\.wezterm$"#
     default-column-width {}
 }
+// Blur behind every window (GTK + Qt). niri-side opacity is what lets the
+// blur show through, since GTK/Qt windows are opaque by default. Keep this
+// ABOVE the specific rules so they can override it; dms/windowrules.kdl is
+// included last, so its opacity 1.00 rule for DMS windows still wins.
+window-rule {
+    opacity 0.88
+    background-effect {
+        blur true
+        xray false
+    }
+}
+// Stuff that should stay fully opaque: video, browsers, games, editors where
+// color accuracy matters.
+window-rule {
+    match app-id="mpv"
+    match app-id="vlc"
+    match app-id="org.kde.kdenlive"
+    match app-id="com.obsproject.Studio"
+    match app-id=r#"^steam_app_"#
+    match app-id="steam"
+    match app-id="chiaki-ng"
+    match app-id="firefox"
+    match app-id="librewolf"
+    match app-id="zen"
+    match app-id="helium"
+    match app-id="ghostty"
+    match app-id="chromium-browser"
+    match app-id="org.chromium.Chromium"
+    opacity 1.0
+    background-effect {
+        blur false
+    }
+}
 window-rule {
     match app-id=r#"^org\.gnome\."#
     draw-border-with-background false
