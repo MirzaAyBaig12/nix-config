@@ -41,6 +41,13 @@
     LIBVA_DRIVER_NAME = "iHD";
   };
 
+  # GStreamer plugins from systemPackages (base, bad/va, pipewire) live in
+  # <profile>/lib/gstreamer-1.0, but nothing points GStreamer at them, so apps
+  # that dlopen it (dms Cast etc.) report the plugins as missing.
+  environment.profileRelativeSessionVariables = {
+    GST_PLUGIN_SYSTEM_PATH_1_0 = [ "/lib/gstreamer-1.0" ];
+  };
+
   environment.systemPackages = [
     pkgs.exfatprogs
     pkgs.gpu-screen-recorder-ui # frontend for gpu-screen-recorder
