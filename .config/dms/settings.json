@@ -334,14 +334,6 @@
       "row": 3
     },
     {
-      "id": "battery",
-      "enabled": true,
-      "w": 4,
-      "h": 1,
-      "col": 0,
-      "row": 4
-    },
-    {
       "id": "diskUsage",
       "enabled": true,
       "w": 4,
@@ -356,7 +348,7 @@
       "w": 4,
       "h": 1,
       "col": 0,
-      "row": 5
+      "row": 4
     },
     {
       "id": "user",
@@ -413,6 +405,14 @@
       "col": 0,
       "row": 6,
       "showCount": true
+    },
+    {
+      "id": "plugin_cast",
+      "enabled": true,
+      "w": 4,
+      "h": 1,
+      "col": 0,
+      "row": 5
     }
   ],
   "spotlightSectionViewModes": {
@@ -544,7 +544,11 @@
           "enabled": true
         },
         "music",
-        "clock",
+        {
+          "id": "clock",
+          "enabled": true,
+          "clockNotificationBadge": false
+        },
         "weather"
       ],
       "rightWidgets": [
@@ -1061,5 +1065,9 @@
   "blurStrength": 35,
   "lockDateFormat": "ddd d MMM yyyy",
   "clockDateFormat": "",
-  "firstDayOfWeek": 2
+  "firstDayOfWeek": 2,
+  "touchpadDragLock": false,
+  "touchpadTapAndDrag": true,
+  "touchpadDisableWhileTyping": false,
+  "clipboardSize": "micro"
 }
