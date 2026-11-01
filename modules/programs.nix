@@ -57,6 +57,14 @@ let
       kid3-qt # bulk tag + cover art editing
     ];
 
+    # GStreamer core + plugins (Arch names mapped to nixpkgs).
+    gstreamer = with pkgs.gst_all_1; [
+      gstreamer # gstreamer
+      gst-plugins-base # gst-plugins-base + gst-plugins-base-libs
+      gst-plugins-bad # gst-plugins-bad-libs + gst-plugin-va (va plugin lives in -bad)
+      pkgs.pipewire # gst-plugin-pipewire (ships inside the pipewire package)
+    ];
+
     # Image editing and video production.
     creativeTools = [
       gimp
@@ -170,6 +178,7 @@ in
     ++ appPackages.productivity
     ++ appPackages.communication
     ++ appPackages.mediaPlayback
+    ++ appPackages.gstreamer
     ++ appPackages.creativeTools
     ++ appPackages.gaming
     ++ appPackages.desktop
@@ -263,6 +272,10 @@ in
     glib
     libGL
     fuse3
+
+    # dlopen'd by dms Cast's prebuilt cast-helper (libgstreamer/app/video/pbutils).
+    gst_all_1.gstreamer
+    gst_all_1.gst-plugins-base
   ];
 
   programs.blip.enable = true;
