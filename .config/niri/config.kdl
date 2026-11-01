@@ -222,7 +222,7 @@ window-rule {
     opacity 0.90
     background-effect {
         blur true
-        xray false
+        xray true
     }
 }
 // Stuff that should stay fully opaque: video, browsers, games, editors where
@@ -230,6 +230,7 @@ window-rule {
 window-rule {
     match app-id="mpv"
     match app-id="vlc"
+    match app-id="hydralauncher"
     match app-id="org.kde.kdenlive"
     match app-id="com.obsproject.Studio"
     match app-id=r#"^steam_app_"#
