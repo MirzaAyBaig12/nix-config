@@ -131,9 +131,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # VS Code Insiders via overlay (fixed package)
+    # VS Code Insiders via overlay (daily-updated snapshot; auguwu/vscode-insiders-nix CI is broken)
     vscode-insiders = {
-      url = "github:auguwu/vscode-insiders-nix";
+      url = "github:iosmanthus/code-insiders-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -169,7 +169,20 @@
       nixosConfigurations = {
         Axiom = nixpkgs.lib.nixosSystem {
           specialArgs = {
-            inherit inputs;
+            # dux-gop (dgop): its Go test phase fails (api_test.go imports a
+            # module missing from the vendored deps). Patch the flake's own
+            # package here so every `inputs.dux-gop.packages...default` use gets it.
+            inputs = inputs // {
+              dux-gop = inputs.dux-gop // {
+                packages = inputs.dux-gop.packages // {
+                  x86_64-linux = inputs.dux-gop.packages.x86_64-linux // {
+                    default = inputs.dux-gop.packages.x86_64-linux.default.overrideAttrs (old: {
+                      doCheck = false;
+                    });
+                  };
+                };
+              };
+            };
           };
 
           modules = [
@@ -296,7 +309,7 @@
                   });
                 })
 
-                (import inputs.vscode-insiders)
+                inputs.vscode-insiders.overlays.default
                 # Show up as plain "Visual Studio Code" in launchers.
                 (final: prev: {
                   vscode-insiders = prev.vscode-insiders.overrideAttrs (old: {
@@ -320,6 +333,15 @@
                     config.home-manager.users.ayaan_mirza.programs.ungoogled-chromium.extensions.wrapped;
                   helium = 
                     inputs.helium.packages.${prev.stdenv.hostPlatform.system}.default;               
+                })
+
+                # Papirus folder color everywhere (system, stylix/GTK, Flatpak host icons).
+                # Applied at build time via papirus-folders (the store is read-only, so the
+                # CLI can't recolor it in place). Colors: adwaita black blue bluegrey breeze
+                # brown carmine cyan darkcyan deeporange green grey indigo magenta nordic
+                # orange palebrown paleorange pink red teal violet white yaru yellow
+                (final: prev: {
+                  papirus-icon-theme = prev.papirus-icon-theme.override { color = "violet"; };
                 })
               ];
             })
