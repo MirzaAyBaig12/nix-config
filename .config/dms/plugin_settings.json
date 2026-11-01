@@ -67924,5 +67924,21 @@
   },
   "screenRecorder": {
     "enabled": true
+  },
+  "hiddenBar": {
+    "enabled": true,
+    "autoExpand": false,
+    "autoCollapse": false,
+    "widgetSelectionMode": "whitelist",
+    "widgetWhitelist": [
+      "powerMenuButton",
+      "caffeineRedesigned"
+    ]
+  },
+  "timeManager": {
+    "enabled": true
+  },
+  "cast": {
+    "enabled": true
   }
 }
