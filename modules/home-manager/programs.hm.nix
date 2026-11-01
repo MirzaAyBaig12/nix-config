@@ -20,6 +20,9 @@
     inputs.nix-ext-packages.packages.${pkgs.stdenv.hostPlatform.system}.sklauncher
     inputs.nix-ext-packages.packages.${pkgs.stdenv.hostPlatform.system}.modrinth
     inputs.nix-ext-packages.packages.${pkgs.stdenv.hostPlatform.system}.ventoy
+
+    # iOS device management (needs usbmuxd + udev rules, see modules/services.nix)
+    inputs.nix-ext-packages.packages.${pkgs.stdenv.hostPlatform.system}."3utools"
   ];
 
   # DankSearch, file search plugin that powers the DMS launcher results
