@@ -43,7 +43,8 @@
         {
             "type": "wm",
             "key": " ",
-            "keyColor": "#7c3aed"
+            "keyColor": "#7c3aed",
+            "format": "{2} unstable ({3})" // name + protocol, no build date ({5} is "unstable <date>")
         },
         {
             "type": "shell",
