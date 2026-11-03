@@ -159,6 +159,9 @@ let
       # Utilities
       inputs.dux-gop.packages.${pkgs.stdenv.hostPlatform.system}.default
       inputs.lumine-capture.packages.${pkgs.stdenv.hostPlatform.system}.default
+
+      # Development
+      inputs.nix-ext-packages.packages.${pkgs.stdenv.hostPlatform.system}.openidea
     ];
 
     # Command line coding agents.
