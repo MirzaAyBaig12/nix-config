@@ -865,7 +865,8 @@
         "showOnOverview": false,
         "alignment": "left",
         "backgroundOpacity": 0,
-        "dayFontSize": 72
+        "dayFontSize": 72,
+        "use24Hour": true
       }
     },
     {
