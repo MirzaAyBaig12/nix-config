@@ -21,9 +21,11 @@
       inputs.lix.follows = "lix";
     };
 
-    # Lix source the module builds. Without this the module uses its own stale pin (2.94-pre).
+    # Lix source the module builds, tracking the release-2.96 branch (patch releases land here
+    # before they're tagged). Without this the module uses its own stale pin (2.94-pre).
+    # nix-ext-packages' CI builds and caches this (see its cache-nix-config workflow).
     lix = {
-      url = "https://git.lix.systems/lix-project/lix/archive/refs/tags/2.96.0.tar.gz";
+      url = "https://git.lix.systems/lix-project/lix/archive/refs/heads/release-2.96.tar.gz";
       flake = false;
     };
 
@@ -358,6 +360,12 @@
                 "electron-41.10.7"
                 "electron-39.8.10"
               ];
+            }
+
+            # onlyoffice-desktopeditors' FHS env pulls in gtk2, which nixpkgs now marks
+            # broken (removal planned before 27.05). Warn instead of refusing to evaluate.
+            {
+              nixpkgs.config.problems.handlers."gtk+".broken = "warn";
             }
           ];
         };
