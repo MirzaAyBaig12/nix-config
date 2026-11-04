@@ -47,33 +47,39 @@
     # Catppuccin theme modules.
     catppuccin.url = "github:catppuccin/nix";
 
-    # Dux Shell (formerly DankMaterialShell), stable branch.
+    # Dux Shell (formerly DankMaterialShell), master branch.
     dux-shell = {
-      url = "github:duxlabs-dev/dux-shell/stable";
+      url = "github:duxlabs-dev/dux-shell/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Dux Greeter (formerly DankGreeter), stable 2.0 branch.
+    # Dux Greeter (formerly DankGreeter), master branch.
     dux-greeter = {
-      url = "github:duxlabs-dev/dux-greeter/stable-2.0";
+      url = "github:duxlabs-dev/dux-greeter/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Dux Search (formerly DankSearch).
+    # Dux Search (formerly DankSearch), master branch.
     dux-search = {
-      url = "github:duxlabs-dev/dux-search";
+      url = "github:duxlabs-dev/dux-search/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Dux GOP (formerly dgop), system resources API & CLI.
+    # Dux GOP (formerly dgop), system resources API & CLI, master branch.
     dux-gop = {
-      url = "github:duxlabs-dev/dux-gop";
+      url = "github:duxlabs-dev/dux-gop/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Dux plugin registry (formerly dms-plugin-registry), declarative DMS extensions source
+    # Dux plugin registry (formerly dms-plugin-registry), declarative DMS extensions source, master branch.
     dux-plugin-registry = {
-      url = "github:duxlabs-dev/dux-plugin-registry";
+      url = "github:duxlabs-dev/dux-plugin-registry/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Dux Files (file manager / file picker), master branch.
+    dux-files = {
+      url = "github:duxlabs-dev/dux-files/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -156,6 +162,7 @@
       dux-shell,
       dux-greeter,
       dux-search,
+      dux-files,
       dux-plugin-registry,
       home-manager,
       nixcord,
@@ -220,6 +227,9 @@
               dux-shell.nixosModules.dank-material-shell
               dux-greeter.nixosModules.default
               dux-plugin-registry.nixosModules.default
+              dux-files.nixosModules.dux-files
+              # nixpkgs now vendors its own programs.dux-files; use the flake's module instead
+              { disabledModules = [ "programs/dux-files.nix" ]; }
 
               #Blip (File Transfer)
               blip.nixosModules.default
