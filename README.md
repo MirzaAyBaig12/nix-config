@@ -17,7 +17,7 @@ This repository is home to the nix code that builds my system:
 
 - **NixOS Desktop (Axiom)** — my main daily driver. Daily session is **niri** (scrollable-tiling Wayland compositor) shelled by **DankMaterialShell (DMS)**, with **COSMIC** kept installed as an alt session at the greeter. Lanzaboote-signed boot, PipeWire audio, Waydroid, and extensive customization.
 
-See [`/.config/refind`](./.config/refind/) for my rEFInd configuration, and [`/.config/niri`](./.config/niri/) for my niri + DMS config. Historical Niri configs are kept in [`/.config/niri/backups`](./.config/niri/backups/).
+See [`/.config/refind`](./.config/refind/) for my rEFInd configuration, and [`/modules/home-manager/dotfiles/niri`](./modules/home-manager/dotfiles/niri/) for my Nix-native Niri settings. Older KDL configs remain under [`/.config/niri`](./.config/niri/) for reference.
 
 See [`/modules/`](./modules/) for each configuration module, and [`/modules/home-manager/`](./modules/home-manager/) for user-specific config files configured as modules within home-manager.
  
@@ -46,9 +46,9 @@ See [`/modules/`](./modules/) for each configuration module, and [`/modules/home
 │   │   ├── icons/                  # custom icons (web app launchers)
 │   │   ├── MYNT Backup.json        # app settings backup
 │   │   └── natsumi-theme.json      # Natsumi browser theme settings
-│   ├── niri/
+│   ├── niri/                      # legacy KDL sources retained for reference
 │   │   ├── backups/                # historical niri configs
-│   │   ├── dms/                    # DMS-managed niri settings
+│   │   ├── dms/                    # legacy DMS-generated KDL settings
 │   │   │   ├── alttab.kdl
 │   │   │   ├── binds.kdl
 │   │   │   ├── colors.kdl
@@ -58,7 +58,7 @@ See [`/modules/`](./modules/) for each configuration module, and [`/modules/home
 │   │   │   ├── outputs.kdl
 │   │   │   ├── windowrules.kdl
 │   │   │   └── wpblur.kdl
-│   │   └── config.kdl              # niri main config, symlinked via Home Manager
+│   │   └── config.kdl              # legacy KDL source retained for reference
 │   ├── refind/
 │   │   ├── refind.conf             # rEFInd configuration
 │   │   └── refind.conf-sample      # upstream sample for reference
@@ -69,6 +69,8 @@ See [`/modules/`](./modules/) for each configuration module, and [`/modules/home
 ├── modules/
 │   ├── home-manager/
 │   │   ├── dotfiles/
+│   │   │   ├── niri.config.nix     # Niri Nix settings module and DMS service activation
+│   │   │   ├── niri/               # Nix modules for input, layout, outputs, rules, binds
 │   │   │   ├── fastfetch.nix       # links .config/fastfetch into the HM profile
 │   │   │   ├── nixcord.nix         # Discord client (nixcord) settings
 │   │   │   ├── nixd.nix            # nixd LSP settings, points at this flake's option tree
@@ -77,7 +79,6 @@ See [`/modules/`](./modules/) for each configuration module, and [`/modules/home
 │   │   │   ├── web-apps.nix        # web app desktop entries
 │   │   │   └── zsh.nix             # Oh-My-Zsh, PATH exports, flatpak() sync wrapper
 │   │   ├── gtk.hm.nix              # GTK theming (Catppuccin, gtk.css, dconf)
-│   │   ├── niri.config.nix         # niri config symlink + DMS activation fixes
 │   │   ├── programs.hm.nix         # user-level home.packages and DankSearch
 │   │   ├── services.hm.nix         # user services (udiskie, flatpak updates, icon cache)
 │   │   └── stylix.hm.nix           # HM-side Stylix (cursor, fonts, theming targets)
@@ -188,7 +189,7 @@ Declarative Flatpak package list (Flathub only). Unmanaged Flatpaks get removed 
 System services: user account setup, Flatpak daemon (with global dark-mode + Papirus-Dark overrides), doas + sudo, AppArmor, udisks2, USBMUXD, printing/scanning (hplip/sane), and Avahi discovery.
 
 ### home-manager.nix
-User-level configuration managed through Home Manager. Keeps dotfiles and program configs organized into separate modules: GTK and Stylix theming, the niri config symlink, user services, and per-app files such as zsh, VSCode, nixcord, superfile, and fastfetch. (See [`/modules/home-manager`](./modules/home-manager/))
+User-level configuration managed through Home Manager. Keeps dotfiles and program configs organized into separate modules: GTK and Stylix theming, Niri settings in `programs.niri.settings`, user services, and per-app files such as zsh, VSCode, nixcord, superfile, and fastfetch. (See [`/modules/home-manager`](./modules/home-manager/))
 
 ## Why This Setup?
 
