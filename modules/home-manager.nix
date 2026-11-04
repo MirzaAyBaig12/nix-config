@@ -21,10 +21,10 @@
         ./home-manager/programs.hm.nix
         ./home-manager/stylix.hm.nix
         ./home-manager/services.hm.nix
-        ./home-manager/niri.config.nix
         ./home-manager/dms.config.nix
         ./home-manager/dotfiles/chromium.nix
         ./home-manager/dotfiles/fastfetch.nix
+        ./home-manager/dotfiles/niri.config.nix
         ./home-manager/dotfiles/nixcord.nix
         ./home-manager/dotfiles/nixd.nix
         ./home-manager/dotfiles/superfile.nix
