@@ -24,6 +24,7 @@
     ./modules/flatpak.nix
     ./modules/niri.nix
     ./modules/home-manager.nix
+    ./modules/secrets.nix
   ];
 
   # Nix implementation and package policy
@@ -57,7 +58,8 @@
       "https://cache.numtide.com"
       "https://cache.iog.io"
       "https://niri-epireyn.cachix.org"
-      "https://nix-ext-packages.cachix.org" # CI-built lix, cpak, nil (nix-ext-packages repo)
+      "https://nix-ext-packages.cachix.org" # CI-built cpak, nil, Dux suite (nix-ext-packages repo)
+      "https://lix.cachix.org" # CI-built Lix main (nix-ext-packages repo)
     ];
 
     extra-trusted-public-keys = [
@@ -69,6 +71,7 @@
       "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
       "niri-epireyn.cachix.org-1:tlVyFN7CtsDT+ZcLPS+ekFWeT1X6X4OqvWqbBMyIzFA="
       "nix-ext-packages.cachix.org-1:Jg15MvXM0xKhn4pymDYoWfA7t5SdIGUVQeywOe9j9EU="
+      "lix.cachix.org-1:Pnz9vvW0pvlTmUAFmvlx3LHseovdCUMf81z69y6AYAw="
     ];
   };
 
