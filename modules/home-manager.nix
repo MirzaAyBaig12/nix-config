@@ -24,6 +24,8 @@
         ./home-manager/dms.config.nix
         ./home-manager/dotfiles/chromium.nix
         ./home-manager/dotfiles/fastfetch.nix
+        ./home-manager/dotfiles/ghostty.nix
+        ./home-manager/dotfiles/git.nix
         ./home-manager/dotfiles/niri.config.nix
         ./home-manager/dotfiles/nixcord.nix
         ./home-manager/dotfiles/nixd.nix
