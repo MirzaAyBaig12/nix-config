@@ -143,7 +143,6 @@ let
     externalApps = [
       # AI apps
       inputs.chatgpt-desktop.packages.${pkgs.stdenv.hostPlatform.system}.chatgpt
-      opencode-desktop
 
       # WinPodX
       (inputs.winpodx.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
