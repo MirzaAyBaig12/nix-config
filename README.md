@@ -58,7 +58,6 @@ See [`/modules/`](./modules/) for each configuration module, and [`/modules/home
 │   │   │   ├── outputs.kdl
 │   │   │   ├── windowrules.kdl
 │   │   │   └── wpblur.kdl
-│   │   └── config.kdl              # legacy KDL source retained for reference
 │   ├── refind/
 │   │   ├── refind.conf             # rEFInd configuration
 │   │   └── refind.conf-sample      # upstream sample for reference
