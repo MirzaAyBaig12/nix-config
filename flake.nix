@@ -116,6 +116,18 @@
     # Containerpak module.
     cpak.url = "github:Containerpak/cpak/v2";
 
+    # Encrypted SSH credentials, fetched over SSH from this private repository.
+    nix-secrets = {
+      url = "git+ssh://git@github.com/MirzaAyBaig12/nix-secrets";
+      flake = false;
+    };
+
+    # Decrypt SOPS-managed secrets at system activation.
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # niri via epireyn's niri-flake fork (sodiboo's stopped updating its niri pin in Aug 2026,
     # this one is kept up to date): niri-unstable tracks niri-wm/niri main, cache is
     # niri-epireyn.cachix.org.
@@ -170,6 +182,7 @@
       nix-ext-packages,
       cpak,
       niri-flake,
+      sops-nix,
       ...
     }@inputs:
     {
@@ -242,6 +255,9 @@
 
               #niri (niri-flake: niri-unstable + binary cache)
               niri-flake.nixosModules.niri
+
+              # SOPS secret decryption
+              sops-nix.nixosModules.sops
             
             #Import Home-Manager
             home-manager.nixosModules.default
