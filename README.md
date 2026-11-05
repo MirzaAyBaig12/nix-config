@@ -72,6 +72,7 @@ See [`/modules/`](./modules/) for each configuration module, and [`/modules/home
 │   │   │   ├── niri.config.nix     # Niri Nix settings module and DMS service activation
 │   │   │   ├── niri/               # Nix modules for input, layout, outputs, rules, binds
 │   │   │   ├── fastfetch.nix       # links .config/fastfetch into the HM profile
+│   │   │   ├── git.nix             # Git identity and GitHub SSH key path
 │   │   │   ├── nixcord.nix         # Discord client (nixcord) settings
 │   │   │   ├── nixd.nix            # nixd LSP settings, points at this flake's option tree
 │   │   │   ├── superfile.nix       # superfile file manager + zoxide
@@ -88,6 +89,7 @@ See [`/modules/`](./modules/) for each configuration module, and [`/modules/home
 │   ├── home-manager.nix            # wires up Home Manager and its modules
 │   ├── niri.nix                    # niri compositor + DankMaterialShell, portals, xwayland-satellite
 │   ├── programs.nix                # system packages grouped by purpose, plus program options
+│   ├── secrets.nix                 # decrypts encrypted credentials from the private repo
 │   ├── services.nix                # accounts, Flatpak overrides, doas/sudo, printing
 │   ├── stylix.nix                  # system-wide Stylix theming (fonts, cursor, base16 scheme)
 │   └── system.nix                  # Lanzaboote, Plymouth, networking, Waydroid, swap, mounts

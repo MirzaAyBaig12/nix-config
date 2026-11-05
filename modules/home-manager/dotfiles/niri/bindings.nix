@@ -152,6 +152,9 @@
       "Mod+O" = { repeat = false; action.toggle-overview = [ ]; };
       "Mod+Shift+Slash" = {  action.show-hotkey-overlay = [ ]; };
       "Mod+Tab" = { repeat = false; action.toggle-overview = [ ]; };
-      "Mod".release.spawn = [ "dms" "ipc" "call" "spotlight-bar" "toggle" ];
+      "Mod" = {
+        repeat = false;
+        release.spawn = [ "dms" "ipc" "call" "spotlight-bar" "toggle" ];
+      };
   };
 }
