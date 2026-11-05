@@ -116,6 +116,7 @@ let
       iloader
       ffmpeg
       nil
+      (python3.withPackages (ps: [ ps.pillow ]))
     ];
 
     # Keyring, authentication, and password tools.
