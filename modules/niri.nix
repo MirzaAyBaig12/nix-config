@@ -8,8 +8,7 @@
 
 {
   # Niri compositor and session
-  # niri, scrollable tiling wayland compositor. runs as an alt session next to COSMIC
-  # (pick either at the greeter).
+  # niri, scrollable tiling wayland compositor
   programs.niri.enable = true;
 
   # niri-git. niri-flake's overlay (flake.nix) provides pkgs.niri-unstable, built from
@@ -22,6 +21,7 @@
   environment.systemPackages = [
     pkgs.xwayland-satellite
     pkgs.xdg-desktop-portal-gnome # screencast/screenshot backend for niri (org.gnome.Mutter.ScreenCast)
+    pkgs.gnome-control-center # required by the GNOME Global Shortcuts portal
   ];
 
   # Desktop shell
@@ -78,14 +78,9 @@
   };
 
   # Session-specific portals
-  # scope portals by session. niri gets COSMIC's portal first (native file picker,
-  # notifications) with xdg-desktop-portal-wlr as the fallback for
-  # screenshots/screencast
-  # EXCEPT Settings (color-scheme, accent-color, icon-theme), that one is forced to
-  # gtk. COSMIC's own portal keeps its own separate theme state and ignores the GNOME
-  # schema dconf keys set in home-manager/gtk.nix, so apps asking it were getting
-  # inconsistent light/dark and the wrong accent. gtk reads dconf/gsettings directly
-  # so it matches whats actually set
+  # scope portals by session. niri uses the gtk + gnome portals.
+  # Settings (color-scheme, accent-color, icon-theme) is forced to gtk, which reads
+  # dconf/gsettings directly so it matches whats actually set in home-manager/gtk.nix
   # this reaches flatpak apps automatically too, they talk to the same system wide
   # portal service so no separate flatpak side config needed
   xdg.portal = {
@@ -105,6 +100,8 @@
         # names are case sensitive. wlr was tried and never got routed/worked
         "org.freedesktop.impl.portal.ScreenCast" = [ "gnome" ];
         "org.freedesktop.impl.portal.Screenshot" = [ "gnome" ];
+        # niri's module routes Secret to gnome-keyring by default, point it at oo7
+        "org.freedesktop.impl.portal.Secret" = lib.mkForce [ "oo7-portal" ];
       };
       common = {
         default = [ "gtk" ];
