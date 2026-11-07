@@ -192,6 +192,9 @@
     {
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt;
 
+      # Expose the exact package used by Axiom without evaluating the full NixOS configuration.
+      packages.x86_64-linux.serein = inputs.serein.packages.x86_64-linux.default;
+
       nixosConfigurations = {
         Axiom = nixpkgs.lib.nixosSystem {
           specialArgs = {
