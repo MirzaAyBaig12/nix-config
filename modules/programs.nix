@@ -147,6 +147,7 @@ let
 
       # Communication
       inputs.serein.packages.${pkgs.stdenv.hostPlatform.system}.default
+      inputs.yapfast.packages.${pkgs.stdenv.hostPlatform.system}.yapfast
 
       # WinPodX
       (inputs.winpodx.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {

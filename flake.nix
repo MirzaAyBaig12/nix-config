@@ -162,6 +162,8 @@
     # Serein, native Rust (egui/wgpu) Discord client. No nixpkgs follows: Rust is pinned
     # to 1.98.1 and it builds against its own nixpkgs rev.
     serein.url = "github:ViceVerse-cz/Serein";
+
+    yapfast.url = "github:yapfast/yapfast";
   };
 
   outputs =
@@ -196,6 +198,7 @@
       packages.x86_64-linux = {
         cpak = inputs.cpak.packages.x86_64-linux.cpak;
         serein = inputs.serein.packages.x86_64-linux.default;
+        yapfast = inputs.yapfast.packages.x86_64-linux.yapfast;
       };
 
       nixosConfigurations = {
