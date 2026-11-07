@@ -62,6 +62,9 @@ let
       gstreamer # gstreamer
       gst-plugins-base # gst-plugins-base + gst-plugins-base-libs
       gst-plugins-bad # gst-plugins-bad-libs + gst-plugin-va (va plugin lives in -bad)
+      gst-plugins-good # MKV support, format conversion, photo compression (dms Cast)
+      gst-libav # ffmpeg-based codecs, format conversion (dms Cast)
+      pkgs.libheif # HEIC support (dms Cast)
       pkgs.pipewire # gst-plugin-pipewire (ships inside the pipewire package)
     ];
 
@@ -87,6 +90,7 @@ let
       kdePackages.dolphin
       (yazi.override { _7zz = _7zz-rar; }) # RAR extraction support
       ghostty
+      alacritty
       wl-clipboard
       grim
       slurp
@@ -122,7 +126,6 @@ let
     # Keyring, authentication, and password tools.
     security = [
       seahorse
-      gnome-keyring
       kdePackages.ksshaskpass
       proton-pass
     ];
@@ -163,8 +166,11 @@ let
       # Utilities
       inputs.dux-gop.packages.${pkgs.stdenv.hostPlatform.system}.default
       inputs.lumine-capture.packages.${pkgs.stdenv.hostPlatform.system}.default
+      inputs.nix-ext-packages.packages.${pkgs.stdenv.hostPlatform.system}.doubletake # AirPlay sender (dms Cast)
+      pkgs.pulseaudio # pactl only, AirPlay audio routing (daemon stays off, pipewire-pulse handles it)
 
       # Development
+      inputs.nix-ext-packages.packages.${pkgs.stdenv.hostPlatform.system}.compas-tools
       inputs.nix-ext-packages.packages.${pkgs.stdenv.hostPlatform.system}.openidea
     ];
 
@@ -174,6 +180,9 @@ let
       inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.opencode
       inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.codex  
       inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.pi
+
+      # Claude Desktop (wrapped via the overlay in flake.nix).
+      pkgs.claude-desktop
     ];
   };
 in
@@ -197,14 +206,6 @@ in
 
     
   services.cpak.enable = true;
-
-  # Claude Desktop (official Linux build, nmcbride/claude-desktop-nix).
-  # Cowork is off: only chat + connectors are used, so skip the
-  # OVMF/virtiofsd FHS symlinks, vhost_vsock and kvm group setup.
-  programs.claude-desktop = {
-    enable = true;
-    cowork.enable = false;
-  };
 
   # Shell and desktop utilities.
   programs.zsh.enable = true;
@@ -230,6 +231,16 @@ in
   virtualisation.docker = {
     enable = true;
     autoPrune.enable = true;
+  };
+
+  # dockur/windows runs wsddn as uid 995 inside the container, which is the
+  # same uid as the host's rtkit user (no userns remap). rtkit-daemon caps
+  # RLIMIT_NPROC at 3 for that uid, so if the container restarts first,
+  # rtkit's pthread_create fails, it hangs without answering on D-Bus, and
+  # xdg-desktop-portal/WirePlumber time out. Start rtkit before docker.
+  systemd.services.docker = {
+    after = [ "rtkit-daemon.service" ];
+    wants = [ "rtkit-daemon.service" ];
   };
 
   virtualisation.containers.containersConf.settings.engine.image_copy_tmp_dir =
