@@ -136,12 +136,6 @@
       url = "github:epireyn/niri-flake";
     };
 
-    # Claude Desktop client.
-    claude-desktop = {
-      url = "github:nmcbride/claude-desktop-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # ChatGPT Desktop package.
     chatgpt-desktop.url = "github:alioguzhan/chatgpt-desktop-flake";
 
@@ -173,7 +167,6 @@
       lix-module,
       lanzaboote,
       nix-flatpak,
-      claude-desktop,
       mac-style-plymouth,
       stylix,
       catppuccin,
@@ -231,9 +224,6 @@
 
               #Declarative Flatpak Management
               nix-flatpak.nixosModules.nix-flatpak
-
-              #Claude Desktop (+ Cowork FHS paths / kvm)
-              claude-desktop.nixosModules.default
 
               #System Theme Management
               stylix.nixosModules.stylix
@@ -354,7 +344,14 @@
                   });
                 })
                 mac-style-plymouth.overlays.default
-                claude-desktop.overlays.default
+                # Claude Desktop from numtide/llm-agents.nix, always launched with
+                # the Secret Service (oo7) as its password store.
+                (final: prev: {
+                  claude-desktop =
+                    inputs.llm-agents.packages.${final.stdenv.hostPlatform.system}.claude-desktop.override {
+                      commandLineArgs = "--password-store=gnome-libsecret";
+                    };
+                })
                 niri-flake.overlays.niri
                 # pkgs.browser-ext-sync (declarative Web Store extensions).
                 inputs.nix-ext-packages.overlays.default
