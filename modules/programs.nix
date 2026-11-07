@@ -145,6 +145,9 @@ let
       # AI apps
       inputs.chatgpt-desktop.packages.${pkgs.stdenv.hostPlatform.system}.chatgpt
 
+      # Communication
+      inputs.serein.packages.${pkgs.stdenv.hostPlatform.system}.default
+
       # WinPodX
       (inputs.winpodx.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
         nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkgs.cacert ];
