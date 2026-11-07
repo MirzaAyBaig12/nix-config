@@ -10,8 +10,18 @@
   config = {
   # Desktop session and display manager
   services.displayManager.defaultSession = pkgs.lib.mkForce "niri";
-  services.displayManager.cosmic-greeter.enable = false;
-  services.desktopManager.cosmic.enable = true;
+
+  # COSMIC's NixOS module used to switch these on as a side effect. niri + DMS still
+  # want them, so they're declared explicitly now that COSMIC is gone
+  services.graphical-desktop.enable = true;
+  hardware.bluetooth.enable = true;
+  services.upower.enable = true;
+  services.accounts-daemon.enable = true;
+  services.libinput.enable = true;
+  services.gvfs.enable = true;
+  services.acpid.enable = true;
+  services.geoclue2.enable = true;
+  security.polkit.enable = true;
 
   # Shared cursor theme
   # Bibata-Material-Lilac (see greetd niri_overrides.kdl +
@@ -57,7 +67,7 @@
   };
 
   # Greeter environment
-  # greetd runs as a bare systemd service (user "cosmic-greeter"), not a login shell
+  # greetd runs as a bare systemd service, not a login shell
   # session, so it never sees environment.variables from system.nix (thats PAM/session
   # only). greetd.toml only substitutes ${XCURSOR_THEME:-Pop} explicitly, so without
   # this it quietly falls back to the stock Pop cursor no matter what i set for
@@ -70,17 +80,15 @@
     XDG_DATA_DIRS = "/run/current-system/sw/share";
   };
 
-  # Desktop portals and authentication
-  xdg.portal = {
-    enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-cosmic ];
-  };
+  # Desktop portals are configured in niri.nix (gtk + gnome)
 
-  services.gnome.gnome-keyring.enable = true;
-  security.pam.services = {
-    login.enableGnomeKeyring = true;
-    greetd.enableGnomeKeyring = true;
-  };
+  # oo7 replaces gnome-keyring as the Secret Service provider (org.freedesktop.secrets).
+  # niri's own module enables gnome-keyring as a mkDefault, so it has to be forced off
+  # or both daemons would fight over the D-Bus name. the oo7 module already wires PAM
+  # unlock for `login`, greetd (dux-greeter) needs it added explicitly
+  services.gnome.gnome-keyring.enable = lib.mkForce false;
+  services.oo7.enable = true;
+  security.pam.services.greetd.oo7.enable = true;
 
   # Keyboard layout
   services.xserver.xkb = {
