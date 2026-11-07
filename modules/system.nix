@@ -13,7 +13,7 @@
   environment.variables = {
     NH_FLAKE = "/home/ayaan_mirza/nix-config";
     NH_OS_FLAKE = "/home/ayaan_mirza/nix-config";
-    NH_ELEVATION_STRATEGY = "doas";
+    NH_ELEVATION_STRATEGY = "sudo";
     XCURSOR_THEME = "Bibata-Material-Lilac";
     XCURSOR_SIZE = "30";
     NIXOS_INSTALL_BOOTLOADER = "true";
@@ -90,16 +90,13 @@
 
   # Shell shortcuts
   environment.shellAliases = {
-    nix-hwgen = "doas nixos-generate-config --dir ~/nix-config";
-    nix-rebuild = "doas nixos-rebuild switch --flake ~/nix-config#Axiom";
+    nix-hwgen = "sudo nixos-generate-config --dir ~/nix-config";
+    nix-rebuild = "sudo nixos-rebuild switch --flake ~/nix-config#Axiom";
     nix-push = "cd ~/nix-config && git add . && git commit -m \"update $(date +%Y-%m-%d_%H:%M)\" && git push";
-    nix-clean = "doas nix-env --delete-generations +3 -p /nix/var/nix/profiles/system && doas nix-collect-garbage -d";
+    nix-clean = "sudo nix-env --delete-generations +3 -p /nix/var/nix/profiles/system && sudo nix-collect-garbage -d";
     nix-generations = "nix-env -p /nix/var/nix/profiles/system --list-generations";
-    sudo = "doas";
-    sudo-temp = "/run/wrappers/bin/sudo";
-    waydroid = "/usr/bin/python3 /usr/bin/waydroid";
     zsh-reload = "omz reload";
-    enroll-tpm = "doas systemd-cryptenroll --wipe-slot=1 /dev/nvme0n1p6 && doas systemd-cryptenroll --tpm2-device=auto /dev/nvme0n1p6";
+    enroll-tpm = "sudo systemd-cryptenroll --wipe-slot=1 /dev/nvme0n1p6 && sudo systemd-cryptenroll --tpm2-device=auto /dev/nvme0n1p6";
     spf = "superfile";
     rspf = "sudo superfile";
   };
