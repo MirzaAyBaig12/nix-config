@@ -194,13 +194,6 @@
     {
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt;
 
-      # Expose the locked package inputs directly so CI never evaluates the full NixOS system.
-      packages.x86_64-linux = {
-        cpak = inputs.cpak.packages.x86_64-linux.cpak;
-        serein = inputs.serein.packages.x86_64-linux.default;
-        yapfast = inputs.yapfast.packages.x86_64-linux.yapfast;
-      };
-
       nixosConfigurations = {
         Axiom = nixpkgs.lib.nixosSystem {
           specialArgs = {
