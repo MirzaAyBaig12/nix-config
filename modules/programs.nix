@@ -148,10 +148,6 @@ let
       # AI apps
       inputs.chatgpt-desktop.packages.${pkgs.stdenv.hostPlatform.system}.chatgpt
 
-      # Communication
-      inputs.serein.packages.${pkgs.stdenv.hostPlatform.system}.default
-      inputs.yapfast.packages.${pkgs.stdenv.hostPlatform.system}.yapfast
-
       # WinPodX
       (inputs.winpodx.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
         nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkgs.cacert ];
@@ -301,7 +297,7 @@ in
 
   programs.neovim = {
     enable = true;
-    defaultEditor = true;
+    defaultEditor = false;
     viAlias = true;
     vimAlias = true;
   };
