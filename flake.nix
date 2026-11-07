@@ -152,12 +152,6 @@
     };
 
     lumine-capture.url = "github:Netflate/LumineCapture";
-
-    # Serein, native Rust (egui/wgpu) Discord client. No nixpkgs follows: Rust is pinned
-    # to 1.98.1 and it builds against its own nixpkgs rev.
-    serein.url = "github:ViceVerse-cz/Serein";
-
-    yapfast.url = "github:yapfast/yapfast";
   };
 
   outputs =
