@@ -12,7 +12,7 @@
         matches = map (app-id: { inherit app-id; }) [
           "mpv" "vlc" "hydralauncher" "org.kde.kdenlive" "com.obsproject.Studio"
           "^steam_app_" "steam" "chiaki-ng" "firefox" "librewolf" "zen"
-          "helium" "^chrome-.*__-Default$" "chromium-browser" "org.chromium.Chromium"
+          "helium" "^chrome-.*__-Default$" "chromium-browser" "dev.duxlabs.shell" "org.chromium.Chromium"
         ];
         opacity = 1.0;
         background-effect.blur = false;

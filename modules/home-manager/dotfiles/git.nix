@@ -3,7 +3,6 @@
 {
   programs.git = {
     enable = true;
-    # FastBack (Minecraft backup mod) requires native git + git-lfs on PATH.
     lfs.enable = true;
     settings.user = {
       name = "Ayaan Mirza";

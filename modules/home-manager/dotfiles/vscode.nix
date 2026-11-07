@@ -69,6 +69,11 @@ in
     # vscode out of programs.nix's systemPackages so there's no dupe install.
     package = pkgs.vscode-insiders;
     mutableExtensionsDir = false;
+    argvSettings = {
+      "password-store" = "gnome-libsecret";
+      "enable-crash-reporter" = false;
+      "log-level" = "info";
+    };
 
     profiles.default = {
       enableUpdateCheck = false;
@@ -271,6 +276,7 @@ in
           "telemetryLevel" = "off";
           "feedback".enabled = false;
         };
+        "enable-crash-reporter" = false;
         "workbench".enableExperiments = false;
       };
     };
@@ -297,9 +303,4 @@ in
     # to on, which would fight it, so explicitly off.
     icons.enable = false;
   };
-
-  #Symlink the argv.json file so VSCode Insiders will use it
-  home.file.".vscode-insiders/argv.json".source =
-    config.lib.file.mkOutOfStoreSymlink
-      "${config.home.homeDirectory}/nix-config/.config/.vscode/argv.json";
 }

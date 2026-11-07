@@ -1,11 +1,21 @@
-{ ... }:
+
+{ pkgs, ... }:
 
 {
+  # Install Ghostty's D-Bus and systemd user integration so window launches can
+  # use `ghostty +new-window` instead of initializing GTK on every launch.
+  programs.ghostty = {
+    enable = true;
+    package = pkgs.ghostty;
+    systemd.enable = true;
+  };
+
   xdg.configFile."ghostty/config".text = ''
     # Font Configuration
     font-size = 12
 
     # Window Configuration
+    window-theme = ghostty
     window-decoration = false
     window-padding-x = 12
     window-padding-y = 12
@@ -22,7 +32,7 @@
     # Terminal features
     mouse-hide-while-typing = true
     copy-on-select = false
-    confirm-close-surface = always
+    confirm-close-surface = false
 
     # Disable in-app Ghostty toast notifications
     app-notifications = false
@@ -47,6 +57,7 @@
     shell-integration = detect
     shell-integration-features = cursor,sudo,title,no-cursor
     keybind = shift+enter=text:\n
+
     # Rando stuff
     gtk-single-instance = true
 
