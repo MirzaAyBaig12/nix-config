@@ -41,17 +41,14 @@
   # Security & privileges
   # -------------------------------------------------------------------------
 
-  security.doas.enable = true;
-
-  security.doas.extraRules = [
-    {
-      users = [ "ayaan_mirza" ];
-      keepEnv = true;
-      persist = true;
-    }
-  ];
-
-  security.sudo.enable = true;
+  # sudo-rs (Rust sudo) is the default privilege escalation tool
+  security.sudo-rs.enable = true;
+  # no asterisks while typing the password. pwfeedback makes sudo-rs switch the tty out
+  # of canonical mode to read keys one at a time, which breaks Ghostty's password prompt
+  # detection (it wants ICANON on + ECHO off) so the lock cursor never shows up
+  security.sudo-rs.extraConfig = ''
+    Defaults !pwfeedback
+  '';
 
   security.apparmor.enable = true;
 
