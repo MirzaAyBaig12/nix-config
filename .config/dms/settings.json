@@ -535,8 +535,8 @@
           "id": "focusedWindow",
           "enabled": true,
           "focusedWindowShowIcon": true,
-          "focusedWindowCompactMode": false,
-          "focusedWindowSize": 0
+          "focusedWindowSize": 0,
+          "focusedWindowShowAppName": true
         },
         {
           "id": "prayerTimes",
@@ -710,8 +710,8 @@
           "id": "focusedWindow",
           "enabled": true,
           "focusedWindowShowIcon": true,
-          "focusedWindowCompactMode": false,
-          "focusedWindowSize": 0
+          "focusedWindowSize": 0,
+          "focusedWindowShowAppName": true
         },
         {
           "id": "prayerTimes",
@@ -987,7 +987,7 @@
     "dms_qr_generator",
     "dms_settings_search"
   ],
-  "configVersion": 42,
+  "configVersion": 43,
   "wellbeingAppLimits": {},
   "dashCards": [
     {
