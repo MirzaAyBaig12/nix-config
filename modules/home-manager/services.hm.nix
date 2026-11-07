@@ -52,27 +52,6 @@
   #   graphical-session.target must be active.
   # -------------------------------------------------------------------------
 
-  # Force COSMIC's own dark mode flag after every manual rebuild.
-  home.activation.forceCosmicDark =
-    lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      if [ -n "''${INVOCATION_ID:-}" ]; then
-        echo "Systemd boot activation detected, skipping COSMIC dark mode"
-      else
-        target="$HOME/.config/cosmic/com.system76.CosmicTheme.Mode/v1/is_dark"
-
-        mkdir -p "$(dirname "$target")"
-
-        tmp="$target.tmp.$$"
-
-        echo -n "true" > "$tmp"
-
-        mv -f "$tmp" "$target"
-
-        # Atomic rename fires MOVED_TO so cosmic-config's inotify watcher
-        # picks up the change live.
-      fi
-    '';
-
   # Update Flatpaks after every manual rebuild.
   #
   # Runs as the user rather than root.
@@ -282,12 +261,4 @@
 
       fi
     '';
-
-  # -------------------------------------------------------------------------
-  # Editor configuration
-  # -------------------------------------------------------------------------
-
-  home.file.".vscode-insiders/argv.json".source =
-    config.lib.file.mkOutOfStoreSymlink
-      "${config.home.homeDirectory}/nix-config/.config/.vscode/argv.json";
 }
