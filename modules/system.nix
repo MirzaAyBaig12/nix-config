@@ -47,6 +47,8 @@
   environment.systemPackages = [
     pkgs.exfatprogs
     pkgs.gpu-screen-recorder-ui # frontend for gpu-screen-recorder
+    pkgs.sops
+    pkgs.age
   ];
 
   # GPU Screen Recorder: installs the CLI and sets up the capability wrapper it
