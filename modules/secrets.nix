@@ -1,8 +1,8 @@
 { config, inputs, ... }:
 
 {
-  sops.defaultSopsFile = "${inputs.nix-secrets}/ssh.yaml";
-  sops.age.keyFile = "/home/ayaan_mirza/.config/sops/age/keys.txt";
+  sops.defaultSopsFile = "${inputs.nix-secrets}/Axiom/keys/ssh.yaml";
+  sops.age.keyFile = "/home/ayaan_mirza/nix-secrets/Axiom/age.txt";
 
   sops.secrets.ssh-private-key = {
     key = "id_ed25519";
