@@ -155,7 +155,7 @@
     }
   ],
   "currentThemeName": "custom",
-  "customThemeFile": "/home/ayaan_mirza/.config/DankMaterialShell/themes/catppuccin/theme.json",
+  "customThemeFile": "/home/ayaan_mirza/.config/dms/themes/catppuccin/theme.json",
   "registryThemeVariants": {
     "catppuccin": {
       "dark": {
