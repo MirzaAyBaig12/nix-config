@@ -122,9 +122,9 @@
       flake = false;
     };
 
-    # Decrypt SOPS-managed secrets at system activation.
-    sops-nix = {
-      url = "github:Mic92/sops-nix";
+    # Decrypt agenix-managed secrets at system activation.
+    agenix = {
+      url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -175,7 +175,7 @@
       nix-ext-packages,
       cpak,
       niri-flake,
-      sops-nix,
+      agenix,
       ...
     }@inputs:
     {
@@ -246,19 +246,19 @@
               #niri (niri-flake: niri-unstable + binary cache)
               niri-flake.nixosModules.niri
 
-              # SOPS secret decryption
-              sops-nix.nixosModules.sops
+              # agenix secret decryption
+              agenix.nixosModules.default
             
             #Import Home-Manager
             home-manager.nixosModules.default
             {
-            home-manager.sharedModules = [
-              # Home Manager Module Imports
-              dux-search.homeModules.dsearch
-              nixcord.homeModules.nixcord
-              catppuccin.homeModules.catppuccin
-              nix-ext-packages.homeManagerModules.browser-extensions
-              ];
+              home-manager.sharedModules = [
+                # Home Manager Module Imports
+                dux-search.homeModules.dsearch
+                nixcord.homeModules.nixcord
+                catppuccin.homeModules.catppuccin
+                nix-ext-packages.homeManagerModules.browser-extensions
+                ];
             }
 
             # Package overlays.
