@@ -14,6 +14,8 @@
     NH_FLAKE = "/home/ayaan_mirza/nix-config";
     NH_OS_FLAKE = "/home/ayaan_mirza/nix-config";
     NH_ELEVATION_STRATEGY = "sudo";
+    # Tells the `agenix` command where its rules live (works from any folder).
+    AGENIX_RULES = "/home/ayaan_mirza/nix-secrets/agenix-rules.nix";
     XCURSOR_THEME = "Bibata-Material-Lilac";
     XCURSOR_SIZE = "30";
     NIXOS_INSTALL_BOOTLOADER = "true";
@@ -47,9 +49,9 @@
   environment.systemPackages = [
     pkgs.exfatprogs
     pkgs.gpu-screen-recorder-ui # frontend for gpu-screen-recorder
-    pkgs.sops
     pkgs.age
   ];
+  
 
   # GPU Screen Recorder: installs the CLI and sets up the capability wrapper it
   # needs for KMS/Wayland capture (VA-API encoding on the Iris Xe)
@@ -160,6 +162,16 @@
   # Network identity and firewall
   networking.hostName = "Axiom";
   networking.networkmanager.enable = true;
+  networking.networkmanager.ensureProfiles = {
+    environmentFiles = [ config.age.secrets.wifi.path ];
+    profiles.telus = {
+      connection = { id = "TELUS5457"; type = "wifi"; autoconnect = "true"; };
+      wifi = { ssid = "TELUS5457"; mode = "infrastructure"; };
+      wifi-security = { key-mgmt = "wpa-psk"; psk = "$TELUS_PSK"; };
+      ipv4.method = "auto";
+      ipv6.method = "auto";
+    };
+  };
   networking.firewall.allowedTCPPorts = [ 9295 ];
   networking.firewall.allowedUDPPorts = [
     987
