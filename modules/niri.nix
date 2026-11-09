@@ -18,10 +18,13 @@
 
   # Xwayland compatibility. Niri relies on the separate xwayland-satellite
   # process, so keep its package installed for Xwayland applications.
-  environment.systemPackages = [
-    pkgs.xwayland-satellite
-    pkgs.xdg-desktop-portal-gnome # screencast/screenshot backend for niri (org.gnome.Mutter.ScreenCast)
-    pkgs.gnome-control-center # required by the GNOME Global Shortcuts portal
+  environment.systemPackages = with pkgs; [
+    xwayland
+    xwayland-satellite 
+    xdg-desktop-portal-gnome # screencast/screenshot backend for niri (org.gnome.Mutter.ScreenCast)
+  ];
+  services.dbus.packages = with pkgs; [
+    gnome-control-center
   ];
 
   # Desktop shell
