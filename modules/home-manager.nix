@@ -44,9 +44,11 @@
       };
 
       # Home profile identity and compatibility version
-      home.stateVersion = "26.05";
-      home.username = "ayaan_mirza";
-      home.homeDirectory = "/home/ayaan_mirza";
+      home = {
+        stateVersion = "26.05";
+        username = "ayaan_mirza";
+        homeDirectory = "/home/ayaan_mirza";
+      };
     };
   };
 }
