@@ -117,7 +117,6 @@ let
       unzip
       libsForQt5.qtstyleplugin-kvantum
       matugen
-      iloader
       ffmpeg
       nil
       (python3.withPackages (ps: [ ps.pillow ]))
