@@ -10,9 +10,22 @@
       { opacity = 0.90; background-effect = { blur = true; xray = true; }; }
       {
         matches = map (app-id: { inherit app-id; }) [
-          "mpv" "vlc" "hydralauncher" "org.kde.kdenlive" "com.obsproject.Studio"
-          "^steam_app_" "steam" "chiaki-ng" "firefox" "librewolf" "zen"
-          "helium" "^chrome-.*__-Default$" "chromium-browser" "dev.duxlabs.shell" "org.chromium.Chromium"
+          "mpv" 
+          "vlc" 
+          "hydralauncher" 
+          "org.kde.kdenlive" 
+          "com.obsproject.Studio"
+          "ONLYOFFICE"
+          "^steam_app_" 
+          "steam" 
+          "chiaki-ng" 
+          "firefox" 
+          "librewolf" 
+          "zen"
+          "helium" 
+          "^chrome-.*__-Default$" 
+          "chromium-browser" 
+          "org.chromium.Chromium"
         ];
         opacity = 1.0;
         background-effect.blur = false;

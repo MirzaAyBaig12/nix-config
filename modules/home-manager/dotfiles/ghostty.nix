@@ -64,4 +64,6 @@
     # Dank color generation
     theme = dankcolors
   '';
+
+  catppuccin.ghostty.enable = false;
 }

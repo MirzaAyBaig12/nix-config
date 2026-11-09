@@ -26,8 +26,16 @@
       ControlPersist = "no";
     };
     settings."github.com" = {
-      IdentityFile = osConfig.sops.secrets.ssh-private-key.path;
+      IdentityFile = osConfig.age.secrets.github-ssh-key.path;
       IdentitiesOnly = true;
     };
+
+    # More SSH identities (the helper in ~/nix-secrets prints these blocks):
+    # settings."github-work" = {
+    #   HostName = "github.com";
+    #   User = "git";
+    #   IdentityFile = osConfig.age.secrets.ssh-github-work.path;
+    #   IdentitiesOnly = true;
+    # };
   };
 }
