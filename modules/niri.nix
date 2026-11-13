@@ -16,6 +16,20 @@
   # cache is niri-epireyn.cachix.org (see configuration.nix)
   programs.niri.package = pkgs.niri-unstable;
 
+  # niri-flake's module replaces nixpkgs' programs.niri and does NOT put the package's
+  # systemd user units (niri.service, niri-shutdown.target) on the unit search path, so
+  # `niri-session` (what the greeter runs) fails with "Unit niri.service not found" and the
+  # greeter loops. nixpkgs' own module did this (systemd.packages + the two settings below),
+  # so mirror it here.
+  systemd.packages = [ config.programs.niri.package ];
+  systemd.user.services.niri = {
+    # restarting the compositor kills the graphical session
+    restartIfChanged = false;
+    # defining the unit generates a drop-in; without this it'd carry NixOS' default
+    # Environment="PATH=..." and clobber the PATH niri-session imports into the user manager
+    enableDefaultPath = false;
+  };
+
   # Xwayland compatibility. Niri relies on the separate xwayland-satellite
   # process, so keep its package installed for Xwayland applications.
   environment.systemPackages = with pkgs; [
