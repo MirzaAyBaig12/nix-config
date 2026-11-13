@@ -124,8 +124,9 @@
   home.file.".config/superfile/theme/catppuccin-mocha-mauve.toml".text =
     let
       upstream = builtins.readFile (builtins.fetchurl {
-        url = "https://raw.githubusercontent.com/catppuccin/superfile/refs/heads/main/themes/mocha/catppuccin-mocha-mauve.toml";
-        sha256 = "sha256-zAX5DZbvCREWdInvcysmMU7P15zzzeMNs+RCD4keFVI=";
+        # Pinned to a commit (not refs/heads/main) so upstream edits can't break the hash.
+        url = "https://raw.githubusercontent.com/catppuccin/superfile/25fa72144632b6255b1f83f223ffeb1426799811/themes/mocha/catppuccin-mocha-mauve.toml";
+        sha256 = "sha256-gSVUs9xhLIWDBhG4jtJwPHK15xHlA0jJxp5GW3D4FCg=";
       });
     in
     builtins.replaceStrings

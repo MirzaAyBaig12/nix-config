@@ -29,6 +29,12 @@
       flake = false;
     };
 
+    # iets: Rust Nix client/evaluator. Its NixOS module builds the classic names
+    # against config.nix.package (= the Lix above), and falls back to that Lix for
+    # anything it doesn't implement. Deliberately NO nixpkgs follows so the build
+    # matches cache.numtide.com (already a substituter).
+    iets.url = "github:numtide/iets";
+
     # Secure Boot support.
     lanzaboote = {
       url = "github:nix-community/lanzaboote";
@@ -159,6 +165,7 @@
       self,
       nixpkgs,
       lix-module,
+      iets,
       lanzaboote,
       nix-flatpak,
       mac-style-plymouth,
@@ -215,6 +222,9 @@
 
               #Lix Module & Overlay
               lix-module.nixosModules.default
+
+              #iets (Rust Nix client, follows config.nix.package = Lix)
+              iets.nixosModules.default
 
               #Declarative Flatpak Management
               nix-flatpak.nixosModules.nix-flatpak
@@ -358,6 +368,12 @@
                     config.home-manager.users.ayaan_mirza.programs.ungoogled-chromium.extensions.wrapped;
                   helium = 
                     inputs.helium.packages.${prev.stdenv.hostPlatform.system}.default;               
+                })
+
+                # pkgs.iloader (iOS sideloader, official .deb in an FHS env from nix-ext-packages).
+                (final: prev: {
+                  iloader =
+                    inputs.nix-ext-packages.packages.${final.stdenv.hostPlatform.system}.iloader;
                 })
 
                 # Papirus folder color everywhere (system, stylix/GTK, Flatpak host icons).
