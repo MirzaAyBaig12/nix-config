@@ -24,6 +24,15 @@
     mode = "0400";
   };
 
+  # Cloudflare API token (wrangler / API). Decrypted to /run/agenix/cloudflare-api-token;
+  # zsh exports it as CLOUDFLARE_API_TOKEN (see home-manager/dotfiles/zsh.nix).
+  age.secrets.cloudflare-api-token = {
+    file = "${inputs.nix-secrets}/secrets/cloudflare-api-token.age";
+    owner = config.users.users.ayaan_mirza.name;
+    group = config.users.users.ayaan_mirza.group;
+    mode = "0400";
+  };
+
   # Add more secrets below. `node scripts/add-secret.mjs` in ~/nix-secrets
   # prints a ready-to-paste block for each one.
 }
