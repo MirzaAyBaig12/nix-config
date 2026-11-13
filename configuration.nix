@@ -31,6 +31,13 @@
   # Lix comes from the lix-module flake input (see flake.nix); don't set nix.package
   # here or it overrides the module.
 
+  # iets (numtide/iets): its module installs `iets` and builds the classic package for
+  # config.nix.package, i.e. the Lix from lix-module, so fallbacks hit Lix, not stock Nix.
+  # Off = just the `iets` binary (+ direnv hook, since programs.direnv is on).
+  # On  = also shadows nix / nix-build / nix-shell / nix-instantiate / nix-eval-jobs with
+  #       iets (hiPrio); anything it doesn't implement execs Lix.
+  iets.classic.enable = true;
+
   users.users.ayaan_mirza.extraGroups = [
     "docker"
     "podman"
