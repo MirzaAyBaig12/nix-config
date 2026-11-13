@@ -41,6 +41,7 @@ let
       ferdium
       onlyoffice-desktopeditors
       dux-calendar
+      chatgpt
     ];
 
     # Chat and communication clients.
@@ -88,6 +89,7 @@ let
     # File management, terminal, screenshots, and desktop themes.
     desktop = [
       kdePackages.dolphin
+      kdePackages.keepsecret
       (yazi.override { _7zz = _7zz-rar; }) # RAR extraction support
       ghostty
       alacritty
@@ -119,6 +121,7 @@ let
       matugen
       ffmpeg
       nil
+      iloader # iOS sideloader (overlay in flake.nix), talks to usbmuxd, see modules/services.nix
       (python3.withPackages (ps: [ ps.pillow ]))
     ];
 
@@ -144,8 +147,6 @@ let
 
     # Applications and packages supplied by other flakes.
     externalApps = [
-      # AI apps
-      inputs.chatgpt-desktop.packages.${pkgs.stdenv.hostPlatform.system}.chatgpt
 
       # WinPodX
       (inputs.winpodx.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
