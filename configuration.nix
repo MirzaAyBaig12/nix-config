@@ -57,6 +57,9 @@
     ];
     accept-flake-config = true; 
 
+    # silence nixpkgs lib `or` identifier deprecation warning (Lix)
+    extra-deprecated-features = [ "or-as-identifier" ];
+
     extra-substituters = [
       "https://nix-community.cachix.org"
       "https://lanzaboote.cachix.org"
