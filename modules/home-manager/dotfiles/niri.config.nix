@@ -7,7 +7,7 @@
     ./niri/layout.nix
     ./niri/outputs.nix
     ./niri/rules.nix
-    ./niri/bindings.nix
+    ./niri/keybinds.nix
   ];
 
   # Keep DMS's service linked to the package selected by the system module.
