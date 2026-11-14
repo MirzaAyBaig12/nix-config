@@ -53,12 +53,14 @@
     dux-shell = {
       url = "github:duxlabs-dev/dux-shell/master";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.dux-qt-base.follows = "dux-qt-base";
     };
 
     # Dux Greeter (formerly DankGreeter), master branch.
     dux-greeter = {
       url = "github:duxlabs-dev/dux-greeter/master";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.dux-qt-base.follows = "dux-qt-base";
     };
 
     # Dux Search (formerly DankSearch), master branch.
@@ -83,7 +85,12 @@
     dux-files = {
       url = "github:duxlabs-dev/dux-files/master";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.dux-qt-base.follows = "dux-qt-base";
     };
+
+    # Dux Qt Base (quickshell fork built as a shared library), shared by dux-shell/greeter/files so
+    # it is built once. Deliberately does NOT follow nixpkgs.
+    dux-qt-base.url = "github:duxlabs-dev/dux-qt-base";
 
     # Blip desktop shell module.
     blip.url = "github:blip-net/nix";
