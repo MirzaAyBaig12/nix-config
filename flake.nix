@@ -1,10 +1,6 @@
 {
   description = "Комиссар Блятников's Nix Flake";
 
-  nixConfig = {
-    extra-deprecated-features = [ "or-as-identifier" ];
-  };
-
   inputs = {
     # NixOS packages used to build the system and install applications.
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
