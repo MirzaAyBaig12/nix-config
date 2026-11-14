@@ -140,6 +140,7 @@
       "Alt+Ctrl+Shift+3" = { hotkey-overlay.title = "Open Screen Recorder"; action.spawn = [ "openscreen" ]; };
       "Alt+Ctrl+Shift+C" = { hotkey-overlay.title = "Open ChatGPT"; action.spawn = [ "chatgpt" ]; };
       "Alt+Ctrl+Shift+F" = { hotkey-overlay.title = "Toggle Ferdium"; action.spawn = [ "ferdium" ]; };
+      "Alt+Ctrl+Shift+T" = { hotkey-overlay.title = "Toggle Telegram"; action.spawn = [ "Telegram" ]; };
       "Alt+Ctrl+Shift+P" = { hotkey-overlay.title = "Power Off"; allow-inhibiting = false; action.spawn = [ "sh" "-c" "systemctl poweroff" ]; };
       "Alt+Ctrl+Shift+S" = { hotkey-overlay.title = "Screenshot"; action.spawn = [ "sh" "-c" "grim -g \"$(slurp)\" - | satty --filename - --early-exit --copy-command wl-copy" ]; };
       "Alt+Ctrl+Shift+V" = {  action.spawn = [ "vesktop" ]; };
