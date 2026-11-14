@@ -12,6 +12,8 @@
       export PATH="$HOME/.npm-global/bin:$PATH"
       export PATH="/home/ayaan_mirza/.local/share/pi-node/node-v22.23.2-linux-x64/bin:$PATH"
       export NIX_CONFIG="access-tokens = github.com=$(gh auth token)"
+      # agenix-decrypted secrets -> env vars (read at shell start, never in the nix store)
+      [ -r /run/agenix/cloudflare-api-token ] && export CLOUDFLARE_API_TOKEN="$(cat /run/agenix/cloudflare-api-token)"
       mkdir -p "$HOME/.cache/zsh"
       export ZSH_COMPDUMP="$HOME/.cache/zsh/zcompdump-$ZSH_VERSION"
 
