@@ -12,7 +12,7 @@
       "com.vysp3r.ProtonPlus"
       "fr.arnaudmichel.launcherstudio"
       "io.github.cosmic_utils.camera"
-       "io.github.flattool.Warehouse"
+      "io.github.flattool.Warehouse"
       "io.github.kolunmi.Bazaar"
       "io.github.peazip.PeaZip"
       "io.github.screwys.Rufin"
@@ -33,6 +33,7 @@
       "org.vinegarhq.Sober"
       "page.codeberg.grinka.Transition"
       "space.bigrat.mocktail"
+      "org.localsend.localsend_app"
       "uk.co.cappsy.Tesseract"
     ];
   in
