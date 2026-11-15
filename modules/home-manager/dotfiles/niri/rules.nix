@@ -18,7 +18,6 @@
           "ONLYOFFICE"
           "^steam_app_" 
           "steam" 
-          "chiaki-ng" 
           "firefox" 
           "librewolf" 
           "zen"
