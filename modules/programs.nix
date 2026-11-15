@@ -89,7 +89,6 @@ let
     # File management, terminal, screenshots, and desktop themes.
     desktop = [
       kdePackages.dolphin
-      kdePackages.keepsecret
       (yazi.override { _7zz = _7zz-rar; }) # RAR extraction support
       ghostty
       alacritty
