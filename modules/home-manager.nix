@@ -9,11 +9,10 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     extraSpecialArgs = { inherit inputs; };
-    # Must be a real script: home-manager runs this *unquoted*
-    # (`run $HOME_MANAGER_BACKUP_COMMAND "$target"`), so an inline shell string
-    # gets word-split into args for `rm` instead of being interpreted.
-    # Works on files and directories; replaces any previous .bak.
-    backupCommand = "${pkgs.writeShellScript "hm-backup" ''rm -rf -- "$1.bak" && mv -- "$1" "$1.bak"''}";
+    # Existing files that collide with HM-managed ones get moved to `<file>.bak`;
+    # overwriteBackup lets a new backup replace a stale .bak instead of erroring.
+    backupFileExtension = "bak";
+    overwriteBackup = true;
 
     users.ayaan_mirza = {
       imports = [
