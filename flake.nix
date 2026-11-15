@@ -293,9 +293,29 @@
                 })
 
                 # Chiaki-NG fixes.
-                (final: prev: {
+                (final: prev: let
+                  # Sony's PSN push servers (*.np.communication.playstation.net)
+                  # send only the leaf cert, not the COMODO intermediate.
+                  # chiaki-ng's AIA repair reads libcurl's *built-in* CA path,
+                  # which is empty in nixpkgs' curl, so it fails closed with
+                  # "SSL peer certificate or SSH remote key was not OK".
+                  # Give it a bundle that already contains the intermediate.
+                  # (Intermediate expires 2029-02-11.)
+                  comodoDvIntermediate = final.fetchurl {
+                    url = "http://crt.comodoca.com/COMODORSADomainValidationSecureServerCA.crt";
+                    hash = "sha256-AqtX5OZ6DLSN0v80gw6KxA9EdvsIymvj9c2Eb2RoQPA=";
+                  };
+                  chiakiCaBundle =
+                    final.runCommand "chiaki-ca-bundle.crt"
+                      { nativeBuildInputs = [ final.openssl ]; }
+                      ''
+                        cat ${final.cacert}/etc/ssl/certs/ca-bundle.crt > $out
+                        openssl x509 -inform DER -in ${comodoDvIntermediate} >> $out
+                      '';
+                in {
                   # Chiaki-NG: unset the global Kvantum style override
-                  # for this executable only.
+                  # for this executable only, and point curl at the CA
+                  # bundle above so PSN remote play works.
                   chiaki-ng =
                     prev.chiaki-ng.overrideAttrs (old: {
                       nativeBuildInputs =
@@ -304,7 +324,9 @@
 
                       postFixup = (old.postFixup or "") + ''
                         wrapProgram "$out/bin/chiaki" \
-                          --unset QT_STYLE_OVERRIDE
+                          --unset QT_STYLE_OVERRIDE \
+                          --set SSL_CERT_FILE ${chiakiCaBundle} \
+                          --set CURL_CA_BUNDLE ${chiakiCaBundle}
                       '';
                   });
                 })
