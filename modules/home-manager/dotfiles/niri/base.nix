@@ -35,8 +35,8 @@
     overview.workspace-shadow.enable = false;
     recent-windows = {
       binds = {
-        "Alt+Tab".action.next-window = { scope = "output"; };
-        "Alt+Shift+Tab".action.previous-window = { scope = "output"; };
+        "Alt+Tab".action.next-window = { scope = "workspace"; };
+        "Alt+Shift+Tab".action.previous-window = { scope = "workspace"; };
         "Alt+grave".action.next-window = { filter = "app-id"; };
         "Alt+Shift+grave".action.previous-window = { filter = "app-id"; };
       };
