@@ -28,6 +28,7 @@
         ./home-manager/dotfiles/niri.config.nix
         ./home-manager/dotfiles/nixcord.nix
         ./home-manager/dotfiles/nixd.nix
+        ./home-manager/dotfiles/starship.nix
         ./home-manager/dotfiles/superfile.nix
         ./home-manager/dotfiles/vscode.nix
         ./home-manager/dotfiles/web-apps.nix
