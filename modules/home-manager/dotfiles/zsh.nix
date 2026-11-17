@@ -4,8 +4,10 @@
   # Interactive shell, startup helpers, and plugins
   programs.zsh = {
     enable = true;
+    enableCompletion = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
+    shellAliases.reload = "exec zsh";
     initContent = ''
       fastfetch -c ~/.config/fastfetch/compact-config.jsonc
       export PATH="$HOME/.local/bin:$PATH"
@@ -18,23 +20,11 @@
       export ZSH_COMPDUMP="$HOME/.cache/zsh/zcompdump-$ZSH_VERSION"
 
       # dms shell completion, generated live so it never goes stale vs whatever dms
-      # version is actually installed (oh-my-zsh's compinit already ran by this point
+      # version is actually installed (compinit already ran by this point
       # in initContent)
       if command -v dms >/dev/null 2>&1; then
         eval "$(dms completion zsh)"
       fi
     '';
-    oh-my-zsh = {
-      enable = true;
-      theme = "xiong-chiamiov-plus";
-      plugins = [
-        "git"
-        "npm"
-        "history"
-        "node"
-        "rust"
-        "deno"
-      ];
-    };
   };
 }
