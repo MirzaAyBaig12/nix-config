@@ -163,13 +163,72 @@
   networking.hostName = "Axiom";
   networking.networkmanager.enable = true;
   networking.networkmanager.ensureProfiles = {
-    environmentFiles = [ config.age.secrets.wifi.path ];
+    environmentFiles = [
+      config.age.secrets.wifi.path
+      config.age.secrets.proton-vpn.path
+    ];
     profiles.telus = {
       connection = { id = "TELUS5457"; type = "wifi"; autoconnect = "true"; };
       wifi = { ssid = "TELUS5457"; mode = "infrastructure"; };
       wifi-security = { key-mgmt = "wpa-psk"; psk = "$TELUS_PSK"; };
       ipv4.method = "auto";
       ipv6.method = "auto";
+    };
+
+    # Proton VPN (WireGuard). Private keys come from the agenix env file (proton-vpn.age).
+    # autoconnect is off: both profiles route 0.0.0.0/0, so they'd fight if both came up.
+    profiles.proton-ca = {
+      connection = {
+        id = "Proton VPN (CA)";
+        type = "wireguard";
+        interface-name = "Axiom_1-CA-FREE";
+        autoconnect = "false";
+      };
+      wireguard.private-key = "$PROTON_CA_PRIVATE_KEY";
+      "wireguard-peer.KiCvg9+bh7/ssQDALW3uXSTLaURS3mgZdi/O9CxlFXo=" = {
+        endpoint = "79.127.254.65:51820";
+        allowed-ips = "0.0.0.0/0;::/0;";
+        persistent-keepalive = "25";
+      };
+      ipv4 = {
+        method = "manual";
+        address1 = "10.2.0.2/32";
+        dns = "10.2.0.1;";
+        dns-search = "~;";
+      };
+      ipv6 = {
+        method = "manual";
+        address1 = "2a07:b944::2:2/128";
+        dns = "2a07:b944::2:1;";
+        dns-search = "~;";
+      };
+    };
+
+    profiles.proton-us = {
+      connection = {
+        id = "Proton VPN (USA)";
+        type = "wireguard";
+        interface-name = "Axiom_2-US-FREE";
+        autoconnect = "false";
+      };
+      wireguard.private-key = "$PROTON_US_PRIVATE_KEY";
+      "wireguard-peer.gucaLaM/mgJQbHVvnZNtW+1L4Mi7E2mtTMrhS0K4miU=" = {
+        endpoint = "146.70.230.146:51820";
+        allowed-ips = "0.0.0.0/0;::/0;";
+        persistent-keepalive = "25";
+      };
+      ipv4 = {
+        method = "manual";
+        address1 = "10.2.0.2/32";
+        dns = "10.2.0.1;";
+        dns-search = "~;";
+      };
+      ipv6 = {
+        method = "manual";
+        address1 = "2a07:b944::2:2/128";
+        dns = "2a07:b944::2:1;";
+        dns-search = "~;";
+      };
     };
   };
   networking.firewall.allowedTCPPorts = [ 9295 ];
