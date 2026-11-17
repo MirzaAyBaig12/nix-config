@@ -274,6 +274,25 @@
                 ];
             }
 
+            # nix-ext-packages overrides (kept separate from the general package overlays).
+            # mkBefore guarantees this runs before the ungoogled-chromium override below,
+            # so pkgs.ungoogled-chromium-base exists when that override runs.
+            ({ lib, ... }: {
+              nixpkgs.overlays = lib.mkBefore [
+                inputs.nix-ext-packages.overlays.default
+                (final: prev: {
+                  bibata-material-cursor =
+                    inputs.nix-ext-packages.packages.${final.stdenv.hostPlatform.system}.bibata-material-cursor;
+                  drivedeck =
+                    inputs.nix-ext-packages.packages.${final.stdenv.hostPlatform.system}.drivedeck;
+                  euro-office =
+                    inputs.nix-ext-packages.packages.${final.stdenv.hostPlatform.system}.euro-office;
+                  iloader =
+                    inputs.nix-ext-packages.packages.${final.stdenv.hostPlatform.system}.iloader;
+                })
+              ];
+            })
+
             # Package overlays.
             ({ config, ... }: {
               nixpkgs.overlays = [
@@ -382,23 +401,13 @@
                     };
                 })
                 niri-flake.overlays.niri
-                # pkgs.browser-ext-sync (declarative Web Store extensions).
-                inputs.nix-ext-packages.overlays.default
 
-                # Material Design 3 bibata cursors (SakibShahariar/material-bibata-cursor).
+                # Browser overrides (declarative extensions wrapper + helium).
                 (final: prev: {
-                  bibata-material-cursor =
-                    inputs.nix-ext-packages.packages.${final.stdenv.hostPlatform.system}.bibata-material-cursor;
                   ungoogled-chromium = 
                     config.home-manager.users.ayaan_mirza.programs.ungoogled-chromium.extensions.wrapped;
                   helium = 
                     inputs.helium.packages.${prev.stdenv.hostPlatform.system}.default;               
-                })
-
-                # pkgs.iloader (iOS sideloader, official .deb in an FHS env from nix-ext-packages).
-                (final: prev: {
-                  iloader =
-                    inputs.nix-ext-packages.packages.${final.stdenv.hostPlatform.system}.iloader;
                 })
 
                 # Papirus folder color everywhere (system, stylix/GTK, Flatpak host icons).
