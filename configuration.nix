@@ -22,6 +22,7 @@
     ./modules/services.nix
     ./modules/stylix.nix
     ./modules/flatpak.nix
+    ./modules/fonts.nix
     ./modules/niri.nix
     ./modules/home-manager.nix
     ./modules/secrets.nix
