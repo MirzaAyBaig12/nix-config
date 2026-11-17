@@ -63,11 +63,6 @@
   # Enable USBMUXD for iOS device management.
   services.usbmuxd.enable = true;
 
-  # 3uTools udev rules (Apple USB device access), shipped by the package.
-  services.udev.packages = [
-    inputs.nix-ext-packages.packages.${pkgs.stdenv.hostPlatform.system}."3utools"
-  ];
-
   # -------------------------------------------------------------------------
   # Printing and scanning
   # -------------------------------------------------------------------------
