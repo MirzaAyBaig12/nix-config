@@ -41,6 +41,14 @@
         open-floating = false;
       }
       {
+        # Waydroid multi-window apps (app-id: waydroid.<android.package>)
+        matches = [ { app-id = "^waydroid\\."; } ];
+        default-column-width = { proportion = 0.5; };
+        open-floating = false;
+        open-maximized = false;
+        open-fullscreen = false;
+      }
+      {
         matches = map (app-id: { inherit app-id; }) [ "^org\\.gnome\\.Calculator$" "^gnome-calculator$" "^galculator$" "^blueman-manager$" "^xdg-desktop-portal$" ];
         open-floating = true;
       }
