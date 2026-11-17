@@ -40,8 +40,15 @@ let
       obsidian
       ferdium
       onlyoffice-desktopeditors
+      euro-office
       dux-calendar
       chatgpt
+    ];
+
+    # Cloud storage and file sync.
+    cloudStorage = [
+      onedrive
+      drivedeck
     ];
 
     # Chat and communication clients.
@@ -187,6 +194,7 @@ in
     appPackages.browsers
     ++ appPackages.development
     ++ appPackages.productivity
+    ++ appPackages.cloudStorage
     ++ appPackages.communication
     ++ appPackages.mediaPlayback
     ++ appPackages.gstreamer
