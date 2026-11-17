@@ -24,6 +24,14 @@
     mode = "0400";
   };
 
+  # Proton VPN WireGuard private keys as an env file (PROTON_CA_PRIVATE_KEY, PROTON_US_PRIVATE_KEY),
+  # consumed by networking.networkmanager.ensureProfiles in system.nix.
+  age.secrets.proton-vpn = {
+    file = "${inputs.nix-secrets}/secrets/proton-vpn.age";
+    owner = "root";
+    mode = "0400";
+  };
+
   # Cloudflare API token (wrangler / API). Decrypted to /run/agenix/cloudflare-api-token;
   # zsh exports it as CLOUDFLARE_API_TOKEN (see home-manager/dotfiles/zsh.nix).
   age.secrets.cloudflare-api-token = {
