@@ -24,6 +24,7 @@
     ./modules/flatpak.nix
     ./modules/fonts.nix
     ./modules/niri.nix
+    ./modules/ollama.nix
     ./modules/home-manager.nix
     ./modules/secrets.nix
   ];
