@@ -211,6 +211,11 @@ in
     
   services.cpak.enable = true;
 
+  # AI Agents (FCC launchers).
+  imports = [
+    ./fcc.nix
+  ];
+
   # Shell and desktop utilities.
   programs.zsh.enable = true;
 

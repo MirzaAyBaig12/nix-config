@@ -91,6 +91,9 @@ in
           github.codespaces
           hackatime.hackatime-time-tracker
           github.vscode-github-actions
+          sst-dev.opencode
+          ltmoerdani.opencode-copilot-chat
+          vyomeshupadhyay.vscode-opencode
         ])
         ++ (with marketplace-release; [
           github.remotehub

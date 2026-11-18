@@ -145,6 +145,27 @@
   ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  # Compressed RAM (zram). zstd gives ~3:1 on typical desktop memory and the
+  # i7-1255U handles it easily, lz4 is faster but compresses way worse.
+  # memoryPercent = 100 means the zram device can hold as much uncompressed data as
+  # u have RAM, but it only eats about a third of that in real RAM once compressed
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd";
+    memoryPercent = 100;
+    priority = 100; # always used before the disk swapfile
+  };
+
+  # Tuning for swap-on-zram. Swapping to compressed RAM is way cheaper than
+  # evicting file cache, so we want the kernel to do it eagerly
+  boot.kernel.sysctl = {
+    "vm.swappiness" = 180; # prefer zram over dropping page cache
+    "vm.page-cluster" = 0; # no readahead, zram has no seek penalty
+    "vm.watermark_boost_factor" = 0; # stop the kernel over-reclaiming
+    "vm.watermark_scale_factor" = 125; # wake kswapd earlier, less stalls
+  };
+
+  # Disk swapfile stays as a last-resort backstop behind zram (prio -1)
   swapDevices = [
     {
       device = "/swapfile";

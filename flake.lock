@@ -228,11 +228,11 @@
     "dank-qml-common": {
       "flake": false,
       "locked": {
-        "lastModified": 1794956681,
-        "narHash": "sha256-F1D/4nXOhZzCu1NX/3c1molwCAyOmkKHjZ20rYd+/YU=",
+        "lastModified": 1794965208,
+        "narHash": "sha256-m9wacicWzYLsojCDO3R3rh/5LBizTcso45h1rf7s5d0=",
         "owner": "duxlabs-dev",
         "repo": "dux-qml-common",
-        "rev": "a772fff561b331d3c440cb717528e28d4437b68a",
+        "rev": "177214674db20d36b2b79d9d9696736c118002b6",
         "type": "github"
       },
       "original": {
@@ -284,11 +284,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794965476,
-        "narHash": "sha256-5pCpnpcz7g967GJC4RbDTvvMf++fYuwdVqJJtx0iZFk=",
+        "lastModified": 1794975776,
+        "narHash": "sha256-8DAZwfwvFKvfotxZwHEpsSp6KYwFTL75sMoExgxRPRc=",
         "owner": "duxlabs-dev",
         "repo": "dux-files",
-        "rev": "c2a3642929bb7351da672e245f9f33b5365297d3",
+        "rev": "5462f7723973211eb97e36cf633e5fe9301ab633",
         "type": "github"
       },
       "original": {
@@ -351,11 +351,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794962622,
-        "narHash": "sha256-OiFC0eZ+gXEyveu5alggLn1UFgixADjrt2BfbsoDmZM=",
+        "lastModified": 1794978690,
+        "narHash": "sha256-q53oz0MR6+pOvBIAQt308kJ1A5Pcyr+PhD7StGr9lGg=",
         "owner": "duxlabs-dev",
         "repo": "dux-plugin-registry",
-        "rev": "cc2ba8e5e89ab82b09ebbb67997fe83d87e1cdaf",
+        "rev": "d2340b2e273bc25c62449de2a31aeb8b583fd4d0",
         "type": "github"
       },
       "original": {
@@ -370,11 +370,11 @@
         "nixpkgs": "nixpkgs_5"
       },
       "locked": {
-        "lastModified": 1794956641,
-        "narHash": "sha256-2ZwGwixHpTV9yqH8hKuJ6zygRb+ZYG8lm1nQHbfL8sE=",
+        "lastModified": 1794975444,
+        "narHash": "sha256-ixgfglsIdLaO9MH/3zA53EahlDI8svWiXgFvPgqm3fY=",
         "owner": "duxlabs-dev",
         "repo": "dux-qt-base",
-        "rev": "f7e8816e85b25b6d258bb828c02bdae04ad51756",
+        "rev": "6e0d766b5865d248243f03a451f7ef59d5d13c8e",
         "type": "github"
       },
       "original": {
@@ -416,17 +416,37 @@
         ]
       },
       "locked": {
-        "lastModified": 1794968658,
-        "narHash": "sha256-5/gnhmgC7FWxzmX5vynlCQeG6stGdjIWnK9CRzGRBac=",
+        "lastModified": 1794977350,
+        "narHash": "sha256-ag1HKpr+SmJJswcvm7x0c41b1fs7R+1a9M2KyVrx9f4=",
         "owner": "duxlabs-dev",
         "repo": "dux-shell",
-        "rev": "734023ce3d515047db5ce1c4245046e5fa647294",
+        "rev": "8f1248f7981353a49e14833c7511e447e36044ef",
         "type": "github"
       },
       "original": {
         "owner": "duxlabs-dev",
         "ref": "master",
         "repo": "dux-shell",
+        "type": "github"
+      }
+    },
+    "fcc-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794981619,
+        "narHash": "sha256-vEuZ+U3RJkH9tNFHQDlIyf2CiXp48IAGvqbmbqyJ0Lg=",
+        "owner": "MirzaAyBaig12",
+        "repo": "fcc-nix",
+        "rev": "3cbbb36bddb2cfa31b7c87233b53daa19ed3cf3f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "MirzaAyBaig12",
+        "repo": "fcc-nix",
         "type": "github"
       }
     },
@@ -849,11 +869,11 @@
         "xwayland-satellite-unstable": "xwayland-satellite-unstable"
       },
       "locked": {
-        "lastModified": 1794951840,
-        "narHash": "sha256-1jHxjwKryAIKInTsqxMQPbQGE64iaM4JZh8hrNp/FEg=",
+        "lastModified": 1794972801,
+        "narHash": "sha256-Zzs/mFtQJ11hZsOQtrEynOoM6p2Ho3q1YvgHxKEGqaM=",
         "owner": "epireyn",
         "repo": "niri-flake",
-        "rev": "5cd325481ab4fc400c93826da9fb2e0e742f51b7",
+        "rev": "b9c1869ea7851b372ff52ddb9bb4cce3ffea7622",
         "type": "github"
       },
       "original": {
@@ -924,11 +944,11 @@
         "nixpkgs": "nixpkgs_11"
       },
       "locked": {
-        "lastModified": 1794958645,
-        "narHash": "sha256-+R5DIHaP5CUqpvMVjXES5sV+sVq2bkd2ZhLwxwEed7E=",
+        "lastModified": 1794979853,
+        "narHash": "sha256-isTfnTLmpKaSwd5JfQC5qlUE337hP5l6O9KXJGPe/8A=",
         "owner": "MirzaAyBaig12",
         "repo": "nix-ext-packages",
-        "rev": "fbfd5798c4d9f24c67899528227b48ce42268b38",
+        "rev": "38066da060de5b60aed18e3ee630b56511a9cc3a",
         "type": "github"
       },
       "original": {
@@ -1071,11 +1091,11 @@
     },
     "nixpkgs_10": {
       "locked": {
-        "lastModified": 1794537146,
-        "narHash": "sha256-Wpz/7x/YWnDIBu7yj6ixe8j6fIMsidd9Y+o1PqPF3iM=",
+        "lastModified": 1794750194,
+        "narHash": "sha256-c6ZxSsG1c2luSrbESFfp9Jq2pSVhGst2to4aIzt2Nes=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "d5cc6833999746cffdfe0598f7bc801a57b887a9",
+        "rev": "1a08097fc1ed85575db39763b2c4a5d8970a37ba",
         "type": "github"
       },
       "original": {
@@ -1315,6 +1335,7 @@
         "dux-qt-base": "dux-qt-base",
         "dux-search": "dux-search",
         "dux-shell": "dux-shell",
+        "fcc-nix": "fcc-nix",
         "helium": "helium",
         "home-manager": "home-manager",
         "iets": "iets",

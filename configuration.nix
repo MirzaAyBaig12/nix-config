@@ -25,6 +25,7 @@
     ./modules/fonts.nix
     ./modules/niri.nix
     ./modules/ollama.nix
+    ./modules/fcc.nix
     ./modules/home-manager.nix
     ./modules/secrets.nix
   ];

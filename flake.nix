@@ -88,6 +88,11 @@
 
     llm-agents.url = "github:numtide/llm-agents.nix";
 
+    fcc-nix = {
+      url = "github:MirzaAyBaig12/fcc-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     winpodx = {
       url = "github:kernalix7/winpodx";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -170,22 +175,6 @@
                   };
                 };
               };
-
-              # opencode2: retain the original binary and add the
-              # conventional "opencode" executable name.
-              llm-agents = inputs.llm-agents // {
-                packages = inputs.llm-agents.packages // {
-                  x86_64-linux = inputs.llm-agents.packages.x86_64-linux // {
-                    opencode2 =
-                      inputs.llm-agents.packages.x86_64-linux.opencode2.overrideAttrs
-                        (old: {
-                          postInstall = (old.postInstall or "") + ''
-                            ln -sf opencode2 "$out/bin/opencode"
-                          '';
-                        });
-                  };
-                };
-              };
             };
           };
 
@@ -232,6 +221,9 @@
 
             # nix-ext-packages.
             nix-ext-packages.nixosModules.natsumi
+
+            # Free Claude Code launchers and server service.
+            inputs.fcc-nix.nixosModules.default
 
             # Containerpak.
             cpak.nixosModules.default

@@ -6,29 +6,7 @@
 }:
 
 {
-  # -------------------------------------------------------------------------
-  # User session services
-  # -------------------------------------------------------------------------
-
-  systemd.user.services = {
-    fcc-server = {
-      Unit = {
-        Description = "FCC Server Background Daemon";
-        PartOf = [ "graphical-session.target" ];
-      };
-
-      Install = {
-        WantedBy = [ "graphical-session.target" ];
-      };
-
-      Service = {
-        Type = "simple";
-        ExecStart = "%h/.local/bin/fcc-server";
-        Restart = "always";
-        RestartSec = 5;
-      };
-    };
-  };
+  # FCC is managed by the NixOS fcc-server-nix service in fcc-nix.
 
   services.udiskie = {
     enable = true;
