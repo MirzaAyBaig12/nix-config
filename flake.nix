@@ -2,159 +2,120 @@
   description = "Комиссар Блятников's Nix Flake";
 
   inputs = {
-    # NixOS packages used to build the system and install applications.
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    # Home Manager.
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Lix NixOS module (main branch tracks current Lix; release tags lag behind nixpkgs).
     lix-module = {
       url = "https://git.lix.systems/lix-project/nixos-module/archive/main.tar.gz";
       inputs.lix.follows = "lix";
     };
 
-    # Lix source the module builds, tracking the release-2.96 branch (patch releases land here
-    # before they're tagged). Without this the module uses its own stale pin (2.94-pre).
-    # nix-ext-packages' CI builds and caches this (see its cache-nix-config workflow).
     lix = {
       url = "https://git.lix.systems/lix-project/lix/archive/refs/heads/release-2.96.tar.gz";
       flake = false;
     };
 
-    # iets: Rust Nix client/evaluator. Its NixOS module builds the classic names
-    # against config.nix.package (= the Lix above), and falls back to that Lix for
-    # anything it doesn't implement. Deliberately NO nixpkgs follows so the build
-    # matches cache.numtide.com (already a substituter).
     iets.url = "github:numtide/iets";
 
-    # Secure Boot support.
     lanzaboote = {
       url = "github:nix-community/lanzaboote";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Declarative Flatpak management.
     nix-flatpak.url = "github:gmodena/nix-flatpak";
 
-    # Theming module for NixOS and Home Manager.
     stylix = {
       url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Catppuccin theme modules.
     catppuccin.url = "github:catppuccin/nix";
 
-    # Dux Shell (formerly DankMaterialShell), master branch.
     dux-shell = {
       url = "github:duxlabs-dev/dux-shell/master";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.dux-qt-base.follows = "dux-qt-base";
     };
 
-    # Dux Greeter (formerly DankGreeter), master branch.
     dux-greeter = {
       url = "github:duxlabs-dev/dux-greeter/master";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.dux-qt-base.follows = "dux-qt-base";
     };
 
-    # Dux Search (formerly DankSearch), master branch.
     dux-search = {
       url = "github:duxlabs-dev/dux-search/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Dux GOP (formerly dgop), system resources API & CLI, master branch.
     dux-gop = {
       url = "github:duxlabs-dev/dux-gop/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Dux plugin registry (formerly dms-plugin-registry), declarative DMS extensions source, master branch.
     dux-plugin-registry = {
       url = "github:duxlabs-dev/dux-plugin-registry/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Dux Files (file manager / file picker), master branch.
     dux-files = {
       url = "github:duxlabs-dev/dux-files/master";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.dux-qt-base.follows = "dux-qt-base";
     };
 
-    # Dux Qt Base (quickshell fork built as a shared library), shared by dux-shell/greeter/files so
-    # it is built once. Deliberately does NOT follow nixpkgs.
     dux-qt-base.url = "github:duxlabs-dev/dux-qt-base";
 
-    # Blip desktop shell module.
     blip.url = "github:blip-net/nix";
 
-    # Plymouth boot splash theme.
     mac-style-plymouth = {
       url = "github:SergioRibera/s4rchiso-plymouth-theme";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # VS Code extensions.
     nix-vscode-extensions = {
       url = "github:nix-community/nix-vscode-extensions";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Discord client configuration.
     nixcord.url = "github:4evy/nixcord";
 
-    # External AppImages.
     nix-ext-packages.url = "github:MirzaAyBaig12/nix-ext-packages";
 
-    # CLI coding agents.
     llm-agents.url = "github:numtide/llm-agents.nix";
 
-    # WinPodX: Windows Pod Subsystem
     winpodx = {
       url = "github:kernalix7/winpodx";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Containerpak module.
     cpak.url = "github:Containerpak/cpak/v2";
 
-    # Encrypted SSH credentials, fetched over SSH from this private repository.
     nix-secrets = {
       url = "git+ssh://git@github.com/MirzaAyBaig12/nix-secrets";
       flake = false;
     };
 
-    # Decrypt agenix-managed secrets at system activation.
     agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # niri via epireyn's niri-flake fork (sodiboo's stopped updating its niri pin in Aug 2026,
-    # this one is kept up to date): niri-unstable tracks niri-wm/niri main, cache is
-    # niri-epireyn.cachix.org.
-    # nixos module is imported below, overlay adds pkgs.niri-unstable.
     niri-flake = {
       url = "github:epireyn/niri-flake";
     };
 
-    # ChatGPT Desktop package.
     chatgpt-desktop.url = "github:alioguzhan/chatgpt-desktop-flake";
 
-    # Helium browser package.
     helium = {
       url = "github:amaanq/helium-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # VS Code Insiders via overlay (daily-updated snapshot; auguwu/vscode-insiders-nix CI is broken)
     vscode-insiders = {
       url = "github:iosmanthus/code-insiders-flake";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -194,16 +155,34 @@
       nixosConfigurations = {
         Axiom = nixpkgs.lib.nixosSystem {
           specialArgs = {
-            # dux-gop (dgop): its Go test phase fails (api_test.go imports a
-            # module missing from the vendored deps). Patch the flake's own
-            # package here so every `inputs.dux-gop.packages...default` use gets it.
+            # Patched flake inputs.
             inputs = inputs // {
+
+              # dux-gop: skip broken Go tests.
               dux-gop = inputs.dux-gop // {
                 packages = inputs.dux-gop.packages // {
                   x86_64-linux = inputs.dux-gop.packages.x86_64-linux // {
-                    default = inputs.dux-gop.packages.x86_64-linux.default.overrideAttrs (old: {
-                      doCheck = false;
-                    });
+                    default =
+                      inputs.dux-gop.packages.x86_64-linux.default.overrideAttrs
+                        (old: {
+                          doCheck = false;
+                        });
+                  };
+                };
+              };
+
+              # opencode2: retain the original binary and add the
+              # conventional "opencode" executable name.
+              llm-agents = inputs.llm-agents // {
+                packages = inputs.llm-agents.packages // {
+                  x86_64-linux = inputs.llm-agents.packages.x86_64-linux // {
+                    opencode2 =
+                      inputs.llm-agents.packages.x86_64-linux.opencode2.overrideAttrs
+                        (old: {
+                          postInstall = (old.postInstall or "") + ''
+                            ln -sf opencode2 "$out/bin/opencode"
+                          '';
+                        });
                   };
                 };
               };
@@ -220,73 +199,76 @@
                 config.allowUnfree = true;
               };
             }
-            
-            #Import nixosModules
 
-              #Lix Module & Overlay
-              lix-module.nixosModules.default
+            # Import NixOS modules.
 
-              #iets (Rust Nix client, follows config.nix.package = Lix)
-              iets.nixosModules.default
+            # Lix Module & Overlay.
+            lix-module.nixosModules.default
 
-              #Declarative Flatpak Management
-              nix-flatpak.nixosModules.nix-flatpak
+            # iets.
+            iets.nixosModules.default
 
-              #System Theme Management
-              stylix.nixosModules.stylix
-              catppuccin.nixosModules.catppuccin
+            # Declarative Flatpak Management.
+            nix-flatpak.nixosModules.nix-flatpak
 
-              #Bootloader
-              lanzaboote.nixosModules.lanzaboote
+            # System Theme Management.
+            stylix.nixosModules.stylix
+            catppuccin.nixosModules.catppuccin
 
-              #Dux Suite
-              dux-shell.nixosModules.dank-material-shell
-              dux-greeter.nixosModules.default
-              dux-plugin-registry.nixosModules.default
-              dux-files.nixosModules.dux-files
-              # nixpkgs now vendors its own programs.dux-files; use the flake's module instead
-              { disabledModules = [ "programs/dux-files.nix" ]; }
+            # Bootloader.
+            lanzaboote.nixosModules.lanzaboote
 
-              #Blip (File Transfer)
-              blip.nixosModules.default
+            # Dux Suite.
+            dux-shell.nixosModules.dank-material-shell
+            dux-greeter.nixosModules.default
+            dux-plugin-registry.nixosModules.default
+            dux-files.nixosModules.dux-files
 
-              #nix-ext-packages (Custom Packages on my repo)
-              nix-ext-packages.nixosModules.natsumi
+            # Use the flake's Dux Files module instead of nixpkgs' module.
+            { disabledModules = [ "programs/dux-files.nix" ]; }
 
-              #containerpak
-              cpak.nixosModules.default
+            # Blip.
+            blip.nixosModules.default
 
-              #niri (niri-flake: niri-unstable + binary cache)
-              niri-flake.nixosModules.niri
+            # nix-ext-packages.
+            nix-ext-packages.nixosModules.natsumi
 
-              # agenix secret decryption
-              agenix.nixosModules.default
-            
-            #Import Home-Manager
+            # Containerpak.
+            cpak.nixosModules.default
+
+            # Niri.
+            niri-flake.nixosModules.niri
+
+            # Agenix.
+            agenix.nixosModules.default
+
+            # Home Manager.
             home-manager.nixosModules.default
+
             {
               home-manager.sharedModules = [
-                # Home Manager Module Imports
                 dux-search.homeModules.dsearch
                 nixcord.homeModules.nixcord
                 catppuccin.homeModules.catppuccin
                 nix-ext-packages.homeManagerModules.browser-extensions
-                ];
+              ];
             }
 
-            # nix-ext-packages overrides (kept separate from the general package overlays).
-            # mkBefore guarantees this runs before the ungoogled-chromium override below,
-            # so pkgs.ungoogled-chromium-base exists when that override runs.
+            # nix-ext-packages overrides.
             ({ lib, ... }: {
               nixpkgs.overlays = lib.mkBefore [
                 inputs.nix-ext-packages.overlays.default
+
                 (final: prev: {
                   bibata-material-cursor =
                     inputs.nix-ext-packages.packages.${final.stdenv.hostPlatform.system}.bibata-material-cursor;
+
                   drivedeck =
                     inputs.nix-ext-packages.packages.${final.stdenv.hostPlatform.system}.drivedeck;
+
                   euro-office =
                     inputs.nix-ext-packages.packages.${final.stdenv.hostPlatform.system}.euro-office;
+
                   iloader =
                     inputs.nix-ext-packages.packages.${final.stdenv.hostPlatform.system}.iloader;
                 })
@@ -297,8 +279,7 @@
             ({ config, ... }: {
               nixpkgs.overlays = [
 
-                # Round the Catppuccin theme while preserving its upstream
-                # theme name, files, palette, and module selection.
+                # Catppuccin Kvantum rounding.
                 (final: prev: {
                   catppuccin-kvantum =
                     prev.catppuccin-kvantum.overrideAttrs (old: {
@@ -308,53 +289,42 @@
                           sed -i '/^\[Menu\]$/a frame.expansion=16' "$config"
                         done
                       '';
-                  });
+                    });
                 })
 
                 # Chiaki-NG fixes.
-                (final: prev: let
-                  # Sony's PSN push servers (*.np.communication.playstation.net)
-                  # send only the leaf cert, not the COMODO intermediate.
-                  # chiaki-ng's AIA repair reads libcurl's *built-in* CA path,
-                  # which is empty in nixpkgs' curl, so it fails closed with
-                  # "SSL peer certificate or SSH remote key was not OK".
-                  # Give it a bundle that already contains the intermediate.
-                  # (Intermediate expires 2029-02-11.)
-                  comodoDvIntermediate = final.fetchurl {
-                    url = "http://crt.comodoca.com/COMODORSADomainValidationSecureServerCA.crt";
-                    hash = "sha256-AqtX5OZ6DLSN0v80gw6KxA9EdvsIymvj9c2Eb2RoQPA=";
-                  };
-                  chiakiCaBundle =
-                    final.runCommand "chiaki-ca-bundle.crt"
-                      { nativeBuildInputs = [ final.openssl ]; }
-                      ''
-                        cat ${final.cacert}/etc/ssl/certs/ca-bundle.crt > $out
-                        openssl x509 -inform DER -in ${comodoDvIntermediate} >> $out
-                      '';
-                in {
-                  # Chiaki-NG: unset the global Kvantum style override
-                  # for this executable only, and point curl at the CA
-                  # bundle above so PSN remote play works.
-                  chiaki-ng =
-                    prev.chiaki-ng.overrideAttrs (old: {
-                      nativeBuildInputs =
-                        (old.nativeBuildInputs or [ ])
-                        ++ [ final.makeWrapper ];
+                (final: prev:
+                  let
+                    comodoDvIntermediate = final.fetchurl {
+                      url = "http://crt.comodoca.com/COMODORSADomainValidationSecureServerCA.crt";
+                      hash = "sha256-AqtX5OZ6DLSN0v80gw6KxA9EdvsIymvj9c2Eb2RoQPA=";
+                    };
 
-                      postFixup = (old.postFixup or "") + ''
-                        wrapProgram "$out/bin/chiaki" \
-                          --unset QT_STYLE_OVERRIDE \
-                          --set SSL_CERT_FILE ${chiakiCaBundle} \
-                          --set CURL_CA_BUNDLE ${chiakiCaBundle}
-                      '';
-                  });
-                })
+                    chiakiCaBundle =
+                      final.runCommand "chiaki-ca-bundle.crt"
+                        { nativeBuildInputs = [ final.openssl ]; }
+                        ''
+                          cat ${final.cacert}/etc/ssl/certs/ca-bundle.crt > $out
+                          openssl x509 -inform DER -in ${comodoDvIntermediate} >> $out
+                        '';
+                  in
+                  {
+                    chiaki-ng =
+                      prev.chiaki-ng.overrideAttrs (old: {
+                        nativeBuildInputs =
+                          (old.nativeBuildInputs or [ ])
+                          ++ [ final.makeWrapper ];
 
-                # khal (pulled in by DMS calendar events): the man output
-                # is never built (sphinx-hook only runs the html builder),
-                # so the derivation fails. Drop the man output until
-                # nixpkgs fixes it. "dist" must stay: the python hooks
-                # expect it, and omitting it breaks pythonOutputDistPhase.
+                        postFixup = (old.postFixup or "") + ''
+                          wrapProgram "$out/bin/chiaki" \
+                            --unset QT_STYLE_OVERRIDE \
+                            --set SSL_CERT_FILE ${chiakiCaBundle} \
+                            --set CURL_CA_BUNDLE ${chiakiCaBundle}
+                        '';
+                      });
+                  })
+
+                # khal.
                 (final: prev: {
                   khal = prev.khal.overrideAttrs (old: {
                     outputs = [ "out" "dist" "doc" ];
@@ -362,8 +332,7 @@
                   });
                 })
 
-                # hplip: drivers only (no Qt GUI), keeps the build small and avoids the wrapper breakage.
-                # Also drop the hplip.desktop launcher, since it points at the removed GUI.
+                # HPLIP: drivers only.
                 (final: prev: {
                   hplip = (prev.hplip.override { withQt5 = false; }).overrideAttrs (old: {
                     postInstall = (old.postInstall or "") + ''
@@ -372,8 +341,7 @@
                   });
                 })
 
-                # udiskie: its keyutils test needs the kernel keyring, which the
-                # build sandbox doesn't provide, so the test suite fails. Skip tests.
+                # udiskie.
                 (final: prev: {
                   udiskie = prev.udiskie.overrideAttrs (old: {
                     doCheck = false;
@@ -382,7 +350,8 @@
                 })
 
                 inputs.vscode-insiders.overlays.default
-                # Show up as plain "Visual Studio Code" in launchers.
+
+                # VS Code Insiders launcher name.
                 (final: prev: {
                   vscode-insiders = prev.vscode-insiders.overrideAttrs (old: {
                     postFixup = (old.postFixup or "") + ''
@@ -391,32 +360,33 @@
                     '';
                   });
                 })
+
                 mac-style-plymouth.overlays.default
-                # Claude Desktop from numtide/llm-agents.nix, always launched with
-                # the Secret Service (oo7) as its password store.
+
+                # Claude Desktop.
                 (final: prev: {
                   claude-desktop =
                     inputs.llm-agents.packages.${final.stdenv.hostPlatform.system}.claude-desktop.override {
                       commandLineArgs = "--password-store=gnome-libsecret";
                     };
                 })
+
                 niri-flake.overlays.niri
 
-                # Browser overrides (declarative extensions wrapper + helium).
+                # Browser overrides.
                 (final: prev: {
-                  ungoogled-chromium = 
+                  ungoogled-chromium =
                     config.home-manager.users.ayaan_mirza.programs.ungoogled-chromium.extensions.wrapped;
-                  helium = 
-                    inputs.helium.packages.${prev.stdenv.hostPlatform.system}.default;               
+
+                  helium =
+                    inputs.helium.packages.${prev.stdenv.hostPlatform.system}.default;
                 })
 
-                # Papirus folder color everywhere (system, stylix/GTK, Flatpak host icons).
-                # Applied at build time via papirus-folders (the store is read-only, so the
-                # CLI can't recolor it in place). Colors: adwaita black blue bluegrey breeze
-                # brown carmine cyan darkcyan deeporange green grey indigo magenta nordic
-                # orange palebrown paleorange pink red teal violet white yaru yellow
+                # Papirus folder color.
                 (final: prev: {
-                  papirus-icon-theme = prev.papirus-icon-theme.override { color = "violet"; };
+                  papirus-icon-theme = prev.papirus-icon-theme.override {
+                    color = "violet";
+                  };
                 })
               ];
             })
@@ -435,8 +405,7 @@
               ];
             }
 
-            # onlyoffice-desktopeditors' FHS env pulls in gtk2, which nixpkgs now marks
-            # broken (removal planned before 27.05). Warn instead of refusing to evaluate.
+            # onlyoffice GTK2 warning.
             {
               nixpkgs.config.problems.handlers."gtk+".broken = "warn";
             }
