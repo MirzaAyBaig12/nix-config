@@ -204,10 +204,12 @@
       "smartAutoHide": true,
       "useOverlayLayer": false,
       "editOnRightClick": false,
+      "showEditWidgetsInContextMenu": true,
       "showOnFullscreen": false,
       "openOnOverview": true,
       "groupByApp": true,
       "separatePinnedAndRunningApps": false,
+      "showRunningApps": true,
       "restoreSpecialWorkspaceOnClick": false,
       "isolateDisplays": false,
       "indicatorStyle": "line",
@@ -348,8 +350,8 @@
       "enabled": true,
       "w": 4,
       "h": 1,
-      "col": 0,
-      "row": 4
+      "col": 4,
+      "row": 5
     },
     {
       "id": "user",
@@ -389,15 +391,6 @@
       "row": 0
     },
     {
-      "id": "doNotDisturb",
-      "enabled": true,
-      "w": 4,
-      "h": 1,
-      "col": 4,
-      "row": 5,
-      "small": false
-    },
-    {
       "id": "runningApps",
       "enabled": true,
       "w": 8,
@@ -414,6 +407,14 @@
       "h": 1,
       "col": 0,
       "row": 5
+    },
+    {
+      "id": "builtin_vpn",
+      "enabled": true,
+      "w": 4,
+      "h": 1,
+      "col": 0,
+      "row": 4
     }
   ],
   "spotlightSectionViewModes": {
