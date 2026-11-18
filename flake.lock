@@ -437,11 +437,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794981619,
-        "narHash": "sha256-vEuZ+U3RJkH9tNFHQDlIyf2CiXp48IAGvqbmbqyJ0Lg=",
+        "lastModified": 1794985442,
+        "narHash": "sha256-mmgLyn6yptoDv2EyP/Ik3dxMrb6UtE1LrjXcn5cL+wo=",
         "owner": "MirzaAyBaig12",
         "repo": "fcc-nix",
-        "rev": "3cbbb36bddb2cfa31b7c87233b53daa19ed3cf3f",
+        "rev": "8ecfc7602b57c57049d1f510414c534f24f9f11a",
         "type": "github"
       },
       "original": {
