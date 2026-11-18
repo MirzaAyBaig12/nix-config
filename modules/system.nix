@@ -103,6 +103,7 @@
     enroll-tpm = "sudo systemd-cryptenroll --wipe-slot=1 /dev/nvme0n1p6 && sudo systemd-cryptenroll --tpm2-device=auto /dev/nvme0n1p6";
     spf = "superfile";
     rspf = "sudo superfile";
+    opencode-desktop = "opencode2-desktop";
   };
 
   # Secure Boot and bootloader
