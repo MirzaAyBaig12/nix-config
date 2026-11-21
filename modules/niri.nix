@@ -11,6 +11,12 @@
   # niri, scrollable tiling wayland compositor
   programs.niri.enable = true;
 
+  # niri-flake autostarts polkit-kde-authentication-agent-1 (niri-flake-polkit.service).
+  # it crash-loops here (kvantum QML module missing) and, because it registers first, it
+  # also blocks DMS's built-in polkit agent ("An authentication agent already exists").
+  # disable it so DMS owns the polkit agent slot.
+  systemd.user.services.niri-flake-polkit.enable = false;
+
   # niri-git. niri-flake's overlay (flake.nix) provides pkgs.niri-unstable, built from
   # niri-wm/niri main at whatever commit flake.lock pins (nix flake update niri-flake to bump).
   # cache is niri-epireyn.cachix.org (see configuration.nix)
