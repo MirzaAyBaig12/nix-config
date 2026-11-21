@@ -19,6 +19,9 @@
     inputs.nix-ext-packages.packages.${pkgs.stdenv.hostPlatform.system}.sklauncher
     inputs.nix-ext-packages.packages.${pkgs.stdenv.hostPlatform.system}.modrinth
     inputs.nix-ext-packages.packages.${pkgs.stdenv.hostPlatform.system}.ventoy
+
+    # Email
+    inputs.nix-ext-packages.packages.${pkgs.stdenv.hostPlatform.system}.freelook
   ];
 
   # DankSearch, file search plugin that powers the DMS launcher results

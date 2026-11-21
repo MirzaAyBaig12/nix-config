@@ -261,6 +261,8 @@
     9297
     9302
     9303
+    9304
+    9305
   ];
 
   # Android compatibility

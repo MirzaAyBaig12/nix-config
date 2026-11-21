@@ -45,6 +45,8 @@ let
       euro-office
       dux-calendar
       chatgpt
+      evolution
+      evolution-ews
     ];
 
     # Cloud storage and file sync.

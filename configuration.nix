@@ -19,6 +19,7 @@
     ./modules/system.nix
     ./modules/desktop.nix
     ./modules/programs.nix
+    ./modules/librewolf.nix
     ./modules/services.nix
     ./modules/stylix.nix
     ./modules/flatpak.nix

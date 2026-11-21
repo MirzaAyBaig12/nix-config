@@ -34,6 +34,7 @@
       "page.codeberg.grinka.Transition"
       "space.bigrat.mocktail"
       "org.localsend.localsend_app"
+      "io.github.streetpea.Chiaki4deck"
       "uk.co.cappsy.Tesseract"
     ];
   in

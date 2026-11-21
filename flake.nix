@@ -9,6 +9,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # NUR (rycee's firefox-addons for declarative LibreWolf extensions).
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     lix-module = {
       url = "https://git.lix.systems/lix-project/nixos-module/archive/main.tar.gz";
       inputs.lix.follows = "lix";
@@ -251,6 +257,9 @@
               nixpkgs.overlays = lib.mkBefore [
                 inputs.nix-ext-packages.overlays.default
 
+                # NUR (pkgs.nur.repos.*).
+                inputs.nur.overlays.default
+
                 (final: prev: {
                   bibata-material-cursor =
                     inputs.nix-ext-packages.packages.${final.stdenv.hostPlatform.system}.bibata-material-cursor;
@@ -260,6 +269,9 @@
 
                   euro-office =
                     inputs.nix-ext-packages.packages.${final.stdenv.hostPlatform.system}.euro-office;
+
+                  freelook =
+                    inputs.nix-ext-packages.packages.${final.stdenv.hostPlatform.system}.freelook;
 
                   iloader =
                     inputs.nix-ext-packages.packages.${final.stdenv.hostPlatform.system}.iloader;
@@ -307,11 +319,16 @@
                           (old.nativeBuildInputs or [ ])
                           ++ [ final.makeWrapper ];
 
+                        # Wrap the already-wrapped binary in postFixup
                         postFixup = (old.postFixup or "") + ''
                           wrapProgram "$out/bin/chiaki" \
-                            --unset QT_STYLE_OVERRIDE \
-                            --set SSL_CERT_FILE ${chiakiCaBundle} \
-                            --set CURL_CA_BUNDLE ${chiakiCaBundle}
+                            --prefix SSL_CERT_FILE : "${chiakiCaBundle}" \
+                            --prefix CURL_CA_BUNDLE : "${chiakiCaBundle}" \
+                            --unset QT_STYLE_OVERRIDE
+                          wrapProgram "$out/bin/chiaki-cli" \
+                            --prefix SSL_CERT_FILE : "${chiakiCaBundle}" \
+                            --prefix CURL_CA_BUNDLE : "${chiakiCaBundle}" \
+                            --unset QT_STYLE_OVERRIDE
                         '';
                       });
                   })
