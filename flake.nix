@@ -275,6 +275,9 @@
 
                   iloader =
                     inputs.nix-ext-packages.packages.${final.stdenv.hostPlatform.system}.iloader;
+
+                  prospect-mail =
+                    inputs.nix-ext-packages.packages.${final.stdenv.hostPlatform.system}.prospect-mail;
                 })
               ];
             })

@@ -22,6 +22,7 @@
 
     # Email
     inputs.nix-ext-packages.packages.${pkgs.stdenv.hostPlatform.system}.freelook
+    inputs.nix-ext-packages.packages.${pkgs.stdenv.hostPlatform.system}.prospect-mail
   ];
 
   # DankSearch, file search plugin that powers the DMS launcher results
