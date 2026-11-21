@@ -33,6 +33,8 @@ let
       kdePackages.kate
       flutter
       distrobox
+      # adb + fastboot. programs.adb is removed; systemd 258 handles the udev uaccess rules
+      android-tools
     ];
 
     # Notes, office work, and personal productivity.
