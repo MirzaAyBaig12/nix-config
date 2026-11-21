@@ -887,25 +887,62 @@
         "transparency": 0.8,
         "colorMode": "primary",
         "customColor": "#ffffff",
-        "showCpu": true,
-        "showCpuGraph": true,
-        "showCpuTemp": true,
-        "showGpuTemp": false,
-        "gpuPciId": "8086:46a8",
-        "showMemory": true,
-        "showMemoryGraph": true,
-        "showNetwork": true,
-        "showNetworkGraph": true,
-        "showDisk": true,
         "showTopProcesses": true,
         "topProcessCount": 3,
         "topProcessSortBy": "memory",
-        "layoutMode": "auto",
         "graphInterval": 60,
         "displayPreferences": [
           "all"
         ],
-        "showOnOverview": false
+        "showOnOverview": false,
+        "metrics": [
+          {
+            "device": "cpu",
+            "vals": [
+              "usage",
+              "temp"
+            ],
+            "graph": true,
+            "on": true
+          },
+          {
+            "device": "memory",
+            "vals": [
+              "used"
+            ],
+            "graph": true,
+            "on": true
+          },
+          {
+            "device": "net",
+            "vals": [
+              "down",
+              "up"
+            ],
+            "graph": true,
+            "on": true
+          },
+          {
+            "device": "disk",
+            "vals": [
+              "read",
+              "write",
+              "space"
+            ],
+            "graph": true,
+            "on": true
+          },
+          {
+            "device": "gpu:8086:46a8",
+            "vals": [
+              "temp"
+            ],
+            "graph": false,
+            "on": false
+          }
+        ],
+        "layout": "tiles",
+        "style": "icon"
       }
     },
     {
@@ -988,7 +1025,7 @@
     "dms_qr_generator",
     "dms_settings_search"
   ],
-  "configVersion": 44,
+  "configVersion": 46,
   "wellbeingAppLimits": {},
   "dashCards": [
     {
@@ -1085,5 +1122,6 @@
   "density": "comfortable",
   "interfaceStyle": "expressive",
   "floatingWindowTitleBars": true,
-  "controlCenterRows": 0
+  "controlCenterRows": 0,
+  "motionDuration": 0
 }
