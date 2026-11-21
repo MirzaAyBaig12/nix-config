@@ -1,4 +1,8 @@
-{ config, pkgs, ... }:
+{ 
+  config, 
+  pkgs, 
+  ... 
+}:
 
 # Flatpak looks for host fonts/icons in /usr/share/{fonts,icons} (exposed to apps as
 # /run/host/*). NixOS has no /usr/share/fonts, so flatpak apps get zero fonts and render
