@@ -29,7 +29,6 @@
         concatenatedComponentExtractor.enable = true;
         crashHandler.enable = true;
         disableDeepLinks.enable = true;
-        fixYoutubeEmbeds.enable = true;
         noTrack.enable = true;
         settings.enable = true;
         supportHelper.enable = true;
