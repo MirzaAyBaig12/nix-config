@@ -688,7 +688,8 @@
       "islandRouteLauncher": "island",
       "islandRouteNotificationCenter": "follow",
       "islandSystemOsd": true,
-      "islandSatelliteGap": 12
+      "islandSatelliteGap": 12,
+      "island": false
     },
     {
       "id": "dot1791003346538",
@@ -1122,21 +1123,6 @@
   "floatingWindowTitleBars": true,
   "controlCenterRows": 0,
   "motionDuration": 0,
-  "connectedFrameBarStyleBackups": {
-    "default": {
-      "shadowIntensity": 0,
-      "squareCorners": false,
-      "attachToScreenEdge": false,
-      "gothCornersEnabled": false,
-      "borderEnabled": false
-    },
-    "dot1791003346538": {
-      "shadowIntensity": 0,
-      "squareCorners": false,
-      "attachToScreenEdge": false,
-      "gothCornersEnabled": false,
-      "borderEnabled": false
-    }
-  },
-  "frameEnabled": true
+  "connectedFrameBarStyleBackups": {},
+  "frameEnabled": false
 }
