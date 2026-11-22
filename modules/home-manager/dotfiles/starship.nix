@@ -18,9 +18,6 @@ let
   php    = g "e608";
 in
 {
-  # Tokyo Night preset layout, recoloured with the full Catppuccin Mocha palette
-  # (mauve accent) and a NixOS snowflake instead of the apple.
-  # The catppuccin module's own starship theme would fight this palette.
   catppuccin.starship.enable = false;
 
   programs.starship = {
