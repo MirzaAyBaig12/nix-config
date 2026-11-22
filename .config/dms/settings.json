@@ -635,7 +635,6 @@
       "hoverPopoutDelay": 150,
       "attachToScreenEdge": false,
       "batteryColorMode": "theme",
-      "island": false,
       "islandFloating": false,
       "islandUseOverlayLayer": false,
       "islandHomeCompactTight": false,
@@ -806,7 +805,6 @@
       "hoverPopoutDelay": 150,
       "attachToScreenEdge": false,
       "batteryColorMode": "theme",
-      "island": false,
       "islandFloating": false,
       "islandUseOverlayLayer": false,
       "islandHomeCompactTight": false,
@@ -1123,5 +1121,22 @@
   "interfaceStyle": "expressive",
   "floatingWindowTitleBars": true,
   "controlCenterRows": 0,
-  "motionDuration": 0
+  "motionDuration": 0,
+  "connectedFrameBarStyleBackups": {
+    "default": {
+      "shadowIntensity": 0,
+      "squareCorners": false,
+      "attachToScreenEdge": false,
+      "gothCornersEnabled": false,
+      "borderEnabled": false
+    },
+    "dot1791003346538": {
+      "shadowIntensity": 0,
+      "squareCorners": false,
+      "attachToScreenEdge": false,
+      "gothCornersEnabled": false,
+      "borderEnabled": false
+    }
+  },
+  "frameEnabled": true
 }

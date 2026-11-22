@@ -27,4 +27,11 @@
 
   # DankSearch, file search plugin that powers the DMS launcher results
   programs.dsearch.enable = true;
+
+  # Spotify links in, tagged audio on the HiBy R1 SD card out
+  programs.music2dap = {
+    enable = true;
+    musicDevice = "HiBy R1 SD";
+    preferredFormat = "FLAC";
+  };
 }

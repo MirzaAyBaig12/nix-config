@@ -197,11 +197,11 @@
     },
     "crane": {
       "locked": {
-        "lastModified": 1793836618,
-        "narHash": "sha256-TREenflwEjxOSq292FYwbc3kEm7TDRtXCZRNWEdjBmg=",
+        "lastModified": 1794962885,
+        "narHash": "sha256-zrweT2tXbcWiJMACOhOr2eYFJKVa6g59ouRaZ3BS5Do=",
         "owner": "ipetkov",
         "repo": "crane",
-        "rev": "79fd63528501446749c09f08cad486a58c7d173e",
+        "rev": "95e62def851e9d650f0eab63cb4f59a3306e20bd",
         "type": "github"
       },
       "original": {
@@ -351,11 +351,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795270829,
-        "narHash": "sha256-kh446G+BWC2/51MRbQ14oZwxtVuPTHGGYdDgOXLKdqw=",
+        "lastModified": 1795320537,
+        "narHash": "sha256-ox/xEE/JGFLQ2obT/S8777oW3apTvtfH2Jk2M+qzdbI=",
         "owner": "duxlabs-dev",
         "repo": "dux-plugin-registry",
-        "rev": "66e0bf722f1182fcb0ae573d596d3775467647d0",
+        "rev": "aae9cd944e85b75de1ba80db163c87f7dc8075f7",
         "type": "github"
       },
       "original": {
@@ -690,11 +690,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795268568,
-        "narHash": "sha256-1RJm4DEu7YHJv94sjSY7sjqT+kHx/AUwmtUN4dtFBUo=",
+        "lastModified": 1795325944,
+        "narHash": "sha256-dOPB2dprqzQTkfE8dUpFAD93oeOqT/yQzUXs52yGjJk=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "6857c7f7c338ad181729c52071386b0d3afa24bc",
+        "rev": "cf726ddc129f140991c2011a02d336933d0c4c4c",
         "type": "github"
       },
       "original": {
@@ -731,11 +731,11 @@
         "nixpkgs": "nixpkgs_6"
       },
       "locked": {
-        "lastModified": 1795231271,
-        "narHash": "sha256-wIqy0r91cszULpQ3mWEqurFj8tZrOzidqU9udiJaNAM=",
+        "lastModified": 1795324765,
+        "narHash": "sha256-VCPNAPbTyUPQ0Yp+cBYZp166ssjOHu+E+MnCqMYi230=",
         "owner": "numtide",
         "repo": "iets",
-        "rev": "f3ee0557116cbda1dc5b00e7a00316eed019a98c",
+        "rev": "323c33c5352a5d86db1e4d82477aa85121cf4109",
         "type": "github"
       },
       "original": {
@@ -811,11 +811,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1795304504,
-        "narHash": "sha256-BHpBHnFKQ6Q0nXUUiVxcgFl9E8boHHSuCHxsUQfviUY=",
+        "lastModified": 1795325998,
+        "narHash": "sha256-sWylG5iG69HDYvzJ0gd2SffmN+Z/htJ0P8FfvR9iwSo=",
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "rev": "91fde7b18469fbc0938d6ab04566463bc3ba3395",
+        "rev": "cee519eeaa4a774af19dbc05aa23011edfa2d028",
         "type": "github"
       },
       "original": {
@@ -860,6 +860,26 @@
       "original": {
         "owner": "SergioRibera",
         "repo": "s4rchiso-plymouth-theme",
+        "type": "github"
+      }
+    },
+    "music2dap": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1795327436,
+        "narHash": "sha256-4t3mAtC7PVKxU7uufCtdlWuhNaRw1d2Kvh06rJJHUKU=",
+        "owner": "MirzaAyBaig12",
+        "repo": "music2dap",
+        "rev": "04f44baec655effa66199c161eb49d369ce480ae",
+        "type": "github"
+      },
+      "original": {
+        "owner": "MirzaAyBaig12",
+        "repo": "music2dap",
         "type": "github"
       }
     },
@@ -965,11 +985,11 @@
         "nixpkgs": "nixpkgs_11"
       },
       "locked": {
-        "lastModified": 1795296689,
-        "narHash": "sha256-+QqDK7eEsuvtFJYEdUGcsvmQm6mhAi0sjK2i+c9Q6qY=",
+        "lastModified": 1795326104,
+        "narHash": "sha256-1b4i0acs+2HWkie+tSIGpbgdtHzjhJnhjLkJwHA7FXE=",
         "owner": "MirzaAyBaig12",
         "repo": "nix-ext-packages",
-        "rev": "9d29f4f61cd670c18bbd94e3f6ca7a4f9aa1f486",
+        "rev": "e3fe2495c047fa0f3409d489b33eda4be303c4fc",
         "type": "github"
       },
       "original": {
@@ -1303,11 +1323,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795307140,
-        "narHash": "sha256-IgNR/xX9w2gFFslN9i6zBJvsudghXx6BAXvFyd6KXEk=",
+        "lastModified": 1795325576,
+        "narHash": "sha256-sN90KBZ+jJ0rGVkVVUSXc9tCZbSzOhCE3QCCnVCvsSE=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "8d5cd04bfb8c2ad8aa95a41dadf7c0f916436653",
+        "rev": "1065d8c0d748bbaf1222810e9d1806902ea405d5",
         "type": "github"
       },
       "original": {
@@ -1387,6 +1407,7 @@
         "llm-agents": "llm-agents",
         "lumine-capture": "lumine-capture",
         "mac-style-plymouth": "mac-style-plymouth",
+        "music2dap": "music2dap",
         "niri-flake": "niri-flake",
         "nix-ext-packages": "nix-ext-packages",
         "nix-flatpak": "nix-flatpak",

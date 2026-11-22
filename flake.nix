@@ -92,6 +92,11 @@
 
     nix-ext-packages.url = "github:MirzaAyBaig12/nix-ext-packages";
 
+    music2dap = {
+      url = "github:MirzaAyBaig12/music2dap";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     llm-agents.url = "github:numtide/llm-agents.nix";
 
     fcc-nix = {
@@ -155,6 +160,7 @@
       nixcord,
       blip,
       nix-ext-packages,
+      music2dap,
       cpak,
       niri-flake,
       agenix,
@@ -249,6 +255,7 @@
                 nixcord.homeModules.nixcord
                 catppuccin.homeModules.catppuccin
                 nix-ext-packages.homeManagerModules.browser-extensions
+                music2dap.homeManagerModules.music2dap
               ];
             }
 
@@ -256,6 +263,7 @@
             ({ lib, ... }: {
               nixpkgs.overlays = lib.mkBefore [
                 inputs.nix-ext-packages.overlays.default
+                inputs.music2dap.overlays.default
 
                 # NUR (pkgs.nur.repos.*).
                 inputs.nur.overlays.default
