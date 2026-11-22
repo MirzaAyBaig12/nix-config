@@ -31,7 +31,7 @@
   # Spotify links in, tagged audio on the HiBy R1 SD card out
   programs.music2dap = {
     enable = true;
-    musicDevice = "HiBy R1 SD";
+    musicDeviceMount = "HiBy R1 SD";
     preferredFormat = "FLAC";
   };
 }
