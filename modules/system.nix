@@ -143,7 +143,7 @@
     "rd.udev.log_level=3"
     "rd.systemd.show_status=auto"
   ];
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_testing;
 
   # Compressed RAM (zram). zstd gives ~3:1 on typical desktop memory and the
   # i7-1255U handles it easily, lz4 is faster but compresses way worse.
