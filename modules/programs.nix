@@ -26,11 +26,9 @@ let
       sassc
       python3
       python3Packages.pip
-      python3Packages.virtualenv
-      vscodium
+      python3Packages.virtualenv      
       zed-editor
       sourcegit
-      kdePackages.kate
       flutter
       distrobox
       # adb + fastboot. programs.adb is removed; systemd 258 handles the udev uaccess rules
@@ -42,17 +40,9 @@ let
       obsidian
       ferdium
       onlyoffice-desktopeditors
-      euro-office
       dux-calendar
       chatgpt
-      evolution
-      evolution-ews
-    ];
-
-    # Cloud storage and file sync.
-    cloudStorage = [
-      onedrive
-      drivedeck
+      claude-desktop
     ];
 
     # Chat and communication clients.
@@ -60,7 +50,6 @@ let
       vesktop
       teams-for-linux
       telegram-desktop
-      slack
     ];
 
     # Audio and video playback.
@@ -99,8 +88,6 @@ let
 
     # File management, terminal, screenshots, and desktop themes.
     desktop = [
-      kdePackages.dolphin
-      (yazi.override { _7zz = _7zz-rar; }) # RAR extraction support
       ghostty
       alacritty
       wl-clipboard
@@ -187,9 +174,6 @@ let
       inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.opencode2-desktop
       inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.codex  
       inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.pi
-
-      # Claude Desktop (wrapped via the overlay in flake.nix).
-      pkgs.claude-desktop
     ];
   };
 in
@@ -199,7 +183,6 @@ in
     appPackages.browsers
     ++ appPackages.development
     ++ appPackages.productivity
-    ++ appPackages.cloudStorage
     ++ appPackages.communication
     ++ appPackages.mediaPlayback
     ++ appPackages.gstreamer
@@ -214,11 +197,6 @@ in
 
     
   services.cpak.enable = true;
-
-  # AI Agents (FCC launchers).
-  imports = [
-    ./fcc.nix
-  ];
 
   # Shell and desktop utilities.
   programs.zsh.enable = true;
