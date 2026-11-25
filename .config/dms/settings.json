@@ -476,14 +476,14 @@
   "acSuspendBehavior": 2,
   "acProfileName": "0",
   "batteryLockTimeout": 300,
-  "batterySuspendTimeout": 600,
+  "batterySuspendTimeout": 15,
   "batterySuspendBehavior": 2,
   "batteryProfileName": "0",
   "batteryChargeLimit": 95,
   "batteryNotifyChargeLimit": true,
   "batteryNotifyLow": true,
   "batteryAutoPowerSaver": true,
-  "lockBeforeSuspend": true,
+  "lockBeforeSuspend": false,
   "terminalsAlwaysDark": true,
   "matugenTemplateHyprland": false,
   "matugenTemplateMangowc": false,
@@ -1024,7 +1024,7 @@
     "dms_qr_generator",
     "dms_settings_search"
   ],
-  "configVersion": 46,
+  "configVersion": 48,
   "wellbeingAppLimits": {},
   "dashCards": [
     {
@@ -1056,18 +1056,52 @@
       "row": 3
     },
     {
-      "id": "disk",
+      "id": "sysmon",
       "w": 3,
       "h": 1,
       "col": 3,
-      "row": 1
+      "row": 1,
+      "instanceId": "disk-4",
+      "config": {
+        "layout": "tiles",
+        "style": "icon",
+        "graphInterval": 300,
+        "metrics": [
+          {
+            "device": "disk",
+            "vals": [
+              "space"
+            ],
+            "mount": "/",
+            "graph": true,
+            "on": true
+          }
+        ]
+      }
     },
     {
-      "id": "network",
+      "id": "sysmon",
       "w": 3,
       "h": 1,
       "col": 3,
-      "row": 2
+      "row": 2,
+      "instanceId": "network-5",
+      "config": {
+        "layout": "tiles",
+        "style": "icon",
+        "graphInterval": 300,
+        "metrics": [
+          {
+            "device": "net",
+            "vals": [
+              "down",
+              "up"
+            ],
+            "graph": true,
+            "on": true
+          }
+        ]
+      }
     },
     {
       "id": "battery",
@@ -1124,5 +1158,7 @@
   "controlCenterRows": 0,
   "motionDuration": 0,
   "connectedFrameBarStyleBackups": {},
-  "frameEnabled": false
+  "frameEnabled": false,
+  "controlCenterColumns": 8,
+  "batteryPostLockMonitorTimeout": 300
 }
